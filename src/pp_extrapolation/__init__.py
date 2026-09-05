@@ -12,6 +12,12 @@ from .model import (
     select_affine_initialization,
 )
 from .split import strict_hull_split_1d
+from .support_gate import (
+    SupportGateSelection,
+    predict_support_gated,
+    select_support_gate,
+    support_distance,
+)
 
 __all__ = [
     "ConvexHullAudit",
@@ -32,6 +38,10 @@ __all__ = [
     "select_prior_from_scores",
     "select_affine_initialization",
     "strict_hull_split_1d",
+    "SupportGateSelection",
+    "support_distance",
+    "select_support_gate",
+    "predict_support_gated",
 ]
 
 

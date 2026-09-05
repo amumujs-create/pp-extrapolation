@@ -126,3 +126,20 @@ prior weights and supply a bounded residual. See the
 [Korean design](TEMPORAL_PRIOR_DESIGN_KO.md) and
 [full negative NASA result and synthetic regime audit](TEMPORAL_PRIOR_RESULTS.md).
 This prototype does not improve on baseline PP; it is not the default model.
+
+## Tail and unseen-unit benchmark
+
+The [Korean benchmark report](TAIL_UNSEEN_BENCHMARK_KO.md) narrows evaluation to
+late-tail extrapolation and previously unseen physical units. It covers strict
+C-MAPSS FD002/FD004 engine extrapolation plus HUST, Virkler, and NASA late tails.
+The optional support gate decays only PP's nonlinear correction as train-hull
+distance grows. Its cross-domain experiment is reproducible with:
+
+```bash
+PYTHONPATH=src python experiments/support_gated_cross_domain.py \
+  --legacy-root /path/to/ca-css-ncmapss \
+  --output results/support_gated_cross_domain_v1
+```
+
+The gate improved HUST but did not improve Virkler or NASA, so it remains an
+ablation rather than the default PP predictor.
