@@ -14,6 +14,8 @@ from .split import strict_hull_split_1d
 
 __all__ = [
     "ConvexHullAudit",
+    "PriorPairs",
+    "TransportTriples",
     "PPFit",
     "PPNet",
     "audit_convex_hull_support",
@@ -25,3 +27,5 @@ __all__ = [
     "strict_hull_split_1d",
 ]
 
+
+from .priors import PriorPairs, TransportTriples

@@ -90,3 +90,18 @@ The primary score is raw pooled R² over all test rows. The result file also rep
 Split physical units before filtering observation rows. Select the hull coordinates and failure boundary before inspecting test labels. Use validation only for alpha and checkpoint selection. Any feature or split change made after test inspection is development evidence and needs another untouched cohort for confirmation.
 
 See [MODEL_AND_SPLIT_KO.md](MODEL_AND_SPLIT_KO.md) for the detailed Korean protocol.
+
+## Optional prior learning (experimental)
+
+The Python API accepts `PriorPairs` (confidence-weighted output-difference intervals)
+and `TransportTriples` (detached inward secant transfer to a declared outward path).
+Both loss weights default to zero. These are soft assumptions, not causal
+identification or global monotonicity/accuracy guarantees. The CSV CLI remains
+baseline PP. See [prior learning documentation](PRIOR_LEARNING_KO.md).
+
+```bash
+python examples/prior_ablation.py
+```
+
+This runs a synthetic development ablation including incorrect priors; it does not
+reproduce or replace the previous HUST, Virkler, or NASA results.

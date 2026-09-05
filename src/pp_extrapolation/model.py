@@ -8,6 +8,7 @@ from typing import Iterable, Optional
 import numpy as np
 import torch
 from torch import nn
+from .priors import PriorPairs, TransportTriples, prepare_pairs, prepare_transport, pair_loss, transport_loss
 
 
 class PPNet(nn.Module):
@@ -152,6 +153,10 @@ def fit_pp(
     max_epochs: int = 300,
     patience: int = 70,
     batch_size: int = 512,
+    prior_pairs: Optional[PriorPairs] = None,
+    transport_triples: Optional[TransportTriples] = None,
+    prior_weight: float = 0.0,
+    transport_weight: float = 0.0,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -161,6 +166,20 @@ def fit_pp(
     scale = selection["scale"]
     target_scale = float(selection["target_scale"])
     initialization = selection["initialization"]
+
+    if not np.isfinite([prior_weight, transport_weight]).all() or min(prior_weight, transport_weight) < 0:
+        raise ValueError("prior weights must be finite and nonnegative")
+    if prior_weight > 0 and prior_pairs is None:
+        raise ValueError("prior_pairs required for positive prior_weight")
+    if transport_weight > 0 and transport_triples is None:
+        raise ValueError("transport_triples required for positive transport_weight")
+    pair_values = prepare_pairs(prior_pairs, center, scale, target_scale) if prior_weight > 0 else None
+    transport_values = prepare_transport(transport_triples, center, scale, target_scale) if transport_weight > 0 else None
+    prior_rng = np.random.default_rng(int(seed) + 100000)
+
+    def sample(values):
+        idx = torch.as_tensor(prior_rng.choice(len(values[0]), min(batch_size, len(values[0])), replace=False))
+        return tuple(v[idx] for v in values)
 
     torch.manual_seed(int(seed))
     x = torch.as_tensor(transform_features(train_x, center, scale), dtype=torch.float32)
@@ -195,6 +214,10 @@ def fit_pp(
         for start in range(0, len(x), int(batch_size)):
             index = torch.as_tensor(order[start : start + int(batch_size)], dtype=torch.long)
             loss = torch.mean(weights[index] * (model(x[index]) - y[index]) ** 2)
+            if pair_values is not None:
+                loss = loss + prior_weight * pair_loss(model, sample(pair_values))
+            if transport_values is not None:
+                loss = loss + transport_weight * transport_loss(model, sample(transport_values))
             if not torch.isfinite(loss):
                 raise RuntimeError("nonfinite PP loss")
             optimizer.zero_grad()
@@ -215,6 +238,10 @@ def fit_pp(
         scale=scale,
         target_scale=target_scale,
         selection={
+            "prior_weight": float(prior_weight),
+            "transport_weight": float(transport_weight),
+            "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
+            "transport_triples": 0 if transport_values is None else len(transport_values[0]),
             "seed": int(seed),
             "affine_alpha": float(selection["selected_alpha"]),
             "selected_epoch": int(best_epoch),
