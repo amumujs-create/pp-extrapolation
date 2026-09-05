@@ -5,7 +5,7 @@ PP is a compact neural regressor for strict out-of-support RUL experiments. It c
 ## Install
 
 ```bash
-git clone REPOSITORY_URL
+git clone https://github.com/amumujs-create/pp-extrapolation.git
 cd pp-extrapolation
 python3 -m venv .venv
 source .venv/bin/activate
@@ -90,4 +90,3 @@ The primary score is raw pooled R² over all test rows. The result file also rep
 Split physical units before filtering observation rows. Select the hull coordinates and failure boundary before inspecting test labels. Use validation only for alpha and checkpoint selection. Any feature or split change made after test inspection is development evidence and needs another untouched cohort for confirmation.
 
 See [MODEL_AND_SPLIT_KO.md](MODEL_AND_SPLIT_KO.md) for the detailed Korean protocol.
-
