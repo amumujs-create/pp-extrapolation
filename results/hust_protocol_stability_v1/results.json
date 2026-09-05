@@ -1,0 +1,261 @@
+{
+  "experiment": "hust_protocol_stability_v1",
+  "status": "retrospective nested source-protocol audit",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "protocols": [
+    {
+      "heldout_protocol": 1,
+      "checkpoint_cells": [
+        "HUST_1-1",
+        "HUST_1-2",
+        "HUST_1-3",
+        "HUST_1-4"
+      ],
+      "audit_cells": [
+        "HUST_1-5",
+        "HUST_1-6",
+        "HUST_1-7",
+        "HUST_1-8"
+      ],
+      "n_train": 9250,
+      "n_checkpoint": 640,
+      "n_audit": 2196,
+      "train_capacity_min": 1.050008069444443,
+      "arm_audit_mse": {
+        "plain_nn": 13474.4873046875,
+        "affine_tail": 4717.557088361341,
+        "pp": 5735.945352334368
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.6414907716637723,
+          "sd": 0.0727520694031132
+        },
+        "affine_tail": {
+          "mean": 0.8744822263316291,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.8473864593425553,
+          "sd": 0.03270010089782349
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": 0.5743106789421999,
+      "pp_seed_wins_vs_plain": 5,
+      "pp_stable": true
+    },
+    {
+      "heldout_protocol": 2,
+      "checkpoint_cells": [
+        "HUST_2-2",
+        "HUST_2-3",
+        "HUST_2-4"
+      ],
+      "audit_cells": [
+        "HUST_2-5",
+        "HUST_2-6",
+        "HUST_2-7",
+        "HUST_2-8"
+      ],
+      "n_train": 9500,
+      "n_checkpoint": 480,
+      "n_audit": 1717,
+      "train_capacity_min": 1.0500093194444422,
+      "arm_audit_mse": {
+        "plain_nn": 13721.0361328125,
+        "affine_tail": 7069.637884354355,
+        "pp": 4497.382514327038
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.2480532473188394,
+          "sd": 0.3218013345680902
+        },
+        "affine_tail": {
+          "mean": 0.612566361782144,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.7535323168617676,
+          "sd": 0.08555344234357809
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": 0.6722271940111001,
+      "pp_seed_wins_vs_plain": 4,
+      "pp_stable": true
+    },
+    {
+      "heldout_protocol": 3,
+      "checkpoint_cells": [
+        "HUST_3-1",
+        "HUST_3-2",
+        "HUST_3-3",
+        "HUST_3-4"
+      ],
+      "audit_cells": [
+        "HUST_3-5",
+        "HUST_3-6",
+        "HUST_3-7",
+        "HUST_3-8"
+      ],
+      "n_train": 9250,
+      "n_checkpoint": 640,
+      "n_audit": 2717,
+      "train_capacity_min": 1.050008069444443,
+      "arm_audit_mse": {
+        "plain_nn": 22590.443359375,
+        "affine_tail": 8655.229103800573,
+        "pp": 19880.342321895972
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.4915805029050676,
+          "sd": 0.057308815113242664
+        },
+        "affine_tail": {
+          "mean": 0.8052058032724277,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.5525739103125058,
+          "sd": 0.15453121362550348
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": 0.11996670425480338,
+      "pp_seed_wins_vs_plain": 4,
+      "pp_stable": true
+    },
+    {
+      "heldout_protocol": 4,
+      "checkpoint_cells": [
+        "HUST_4-1",
+        "HUST_4-2",
+        "HUST_4-3",
+        "HUST_4-4"
+      ],
+      "audit_cells": [
+        "HUST_4-5",
+        "HUST_4-6",
+        "HUST_4-7",
+        "HUST_4-8"
+      ],
+      "n_train": 9250,
+      "n_checkpoint": 640,
+      "n_audit": 1868,
+      "train_capacity_min": 1.050008069444443,
+      "arm_audit_mse": {
+        "plain_nn": 9506.4384765625,
+        "affine_tail": 6631.419980097364,
+        "pp": 3817.6642398398967
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.5934892778029643,
+          "sd": 0.05236280571724666
+        },
+        "affine_tail": {
+          "mean": 0.7164297143162648,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.836750478421654,
+          "sd": 0.14846063043634858
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": 0.5984127757990443,
+      "pp_seed_wins_vs_plain": 4,
+      "pp_stable": true
+    },
+    {
+      "heldout_protocol": 5,
+      "checkpoint_cells": [
+        "HUST_5-1",
+        "HUST_5-2",
+        "HUST_5-3"
+      ],
+      "audit_cells": [
+        "HUST_5-4",
+        "HUST_5-5",
+        "HUST_5-6",
+        "HUST_5-7"
+      ],
+      "n_train": 9500,
+      "n_checkpoint": 480,
+      "n_audit": 2156,
+      "train_capacity_min": 1.050008069444443,
+      "arm_audit_mse": {
+        "plain_nn": 12416.314453125,
+        "affine_tail": 5011.863902954025,
+        "pp": 4352.596466892151
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.6413762609061889,
+          "sd": 0.08693615988909327
+        },
+        "affine_tail": {
+          "mean": 0.8552409963003325,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.8742827937361529,
+          "sd": 0.051646826563079395
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": 0.6494453742030778,
+      "pp_seed_wins_vs_plain": 5,
+      "pp_stable": true
+    },
+    {
+      "heldout_protocol": 6,
+      "checkpoint_cells": [
+        "HUST_6-1",
+        "HUST_6-2",
+        "HUST_6-3"
+      ],
+      "audit_cells": [
+        "HUST_6-4",
+        "HUST_6-5",
+        "HUST_6-6",
+        "HUST_6-8"
+      ],
+      "n_train": 9500,
+      "n_checkpoint": 480,
+      "n_audit": 2679,
+      "train_capacity_min": 1.050008069444443,
+      "arm_audit_mse": {
+        "plain_nn": 18117.0234375,
+        "affine_tail": 5862.569777501116,
+        "pp": 23675.89890329021
+      },
+      "arm_audit_r2": {
+        "plain_nn": {
+          "mean": 0.5982017069703819,
+          "sd": 0.25132748452497006
+        },
+        "affine_tail": {
+          "mean": 0.8699802593327493,
+          "sd": 0.0
+        },
+        "pp": {
+          "mean": 0.47491725432699905,
+          "sd": 0.35053142037602814
+        }
+      },
+      "pp_relative_mse_gain_vs_plain": -0.30683160978221313,
+      "pp_seed_wins_vs_plain": 2,
+      "pp_stable": false
+    }
+  ],
+  "summary": {
+    "pp_stable_protocols": 5,
+    "total_protocols": 6,
+    "pp_route_pass_5_of_6": true
+  }
+}

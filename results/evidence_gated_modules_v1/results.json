@@ -1,0 +1,348 @@
+{
+  "experiment": "evidence_gated_modules_v1",
+  "status": "retrospective route-development experiment",
+  "primary_metric": "raw pooled R2 on final-test rows",
+  "route_selection": "validation MSE only",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "thresholds": {
+    "minimum_relative_validation_mse_gain": 0.02,
+    "minimum_seed_wins": 4
+  },
+  "datasets": {
+    "hust": {
+      "decision": {
+        "selected_arm": "pp",
+        "mean_validation_mse": {
+          "plain_nn": 6418.8271484375,
+          "affine_tail": 9958.506384207492,
+          "pp": 4998.215881851958
+        },
+        "candidate_audits": {
+          "affine_tail": {
+            "relative_validation_mse_gain_vs_plain": -0.5514526492011297,
+            "seed_wins_vs_plain": 0,
+            "passed": false
+          },
+          "pp": {
+            "relative_validation_mse_gain_vs_plain": 0.2213194457076716,
+            "seed_wins_vs_plain": 4,
+            "passed": true
+          }
+        },
+        "accepted_arms": [
+          "plain_nn",
+          "pp"
+        ],
+        "thresholds": {
+          "minimum_relative_mse_gain": 0.02,
+          "minimum_seed_wins": 4
+        }
+      },
+      "arms": {
+        "plain_nn": {
+          "pooled_r2_mean": 0.7584869486695323,
+          "pooled_r2_sd": 0.032184481429807926,
+          "unit_macro_r2_mean": 0.6710813647902726,
+          "unit_macro_r2_sd": 0.043347498272570395
+        },
+        "affine_tail": {
+          "pooled_r2_mean": 0.601080403126541,
+          "pooled_r2_sd": 0.0,
+          "unit_macro_r2_mean": 0.4830088449272313,
+          "unit_macro_r2_sd": 0.0
+        },
+        "pp": {
+          "pooled_r2_mean": 0.7235569641714918,
+          "pooled_r2_sd": 0.038928025365591847,
+          "unit_macro_r2_mean": 0.6137958444622581,
+          "unit_macro_r2_sd": 0.05369088004330595
+        }
+      },
+      "selected": {
+        "pooled_r2_mean": 0.7235569641714918,
+        "pooled_r2_sd": 0.038928025365591847,
+        "unit_macro_r2_mean": 0.6137958444622581,
+        "unit_macro_r2_sd": 0.05369088004330595
+      },
+      "seed_validation_mse": [
+        {
+          "seed": 42,
+          "plain_nn": 6169.8271484375,
+          "affine_tail": 9958.506384207492,
+          "pp": 6589.969674938501
+        },
+        {
+          "seed": 43,
+          "plain_nn": 6559.2294921875,
+          "affine_tail": 9958.506384207492,
+          "pp": 4934.259192614455
+        },
+        {
+          "seed": 44,
+          "plain_nn": 5571.04150390625,
+          "affine_tail": 9958.506384207492,
+          "pp": 5503.750252770646
+        },
+        {
+          "seed": 45,
+          "plain_nn": 5665.79638671875,
+          "affine_tail": 9958.506384207492,
+          "pp": 3760.6565477631025
+        },
+        {
+          "seed": 46,
+          "plain_nn": 8128.2412109375,
+          "affine_tail": 9958.506384207492,
+          "pp": 4202.443741173086
+        }
+      ]
+    },
+    "virkler": {
+      "decision": {
+        "selected_arm": "pp",
+        "mean_validation_mse": {
+          "plain_nn": 89.61321640014648,
+          "affine_tail": 102.8961076646578,
+          "pp": 16.310468615746327
+        },
+        "candidate_audits": {
+          "affine_tail": {
+            "relative_validation_mse_gain_vs_plain": -0.14822469048761436,
+            "seed_wins_vs_plain": 0,
+            "passed": false
+          },
+          "pp": {
+            "relative_validation_mse_gain_vs_plain": 0.8179903671472317,
+            "seed_wins_vs_plain": 5,
+            "passed": true
+          }
+        },
+        "accepted_arms": [
+          "plain_nn",
+          "pp"
+        ],
+        "thresholds": {
+          "minimum_relative_mse_gain": 0.02,
+          "minimum_seed_wins": 4
+        }
+      },
+      "arms": {
+        "plain_nn": {
+          "pooled_r2_mean": -0.603701472149082,
+          "pooled_r2_sd": 0.47187547775567856,
+          "unit_macro_r2_mean": -0.6796694703417443,
+          "unit_macro_r2_sd": 0.47362117522521946
+        },
+        "affine_tail": {
+          "pooled_r2_mean": -0.8234999921157581,
+          "pooled_r2_sd": 1.1102230246251565e-16,
+          "unit_macro_r2_mean": -0.934834050552811,
+          "unit_macro_r2_sd": 0.0
+        },
+        "pp": {
+          "pooled_r2_mean": 0.8566896264186378,
+          "pooled_r2_sd": 0.01894502564401448,
+          "unit_macro_r2_mean": 0.8365842289463835,
+          "unit_macro_r2_sd": 0.022024249769077808
+        }
+      },
+      "selected": {
+        "pooled_r2_mean": 0.8566896264186378,
+        "pooled_r2_sd": 0.01894502564401448,
+        "unit_macro_r2_mean": 0.8365842289463835,
+        "unit_macro_r2_sd": 0.022024249769077808
+      },
+      "seed_validation_mse": [
+        {
+          "seed": 42,
+          "plain_nn": 102.89610290527344,
+          "affine_tail": 102.8961076646578,
+          "pp": 15.414862707032546
+        },
+        {
+          "seed": 43,
+          "plain_nn": 102.89610290527344,
+          "affine_tail": 102.8961076646578,
+          "pp": 19.86425562669156
+        },
+        {
+          "seed": 44,
+          "plain_nn": 80.96141052246094,
+          "affine_tail": 102.8961076646578,
+          "pp": 12.235609158884012
+        },
+        {
+          "seed": 45,
+          "plain_nn": 58.41636276245117,
+          "affine_tail": 102.8961076646578,
+          "pp": 17.05616348953987
+        },
+        {
+          "seed": 46,
+          "plain_nn": 102.89610290527344,
+          "affine_tail": 102.8961076646578,
+          "pp": 16.981452096583645
+        }
+      ]
+    },
+    "nasa": {
+      "fold_decisions": [
+        {
+          "test_cell": "B0005",
+          "validation_cell": "B0006",
+          "selected_arm": "pp",
+          "mean_validation_mse": {
+            "plain_nn": 129.31706848144532,
+            "affine_tail": 290.51517479409307,
+            "pp": 47.19308720469435
+          },
+          "candidate_audits": {
+            "affine_tail": {
+              "relative_validation_mse_gain_vs_plain": -1.2465338737227623,
+              "seed_wins_vs_plain": 0,
+              "passed": false
+            },
+            "pp": {
+              "relative_validation_mse_gain_vs_plain": 0.6350591011776167,
+              "seed_wins_vs_plain": 5,
+              "passed": true
+            }
+          },
+          "accepted_arms": [
+            "plain_nn",
+            "pp"
+          ],
+          "thresholds": {
+            "minimum_relative_mse_gain": 0.02,
+            "minimum_seed_wins": 4
+          }
+        },
+        {
+          "test_cell": "B0006",
+          "validation_cell": "B0007",
+          "selected_arm": "pp",
+          "mean_validation_mse": {
+            "plain_nn": 635.5691284179687,
+            "affine_tail": 286.6685132919719,
+            "pp": 286.5476037742086
+          },
+          "candidate_audits": {
+            "affine_tail": {
+              "relative_validation_mse_gain_vs_plain": 0.5489577758354393,
+              "seed_wins_vs_plain": 5,
+              "passed": true
+            },
+            "pp": {
+              "relative_validation_mse_gain_vs_plain": 0.5491480140209601,
+              "seed_wins_vs_plain": 5,
+              "passed": true
+            }
+          },
+          "accepted_arms": [
+            "plain_nn",
+            "affine_tail",
+            "pp"
+          ],
+          "thresholds": {
+            "minimum_relative_mse_gain": 0.02,
+            "minimum_seed_wins": 4
+          }
+        },
+        {
+          "test_cell": "B0007",
+          "validation_cell": "B0018",
+          "selected_arm": "pp",
+          "mean_validation_mse": {
+            "plain_nn": 95.82772521972656,
+            "affine_tail": 28.16951782161771,
+            "pp": 25.037806786126513
+          },
+          "candidate_audits": {
+            "affine_tail": {
+              "relative_validation_mse_gain_vs_plain": 0.7060400029633711,
+              "seed_wins_vs_plain": 5,
+              "passed": true
+            },
+            "pp": {
+              "relative_validation_mse_gain_vs_plain": 0.738720639264717,
+              "seed_wins_vs_plain": 5,
+              "passed": true
+            }
+          },
+          "accepted_arms": [
+            "plain_nn",
+            "affine_tail",
+            "pp"
+          ],
+          "thresholds": {
+            "minimum_relative_mse_gain": 0.02,
+            "minimum_seed_wins": 4
+          }
+        },
+        {
+          "test_cell": "B0018",
+          "validation_cell": "B0005",
+          "selected_arm": "pp",
+          "mean_validation_mse": {
+            "plain_nn": 88.19113121032714,
+            "affine_tail": 34.26037345235193,
+            "pp": 31.272475575231244
+          },
+          "candidate_audits": {
+            "affine_tail": {
+              "relative_validation_mse_gain_vs_plain": 0.6115213289344898,
+              "seed_wins_vs_plain": 4,
+              "passed": true
+            },
+            "pp": {
+              "relative_validation_mse_gain_vs_plain": 0.6454011288204312,
+              "seed_wins_vs_plain": 4,
+              "passed": true
+            }
+          },
+          "accepted_arms": [
+            "plain_nn",
+            "affine_tail",
+            "pp"
+          ],
+          "thresholds": {
+            "minimum_relative_mse_gain": 0.02,
+            "minimum_seed_wins": 4
+          }
+        }
+      ],
+      "arms": {
+        "plain_nn": {
+          "pooled_r2_mean": 0.23250387187070204,
+          "pooled_r2_sd": 0.09432480708241835,
+          "unit_macro_r2_mean": 0.329811638599662,
+          "unit_macro_r2_sd": 0.13532061911471724
+        },
+        "affine_tail": {
+          "pooled_r2_mean": 0.4239342114936342,
+          "pooled_r2_sd": 0.0,
+          "unit_macro_r2_mean": 0.4436456841290008,
+          "unit_macro_r2_sd": 0.0
+        },
+        "pp": {
+          "pooled_r2_mean": 0.49510353717974215,
+          "pooled_r2_sd": 0.0037862525265295486,
+          "unit_macro_r2_mean": 0.513790701034539,
+          "unit_macro_r2_sd": 0.0061772345555750705
+        }
+      },
+      "selected": {
+        "pooled_r2_mean": 0.49510353717974215,
+        "pooled_r2_sd": 0.0037862525265295486,
+        "unit_macro_r2_mean": 0.513790701034539,
+        "unit_macro_r2_sd": 0.0061772345555750705
+      }
+    }
+  }
+}

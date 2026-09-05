@@ -151,3 +151,9 @@ same-information width-32 plain MLP. PP strongly improves Virkler and NASA but
 loses on HUST. Consequently, failure of a domain prior is not sufficient to
 select PP: its affine-tail path also needs a source-only extrapolation validation
 gate before it can serve as a fallback.
+
+The subsequent [modular gate experiment](MODULAR_GATE_RESULTS_KO.md) shows a
+further limitation: validation correctly selected PP for Virkler and NASA but
+mis-selected it for HUST, even though PP passed five of six nested source
+protocol audits. Source evidence can reject weak modules, but it is not itself a
+guarantee that head rankings transfer to a new protocol.
