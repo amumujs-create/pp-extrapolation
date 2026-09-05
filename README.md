@@ -110,3 +110,9 @@ The [NASA real-data ablation](NASA_PRIOR_ABLATION_RESULTS.md) reports 80 fits:
 direction-only matched PP (inactive penalty), while the fixed transport penalty
 reduced pooled R² from 0.495 to 0.470. It is exploratory negative evidence;
 these prior options are not recommended as an established accuracy improvement.
+
+The [train-only reliability gate](NASA_PRIOR_GATE_RESULTS.md) also failed: it
+selected priors on three of four folds and scored 0.469. A fixed
+[distance-decayed transport](NASA_DISTANCE_DECAY_RESULTS.md) limited the damage
+and scored 0.494, but still did not improve on PP's 0.495. These reused NASA
+results support failure analysis, not selection of a new winning variant.

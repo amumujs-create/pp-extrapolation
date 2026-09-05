@@ -44,3 +44,19 @@ MSE. A zero relation loss indicates no sampled violation at that stage, not proo
 of global monotonicity. The fit selected by validation may differ from the final
 epoch. Confidence intervals over only four cells are highly limited; seeds are not
 independent datasets.
+
+## Train-only reliability gate
+
+`nasa_prior_reliability_gate.py` alternates the two outer-training cells as
+inner pseudo-training and pseudo-validation units. It enables a prior only when
+the inner hull-out pooled R² gain is at least 0.01. It also compares the gate to
+10,000 shuffled-score controls and all 256 possible fold-wise arm assignments.
+This gate was worse than PP on the reused outer test; see
+`NASA_PRIOR_GATE_RESULTS.md`.
+
+## Distance-decayed transport
+
+`nasa_distance_decayed_prior.py` tests one further post-hoc hypothesis: retain
+transport consistency near the train boundary and exponentially reduce its
+confidence with outward distance. The decay scale is fixed at 10% of the train
+health-coordinate range. No test-based sweep is performed.

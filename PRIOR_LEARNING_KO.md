@@ -75,4 +75,10 @@ python examples/prior_ablation.py
 
 기여 후보는 신뢰도와 허용구간을 가진 관계 prior를 경계 변화율 전달과 결합하고, 외삽 거리·prior 오염도에 따른 이득과 실패를 같은 프로토콜로 규명하는 것이다. 짧은 선행연구 검색만으로 새로운 방법이라고 주장하지 않는다. 새로운 실데이터, weight/transport ablation, 잘못된 prior 및 다변수 개입 실험이 필요하다.
 
+## 실제 NASA 개발 실험에서 확인된 한계
+
+동일한 NASA health-v2 외삽 split을 재사용한 후속 실험에서 방향 prior는 이미 PP가 만족해 손실이 0이었다. 균일한 변화율 전달은 pooled R²를 0.495에서 0.470으로 낮췄다. outer-train cell만 사용한 pseudo-extrapolation gate도 prior가 유효한 fold를 판별하지 못해 0.469를 기록했다.
+
+경계에서 멀어질수록 confidence를 지수적으로 낮춘 변화율 전달은 0.494를 기록했다. 균일 prior의 손상은 줄였지만 PP보다 좋아지지는 않았다. 따라서 현재 prior 기능은 연구용 실험 API이며 성능 향상 옵션으로 권장하지 않는다. 같은 NASA test를 보고 weight나 decay를 계속 조정해서 얻은 점수는 독립적인 증거가 될 수 없다.
+
 기존 설명의 주의점: bounded tanh correction은 raw network의 함수 형태를 제한하지만 예측 정확도를 보장하지 않는다. 배포 출력은 train RUL 상한으로 clip되므로 raw affine-tail 점근성과 같지 않다. 입력 feature 한 좌표에서 train 범위 밖이면 그 좌표를 포함한 전체 입력 hull에서도 밖임이 수학적으로 따른다. 다만 한 방향 밖이라는 사실은 여러 조건이 동시에 변하는 외삽을 검증한 것이 아니다.
