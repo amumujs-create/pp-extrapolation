@@ -15,6 +15,10 @@ from .split import strict_hull_split_1d
 
 __all__ = [
     "ConvexHullAudit",
+    "DegradationContract",
+    "causal_history",
+    "fit_temporal",
+    "predict_temporal",
     "PriorPairs",
     "TransportTriples",
     "PPFit",
@@ -32,3 +36,4 @@ __all__ = [
 
 
 from .priors import PriorPairs, TransportTriples
+from .temporal import DegradationContract, causal_history, fit_temporal, predict_temporal

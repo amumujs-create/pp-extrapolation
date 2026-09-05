@@ -116,3 +116,13 @@ selected priors on three of four folds and scored 0.469. A fixed
 [distance-decayed transport](NASA_DISTANCE_DECAY_RESULTS.md) limited the damage
 and scored 0.494, but still did not improve on PP's 0.495. These reused NASA
 results support failure analysis, not selection of a new winning variant.
+
+## Temporal prior assembly (research prototype)
+
+`DegradationContract` configures an increasing/decreasing indicator and failure
+boundary. `causal_history` assembles short/long trend priors and their past
+one-step forecast errors without future observations. A GRU can adjust the
+prior weights and supply a bounded residual. See the
+[Korean design](TEMPORAL_PRIOR_DESIGN_KO.md) and
+[full negative NASA result and synthetic regime audit](TEMPORAL_PRIOR_RESULTS.md).
+This prototype does not improve on baseline PP; it is not the default model.
