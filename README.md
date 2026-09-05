@@ -143,3 +143,11 @@ PYTHONPATH=src python experiments/support_gated_cross_domain.py \
 
 The gate improved HUST but did not improve Virkler or NASA, so it remains an
 ablation rather than the default PP predictor.
+
+## PP versus a matched plain neural network
+
+The [fallback evidence report](PP_FALLBACK_EVIDENCE_KO.md) compares PP with a
+same-information width-32 plain MLP. PP strongly improves Virkler and NASA but
+loses on HUST. Consequently, failure of a domain prior is not sufficient to
+select PP: its affine-tail path also needs a source-only extrapolation validation
+gate before it can serve as a fallback.
