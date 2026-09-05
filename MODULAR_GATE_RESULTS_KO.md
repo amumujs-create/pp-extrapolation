@@ -64,3 +64,20 @@ rate-to-boundary prior가 source에서 검증되므로 원래 순서대로라면
 
 이번 결과의 중요한 기여 후보는 최고 점수만 선택하는 router가 아니라 **module
 transportability의 실패를 명시적으로 측정하는 선택적 외삽**이다.
+
+## 보수적 만장일치 gate 후향 점검
+
+HUST 반례를 본 뒤 `모든 source 환경에서 안정성 통과 시에만 PP`라는 더 보수적인
+규칙을 시험했다. HUST는 5/6이라 plain NN, Virkler는 3/3이라 PP, NASA는 네 outer
+fold가 모두 PP를 선택해 PP route가 됐다.
+
+| 데이터셋 | 선택 head | final pooled R² | final 최선 head | 관측 regret |
+|---|---|---:|---|---:|
+| HUST | plain NN | 0.758 | plain NN | 0.000 |
+| Virkler | PP | 0.857 | PP | 0.000 |
+| NASA | PP | 0.495 | PP | 0.000 |
+
+선택 결과의 dataset-macro pooled R²는 `0.703`으로 always-PP `0.692`보다 `+0.012`
+높았다. PP route coverage는 2/3, prediction coverage는 3/3이었다. 그러나 만장일치
+문턱은 HUST final 순위를 본 뒤 만든 것이므로, 관측 regret 0은 새 gate의 검증
+결과가 아니라 후향 수리 결과다.

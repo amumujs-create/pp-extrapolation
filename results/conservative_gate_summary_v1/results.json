@@ -1,0 +1,40 @@
+{
+  "experiment": "conservative_gate_summary_v1",
+  "status": "post-hoc repair after HUST final ranking was observed",
+  "rule": "PP only with unanimous source-environment stability; otherwise plain NN",
+  "rows": [
+    {
+      "dataset": "hust",
+      "selected_route": "plain_nn",
+      "selected_pooled_r2": 0.7584869486695323,
+      "oracle_arm_for_audit_only": "plain_nn",
+      "oracle_pooled_r2": 0.7584869486695323,
+      "observed_regret": 0.0
+    },
+    {
+      "dataset": "virkler",
+      "selected_route": "pp",
+      "selected_pooled_r2": 0.8566896264186378,
+      "oracle_arm_for_audit_only": "pp",
+      "oracle_pooled_r2": 0.8566896264186378,
+      "observed_regret": 0.0
+    },
+    {
+      "dataset": "nasa",
+      "selected_route": "pp",
+      "selected_pooled_r2": 0.49510353717974215,
+      "oracle_arm_for_audit_only": "pp",
+      "oracle_pooled_r2": 0.49510353717974215,
+      "observed_regret": 0.0
+    }
+  ],
+  "summary": {
+    "pp_route_coverage": 0.6666666666666666,
+    "prediction_coverage": 1.0,
+    "dataset_macro_selected_pooled_r2": 0.7034267040893041,
+    "dataset_macro_always_pp_pooled_r2": 0.6917833759232906,
+    "macro_gain_vs_always_pp": 0.011643328166013434,
+    "worst_dataset_selected_r2": 0.49510353717974215,
+    "mean_observed_regret": 0.0
+  }
+}

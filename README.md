@@ -157,3 +157,9 @@ further limitation: validation correctly selected PP for Virkler and NASA but
 mis-selected it for HUST, even though PP passed five of six nested source
 protocol audits. Source evidence can reject weak modules, but it is not itself a
 guarantee that head rankings transfer to a new protocol.
+
+A stricter post-hoc [unanimous-stability summary](results/conservative_gate_summary_v1/RESULTS.md)
+routes HUST to plain NN and Virkler/NASA to PP, increasing the three-dataset
+macro score by 0.012 over always-PP. Because the unanimity rule was introduced
+after observing HUST final rankings, this is a repair hypothesis requiring a new
+locked cohort.
