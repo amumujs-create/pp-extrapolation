@@ -105,3 +105,8 @@ python examples/prior_ablation.py
 
 This runs a synthetic development ablation including incorrect priors; it does not
 reproduce or replace the previous HUST, Virkler, or NASA results.
+
+The [NASA real-data ablation](NASA_PRIOR_ABLATION_RESULTS.md) reports 80 fits:
+direction-only matched PP (inactive penalty), while the fixed transport penalty
+reduced pooled R² from 0.495 to 0.470. It is exploratory negative evidence;
+these prior options are not recommended as an established accuracy improvement.

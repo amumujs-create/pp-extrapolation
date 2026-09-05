@@ -207,17 +207,22 @@ def fit_pp(
     best_epoch = 0
     best_state = copy.deepcopy(model.state_dict())
     last_epoch = 0
+    loss_history = []
     for epoch in range(1, int(max_epochs) + 1):
         last_epoch = epoch
         model.train()
+        epoch_terms = np.zeros(3, dtype=np.float64)
+        batches = 0
         order = rng.permutation(len(x))
         for start in range(0, len(x), int(batch_size)):
             index = torch.as_tensor(order[start : start + int(batch_size)], dtype=torch.long)
             loss = torch.mean(weights[index] * (model(x[index]) - y[index]) ** 2)
-            if pair_values is not None:
-                loss = loss + prior_weight * pair_loss(model, sample(pair_values))
-            if transport_values is not None:
-                loss = loss + transport_weight * transport_loss(model, sample(transport_values))
+            data_term = loss.detach().item()
+            relation_term = pair_loss(model, sample(pair_values)) if pair_values is not None else loss.new_zeros(())
+            transport_term = transport_loss(model, sample(transport_values)) if transport_values is not None else loss.new_zeros(())
+            loss = loss + prior_weight * relation_term + transport_weight * transport_term
+            epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item()]
+            batches += 1
             if not torch.isfinite(loss):
                 raise RuntimeError("nonfinite PP loss")
             optimizer.zero_grad()
@@ -225,6 +230,9 @@ def fit_pp(
             torch.nn.utils.clip_grad_norm_(model.nonlinear.parameters(), 2.0, error_if_nonfinite=True)
             optimizer.step()
         current = validation_loss()
+        loss_history.append(dict(epoch=epoch, data_mse=float(epoch_terms[0]/batches),
+                                 relation_loss=float(epoch_terms[1]/batches),
+                                 transport_loss=float(epoch_terms[2]/batches), validation_mse=current))
         if current < best_loss - 1e-10:
             best_loss = current
             best_epoch = epoch
@@ -238,6 +246,7 @@ def fit_pp(
         scale=scale,
         target_scale=target_scale,
         selection={
+            "loss_history": loss_history,
             "prior_weight": float(prior_weight),
             "transport_weight": float(transport_weight),
             "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
