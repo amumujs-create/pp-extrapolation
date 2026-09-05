@@ -157,6 +157,7 @@ def fit_pp(
     transport_triples: Optional[TransportTriples] = None,
     prior_weight: float = 0.0,
     transport_weight: float = 0.0,
+    affine_anchor_weight: float | None = None,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -193,8 +194,16 @@ def fit_pp(
     with torch.no_grad():
         model.affine.weight.copy_(torch.as_tensor(initialization.weight)[None, :])
         model.affine.bias.copy_(torch.as_tensor([initialization.bias]))
-    model.affine.requires_grad_(False)
-    optimizer = torch.optim.AdamW(model.nonlinear.parameters(), lr=5e-4, weight_decay=2.0)
+    soft_anchor = affine_anchor_weight is not None
+    if soft_anchor and (not np.isfinite(affine_anchor_weight) or affine_anchor_weight < 0):
+        raise ValueError("affine_anchor_weight must be finite and nonnegative")
+    model.affine.requires_grad_(soft_anchor)
+    parameters = list(model.nonlinear.parameters())
+    if soft_anchor:
+        parameters += list(model.affine.parameters())
+    optimizer = torch.optim.AdamW(parameters, lr=5e-4, weight_decay=2.0)
+    anchor_weight = torch.as_tensor(initialization.weight, dtype=torch.float32)
+    anchor_bias = torch.as_tensor(initialization.bias, dtype=torch.float32)
     rng = np.random.default_rng(int(seed))
 
     def validation_loss() -> float:
@@ -211,7 +220,7 @@ def fit_pp(
     for epoch in range(1, int(max_epochs) + 1):
         last_epoch = epoch
         model.train()
-        epoch_terms = np.zeros(3, dtype=np.float64)
+        epoch_terms = np.zeros(4, dtype=np.float64)
         batches = 0
         order = rng.permutation(len(x))
         for start in range(0, len(x), int(batch_size)):
@@ -220,8 +229,14 @@ def fit_pp(
             data_term = loss.detach().item()
             relation_term = pair_loss(model, sample(pair_values)) if pair_values is not None else loss.new_zeros(())
             transport_term = transport_loss(model, sample(transport_values)) if transport_values is not None else loss.new_zeros(())
+            anchor_term = loss.new_zeros(())
+            if soft_anchor:
+                anchor_term = torch.mean((model.affine.weight.squeeze(0) - anchor_weight) ** 2)
+                anchor_term = anchor_term + (model.affine.bias.squeeze(0) - anchor_bias) ** 2
             loss = loss + prior_weight * relation_term + transport_weight * transport_term
-            epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item()]
+            if soft_anchor:
+                loss = loss + float(affine_anchor_weight) * anchor_term
+            epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item(), anchor_term.detach().item()]
             batches += 1
             if not torch.isfinite(loss):
                 raise RuntimeError("nonfinite PP loss")
@@ -232,7 +247,8 @@ def fit_pp(
         current = validation_loss()
         loss_history.append(dict(epoch=epoch, data_mse=float(epoch_terms[0]/batches),
                                  relation_loss=float(epoch_terms[1]/batches),
-                                 transport_loss=float(epoch_terms[2]/batches), validation_mse=current))
+                                 transport_loss=float(epoch_terms[2]/batches),
+                                 affine_anchor_loss=float(epoch_terms[3]/batches), validation_mse=current))
         if current < best_loss - 1e-10:
             best_loss = current
             best_epoch = epoch
@@ -249,6 +265,7 @@ def fit_pp(
             "loss_history": loss_history,
             "prior_weight": float(prior_weight),
             "transport_weight": float(transport_weight),
+            "affine_anchor_weight": None if affine_anchor_weight is None else float(affine_anchor_weight),
             "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
             "transport_triples": 0 if transport_values is None else len(transport_values[0]),
             "seed": int(seed),

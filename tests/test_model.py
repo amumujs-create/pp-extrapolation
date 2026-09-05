@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from pp_extrapolation.model import PPNet, equal_group_weights, solve_weighted_affine
+from pp_extrapolation.model import PPNet, equal_group_weights, fit_pp, predict, solve_weighted_affine
 
 
 def test_nonlinear_path_starts_at_zero():
@@ -25,3 +25,16 @@ def test_affine_solver_recovers_line_without_penalty():
     solution = solve_weighted_affine(x, y, np.ones(len(x)), alpha=0.0)
     np.testing.assert_allclose(x @ solution.weight + solution.bias, y, atol=1e-6)
 
+
+def test_soft_anchor_fit_is_finite_and_records_penalty():
+    x = np.arange(12, dtype=float)[:, None]
+    split = lambda indices: {
+        "x": x[indices], "y": (2 * x[indices, 0] + 1),
+        "groups": np.asarray([f"g{i // 3}" for i in indices]),
+    }
+    train, validation, test = split(np.arange(8)), split(np.arange(8, 10)), split(np.arange(10, 12))
+    fit = fit_pp(train, validation, seed=7, max_epochs=5, patience=2,
+                 affine_anchor_weight=0.1)
+    assert np.isfinite(predict(fit, test["x"])).all()
+    assert fit.selection["affine_anchor_weight"] == 0.1
+    assert all("affine_anchor_loss" in row for row in fit.selection["loss_history"])

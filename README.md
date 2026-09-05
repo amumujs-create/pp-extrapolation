@@ -1,6 +1,6 @@
 # PP Extrapolation
 
-PP is a compact neural regressor for strict out-of-support RUL experiments. It contains a frozen affine path and a learned two-layer tanh correction path. The model forward pass contains no domain degradation equation.
+PP is a compact neural regressor for strict out-of-support RUL experiments. It contains an affine tail path and a learned two-layer tanh correction path. The model forward pass contains no domain degradation equation.
 
 ## Install
 
@@ -90,6 +90,10 @@ The primary score is raw pooled R² over all test rows. The result file also rep
 Split physical units before filtering observation rows. Select the hull coordinates and failure boundary before inspecting test labels. Use validation only for alpha and checkpoint selection. Any feature or split change made after test inspection is development evidence and needs another untouched cohort for confirmation.
 
 See [MODEL_AND_SPLIT_KO.md](MODEL_AND_SPLIT_KO.md) for the detailed Korean protocol.
+
+The optional soft-anchor variant lets the affine path move under a validation-selected
+quadratic prior penalty. Its retrospective cross-domain results are in
+[SOFT_ANCHOR_RESULTS_KO.md](SOFT_ANCHOR_RESULTS_KO.md).
 
 ## Optional prior learning (experimental)
 
