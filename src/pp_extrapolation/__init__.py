@@ -22,6 +22,9 @@ from .support_gate import (
 )
 from .shell_gate import (ShellCalibration, ShellEvidence, apply_shell_calibration,
                          calibrate_distance_shells)
+from .uncertainty_gate import (UncertaintyGateSelection,
+    combine_uncertainty_gated, component_ensemble, predict_uncertainty_gated,
+    select_uncertainty_gate)
 
 __all__ = [
     "ConvexHullAudit",
@@ -55,6 +58,11 @@ __all__ = [
     "ShellEvidence",
     "calibrate_distance_shells",
     "apply_shell_calibration",
+    "UncertaintyGateSelection",
+    "combine_uncertainty_gated",
+    "component_ensemble",
+    "select_uncertainty_gate",
+    "predict_uncertainty_gated",
 ]
 
 
