@@ -1,0 +1,240 @@
+{
+  "experiment": "pp_applicability_certificate_v1",
+  "status": "retrospective development audit",
+  "fixed_checks": [
+    "validation PP gain >=1%",
+    "residual activity >=0.5% of validation target SD",
+    "seed disagreement <=0.5",
+    "max feature-RUL Spearman >=0.2"
+  ],
+  "datasets": {
+    "hust": {
+      "validation_only": {
+        "relative_pp_mse_gain": 0.4980958034837519,
+        "residual_activity": 0.5015513675049186,
+        "normalized_seed_disagreement": 0.2167547483600059,
+        "max_abs_feature_rul_spearman": 0.9215571196961546,
+        "checks": {
+          "relative_validation_gain_ge_1pct": true,
+          "residual_activity_ge_0.5pct": true,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": true
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": 0.6010804097280629,
+          "rmse": 95.18270233141695,
+          "mae": 83.1901539049294,
+          "n": 7775
+        },
+        "pp_ensemble": {
+          "r2": 0.7726401974881989,
+          "rmse": 71.85751433735665,
+          "mae": 56.394477276068045,
+          "n": 7775
+        },
+        "success_definition": true
+      },
+      "selected_epochs": [
+        88,
+        17,
+        54,
+        37,
+        51
+      ]
+    },
+    "virkler": {
+      "validation_only": {
+        "relative_pp_mse_gain": 0.8414860412083651,
+        "residual_activity": 0.8973988161911747,
+        "normalized_seed_disagreement": 0.0885204945514848,
+        "max_abs_feature_rul_spearman": 0.9264821092241591,
+        "checks": {
+          "relative_validation_gain_ge_1pct": true,
+          "residual_activity_ge_0.5pct": true,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": true
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": -0.823499988941877,
+          "rmse": 10.396546285517312,
+          "mae": 7.321379458904266,
+          "n": 20
+        },
+        "pp_ensemble": {
+          "r2": 0.8879772356360899,
+          "rmse": 2.5768512630634004,
+          "mae": 1.6003558015823365,
+          "n": 20
+        },
+        "success_definition": true
+      },
+      "selected_epochs": [
+        58,
+        65,
+        106,
+        61,
+        56
+      ]
+    },
+    "sunwoda": {
+      "validation_only": {
+        "relative_pp_mse_gain": 0.006197998682366092,
+        "residual_activity": 0.013799807422034745,
+        "normalized_seed_disagreement": 0.07381041546498354,
+        "max_abs_feature_rul_spearman": 0.9253521126760562,
+        "checks": {
+          "relative_validation_gain_ge_1pct": false,
+          "residual_activity_ge_0.5pct": true,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": false
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": 0.843939201739786,
+          "rmse": 37.861581842299664,
+          "mae": 27.812829512260265,
+          "n": 1468
+        },
+        "pp_ensemble": {
+          "r2": 0.8652531225900681,
+          "rmse": 35.18124445238269,
+          "mae": 27.334833856475125,
+          "n": 1468
+        },
+        "success_definition": true
+      },
+      "selected_epochs": [
+        1,
+        1,
+        1,
+        0,
+        1
+      ]
+    },
+    "rwth": {
+      "validation_only": {
+        "relative_pp_mse_gain": 0.2893597177813677,
+        "residual_activity": 0.24652505121051235,
+        "normalized_seed_disagreement": 0.0576298154769295,
+        "max_abs_feature_rul_spearman": 0.6107297300365626,
+        "checks": {
+          "relative_validation_gain_ge_1pct": true,
+          "residual_activity_ge_0.5pct": true,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": true
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": 0.41943147802039626,
+          "rmse": 108.5696219623844,
+          "mae": 88.37765501711303,
+          "n": 1859
+        },
+        "pp_ensemble": {
+          "r2": 0.5071502198887405,
+          "rmse": 100.03198035026811,
+          "mae": 80.72732498266961,
+          "n": 1859
+        },
+        "success_definition": true
+      },
+      "selected_epochs": [
+        177,
+        198,
+        116,
+        149,
+        65
+      ]
+    },
+    "mich": {
+      "validation_only": {
+        "relative_pp_mse_gain": 1.3413160340379851e-08,
+        "residual_activity": 1.4490306382972965e-07,
+        "normalized_seed_disagreement": 0.0,
+        "max_abs_feature_rul_spearman": 0.860875411828141,
+        "checks": {
+          "relative_validation_gain_ge_1pct": false,
+          "residual_activity_ge_0.5pct": false,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": false
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": -1.5221897639033788,
+          "rmse": 25.452546879894417,
+          "mae": 22.213987000802955,
+          "n": 202
+        },
+        "pp_ensemble": {
+          "r2": -1.5221896980559588,
+          "rmse": 25.45254654764651,
+          "mae": 22.21398684884062,
+          "n": 202
+        },
+        "success_definition": false
+      },
+      "selected_epochs": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "femto": {
+      "validation_only": {
+        "relative_pp_mse_gain": -3.3946586808585538e-09,
+        "residual_activity": 0.0,
+        "normalized_seed_disagreement": 0.0,
+        "max_abs_feature_rul_spearman": 0.9781792723992091,
+        "checks": {
+          "relative_validation_gain_ge_1pct": false,
+          "residual_activity_ge_0.5pct": false,
+          "seed_disagreement_le_0.5": true,
+          "max_feature_rul_spearman_ge_0.2": true
+        },
+        "accepted": false
+      },
+      "test_audit": {
+        "ridge": {
+          "r2": -1.3776927043838256,
+          "rmse": 4057.0086694455085,
+          "mae": 3682.366610440341,
+          "n": 11
+        },
+        "pp_ensemble": {
+          "r2": -1.3776927043838256,
+          "rmse": 4057.0086694455085,
+          "mae": 3682.366610440341,
+          "n": 11
+        },
+        "success_definition": false
+      },
+      "selected_epochs": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "confusion": {
+    "correct": 5,
+    "total": 6,
+    "false_accept": 0,
+    "false_reject": 1
+  }
+}
