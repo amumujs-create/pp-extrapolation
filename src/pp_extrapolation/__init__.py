@@ -25,6 +25,8 @@ from .shell_gate import (ShellCalibration, ShellEvidence, apply_shell_calibratio
 from .uncertainty_gate import (UncertaintyGateSelection,
     combine_uncertainty_gated, component_ensemble, predict_uncertainty_gated,
     select_uncertainty_gate)
+from .oof_uncertainty import (UncertaintyHeadFit, fit_uncertainty_head,
+                              nested_oof_disagreement, predict_uncertainty)
 
 __all__ = [
     "ConvexHullAudit",
@@ -63,6 +65,10 @@ __all__ = [
     "component_ensemble",
     "select_uncertainty_gate",
     "predict_uncertainty_gated",
+    "UncertaintyHeadFit",
+    "nested_oof_disagreement",
+    "fit_uncertainty_head",
+    "predict_uncertainty",
 ]
 
 
