@@ -7,13 +7,15 @@ to new physical units and datasets beyond the benchmarks already reported.
 ## Frozen split and inputs
 
 - Use the existing unit-disjoint splits produced by `pae_boundary_realdata.prepare_dataset`.
-- Train and validation use early-life observations; test uses the strict late-health
-  tail of held-out units.
+- The loader provides early-life train/validation units and strict late-health test
+  units. Before fitting, define an internal health cutoff from the 25th percentile
+  of train-window endpoint health: retain train rows above it and validation rows
+  below it. This makes validation a held-out-unit pseudo-tail without test access.
 - Convert each causal 8-step window to the same generic summaries: last value, mean,
   and endpoint change for health and rate, plus normalized cycle. No battery equation
   or test-label-derived feature is inserted.
-- Assert that every validation and test row is outside the one-dimensional convex
-  hull of training health before fitting.
+- Assert that every retained validation and test row is below the one-dimensional
+  convex hull of retained training health before fitting.
 
 ## Frozen comparison
 

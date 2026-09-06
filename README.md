@@ -99,6 +99,14 @@ The support-adaptive extension attenuates the NN correction as an observation mo
 outside train support. See
 [SUPPORT_ADAPTIVE_PP_RESULTS_KO.md](SUPPORT_ADAPTIVE_PP_RESULTS_KO.md).
 
+Additional unit-disjoint late-tail evaluations on Sunwoda, RWTH, and MICH are
+documented in `ADDITIONAL_REAL_DATASETS_RESULTS_KO.md`; the frozen protocol is in
+`ADDITIONAL_REAL_DATASETS_PROTOCOL.md`. Reproduce them with:
+
+```bash
+PYTHONPATH=src:experiments python experiments/additional_real_batteries.py
+```
+
 The same-budget five-seed comparison with downloaded local TabPFN v3 is reported in
 [FAIR_PFN_COMPARISON_KO.md](FAIR_PFN_COMPARISON_KO.md).
 
