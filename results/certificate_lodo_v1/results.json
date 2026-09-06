@@ -1,0 +1,115 @@
+{
+  "experiment": "certificate_leave_one_domain_out_v1",
+  "threshold_grid": {
+    "gain": [
+      0.001,
+      0.005,
+      0.01,
+      0.05,
+      0.1,
+      0.25
+    ],
+    "activity": [
+      0.0001,
+      0.001,
+      0.005,
+      0.01,
+      0.05,
+      0.2
+    ],
+    "disagreement": [
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "correlation": [
+      0.0,
+      0.1,
+      0.2,
+      0.4,
+      0.6
+    ]
+  },
+  "selection": "zero training false accepts, then maximum accuracy, fewer false rejects, greater coverage",
+  "folds": [
+    {
+      "held_out": "hust",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": true,
+      "test_success": true,
+      "correct": true
+    },
+    {
+      "held_out": "virkler",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": true,
+      "test_success": true,
+      "correct": true
+    },
+    {
+      "held_out": "sunwoda",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": true,
+      "test_success": true,
+      "correct": true
+    },
+    {
+      "held_out": "rwth",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": true,
+      "test_success": true,
+      "correct": true
+    },
+    {
+      "held_out": "mich",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": false,
+      "test_success": false,
+      "correct": true
+    },
+    {
+      "held_out": "femto",
+      "thresholds": {
+        "gain": 0.001,
+        "activity": 0.0001,
+        "disagreement": 1.0,
+        "correlation": 0.0
+      },
+      "predicted_usable": false,
+      "test_success": false,
+      "correct": true
+    }
+  ],
+  "summary": {
+    "correct": 6,
+    "total": 6,
+    "false_accept": 0,
+    "false_reject": 0
+  }
+}
