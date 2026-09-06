@@ -20,6 +20,8 @@ from .support_gate import (
     select_support_gate,
     support_distance,
 )
+from .shell_gate import (ShellCalibration, ShellEvidence, apply_shell_calibration,
+                         calibrate_distance_shells)
 
 __all__ = [
     "ConvexHullAudit",
@@ -49,6 +51,10 @@ __all__ = [
     "support_distance",
     "select_support_gate",
     "predict_support_gated",
+    "ShellCalibration",
+    "ShellEvidence",
+    "calibrate_distance_shells",
+    "apply_shell_calibration",
 ]
 
 
