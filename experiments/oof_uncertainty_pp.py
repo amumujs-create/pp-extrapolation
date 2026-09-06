@@ -28,9 +28,13 @@ def run(name,tr,va,te,epochs):
  affine=select_affine_initialization(tr,va);fits=[fit_pp(tr,va,seed=s,affine_selection=affine,max_epochs=epochs) for s in SEEDS]
  vd,_=support_distance(tr['x'][:,[0]],va['x'][:,[0]]);td,_=support_distance(tr['x'][:,[0]],te['x'][:,[0]])
  vu=predict_uncertainty(head,va['x']);tu=predict_uncertainty(head,te['x']);sel,rows=choose(fits,va['x'],va['y'],vd,vu)
+ constant_vu=np.full_like(vu,float(vu.mean()));constant_tu=np.full_like(tu,float(vu.mean()));constant_sel,constant_rows=choose(fits,va['x'],va['y'],vd,constant_vu)
  a,r,cap=components(fits,te['x']);gated=combine_uncertainty_gated(a,r,td,tu,beta=sel['beta'],gamma=sel['gamma'],output_cap=cap);pp=np.asarray([predict(f,te['x']) for f in fits])
+ constant=combine_uncertainty_gated(a,r,td,constant_tu,beta=constant_sel['beta'],gamma=constant_sel['gamma'],output_cap=cap)
  print(name,sel,'PP',summ(te['y'],pp,te['groups'])['pooled_r2_mean'],'OOF-UQ',summ(te['y'],gated,te['groups'])['pooled_r2_mean'],flush=True)
- return {'selection':sel,'candidates':rows,'oof_uncertainty':{'mean':head.oof_target_mean,'sd':head.oof_target_sd},'test_predicted_uncertainty':{'mean':float(tu.mean()),'sd':float(tu.std())},'pp':summ(te['y'],pp,te['groups']),'oof_uq_pp':summ(te['y'],gated,te['groups']),'_a':(te['y'],te['groups'],pp,gated)}
+ return {'selection':sel,'candidates':rows,'constant_selection':constant_sel,'constant_candidates':constant_rows,
+ 'oof_uncertainty':{'mean':head.oof_target_mean,'sd':head.oof_target_sd},'test_predicted_uncertainty':{'mean':float(tu.mean()),'sd':float(tu.std())},
+ 'pp':summ(te['y'],pp,te['groups']),'constant_u_pp':summ(te['y'],constant,te['groups']),'oof_uq_pp':summ(te['y'],gated,te['groups']),'_a':(te['y'],te['groups'],pp,gated)}
 def nasa(folds,epochs):
  parts=[]
  for f in folds:parts.append(run('NASA-'+f['test_cell'],f['train'],f['validation'],f['test'],epochs))

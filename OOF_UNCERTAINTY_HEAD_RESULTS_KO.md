@@ -24,6 +24,12 @@ Train unit을 3개 outer fold로 나눴다. 각 outer fold를 완전히 가리�
 
 HUST에서는 ensemble-free head가 정확도와 seed 안정성을 함께 개선했다. 나머지 세 데이터에서는 validation이 uncertainty correction을 끄면서 기존 PP를 보존했다. MICH의 residual 붕괴는 해결하지 못했다.
 
+## 상수 shrinkage 반증 실험
+
+HUST에서 관측별 uncertainty를 모두 validation 평균값으로 바꾼 상수 gate도 `0.745`를 얻었다. 실제 uncertainty head는 `0.748`이다. 따라서 기존 PP `0.724` 대비 총 개선 `+0.024` 중 약 `+0.021`은 전역 residual shrinkage로 설명되고, 관측별 uncertainty가 추가로 설명하는 개선은 약 `+0.003`이다.
+
+이 결과는 head가 완전히 무의미하다는 뜻은 아니지만, 현재 데이터만으로 강한 uncertainty-localization novelty를 주장할 수 없음을 뜻한다. 논문에서는 상수 shrinkage ablation을 반드시 함께 보고해야 한다.
+
 NASA는 각 fold에 독립 train cell이 6개 미만이라 nested unit-OOF disagreement를 구성하면 cycle을 독립 표본처럼 취급하는 pseudo-replication이 된다. 따라서 수치를 억지로 만들지 않고 `not_estimable`로 기록했다.
 
 이 결과는 uncertainty head의 feasibility evidence다. HUST가 이미 개발에 사용된 데이터이므로 독립적인 일반화 증거는 아니다. 구조와 OOF 규칙을 고정한 뒤 충분한 train unit을 가진 untouched cohort에서 확인해야 한다.
