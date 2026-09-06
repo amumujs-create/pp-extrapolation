@@ -60,6 +60,6 @@ def main():
     torch.set_num_threads(2); start=time.time(); datasets={}
     for name in ('sunwoda','rwth','mich'):
         split,audit=prepare_dataset(name); datasets[name]=run_dataset(name,split,a.max_epochs); datasets[name]['loader_audit']=audit
-    payload={'experiment':'additional_real_batteries_v1','protocol_commit':'567cb2f','seeds':list(SEEDS),'datasets':datasets,'runtime_seconds':time.time()-start}
+    payload={'experiment':'additional_real_batteries_v1','protocol_commit':'c9a7eda','seeds':list(SEEDS),'datasets':datasets,'runtime_seconds':time.time()-start}
     out=Path(a.output); out.mkdir(parents=True,exist_ok=True); (out/'results.json').write_text(json.dumps(payload,indent=2,ensure_ascii=False)+'\n')
 if __name__=='__main__': main()
