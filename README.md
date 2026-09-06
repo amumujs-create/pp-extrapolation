@@ -111,6 +111,9 @@ The current applicability logic, paper novelty candidate, and claim limitations 
 summarized in `APPLICABILITY_NOVELTY_LIMITS_KO.md`.
 The first executable selective gate and its conservative zero-coverage result are
 reported in `SELECTIVE_GATE_RESULTS_KO.md`.
+The gate was then frozen and applied once to untouched XJTU-SY operating-condition
+transfer. It abstained before labels were opened, and the later audit confirmed
+negative test R². See `XJTU_UNTOUCHED_PROTOCOL.md` and `XJTU_UNTOUCHED_RESULTS_KO.md`.
 
 The same-budget five-seed comparison with downloaded local TabPFN v3 is reported in
 [FAIR_PFN_COMPARISON_KO.md](FAIR_PFN_COMPARISON_KO.md).
