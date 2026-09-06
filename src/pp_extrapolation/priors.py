@@ -38,6 +38,19 @@ class TransportTriples:
     confidence: np.ndarray
 
 
+@dataclass
+class CounterfactualRays:
+    """Train-only outward rays for learning residual trust without test adaptation.
+
+    boundary and outer follow a feasible outward intervention. decay is the desired
+    fraction of the boundary NN correction retained at outer, in [0, 1].
+    """
+    boundary: np.ndarray
+    outer: np.ndarray
+    decay: np.ndarray
+    confidence: np.ndarray
+
+
 def _features(arrays, center, scale):
     values = [np.asarray(a, dtype=np.float64) for a in arrays]
     n = len(values[0])
@@ -78,6 +91,14 @@ def prepare_transport(prior, center, scale, target_scale):
     return a, b, c, ratio, tolerance, _confidence(prior.confidence, len(a))
 
 
+def prepare_counterfactual(prior, center, scale):
+    boundary, outer = _features([prior.boundary, prior.outer], center, scale)
+    decay = _vector(prior.decay, len(boundary), 'decay')
+    if torch.any((decay < 0) | (decay > 1)):
+        raise ValueError('decay must be in [0,1]')
+    return boundary, outer, decay, _confidence(prior.confidence, len(boundary))
+
+
 def pair_loss(model, values):
     a, b, lower, upper, confidence = values
     delta = model(b) - model(a)
@@ -92,3 +113,10 @@ def transport_loss(model, values):
     outward_delta = model(outer) - at_boundary
     violation = torch.relu(torch.abs(outward_delta-ratio*inward_delta)-tolerance)
     return (confidence * violation.square()).mean()
+
+
+def counterfactual_residual_loss(model, values):
+    boundary, outer, decay, confidence = values
+    boundary_residual = model.nonlinear(boundary).squeeze(1).detach()
+    outer_residual = model.nonlinear(outer).squeeze(1)
+    return (confidence * (outer_residual - decay * boundary_residual).square()).mean()

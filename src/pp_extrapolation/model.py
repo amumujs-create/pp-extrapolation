@@ -8,7 +8,9 @@ from typing import Iterable, Optional
 import numpy as np
 import torch
 from torch import nn
-from .priors import PriorPairs, TransportTriples, prepare_pairs, prepare_transport, pair_loss, transport_loss
+from .priors import (CounterfactualRays, PriorPairs, TransportTriples,
+                     counterfactual_residual_loss, pair_loss, prepare_counterfactual,
+                     prepare_pairs, prepare_transport, transport_loss)
 
 
 class PPNet(nn.Module):
@@ -170,6 +172,8 @@ def fit_pp(
     transport_weight: float = 0.0,
     affine_anchor_weight: float | None = None,
     residual_decay: float = 0.0,
+    counterfactual_rays: Optional[CounterfactualRays] = None,
+    counterfactual_weight: float = 0.0,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -180,14 +184,17 @@ def fit_pp(
     target_scale = float(selection["target_scale"])
     initialization = selection["initialization"]
 
-    if not np.isfinite([prior_weight, transport_weight]).all() or min(prior_weight, transport_weight) < 0:
+    if not np.isfinite([prior_weight, transport_weight, counterfactual_weight]).all() or min(prior_weight, transport_weight, counterfactual_weight) < 0:
         raise ValueError("prior weights must be finite and nonnegative")
     if prior_weight > 0 and prior_pairs is None:
         raise ValueError("prior_pairs required for positive prior_weight")
     if transport_weight > 0 and transport_triples is None:
         raise ValueError("transport_triples required for positive transport_weight")
+    if counterfactual_weight > 0 and counterfactual_rays is None:
+        raise ValueError("counterfactual_rays required for positive counterfactual_weight")
     pair_values = prepare_pairs(prior_pairs, center, scale, target_scale) if prior_weight > 0 else None
     transport_values = prepare_transport(transport_triples, center, scale, target_scale) if transport_weight > 0 else None
+    counterfactual_values = prepare_counterfactual(counterfactual_rays, center, scale) if counterfactual_weight > 0 else None
     prior_rng = np.random.default_rng(int(seed) + 100000)
 
     def sample(values):
@@ -234,7 +241,7 @@ def fit_pp(
     for epoch in range(1, int(max_epochs) + 1):
         last_epoch = epoch
         model.train()
-        epoch_terms = np.zeros(4, dtype=np.float64)
+        epoch_terms = np.zeros(5, dtype=np.float64)
         batches = 0
         order = rng.permutation(len(x))
         for start in range(0, len(x), int(batch_size)):
@@ -243,14 +250,16 @@ def fit_pp(
             data_term = loss.detach().item()
             relation_term = pair_loss(model, sample(pair_values)) if pair_values is not None else loss.new_zeros(())
             transport_term = transport_loss(model, sample(transport_values)) if transport_values is not None else loss.new_zeros(())
+            counterfactual_term = counterfactual_residual_loss(model, sample(counterfactual_values)) if counterfactual_values is not None else loss.new_zeros(())
             anchor_term = loss.new_zeros(())
             if soft_anchor:
                 anchor_term = torch.mean((model.affine.weight.squeeze(0) - anchor_weight) ** 2)
                 anchor_term = anchor_term + (model.affine.bias.squeeze(0) - anchor_bias) ** 2
             loss = loss + prior_weight * relation_term + transport_weight * transport_term
+            loss = loss + counterfactual_weight * counterfactual_term
             if soft_anchor:
                 loss = loss + float(affine_anchor_weight) * anchor_term
-            epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item(), anchor_term.detach().item()]
+            epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item(), anchor_term.detach().item(), counterfactual_term.detach().item()]
             batches += 1
             if not torch.isfinite(loss):
                 raise RuntimeError("nonfinite PP loss")
@@ -263,6 +272,7 @@ def fit_pp(
                                  relation_loss=float(epoch_terms[1]/batches),
                                  transport_loss=float(epoch_terms[2]/batches),
                                  affine_anchor_loss=float(epoch_terms[3]/batches), validation_mse=current))
+        loss_history[-1]["counterfactual_residual_loss"] = float(epoch_terms[4]/batches)
         if current < best_loss - 1e-10:
             best_loss = current
             best_epoch = epoch
@@ -281,6 +291,8 @@ def fit_pp(
             "transport_weight": float(transport_weight),
             "affine_anchor_weight": None if affine_anchor_weight is None else float(affine_anchor_weight),
             "residual_decay": float(residual_decay),
+            "counterfactual_weight": float(counterfactual_weight),
+            "counterfactual_rays": 0 if counterfactual_values is None else len(counterfactual_values[0]),
             "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
             "transport_triples": 0 if transport_values is None else len(transport_values[0]),
             "seed": int(seed),

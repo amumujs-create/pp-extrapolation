@@ -27,6 +27,7 @@ __all__ = [
     "predict_temporal",
     "PriorPairs",
     "TransportTriples",
+    "CounterfactualRays",
     "PPFit",
     "PPNet",
     "PriorGateDecision",
@@ -45,5 +46,5 @@ __all__ = [
 ]
 
 
-from .priors import PriorPairs, TransportTriples
+from .priors import CounterfactualRays, PriorPairs, TransportTriples
 from .temporal import DegradationContract, causal_history, fit_temporal, predict_temporal

@@ -1,8 +1,9 @@
 import numpy as np
 import pytest
 import torch
-from pp_extrapolation import PriorPairs, TransportTriples, fit_pp, predict
-from pp_extrapolation.priors import prepare_pairs, prepare_transport, pair_loss, transport_loss
+from pp_extrapolation import CounterfactualRays, PriorPairs, TransportTriples, fit_pp, predict
+from pp_extrapolation.priors import (counterfactual_residual_loss, pair_loss,
+    prepare_counterfactual, prepare_pairs, prepare_transport, transport_loss)
 
 class Linear(torch.nn.Module):
     def __init__(self, slope):
@@ -42,3 +43,16 @@ def test_zero_weight_is_exact_baseline_and_enabled_fit_runs():
     enabled = fit_pp(tr,va,seed=42,max_epochs=3,prior_pairs=p,prior_weight=1)
     assert np.isfinite(predict(enabled,va['x'])).all()
     with pytest.raises(ValueError): fit_pp(tr,va,seed=42,prior_weight=1)
+
+def test_counterfactual_residual_contract_penalizes_wrong_decay():
+    model = type("ResidualModel", (torch.nn.Module,), {})()
+    model.nonlinear = torch.nn.Linear(1, 1, bias=False)
+    with torch.no_grad(): model.nonlinear.weight.fill_(1.)
+    p = CounterfactualRays(np.array([[1.]]), np.array([[2.]]), np.array([.5]), np.ones(1))
+    values = prepare_counterfactual(p, np.zeros(1), np.ones(1))
+    assert counterfactual_residual_loss(model, values).item() == pytest.approx(2.25)
+
+def test_counterfactual_fit_requires_rays_when_enabled():
+    x=np.linspace(0,1,10)[:,None].astype('float32')
+    split=dict(x=x,y=x[:,0],groups=np.repeat(['a','b'],5))
+    with pytest.raises(ValueError): fit_pp(split,split,seed=1,counterfactual_weight=.1)
