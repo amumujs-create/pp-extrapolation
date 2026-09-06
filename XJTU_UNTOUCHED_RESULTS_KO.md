@@ -51,3 +51,22 @@ distance-shell gate가 validation의 큰 seed 불일치를 이용해 실제 실�
 다음 독립 cohort에서는 gate가 일부 표본을 승인하면서 selective risk를 낮추는지 확인해야
 한다. 논문 표에서는 accuracy coverage와 abstention coverage를 분리하고, 이 XJTU 결과를
 `correct abstention`, `predictive success`에는 포함하지 않는다.
+
+## Risk–coverage와 gate ablation
+
+고정 uncertainty score의 threshold를 바꿔 사후 평가 곡선을 계산했다. 이는 새 threshold
+선택이 아니라 score가 낮은 표본을 실제로 먼저 정렬하는지 보는 분석이다.
+
+| threshold | coverage | selected PP R² | PP−Ridge RMSE regret |
+|---:|---:|---:|---:|
+| 0.25 (frozen) | 0% | — | — |
+| 0.50 | 0.07% | -5.142 | +15.0 |
+| 1.00 | 1.37% | 0.055 | -4.9 |
+| 2.00 | 92.66% | -1.349 | -39.4 |
+| 4.00 | 100% | -1.308 | -39.4 |
+
+1.0에서 작은 양수-R² 부분집합이 나타나지만 결과를 본 뒤의 threshold이므로 기본 gate로
+채택하지 않는다. 곡선도 단조롭지 않아 uncertainty ranking의 품질이 아직 약하다.
+Distance-only와 validation-gain-only gate는 XJTU를 승인해 실패했을 것이고,
+disagreement-only와 full shell gate만 거절했다. 이번 실패 차단의 실질적 기여는 거리 자체가
+아니라 seed disagreement였다.
