@@ -1,0 +1,90 @@
+{
+  "protocol_commit": "ab103c8",
+  "raw_cells": 45,
+  "eligible_cells": 44,
+  "excluded": [
+    {
+      "index": 31,
+      "reason": "ValueError"
+    }
+  ],
+  "split_indices": {
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "validation": [
+      26,
+      27,
+      28,
+      29,
+      30,
+      32,
+      33,
+      34
+    ],
+    "test": [
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44
+    ]
+  },
+  "cutoff_quantile_value": 0.9873281121253967,
+  "actual_boundary": 0.9873319864273071,
+  "counts": {
+    "train": 17003,
+    "validation": 1306,
+    "source": 2235
+  },
+  "hull": {
+    "validation": {
+      "criterion": "outside_convex_hull_of_train",
+      "outside_count": 1306,
+      "total_count": 1306,
+      "outside_fraction": 1.0,
+      "affine_rank": 1,
+      "distance_median": 5.415156127784305,
+      "distance_max": 24.85778093781899
+    },
+    "source": {
+      "criterion": "outside_convex_hull_of_train",
+      "outside_count": 2235,
+      "total_count": 2235,
+      "outside_fraction": 1.0,
+      "affine_rank": 1,
+      "distance_median": 5.553539644516448,
+      "distance_max": 30.12713783109236
+    }
+  }
+}
