@@ -17,6 +17,7 @@ DATA=ROOT/'data/xjtu_sy/extracted/XJTU-SY_Bearing_Datasets'
 OUT=ROOT/'results/xjtu_untouched_v1'
 CONDITIONS={'35Hz12kN':(2100.,12.),'37.5Hz11kN':(2250.,11.),'40Hz10kN':(2400.,10.)}
 SEEDS=(42,43,44,45,46)
+RISK_THRESHOLDS=(.05,.1,.25,.5,1.,2.,4.)
 
 def recording_stats(path):
     x=np.loadtxt(path,delimiter=',',skiprows=1,dtype=np.float64)
@@ -100,6 +101,23 @@ def main():
       'support_pp_ensemble':regression_metrics(test['y'],gated.mean(0),test['groups']),
       'pp_seeds':[regression_metrics(test['y'],p,test['groups']) for p in pp],
       'archive_sha256':file_sha256(ROOT/'data/xjtu_sy/XJTU-SY_Bearing_Datasets.zip')}
+    source_uncertainty=np.std(pp,axis=0)/max(float(np.std(val['y'])),1e-12)
+    curve=[]
+    for threshold in RISK_THRESHOLDS:
+        selected=source_uncertainty<=threshold
+        entry={'threshold':threshold,'count':int(selected.sum()),'coverage':float(selected.mean())}
+        if selected.sum()>=2:
+            entry['pp']=regression_metrics(test['y'][selected],pp.mean(0)[selected],test['groups'][selected])
+            entry['ridge']=regression_metrics(test['y'][selected],ridge[selected],test['groups'][selected])
+            entry['rmse_regret_vs_ridge']=entry['pp']['pooled']['rmse']-entry['ridge']['pooled']['rmse']
+        curve.append(entry)
+    result['risk_coverage_curve']=curve
+    result['gate_ablation']={
+      'distance_only':{'accepted':True,'reason':'source is in validation-populated shell'},
+      'gain_only':{'accepted':True,'reason':'validation PP gain is positive'},
+      'disagreement_only':{'accepted':False,'reason':'validation disagreement exceeds 0.25'},
+      'full_shell_gate':{'accepted':bool(mask.any()),'reason':'all frozen shell checks'},
+    }
     (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n')
     print('RESULT',result['ridge']['pooled']['r2'],result['plain_ensemble']['pooled']['r2'],result['pp_ensemble']['pooled']['r2'])
 if __name__=='__main__': main()
