@@ -27,7 +27,7 @@ from .uncertainty_gate import (UncertaintyGateSelection,
     select_uncertainty_gate)
 from .oof_uncertainty import (UncertaintyHeadFit, fit_uncertainty_head,
                               nested_oof_disagreement, predict_uncertainty)
-from .regime_spline import (RegimeSplineFit, fit_regime_spline_pp,
+from .regime_spline import (RegimeSplineFit, fit_regime_spline_pp, jacobian_diagnostics,
                             predict_regime_spline)
 
 __all__ = [
@@ -74,6 +74,7 @@ __all__ = [
     "RegimeSplineFit",
     "fit_regime_spline_pp",
     "predict_regime_spline",
+    "jacobian_diagnostics",
 ]
 
 
