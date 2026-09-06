@@ -13,4 +13,4 @@
 - Confirmatory success: certified PP가 base PP보다 pooled RMSE가 낮고 paired unit-bootstrap 95% CI 상한이 0 미만이어야 한다. 모든 결과와 coverage를 보고한다.
 - Test label은 모델, gate, threshold, shell 또는 데이터 포함 여부 선택에 사용하지 않는다.
 
-기존 HUST, Virkler, NASA, RWTH, MICH, Sunwoda, XJTU, MATR, Oxford, C-MAPSS 계열은 confirmatory untouched로 재사용하지 않는다.
+Untouched 여부는 **PP/OFF-UQ 개발에서 test label을 구조·gate·threshold 선택에 사용했는지**로 판정한다. PAE에서만 사용한 데이터는 `PP model-level prospective` 후보가 될 수 있으며, 논문에는 PAE 선행 사용 사실을 공개한다. HUST, Virkler, NASA, RWTH, MICH, Sunwoda, XJTU, MATR, Oxford 및 PP support-adaptive 실험을 수행한 C-MAPSS는 현재 PP-seen이다. IMS와 FEMTO는 PAE-only 후보지만 각각 독립 unit 부족과 로컬 원자료 부재를 통과해야 한다.
