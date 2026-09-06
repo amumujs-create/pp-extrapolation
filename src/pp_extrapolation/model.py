@@ -174,6 +174,9 @@ def fit_pp(
     residual_decay: float = 0.0,
     counterfactual_rays: Optional[CounterfactualRays] = None,
     counterfactual_weight: float = 0.0,
+    consistency_x: Optional[np.ndarray] = None,
+    consistency_target: Optional[np.ndarray] = None,
+    consistency_weight: float = 0.0,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -184,7 +187,7 @@ def fit_pp(
     target_scale = float(selection["target_scale"])
     initialization = selection["initialization"]
 
-    if not np.isfinite([prior_weight, transport_weight, counterfactual_weight]).all() or min(prior_weight, transport_weight, counterfactual_weight) < 0:
+    if not np.isfinite([prior_weight, transport_weight, counterfactual_weight, consistency_weight]).all() or min(prior_weight, transport_weight, counterfactual_weight, consistency_weight) < 0:
         raise ValueError("prior weights must be finite and nonnegative")
     if prior_weight > 0 and prior_pairs is None:
         raise ValueError("prior_pairs required for positive prior_weight")
@@ -195,6 +198,15 @@ def fit_pp(
     pair_values = prepare_pairs(prior_pairs, center, scale, target_scale) if prior_weight > 0 else None
     transport_values = prepare_transport(transport_triples, center, scale, target_scale) if transport_weight > 0 else None
     counterfactual_values = prepare_counterfactual(counterfactual_rays, center, scale) if counterfactual_weight > 0 else None
+    consistency_values = None
+    if consistency_weight > 0:
+        if consistency_x is None or consistency_target is None:
+            raise ValueError("consistency_x and consistency_target required")
+        cx=np.asarray(consistency_x,dtype=np.float64); ct=np.asarray(consistency_target,dtype=np.float64)
+        if cx.ndim!=2 or cx.shape[1]!=train_x.shape[1] or ct.shape!=(len(cx),):
+            raise ValueError("invalid consistency reference")
+        consistency_values=(torch.as_tensor(transform_features(cx,center,scale),dtype=torch.float32),
+                            torch.as_tensor(ct/target_scale,dtype=torch.float32))
     prior_rng = np.random.default_rng(int(seed) + 100000)
 
     def sample(values):
@@ -251,12 +263,17 @@ def fit_pp(
             relation_term = pair_loss(model, sample(pair_values)) if pair_values is not None else loss.new_zeros(())
             transport_term = transport_loss(model, sample(transport_values)) if transport_values is not None else loss.new_zeros(())
             counterfactual_term = counterfactual_residual_loss(model, sample(counterfactual_values)) if counterfactual_values is not None else loss.new_zeros(())
+            consistency_term = loss.new_zeros(())
+            if consistency_values is not None:
+                con_x,con_y=sample(consistency_values)
+                consistency_term=torch.mean((model(con_x)-con_y)**2)
             anchor_term = loss.new_zeros(())
             if soft_anchor:
                 anchor_term = torch.mean((model.affine.weight.squeeze(0) - anchor_weight) ** 2)
                 anchor_term = anchor_term + (model.affine.bias.squeeze(0) - anchor_bias) ** 2
             loss = loss + prior_weight * relation_term + transport_weight * transport_term
             loss = loss + counterfactual_weight * counterfactual_term
+            loss = loss + consistency_weight * consistency_term
             if soft_anchor:
                 loss = loss + float(affine_anchor_weight) * anchor_term
             epoch_terms += [data_term, relation_term.detach().item(), transport_term.detach().item(), anchor_term.detach().item(), counterfactual_term.detach().item()]
@@ -273,6 +290,7 @@ def fit_pp(
                                  transport_loss=float(epoch_terms[2]/batches),
                                  affine_anchor_loss=float(epoch_terms[3]/batches), validation_mse=current))
         loss_history[-1]["counterfactual_residual_loss"] = float(epoch_terms[4]/batches)
+        loss_history[-1]["consistency_weight"] = float(consistency_weight)
         if current < best_loss - 1e-10:
             best_loss = current
             best_epoch = epoch
