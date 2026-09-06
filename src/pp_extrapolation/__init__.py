@@ -27,6 +27,8 @@ from .uncertainty_gate import (UncertaintyGateSelection,
     select_uncertainty_gate)
 from .oof_uncertainty import (UncertaintyHeadFit, fit_uncertainty_head,
                               nested_oof_disagreement, predict_uncertainty)
+from .regime_spline import (RegimeSplineFit, fit_regime_spline_pp,
+                            predict_regime_spline)
 
 __all__ = [
     "ConvexHullAudit",
@@ -69,6 +71,9 @@ __all__ = [
     "nested_oof_disagreement",
     "fit_uncertainty_head",
     "predict_uncertainty",
+    "RegimeSplineFit",
+    "fit_regime_spline_pp",
+    "predict_regime_spline",
 ]
 
 
