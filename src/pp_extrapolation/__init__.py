@@ -29,6 +29,8 @@ from .oof_uncertainty import (UncertaintyHeadFit, fit_uncertainty_head,
                               nested_oof_disagreement, predict_uncertainty)
 from .regime_spline import (RegimeSplineFit, fit_regime_spline_pp, jacobian_diagnostics,
                             predict_regime_spline)
+from .regime_mixture import (LatentRegimeFit,LatentRegimePPNet,
+                             fit_latent_regime_pp,predict_latent_regime)
 
 __all__ = [
     "ConvexHullAudit",
@@ -75,6 +77,10 @@ __all__ = [
     "fit_regime_spline_pp",
     "predict_regime_spline",
     "jacobian_diagnostics",
+    "LatentRegimeFit",
+    "LatentRegimePPNet",
+    "fit_latent_regime_pp",
+    "predict_latent_regime",
 ]
 
 
