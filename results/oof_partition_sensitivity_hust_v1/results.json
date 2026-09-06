@@ -1,0 +1,105 @@
+{
+  "dataset": "HUST",
+  "status": "development_partition_sensitivity",
+  "baseline_pp": {
+    "mean": 0.7235569641714918,
+    "sd": 0.038928025365591847
+  },
+  "runs": [
+    {
+      "split_seed": 911,
+      "head_seed": 1911,
+      "selection": {
+        "beta": 0.0,
+        "gamma": 8.0,
+        "mean_seed_validation_mse": 4983.5382418766185
+      },
+      "pooled_r2_mean": 0.7305803724178458,
+      "pooled_r2_sd": 0.03624643651910272,
+      "per_model_seed": [
+        0.6944075334177349,
+        0.6941645827018292,
+        0.7168081298098066,
+        0.7765592063100151,
+        0.7709624098498433
+      ]
+    },
+    {
+      "split_seed": 912,
+      "head_seed": 1912,
+      "selection": {
+        "beta": 0.0,
+        "gamma": 0.0,
+        "mean_seed_validation_mse": 4998.215841178333
+      },
+      "pooled_r2_mean": 0.7235569662886732,
+      "pooled_r2_sd": 0.03892802418465362,
+      "per_model_seed": [
+        0.6931130459154731,
+        0.68235525533086,
+        0.7011831734577856,
+        0.7745747574330129,
+        0.7665585993062345
+      ]
+    },
+    {
+      "split_seed": 913,
+      "head_seed": 1913,
+      "selection": {
+        "beta": 0.0,
+        "gamma": 4.0,
+        "mean_seed_validation_mse": 4961.570190113831
+      },
+      "pooled_r2_mean": 0.7314583195894903,
+      "pooled_r2_sd": 0.036368193068507665,
+      "per_model_seed": [
+        0.6946873393779198,
+        0.6930038468901756,
+        0.7212952520652212,
+        0.7782445369478466,
+        0.7700606226662885
+      ]
+    },
+    {
+      "split_seed": 914,
+      "head_seed": 1914,
+      "selection": {
+        "beta": 0.0,
+        "gamma": 4.0,
+        "mean_seed_validation_mse": 4970.934119392414
+      },
+      "pooled_r2_mean": 0.7313929824318478,
+      "pooled_r2_sd": 0.035190029235003195,
+      "per_model_seed": [
+        0.6930415632324919,
+        0.6942173972563719,
+        0.7258335037296839,
+        0.775131425663533,
+        0.7687410222771589
+      ]
+    },
+    {
+      "split_seed": 915,
+      "head_seed": 1915,
+      "selection": {
+        "beta": 0.0,
+        "gamma": 8.0,
+        "mean_seed_validation_mse": 4916.451741182427
+      },
+      "pooled_r2_mean": 0.7374099934301543,
+      "pooled_r2_sd": 0.03482337004866791,
+      "per_model_seed": [
+        0.6919949035037539,
+        0.6995309148778273,
+        0.752355499448952,
+        0.7734339925420987,
+        0.7697346567781402
+      ]
+    }
+  ],
+  "summary": {
+    "mean_over_partitions": 0.7308797268316024,
+    "sd_over_partitions": 0.004403521721825465,
+    "improved_partition_count": 4
+  }
+}

@@ -24,11 +24,11 @@ class UncertaintyHead(nn.Module):
 
 def _part(split,index): return {k:np.asarray(v)[index] for k,v in split.items()}
 
-def nested_oof_disagreement(train,*,outer_folds=3,teacher_seeds=(101,102,103),max_epochs=200):
+def nested_oof_disagreement(train,*,outer_folds=3,teacher_seeds=(101,102,103),max_epochs=200,split_seed=913):
     """Predict each unit only with teachers that never saw that unit or its labels."""
     groups=np.asarray(train['groups']); unique=np.unique(groups)
     if len(unique)<6: raise ValueError('at least six training groups required for nested OOF uncertainty')
-    rng=np.random.default_rng(913); unique=unique[rng.permutation(len(unique))]
+    rng=np.random.default_rng(int(split_seed)); unique=unique[rng.permutation(len(unique))]
     fold_ids=np.array_split(unique,int(min(outer_folds,len(unique))))
     target=np.empty(len(groups),dtype=float)
     for outer in fold_ids:
