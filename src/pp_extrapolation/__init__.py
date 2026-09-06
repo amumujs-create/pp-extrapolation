@@ -2,6 +2,7 @@
 
 from .hull import ConvexHullAudit, audit_convex_hull_support
 from .gating import PriorGateDecision, select_prior_from_scores
+from .certification import RegimeCertificate, certify_categorical_regime
 from .metrics import regression_metrics
 from .model import (
     PPFit,
@@ -28,6 +29,8 @@ __all__ = [
     "PriorPairs",
     "TransportTriples",
     "CounterfactualRays",
+    "RegimeCertificate",
+    "certify_categorical_regime",
     "PPFit",
     "PPNet",
     "PriorGateDecision",

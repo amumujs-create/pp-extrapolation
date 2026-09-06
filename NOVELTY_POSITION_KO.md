@@ -13,6 +13,11 @@
 3. **Verified abstention**: source 내부 검증을 통과하지 못한 prior는 켜지 않고
    formula-free PP 또는 plain NN 경로로 보낸다.
 
+검증 순서는 `typed role compile -> label-free mechanism coverage certificate ->
+numeric source validation -> predict/abstain`이다. NASA Milling에서는 material-1
+validation이 양수였지만 material-2 transfer가 실패했다. 범주형 mechanism
+certificate는 train에 없던 material-2를 label 없이 먼저 탐지해 abstain한다.
+
 핵심 연구 질문은 “물리식을 NN에 넣으면 좋아지는가”가 아니라 **부분적으로만
 관측 가능한 prior를 어떤 계약으로 컴파일하고, 외삽 위치에서 얼마만큼 신뢰하며,
 검증 실패 시 어떻게 안전하게 사용하지 않을 것인가**다.

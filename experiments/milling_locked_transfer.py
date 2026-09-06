@@ -25,13 +25,17 @@ def main():
     for seed in SEEDS:
         pp=fit_pp(train,val,seed=seed,affine_selection=affine,affine_anchor_weight=.1,residual_decay=.3)
         plain=fit_plain(train,val,seed=seed)
+        pp_val=regression_metrics(val["y"],predict(pp,val["x"]),val["groups"])
+        plain_val=regression_metrics(val["y"],predict_plain(plain,val["x"]),val["groups"])
         pm=regression_metrics(test["y"],predict(pp,test["x"]),test["groups"])
         nm=regression_metrics(test["y"],predict_plain(plain,test["x"]),test["groups"])
-        rows.append({"seed":seed,"pp":pm,"plain":nm});print(seed,pm["pooled"]["r2"],nm["pooled"]["r2"],flush=True)
+        rows.append({"seed":seed,"validation_pp":pp_val,"validation_plain":plain_val,"pp":pm,"plain":nm});print(seed,pm["pooled"]["r2"],nm["pooled"]["r2"],flush=True)
     def summary(k):
         v=np.array([r[k]["pooled"]["r2"] for r in rows]);return {"mean":float(v.mean()),"sd":float(v.std())}
     payload={"status":"locked_replay","globally_untouched":False,"cut_train_q60":cut,
       "features":FEATURES,"n":{"train":len(train["y"]),"validation":len(val["y"]),"test":len(test["y"])},
-      "strict_tail":True,"pp":summary("pp"),"plain":summary("plain"),"runs":rows,"source_audit":audit}
+      "strict_tail":True,"validation_pp":summary("validation_pp"),"validation_plain":summary("validation_plain"),
+      "source_only_accept":bool(summary("validation_pp")["mean"]>0),
+      "pp":summary("pp"),"plain":summary("plain"),"runs":rows,"source_audit":audit}
     out=Path("results/milling_locked_transfer");out.mkdir(parents=True,exist_ok=True);(out/"results.json").write_text(json.dumps(payload,indent=2)+"\n")
 if __name__=="__main__":main()
