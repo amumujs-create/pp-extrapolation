@@ -109,6 +109,8 @@ PYTHONPATH=src:experiments python experiments/additional_real_batteries.py
 
 The current applicability logic, paper novelty candidate, and claim limitations are
 summarized in `APPLICABILITY_NOVELTY_LIMITS_KO.md`.
+The first executable selective gate and its conservative zero-coverage result are
+reported in `SELECTIVE_GATE_RESULTS_KO.md`.
 
 The same-budget five-seed comparison with downloaded local TabPFN v3 is reported in
 [FAIR_PFN_COMPARISON_KO.md](FAIR_PFN_COMPARISON_KO.md).

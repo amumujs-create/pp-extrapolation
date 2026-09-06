@@ -10,6 +10,7 @@ from pp_extrapolation.hull import audit_convex_hull_support
 from pp_extrapolation.metrics import regression_metrics
 from pp_extrapolation.model import fit_pp, predict, select_affine_initialization, _affine_prediction
 from pp_extrapolation.support_gate import predict_support_gated, select_support_gate, support_distance
+from pp_extrapolation.certification import certify_extrapolation
 from plain_mlp_ablation import fit_plain, predict_plain
 
 SEEDS=(42,43,44,45,46)
@@ -36,10 +37,12 @@ def run_dataset(name, raw, epochs):
     va=audit_convex_hull_support(train['x'][:,[0]],val['x'][:,[0]])
     te=audit_convex_hull_support(train['x'][:,[0]],test['x'][:,[0]])
     if va.outside_fraction<1 or te.outside_fraction<1: raise RuntimeError(f'{name}: hull check failed')
-    affine=select_affine_initialization(train,val); rows=[]
+    affine=select_affine_initialization(train,val); rows=[]; validation_predictions=[]
+    validation_ridge=_affine_prediction(affine['initialization'],val['x'],affine['center'],affine['scale'],affine['target_scale'])
     for seed in SEEDS:
         plain=fit_plain(train,val,seed=seed,max_epochs=epochs)
         pp=fit_pp(train,val,seed=seed,affine_selection=affine,max_epochs=epochs)
+        validation_predictions.append(predict(pp,val['x']))
         vp_dist,_=support_distance(train['x'][:,[0]],val['x'][:,[0]])
         tp_dist,_=support_distance(train['x'][:,[0]],test['x'][:,[0]])
         gate=select_support_gate(pp,val['x'],val['y'],vp_dist,betas=BETAS)
@@ -50,9 +53,26 @@ def run_dataset(name, raw, epochs):
              'pp':metric(test['y'],predict(pp,test['x']),test['groups']),
              'support_pp':metric(test['y'],predict_support_gated(pp,test['x'],tp_dist,beta=gate.beta),test['groups'])}
         rows.append(row); print(name,seed,gate.beta,*(f'{k}={row[k]["pooled"]["r2"]:.3f}' for k in ('ridge','plain','pp','support_pp')),flush=True)
+    validation_predictions=np.asarray(validation_predictions)
+    validation_ensemble=validation_predictions.mean(0)
+    validation_score=metric(val['y'],validation_ensemble,val['groups'])['pooled']['r2']
+    ridge_mse=float(np.mean((validation_ridge-val['y'])**2))
+    pp_mse=float(np.mean((validation_ensemble-val['y'])**2))
+    relative_gain=(ridge_mse-pp_mse)/max(ridge_mse,1e-12)
+    disagreement=float(np.mean(np.std(validation_predictions,axis=0))/max(np.std(val['y']),1e-12))
+    # Sunwoda transfers 25 C training units to unseen 35 C source units.
+    regime_covered=name!='sunwoda'
+    certificate=certify_extrapolation(validation_r2=validation_score,
+        baseline_relative_mse_gain=relative_gain,normalized_seed_disagreement=disagreement,
+        regime_covered=regime_covered)
     return {'cutoff':cutoff,'n':{'train':len(train['y']),'validation':len(val['y']),'test':len(test['y'])},
             'units':{k:int(len(np.unique(v['groups']))) for k,v in [('train',train),('validation',val),('test',test)]},
-            'hull':{'validation':va.summary(),'test':te.summary()},'summary':{k:{'pooled_r2':stats(rows,k,'pooled'),'unit_macro_r2':stats(rows,k,'unit_macro_r2')} for k in ('ridge','plain','pp','support_pp')},'runs':rows}
+            'hull':{'validation':va.summary(),'test':te.summary()},
+            'applicability_certificate':{'accepted':certificate.accepted,'validation_r2':certificate.validation_r2,
+              'baseline_relative_mse_gain':certificate.baseline_relative_mse_gain,
+              'normalized_seed_disagreement':certificate.normalized_seed_disagreement,
+              'checks':certificate.checks,'reasons':certificate.reasons},
+            'summary':{k:{'pooled_r2':stats(rows,k,'pooled'),'unit_macro_r2':stats(rows,k,'unit_macro_r2')} for k in ('ridge','plain','pp','support_pp')},'runs':rows}
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--legacy-root',default=str(Path(__file__).resolve().parents[2]/'ca-css-ncmapss')); p.add_argument('--max-epochs',type=int,default=300); p.add_argument('--output',default='results/additional_real_batteries'); a=p.parse_args()
