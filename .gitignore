@@ -6,5 +6,6 @@ __pycache__/
 build/
 dist/
 results/
+data/
 *.npz
 examples/synthetic_rul.csv
