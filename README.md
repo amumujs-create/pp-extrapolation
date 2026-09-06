@@ -99,6 +99,9 @@ The support-adaptive extension attenuates the NN correction as an observation mo
 outside train support. See
 [SUPPORT_ADAPTIVE_PP_RESULTS_KO.md](SUPPORT_ADAPTIVE_PP_RESULTS_KO.md).
 
+The same-budget five-seed comparison with downloaded local TabPFN v3 is reported in
+[FAIR_PFN_COMPARISON_KO.md](FAIR_PFN_COMPARISON_KO.md).
+
 ## Optional prior learning (experimental)
 
 The Python API accepts `PriorPairs` (confidence-weighted output-difference intervals)
