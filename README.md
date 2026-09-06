@@ -95,6 +95,10 @@ The optional soft-anchor variant lets the affine path move under a validation-se
 quadratic prior penalty. Its retrospective cross-domain results are in
 [SOFT_ANCHOR_RESULTS_KO.md](SOFT_ANCHOR_RESULTS_KO.md).
 
+The support-adaptive extension attenuates the NN correction as an observation moves
+outside train support. See
+[SUPPORT_ADAPTIVE_PP_RESULTS_KO.md](SUPPORT_ADAPTIVE_PP_RESULTS_KO.md).
+
 ## Optional prior learning (experimental)
 
 The Python API accepts `PriorPairs` (confidence-weighted output-difference intervals)

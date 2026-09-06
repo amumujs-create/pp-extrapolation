@@ -38,3 +38,18 @@ def test_soft_anchor_fit_is_finite_and_records_penalty():
     assert np.isfinite(predict(fit, test["x"])).all()
     assert fit.selection["affine_anchor_weight"] == 0.1
     assert all("affine_anchor_loss" in row for row in fit.selection["loss_history"])
+
+
+def test_support_distance_attenuates_only_outside_correction():
+    model = PPNet(input_dim=1, width=2, residual_decay=1.0)
+    with torch.no_grad():
+        model.affine.weight.zero_()
+        model.affine.bias.zero_()
+        model.nonlinear[-1].weight.zero_()
+        model.nonlinear[-1].bias.fill_(1.0)
+        model.support_min.fill_(-1.0)
+        model.support_max.fill_(1.0)
+        inside = model(torch.tensor([[0.0]])).item()
+        outside = model(torch.tensor([[2.0]])).item()
+    np.testing.assert_allclose(inside, 1.0)
+    np.testing.assert_allclose(outside, np.exp(-1.0), rtol=1e-6)

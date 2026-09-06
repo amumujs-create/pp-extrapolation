@@ -14,8 +14,13 @@ from .priors import PriorPairs, TransportTriples, prepare_pairs, prepare_transpo
 class PPNet(nn.Module):
     """One network containing an affine path and a tanh correction path."""
 
-    def __init__(self, input_dim: int, width: int = 32):
+    def __init__(self, input_dim: int, width: int = 32, *, residual_decay: float = 0.0):
         super().__init__()
+        if residual_decay < 0 or not np.isfinite(residual_decay):
+            raise ValueError("residual_decay must be finite and nonnegative")
+        self.residual_decay = float(residual_decay)
+        self.register_buffer("support_min", torch.full((input_dim,), -torch.inf))
+        self.register_buffer("support_max", torch.full((input_dim,), torch.inf))
         self.affine = nn.Linear(input_dim, 1)
         self.nonlinear = nn.Sequential(
             nn.Linear(input_dim, width),
@@ -28,7 +33,13 @@ class PPNet(nn.Module):
         nn.init.zeros_(self.nonlinear[-1].bias)
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
-        return (self.affine(value) + self.nonlinear(value)).squeeze(1)
+        correction = self.nonlinear(value)
+        if self.residual_decay > 0:
+            below = torch.relu(self.support_min - value)
+            above = torch.relu(value - self.support_max)
+            distance = torch.linalg.vector_norm(below + above, dim=1, keepdim=True)
+            correction = correction * torch.exp(-self.residual_decay * distance)
+        return (self.affine(value) + correction).squeeze(1)
 
 
 @dataclass(frozen=True)
@@ -158,6 +169,7 @@ def fit_pp(
     prior_weight: float = 0.0,
     transport_weight: float = 0.0,
     affine_anchor_weight: float | None = None,
+    residual_decay: float = 0.0,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -190,8 +202,10 @@ def fit_pp(
         transform_features(validation_x, center, scale), dtype=torch.float32
     )
 
-    model = PPNet(input_dim=x.shape[1], width=32)
+    model = PPNet(input_dim=x.shape[1], width=32, residual_decay=residual_decay)
     with torch.no_grad():
+        model.support_min.copy_(x.amin(dim=0))
+        model.support_max.copy_(x.amax(dim=0))
         model.affine.weight.copy_(torch.as_tensor(initialization.weight)[None, :])
         model.affine.bias.copy_(torch.as_tensor([initialization.bias]))
     soft_anchor = affine_anchor_weight is not None
@@ -266,6 +280,7 @@ def fit_pp(
             "prior_weight": float(prior_weight),
             "transport_weight": float(transport_weight),
             "affine_anchor_weight": None if affine_anchor_weight is None else float(affine_anchor_weight),
+            "residual_decay": float(residual_decay),
             "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
             "transport_triples": 0 if transport_values is None else len(transport_values[0]),
             "seed": int(seed),
