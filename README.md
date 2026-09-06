@@ -117,6 +117,10 @@ negative test R². See `XJTU_UNTOUCHED_PROTOCOL.md` and `XJTU_UNTOUCHED_RESULTS_
 The separately locked Oxford protocol stopped at its predeclared feasibility check
 because Cell6 supplied only one strict-tail window; see
 `OXFORD_UNTOUCHED_FEASIBILITY_KO.md`.
+The sealed MATR batch2 confirmatory cohort produced stable positive PP runs and a
+7.23% pre-label gate coverage, while failing one predeclared selective-success
+criterion. See `MATR_BATCH2_CONFIRMATORY_PROTOCOL.md` and
+`MATR_BATCH2_CONFIRMATORY_RESULTS_KO.md`.
 
 The same-budget five-seed comparison with downloaded local TabPFN v3 is reported in
 [FAIR_PFN_COMPARISON_KO.md](FAIR_PFN_COMPARISON_KO.md).
