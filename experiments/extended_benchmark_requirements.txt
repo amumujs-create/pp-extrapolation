@@ -1,0 +1,4 @@
+rtdl-revisiting-models==0.0.2
+# Run the local PFN arm in the existing environment with tabpfn==8.0.7.
+# Core benchmark additionally requires torch, numpy, scipy, scikit-learn,
+# h5py and threadpoolctl as installed in the recorded run environment.

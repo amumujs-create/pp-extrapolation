@@ -30,7 +30,16 @@ from .oof_uncertainty import (UncertaintyHeadFit, fit_uncertainty_head,
 from .regime_spline import (RegimeSplineFit, fit_regime_spline_pp, jacobian_diagnostics,
                             predict_regime_spline)
 from .regime_mixture import (LatentRegimeFit,LatentRegimePPNet,
-                             fit_latent_regime_pp,predict_latent_regime)
+                             fit_latent_regime_pp,latent_regime_components,
+                             predict_latent_regime)
+from .residual_calibration import (ResidualGainSelection, combine_residual_gain,
+                                   select_group_robust_residual_gain,
+                                   select_residual_gain)
+from .output_calibration import (OutputCalibrator, approve_dual_evidence, approve_transport,
+                                 approve_seed_consensus, consensus_tail_probability,
+                                 fit_output_calibrator, group_loo_affine_evidence,
+                                 transport_direction_cosine,
+                                 select_group_loo_calibrator)
 
 __all__ = [
     "ConvexHullAudit",
@@ -81,6 +90,20 @@ __all__ = [
     "LatentRegimePPNet",
     "fit_latent_regime_pp",
     "predict_latent_regime",
+    "latent_regime_components",
+    "ResidualGainSelection",
+    "combine_residual_gain",
+    "select_residual_gain",
+    "select_group_robust_residual_gain",
+    "OutputCalibrator",
+    "fit_output_calibrator",
+    "select_group_loo_calibrator",
+    "approve_seed_consensus",
+    "consensus_tail_probability",
+    "group_loo_affine_evidence",
+    "approve_dual_evidence",
+    "transport_direction_cosine",
+    "approve_transport",
 ]
 
 

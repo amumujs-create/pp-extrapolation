@@ -177,6 +177,10 @@ def fit_pp(
     consistency_x: Optional[np.ndarray] = None,
     consistency_target: Optional[np.ndarray] = None,
     consistency_weight: float = 0.0,
+    group_dro_eta: float = 0.0,
+    width: int = 32,
+    learning_rate: float = 5e-4,
+    weight_decay: float = 2.0,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -217,11 +221,15 @@ def fit_pp(
     x = torch.as_tensor(transform_features(train_x, center, scale), dtype=torch.float32)
     y = torch.as_tensor(train_y / target_scale, dtype=torch.float32)
     weights = torch.as_tensor(equal_group_weights(groups), dtype=torch.float32)
+    _, group_inverse = np.unique(groups, return_inverse=True)
+    group_index = torch.as_tensor(group_inverse, dtype=torch.long)
+    dro_q = torch.ones(int(group_index.max()) + 1, dtype=torch.float32)
+    dro_q /= dro_q.sum()
     val_x = torch.as_tensor(
         transform_features(validation_x, center, scale), dtype=torch.float32
     )
 
-    model = PPNet(input_dim=x.shape[1], width=32, residual_decay=residual_decay)
+    model = PPNet(input_dim=x.shape[1], width=int(width), residual_decay=residual_decay)
     with torch.no_grad():
         model.support_min.copy_(x.amin(dim=0))
         model.support_max.copy_(x.amax(dim=0))
@@ -234,7 +242,7 @@ def fit_pp(
     parameters = list(model.nonlinear.parameters())
     if soft_anchor:
         parameters += list(model.affine.parameters())
-    optimizer = torch.optim.AdamW(parameters, lr=5e-4, weight_decay=2.0)
+    optimizer = torch.optim.AdamW(parameters, lr=float(learning_rate), weight_decay=float(weight_decay))
     anchor_weight = torch.as_tensor(initialization.weight, dtype=torch.float32)
     anchor_bias = torch.as_tensor(initialization.bias, dtype=torch.float32)
     rng = np.random.default_rng(int(seed))
@@ -258,7 +266,16 @@ def fit_pp(
         order = rng.permutation(len(x))
         for start in range(0, len(x), int(batch_size)):
             index = torch.as_tensor(order[start : start + int(batch_size)], dtype=torch.long)
-            loss = torch.mean(weights[index] * (model(x[index]) - y[index]) ** 2)
+            errors = (model(x[index]) - y[index]) ** 2
+            if group_dro_eta > 0:
+                present = torch.unique(group_index[index])
+                risks = torch.stack([errors[group_index[index] == unit].mean() for unit in present])
+                with torch.no_grad():
+                    dro_q[present] *= torch.exp(float(group_dro_eta) * risks.detach())
+                    dro_q /= dro_q.sum()
+                loss = torch.sum(dro_q[present] / dro_q[present].sum() * risks)
+            else:
+                loss = torch.mean(weights[index] * errors)
             data_term = loss.detach().item()
             relation_term = pair_loss(model, sample(pair_values)) if pair_values is not None else loss.new_zeros(())
             transport_term = transport_loss(model, sample(transport_values)) if transport_values is not None else loss.new_zeros(())
@@ -314,6 +331,10 @@ def fit_pp(
             "prior_pairs": 0 if pair_values is None else len(pair_values[0]),
             "transport_triples": 0 if transport_values is None else len(transport_values[0]),
             "seed": int(seed),
+            "group_dro_eta": float(group_dro_eta),
+            "width": int(width),
+            "learning_rate": float(learning_rate),
+            "weight_decay": float(weight_decay),
             "affine_alpha": float(selection["selected_alpha"]),
             "selected_epoch": int(best_epoch),
             "epochs_executed": int(last_epoch),
