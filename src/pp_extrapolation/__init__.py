@@ -109,3 +109,16 @@ __all__ = [
 
 from .priors import CounterfactualRays, PriorPairs, TransportTriples
 from .temporal import DegradationContract, causal_history, fit_temporal, predict_temporal
+from .boundary_quotient import (
+    BoundaryQuotientFit,
+    BoundaryQuotientPPNet,
+    fit_boundary_quotient_pp,
+    predict_boundary_affine,
+    predict_boundary_quotient,
+)
+
+__all__ += [
+    "BoundaryQuotientFit", "BoundaryQuotientPPNet",
+    "fit_boundary_quotient_pp", "predict_boundary_affine",
+    "predict_boundary_quotient",
+]
