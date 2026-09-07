@@ -1,0 +1,74 @@
+{
+  "bundle": "submission_bundle_v1",
+  "code_commit": "1cec0370b847826469ac0b2c5e0cb675fe6724ce",
+  "dirty_at_manifest_build": true,
+  "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 08:22:19) [Clang 14.0.6 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "packages": {
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "sklearn": "1.5.1",
+    "torch": "2.14.0"
+  },
+  "artifacts": {
+    "results/engression_all_positive_v2/results.json": {
+      "sha256": "46f94822883483113bf9c702152f463531d0ab8231997c39628736417a5c6b9e",
+      "bytes": 128497
+    },
+    "results/all_dataset_hull_audit_v1/results.json": {
+      "sha256": "0c7e3d39302bcec4936071366e59eb36e4a4e7bf4cffebcd5c7db530425fc964",
+      "bytes": 20356
+    },
+    "results/hierarchical_pp_engression_v1/results.json": {
+      "sha256": "35360bdb495b3a54a6aa62348bc26cc6348cb07bdd16b9d64fb2caca383dc615",
+      "bytes": 18174
+    },
+    "results/nasa_causal_multiscale_pp_v1/results.json": {
+      "sha256": "305aa8281257e02afe773e3b4b3f0458f9217ec7872d8e8d4d2f426bc4e3d4e5",
+      "bytes": 18145
+    },
+    "results/ncmapss_pp_multiscale_v1/results.json": {
+      "sha256": "32f5173c5af57d8c65a60dffd411fda485f8017b7f48c1c5c8ff14b81638c54c",
+      "bytes": 15903
+    },
+    "results/nasa_causal_robustness_v1/results.json": {
+      "sha256": "9470aa62d0279c682ceb332578cca5928a5620a9d43222d79e615e783b2ad956",
+      "bytes": 24201
+    },
+    "results/top_journal_evidence_audit_v1/results.json": {
+      "sha256": "5ef6b0aff0a602c28f6a4a457205315697bf0d4cedc439a744e1b52c79005cf8",
+      "bytes": 2463
+    },
+    "results/final_pp_compute_profile_v1/results.json": {
+      "sha256": "1430b8985080314668b59e84e95e96001f3be8d11d38317dca1b2e01e3cdd17d",
+      "bytes": 1012
+    },
+    "results/oxford_outcome_heldout_v2/results.json": {
+      "sha256": "183170f8454058734c419232281c0be5b76dca454bf1f342128a21e6705821c6",
+      "bytes": 15683
+    },
+    "results/oxford_compute_profile_v1/results.json": {
+      "sha256": "e837b6447320c2d235bb03ae9552b929474ddd6a19f0baa7f5adb020e477c046",
+      "bytes": 580
+    }
+  },
+  "primary_results": {
+    "eight_domain_pp_vs_engression": "8/8 PP wins",
+    "hierarchical_relative_rmse_reduction": 0.24047051762355423,
+    "hierarchical_ci95_reduction": [
+      0.055121614165963756,
+      0.408613608486634
+    ],
+    "nasa_pp_r2": 0.5837508453043845,
+    "ncmapss_pp_r2": 0.9372705221176147,
+    "oxford_pp_r2": -0.11934027429040661,
+    "oxford_success": false
+  },
+  "commands": [
+    "PYTHONPATH=src:experiments:.benchmark_deps pytest -q",
+    "PYTHONPATH=src:experiments:.benchmark_deps:../ca-css-ncmapss python experiments/hierarchical_pp_engression_analysis.py",
+    "PYTHONPATH=src:experiments:.benchmark_deps python experiments/top_journal_evidence_audit.py",
+    "MPLCONFIGDIR=/tmp/pp-mpl PYTHONPATH=.benchmark_deps:src:experiments python experiments/oxford_outcome_heldout_v2.py"
+  ],
+  "note": "Raw data and large predictions are ignored by git; artifact hashes bind the local result files. Oxford is a negative outcome-held-out external evaluation."
+}
