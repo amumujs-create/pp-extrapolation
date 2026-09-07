@@ -47,9 +47,15 @@ class BoundaryQuotientPPNet(nn.Module):
         nn.init.zeros_(self.nonlinear[-1].bias)
 
     def forward(self, value: torch.Tensor, margin: torch.Tensor) -> torch.Tensor:
-        correction = self.residual_bound * torch.tanh(self.nonlinear(value))
-        quotient = torch.nn.functional.softplus(self.affine(value) + correction)
+        _, correction, quotient = self.components(value)
         return torch.clamp(margin, min=0.0) * quotient.squeeze(1)
+
+    def components(self, value: torch.Tensor):
+        """Return affine score, bounded correction, and positive quotient."""
+        affine_score = self.affine(value)
+        correction = self.residual_bound * torch.tanh(self.nonlinear(value))
+        quotient = torch.nn.functional.softplus(affine_score + correction)
+        return affine_score, correction, quotient
 
 
 @dataclass

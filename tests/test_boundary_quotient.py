@@ -27,3 +27,18 @@ def test_boundary_quotient_is_exact_zero_and_finite():
     assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
     assert np.count_nonzero(predict_boundary_affine(fit, query)) == 0
     assert np.isfinite(predict_boundary_quotient(fit, validation)).all()
+
+
+def test_bounded_residual_contracts_toward_the_failure_boundary():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(train, validation, seed=2, max_epochs=4, patience=3,
+                                   residual_bound=1.5)
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    # Softplus is 1-Lipschitz and the score correction is bounded by B.
+    envelope = validation["margin"] * fit.model.residual_bound
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+
+    half = {**validation, "margin": validation["margin"] / 2}
+    delta = np.abs(predict_boundary_quotient(fit, half) - predict_boundary_affine(fit, half))
+    assert np.allclose(delta, np.abs(prediction - affine) / 2, atol=1e-6)
