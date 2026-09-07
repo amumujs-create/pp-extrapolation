@@ -35,9 +35,15 @@ def equal_dataset_unit_weights(dataset: np.ndarray, units: np.ndarray) -> np.nda
 class BoundaryQuotientPPNet(nn.Module):
     """Exact-zero boundary gate with a frozen affine quotient tail."""
 
-    def __init__(self, input_dim: int, width: int = 64, residual_bound: float = 2.0):
+    def __init__(self, input_dim: int, width: int = 64, residual_bound: float | None = 2.0,
+                 late_bound_growth: float = 0.0):
         super().__init__()
-        self.residual_bound = float(residual_bound)
+        if residual_bound is not None and (not np.isfinite(residual_bound) or residual_bound <= 0):
+            raise ValueError("residual_bound must be positive finite or None")
+        self.residual_bound = None if residual_bound is None else float(residual_bound)
+        if not np.isfinite(late_bound_growth) or late_bound_growth < 0:
+            raise ValueError("late_bound_growth must be finite and nonnegative")
+        self.late_bound_growth = float(late_bound_growth)
         self.affine = nn.Linear(input_dim, 1)
         self.nonlinear = nn.Sequential(
             nn.Linear(input_dim, width), nn.SiLU(),
@@ -47,13 +53,24 @@ class BoundaryQuotientPPNet(nn.Module):
         nn.init.zeros_(self.nonlinear[-1].bias)
 
     def forward(self, value: torch.Tensor, margin: torch.Tensor) -> torch.Tensor:
-        _, correction, quotient = self.components(value)
+        _, correction, quotient = self.components(value, margin)
         return torch.clamp(margin, min=0.0) * quotient.squeeze(1)
 
-    def components(self, value: torch.Tensor):
+    def components(self, value: torch.Tensor, margin: torch.Tensor | None = None):
         """Return affine score, bounded correction, and positive quotient."""
         affine_score = self.affine(value)
-        correction = self.residual_bound * torch.tanh(self.nonlinear(value))
+        raw = self.nonlinear(value)
+        if self.residual_bound is None:
+            correction = raw
+        else:
+            bound = self.residual_bound
+            if self.late_bound_growth > 0:
+                if margin is None:
+                    raise ValueError("margin required for late-bound growth")
+                bound = bound * (1.0 + self.late_bound_growth * (1.0 - margin.clamp(0.0, 1.0)))
+                if torch.is_tensor(bound) and bound.ndim == 1:
+                    bound = bound[:, None]
+            correction = bound * torch.tanh(raw)
         quotient = torch.nn.functional.softplus(affine_score + correction)
         return affine_score, correction, quotient
 
@@ -94,8 +111,9 @@ def fit_boundary_quotient_pp(
     train: dict, validation: dict, *, seed: int, width: int = 64,
     alpha: float = 10.0, learning_rate: float = 1e-3,
     weight_decay: float = 1e-2, max_epochs: int = 500, patience: int = 70,
-    batch_size: int = 512, residual_bound: float = 2.0, restore_best: bool = True,
+    batch_size: int = 512, residual_bound: float | None = 2.0, restore_best: bool = True,
     trainable_affine: bool = False,
+    late_bound_growth: float = 0.0,
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -103,7 +121,8 @@ def fit_boundary_quotient_pp(
     scale[scale < 1e-6] = 1.0
     coefficient, bias = _affine_initialization(train, center, scale, float(alpha))
     torch.manual_seed(int(seed))
-    model = BoundaryQuotientPPNet(np.asarray(train["x"]).shape[1], int(width), residual_bound)
+    model = BoundaryQuotientPPNet(np.asarray(train["x"]).shape[1], int(width), residual_bound,
+                                  late_bound_growth)
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
@@ -150,8 +169,10 @@ def fit_boundary_quotient_pp(
         "seed": int(seed), "width": int(width), "alpha": float(alpha),
         "learning_rate": float(learning_rate), "weight_decay": float(weight_decay),
         "selected_epoch": int(best_epoch), "validation_dataset_macro_mse": float(best),
-        "residual_bound": float(residual_bound), "restore_best": bool(restore_best),
+        "residual_bound": None if residual_bound is None else float(residual_bound),
+        "restore_best": bool(restore_best),
         "trainable_affine": bool(trainable_affine),
+        "late_bound_growth": float(late_bound_growth),
     })
 
 

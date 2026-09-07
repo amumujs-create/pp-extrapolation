@@ -105,3 +105,11 @@ PP를 상위 저널용 방법론으로 강하게 주장하려면 최소한 다�
 
 이 중 matched control이 가장 급하다. 새 Transformer나 데이터셋을 먼저
 추가하는 것보다 논문 노벨티를 더 직접적으로 강화한다.
+
+## 실행 상태
+
+matched 6-arm과 contraction audit를 실행했다. BQ-PP는 direct, soft-boundary,
+affine-only보다 physical-unit paired RMSE에서 유의하게 낮았다. hard-trainable과
+unbounded residual에 대한 우위는 유의하지 않았다. 17,645개 source 예측의
+contraction envelope 위반은 0건이다. 상세 결과는
+`BQ_PP_MATCHED_NOVELTY_RESULTS_KO.md`에 있다.

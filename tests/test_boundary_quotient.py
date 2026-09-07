@@ -42,3 +42,24 @@ def test_bounded_residual_contracts_toward_the_failure_boundary():
     half = {**validation, "margin": validation["margin"] / 2}
     delta = np.abs(predict_boundary_quotient(fit, half) - predict_boundary_affine(fit, half))
     assert np.allclose(delta, np.abs(prediction - affine) / 2, atol=1e-6)
+
+
+def test_unbounded_residual_variant_remains_finite():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(train, validation, seed=3, max_epochs=3,
+                                   patience=2, residual_bound=None)
+    assert fit.selection["residual_bound"] is None
+    assert np.isfinite(predict_boundary_quotient(fit, validation)).all()
+
+
+def test_margin_adaptive_envelope_still_contracts_to_zero():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(train, validation, seed=4, max_epochs=4, patience=3,
+                                   residual_bound=2.0, late_bound_growth=3.0)
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    margin = validation["margin"]
+    envelope = margin * 2.0 * (1.0 + 3.0 * (1.0 - np.clip(margin, 0, 1)))
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+    query = {**validation, "margin": np.zeros(len(margin), dtype="float32")}
+    assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
