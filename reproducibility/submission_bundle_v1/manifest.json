@@ -1,7 +1,7 @@
 {
   "bundle": "submission_bundle_v1",
-  "code_commit": "1cec0370b847826469ac0b2c5e0cb675fe6724ce",
-  "dirty_at_manifest_build": true,
+  "code_commit": "9cb7fbe250b7adccba5438663f943d97fda70913",
+  "dirty_at_manifest_build": false,
   "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 08:22:19) [Clang 14.0.6 ]",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
   "packages": {
@@ -36,8 +36,8 @@
       "bytes": 24201
     },
     "results/top_journal_evidence_audit_v1/results.json": {
-      "sha256": "5ef6b0aff0a602c28f6a4a457205315697bf0d4cedc439a744e1b52c79005cf8",
-      "bytes": 2463
+      "sha256": "a822056990f2dea458e51533d63be1bb6950a4a142e003f0be30bf3c160c7105",
+      "bytes": 2544
     },
     "results/final_pp_compute_profile_v1/results.json": {
       "sha256": "1430b8985080314668b59e84e95e96001f3be8d11d38317dca1b2e01e3cdd17d",
