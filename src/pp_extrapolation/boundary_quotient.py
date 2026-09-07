@@ -36,7 +36,9 @@ class BoundaryQuotientPPNet(nn.Module):
     """Exact-zero boundary gate with a frozen affine quotient tail."""
 
     def __init__(self, input_dim: int, width: int = 64, residual_bound: float | None = 2.0,
-                 late_bound_growth: float = 0.0):
+                 late_bound_growth: float = 0.0, extra_residual_bound: float = 0.0,
+                 late_bound_power: float = 1.0, support_gate_feature: int | None = None,
+                 support_gate_threshold: float = 1.0, support_gate_temperature: float = 0.5):
         super().__init__()
         if residual_bound is not None and (not np.isfinite(residual_bound) or residual_bound <= 0):
             raise ValueError("residual_bound must be positive finite or None")
@@ -44,6 +46,21 @@ class BoundaryQuotientPPNet(nn.Module):
         if not np.isfinite(late_bound_growth) or late_bound_growth < 0:
             raise ValueError("late_bound_growth must be finite and nonnegative")
         self.late_bound_growth = float(late_bound_growth)
+        if not np.isfinite(late_bound_power) or late_bound_power <= 0:
+            raise ValueError("late_bound_power must be positive and finite")
+        self.late_bound_power = float(late_bound_power)
+        if support_gate_feature is not None and not 0 <= int(support_gate_feature) < input_dim:
+            raise ValueError("support_gate_feature must be a valid feature index or None")
+        if not np.isfinite(support_gate_temperature) or support_gate_temperature <= 0:
+            raise ValueError("support_gate_temperature must be positive and finite")
+        self.support_gate_feature = None if support_gate_feature is None else int(support_gate_feature)
+        self.support_gate_threshold = float(support_gate_threshold)
+        self.support_gate_temperature = float(support_gate_temperature)
+        if not np.isfinite(extra_residual_bound) or extra_residual_bound < 0:
+            raise ValueError("extra_residual_bound must be finite and nonnegative")
+        if residual_bound is None and extra_residual_bound > 0:
+            raise ValueError("adaptive extra residual requires a bounded base residual")
+        self.extra_residual_bound = float(extra_residual_bound)
         self.affine = nn.Linear(input_dim, 1)
         self.nonlinear = nn.Sequential(
             nn.Linear(input_dim, width), nn.SiLU(),
@@ -51,6 +68,12 @@ class BoundaryQuotientPPNet(nn.Module):
         )
         nn.init.zeros_(self.nonlinear[-1].weight)
         nn.init.zeros_(self.nonlinear[-1].bias)
+        if self.extra_residual_bound > 0:
+            # The history gate changes only the admissible magnitude of the same
+            # residual.  A linear gate avoids introducing a second unstable expert.
+            self.regime_gate = nn.Linear(input_dim, 1)
+            nn.init.zeros_(self.regime_gate.weight)
+            nn.init.constant_(self.regime_gate.bias, -2.0)
 
     def forward(self, value: torch.Tensor, margin: torch.Tensor) -> torch.Tensor:
         _, correction, quotient = self.components(value, margin)
@@ -67,10 +90,20 @@ class BoundaryQuotientPPNet(nn.Module):
             if self.late_bound_growth > 0:
                 if margin is None:
                     raise ValueError("margin required for late-bound growth")
-                bound = bound * (1.0 + self.late_bound_growth * (1.0 - margin.clamp(0.0, 1.0)))
+                late_position = (1.0 - margin.clamp(0.0, 1.0)).pow(self.late_bound_power)
+                if self.support_gate_feature is not None:
+                    support_score = value[:, self.support_gate_feature]
+                    support_gate = torch.sigmoid(
+                        (support_score - self.support_gate_threshold) / self.support_gate_temperature
+                    )
+                    late_position = late_position * support_gate
+                bound = bound * (1.0 + self.late_bound_growth * late_position)
                 if torch.is_tensor(bound) and bound.ndim == 1:
                     bound = bound[:, None]
             correction = bound * torch.tanh(raw)
+            if self.extra_residual_bound > 0:
+                gate = torch.sigmoid(self.regime_gate(value))
+                correction = correction + self.extra_residual_bound * gate * torch.tanh(raw)
         quotient = torch.nn.functional.softplus(affine_score + correction)
         return affine_score, correction, quotient
 
@@ -114,6 +147,13 @@ def fit_boundary_quotient_pp(
     batch_size: int = 512, residual_bound: float | None = 2.0, restore_best: bool = True,
     trainable_affine: bool = False,
     late_bound_growth: float = 0.0,
+    extra_residual_bound: float = 0.0,
+    regime_gate_penalty: float = 0.0,
+    rate_feature_dropout: float = 0.0,
+    late_bound_power: float = 1.0,
+    support_gate_feature: int | None = None,
+    support_gate_threshold: float = 1.0,
+    support_gate_temperature: float = 0.5,
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -121,13 +161,21 @@ def fit_boundary_quotient_pp(
     scale[scale < 1e-6] = 1.0
     coefficient, bias = _affine_initialization(train, center, scale, float(alpha))
     torch.manual_seed(int(seed))
+    if not np.isfinite(regime_gate_penalty) or regime_gate_penalty < 0:
+        raise ValueError("regime_gate_penalty must be finite and nonnegative")
+    if not np.isfinite(rate_feature_dropout) or not 0 <= rate_feature_dropout < 1:
+        raise ValueError("rate_feature_dropout must be in [0, 1)")
     model = BoundaryQuotientPPNet(np.asarray(train["x"]).shape[1], int(width), residual_bound,
-                                  late_bound_growth)
+                                  late_bound_growth, extra_residual_bound, late_bound_power,
+                                  support_gate_feature, support_gate_threshold,
+                                  support_gate_temperature)
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
     model.affine.requires_grad_(bool(trainable_affine))
     parameters = list(model.nonlinear.parameters())
+    if model.extra_residual_bound > 0:
+        parameters += list(model.regime_gate.parameters())
     if trainable_affine:
         parameters += list(model.affine.parameters())
     optimizer = torch.optim.AdamW(parameters, lr=learning_rate, weight_decay=weight_decay)
@@ -152,8 +200,18 @@ def fit_boundary_quotient_pp(
         order = rng.permutation(len(x))
         for start in range(0, len(x), batch_size):
             index = torch.tensor(order[start:start + batch_size])
-            prediction = model(x[index], margin[index])
+            batch_x = x[index]
+            if rate_feature_dropout > 0 and batch_x.shape[1] >= 10:
+                # Indices 5:10 are the causal rate-history block.  Dropping the
+                # block together forces a valid margin-history fallback path.
+                keep = torch.rand((len(index), 1)) >= float(rate_feature_dropout)
+                batch_x = batch_x.clone()
+                batch_x[:, 5:10] *= keep.to(batch_x.dtype)
+            prediction = model(batch_x, margin[index])
             loss = torch.mean(weights[index] * (prediction - y[index]).square())
+            if model.extra_residual_bound > 0 and regime_gate_penalty > 0:
+                gate = torch.sigmoid(model.regime_gate(batch_x))
+                loss = loss + float(regime_gate_penalty) * torch.mean(gate.square())
             optimizer.zero_grad(); loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), 2.0); optimizer.step()
         current = validation_loss()
@@ -173,6 +231,13 @@ def fit_boundary_quotient_pp(
         "restore_best": bool(restore_best),
         "trainable_affine": bool(trainable_affine),
         "late_bound_growth": float(late_bound_growth),
+        "late_bound_power": float(late_bound_power),
+        "extra_residual_bound": float(extra_residual_bound),
+        "regime_gate_penalty": float(regime_gate_penalty),
+        "rate_feature_dropout": float(rate_feature_dropout),
+        "support_gate_feature": support_gate_feature,
+        "support_gate_threshold": float(support_gate_threshold),
+        "support_gate_temperature": float(support_gate_temperature),
     })
 
 

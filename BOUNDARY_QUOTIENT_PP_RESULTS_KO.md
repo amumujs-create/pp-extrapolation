@@ -34,15 +34,15 @@ EOL에서는 `m=0`이므로 RUL이 정확히 0이다. 나머지 health–RUL 관
 
 ## 결과
 
-| dataset | 기존 PP pooled R² | affine quotient only | BQ-PP single seed R² | BQ-PP 5-seed pooled R² | BQ-PP macro R² | 별도 PAE pooled R² |
-|---|---:|---:|---:|---:|---:|---:|
-| Sunwoda | 0.862 | 0.340 | 0.909±0.020 | **0.939** | **0.937** | 0.677 |
-| RWTH | 0.506 | 0.575 | 0.871±0.016 | **0.878** | **0.885** | 0.737 |
-| MICH | -1.522 | -3.036 | 0.468±0.0004 | **0.468** | 0.230 | **0.798** |
+| dataset | 기존 PP pooled R² | affine quotient only | BQ-PP single seed R² | BQ-PP 5-seed pooled R² | BQ-PP macro R² |
+|---|---:|---:|---:|---:|---:|
+| Sunwoda | 0.862 | 0.340 | 0.909±0.020 | **0.939** | **0.937** |
+| RWTH | 0.506 | 0.575 | 0.871±0.016 | **0.878** | **0.885** |
+| MICH | -1.522 | -3.036 | 0.468±0.0004 | **0.468** | 0.230 |
 
 세 dataset의 pooled R² 단순 평균은 기존 PP `-0.051`에서 BQ-PP `0.762`로
-증가했다. BQ-PP의 dataset-macro unit R²는 `0.684`로, 별도 PAE 배터리
-공유 모델의 `0.659`보다 높다. 다만 MICH 단일 dataset에서는 PAE가 더 높다.
+증가했다. BQ-PP의 dataset-macro unit R²는 `0.684`다. PAE는 별도 논문으로
+분리하므로 PP 주 결과와 모델 선택에서 제외한다.
 
 MICH 8 units 중 7개가 양의 R²를 얻었고, unit 31은 `-1.447`로 남았다.
 그러므로 pooled 성능 복구는 확인됐지만 모든 새 cohort의 관계 변화를 해결했다고
@@ -84,3 +84,6 @@ BQ-PP는 **관측 가능한 EOL health 경계가 있는 continuous-degradation d
 
 선행연구 중복과 matched affine ablation을 포함한 노벨티 판정은
 `BQ_PP_NOVELTY_AUDIT_KO.md`에 별도로 정리했다.
+
+세 dataset의 최저 성능까지 동시에 높이는 후속 통합 PP는
+`UNIFIED_SUPPORT_GATED_PP_RESULTS_KO.md`에 정리했다.

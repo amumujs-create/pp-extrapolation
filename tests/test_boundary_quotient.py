@@ -63,3 +63,44 @@ def test_margin_adaptive_envelope_still_contracts_to_zero():
     assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
     query = {**validation, "margin": np.zeros(len(margin), dtype="float32")}
     assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
+
+
+def test_regime_conditioned_extra_residual_has_global_envelope():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=5, max_epochs=4, patience=3,
+        residual_bound=1.5, extra_residual_bound=3.0, regime_gate_penalty=1e-3,
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    envelope = validation["margin"] * (1.5 + 3.0)
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+    assert fit.selection["extra_residual_bound"] == 3.0
+    query = {**validation, "margin": np.zeros(len(validation["margin"]), dtype="float32")}
+    assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
+
+
+def test_power_shaped_late_envelope_is_respected():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=6, max_epochs=4, patience=3,
+        residual_bound=2.0, late_bound_growth=3.0, late_bound_power=2.0,
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    margin = validation["margin"]
+    envelope = margin * 2.0 * (1.0 + 3.0 * (1.0 - np.clip(margin, 0, 1)) ** 2)
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+
+
+def test_support_gated_envelope_keeps_global_contraction_bound():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=7, max_epochs=4, patience=3,
+        residual_bound=2.0, late_bound_growth=3.0, support_gate_feature=1,
+        support_gate_threshold=0.5, support_gate_temperature=0.25,
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    envelope = validation["margin"] * 2.0 * (1.0 + 3.0)
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
