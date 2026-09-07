@@ -104,3 +104,51 @@ def test_support_gated_envelope_keeps_global_contraction_bound():
     affine = predict_boundary_affine(fit, validation)
     envelope = validation["margin"] * 2.0 * (1.0 + 3.0)
     assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+
+
+def test_ema_fit_returns_one_finite_boundary_consistent_model():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=8, max_epochs=5, patience=4,
+        residual_bound=2.0, ema_decay=0.99,
+    )
+    assert fit.selection["ema_decay"] == 0.99
+    assert np.isfinite(predict_boundary_quotient(fit, validation)).all()
+    query = {**validation, "margin": np.zeros(len(validation["margin"]), dtype="float32")}
+    assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
+
+
+def test_swa_refit_returns_one_finite_model():
+    train = rows(60)
+    fit = fit_boundary_quotient_pp(
+        train, train, seed=9, max_epochs=6, patience=20, restore_best=False,
+        residual_bound=2.0, swa_start_fraction=0.5,
+    )
+    assert fit.selection["swa_checkpoints"] == 4
+    assert np.isfinite(predict_boundary_quotient(fit, train)).all()
+
+
+def test_dual_scale_saturation_has_finite_global_envelope():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=10, max_epochs=5, patience=4,
+        residual_bound=2.0, broad_residual_bound=10.0,
+        local_saturation_weight=0.3,
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    envelope = validation["margin"] * (0.3 * 2.0 + 0.7 * 10.0)
+    assert np.all(np.abs(prediction - affine) <= envelope + 1e-6)
+
+
+def test_support_adaptive_dual_scale_is_bounded_by_broad_envelope():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=11, max_epochs=5, patience=4,
+        residual_bound=2.0, broad_residual_bound=8.0,
+        local_saturation_weight=0.2, support_gate_feature=1,
+        support_adaptive_saturation=True,
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    assert np.all(np.abs(prediction - affine) <= validation["margin"] * 8.0 + 1e-6)

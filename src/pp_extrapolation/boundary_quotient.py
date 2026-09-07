@@ -38,7 +38,10 @@ class BoundaryQuotientPPNet(nn.Module):
     def __init__(self, input_dim: int, width: int = 64, residual_bound: float | None = 2.0,
                  late_bound_growth: float = 0.0, extra_residual_bound: float = 0.0,
                  late_bound_power: float = 1.0, support_gate_feature: int | None = None,
-                 support_gate_threshold: float = 1.0, support_gate_temperature: float = 0.5):
+                 support_gate_threshold: float = 1.0, support_gate_temperature: float = 0.5,
+                 broad_residual_bound: float | None = None,
+                 local_saturation_weight: float = 1.0,
+                 support_adaptive_saturation: bool = False):
         super().__init__()
         if residual_bound is not None and (not np.isfinite(residual_bound) or residual_bound <= 0):
             raise ValueError("residual_bound must be positive finite or None")
@@ -56,6 +59,22 @@ class BoundaryQuotientPPNet(nn.Module):
         self.support_gate_feature = None if support_gate_feature is None else int(support_gate_feature)
         self.support_gate_threshold = float(support_gate_threshold)
         self.support_gate_temperature = float(support_gate_temperature)
+        if broad_residual_bound is not None and (
+            residual_bound is None or not np.isfinite(broad_residual_bound)
+            or broad_residual_bound <= residual_bound
+        ):
+            raise ValueError("broad_residual_bound must exceed the finite residual_bound")
+        if not np.isfinite(local_saturation_weight) or not 0 <= local_saturation_weight <= 1:
+            raise ValueError("local_saturation_weight must be in [0, 1]")
+        self.broad_residual_bound = (
+            None if broad_residual_bound is None else float(broad_residual_bound)
+        )
+        self.local_saturation_weight = float(local_saturation_weight)
+        if support_adaptive_saturation and (
+            broad_residual_bound is None or support_gate_feature is None
+        ):
+            raise ValueError("adaptive saturation requires broad bound and support feature")
+        self.support_adaptive_saturation = bool(support_adaptive_saturation)
         if not np.isfinite(extra_residual_bound) or extra_residual_bound < 0:
             raise ValueError("extra_residual_bound must be finite and nonnegative")
         if residual_bound is None and extra_residual_bound > 0:
@@ -100,7 +119,20 @@ class BoundaryQuotientPPNet(nn.Module):
                 bound = bound * (1.0 + self.late_bound_growth * late_position)
                 if torch.is_tensor(bound) and bound.ndim == 1:
                     bound = bound[:, None]
-            correction = bound * torch.tanh(raw)
+            if self.broad_residual_bound is None:
+                correction = bound * torch.tanh(raw)
+            else:
+                local = bound * torch.tanh(raw)
+                broad_bound = self.broad_residual_bound
+                broad = broad_bound * torch.tanh(raw / broad_bound)
+                local_weight = self.local_saturation_weight
+                if self.support_adaptive_saturation:
+                    score = value[:, self.support_gate_feature:self.support_gate_feature + 1]
+                    gate = torch.sigmoid(
+                        (score - self.support_gate_threshold) / self.support_gate_temperature
+                    )
+                    local_weight = 1.0 - gate * (1.0 - self.local_saturation_weight)
+                correction = local_weight * local + (1.0 - local_weight) * broad
             if self.extra_residual_bound > 0:
                 gate = torch.sigmoid(self.regime_gate(value))
                 correction = correction + self.extra_residual_bound * gate * torch.tanh(raw)
@@ -154,6 +186,11 @@ def fit_boundary_quotient_pp(
     support_gate_feature: int | None = None,
     support_gate_threshold: float = 1.0,
     support_gate_temperature: float = 0.5,
+    ema_decay: float | None = None,
+    swa_start_fraction: float | None = None,
+    broad_residual_bound: float | None = None,
+    local_saturation_weight: float = 1.0,
+    support_adaptive_saturation: bool = False,
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -165,10 +202,19 @@ def fit_boundary_quotient_pp(
         raise ValueError("regime_gate_penalty must be finite and nonnegative")
     if not np.isfinite(rate_feature_dropout) or not 0 <= rate_feature_dropout < 1:
         raise ValueError("rate_feature_dropout must be in [0, 1)")
+    if ema_decay is not None and (not np.isfinite(ema_decay) or not 0 < ema_decay < 1):
+        raise ValueError("ema_decay must be in (0, 1) or None")
+    if swa_start_fraction is not None and (
+        not np.isfinite(swa_start_fraction) or not 0 <= swa_start_fraction < 1
+    ):
+        raise ValueError("swa_start_fraction must be in [0, 1) or None")
+    if ema_decay is not None and swa_start_fraction is not None:
+        raise ValueError("EMA and SWA cannot be enabled together")
     model = BoundaryQuotientPPNet(np.asarray(train["x"]).shape[1], int(width), residual_bound,
                                   late_bound_growth, extra_residual_bound, late_bound_power,
                                   support_gate_feature, support_gate_threshold,
-                                  support_gate_temperature)
+                                  support_gate_temperature, broad_residual_bound,
+                                  local_saturation_weight, support_adaptive_saturation)
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
@@ -179,6 +225,9 @@ def fit_boundary_quotient_pp(
     if trainable_affine:
         parameters += list(model.affine.parameters())
     optimizer = torch.optim.AdamW(parameters, lr=learning_rate, weight_decay=weight_decay)
+    ema_model = copy.deepcopy(model) if ema_decay is not None else None
+    if ema_model is not None:
+        ema_model.requires_grad_(False)
     x = torch.tensor((np.asarray(train["x"]) - center) / scale, dtype=torch.float32)
     margin = torch.tensor(train["margin"], dtype=torch.float32)
     y = torch.tensor(train["y"], dtype=torch.float32)
@@ -190,11 +239,18 @@ def fit_boundary_quotient_pp(
     rng = np.random.default_rng(seed)
 
     def validation_loss():
-        model.eval()
-        with torch.no_grad(): prediction = model(vx, vm).numpy()
+        evaluation_model = ema_model if ema_model is not None else model
+        evaluation_model.eval()
+        with torch.no_grad(): prediction = evaluation_model(vx, vm).numpy()
         return float(np.mean([np.mean((prediction[vd == d] - vy[vd == d]) ** 2) for d in np.unique(vd)]))
 
-    best, best_epoch, state = validation_loss(), 0, copy.deepcopy(model.state_dict())
+    best, best_epoch = validation_loss(), 0
+    state = copy.deepcopy((ema_model if ema_model is not None else model).state_dict())
+    ema_steps = 0
+    swa_state, swa_count = None, 0
+    swa_start_epoch = None if swa_start_fraction is None else max(
+        1, int(np.ceil(float(max_epochs) * float(swa_start_fraction)))
+    )
     for epoch in range(1, int(max_epochs) + 1):
         model.train()
         order = rng.permutation(len(x))
@@ -214,15 +270,36 @@ def fit_boundary_quotient_pp(
                 loss = loss + float(regime_gate_penalty) * torch.mean(gate.square())
             optimizer.zero_grad(); loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), 2.0); optimizer.step()
+            if ema_model is not None:
+                ema_steps += 1
+                # Warm-up prevents the initial zero residual from dominating a
+                # high-decay average during short validation-selected fits.
+                decay = min(float(ema_decay), (1.0 + ema_steps) / (10.0 + ema_steps))
+                with torch.no_grad():
+                    for averaged, current in zip(ema_model.parameters(), model.parameters()):
+                        averaged.mul_(decay).add_(current, alpha=1.0 - decay)
         current = validation_loss()
+        if swa_start_epoch is not None and epoch >= swa_start_epoch:
+            current_state = model.state_dict()
+            if swa_state is None:
+                swa_state = {key: value.detach().clone() for key, value in current_state.items()}
+            else:
+                for key, value in current_state.items():
+                    swa_state[key].add_((value.detach() - swa_state[key]) / float(swa_count + 1))
+            swa_count += 1
         if current < best - 1e-8:
-            best, best_epoch, state = current, epoch, copy.deepcopy(model.state_dict())
+            evaluation_model = ema_model if ema_model is not None else model
+            best, best_epoch, state = current, epoch, copy.deepcopy(evaluation_model.state_dict())
         if epoch - best_epoch > patience:
             break
     if restore_best:
         model.load_state_dict(state)
     else:
         best_epoch = int(max_epochs)
+        if ema_model is not None:
+            model.load_state_dict(ema_model.state_dict())
+        elif swa_state is not None:
+            model.load_state_dict(swa_state)
     return BoundaryQuotientFit(model, center.astype(np.float32), scale.astype(np.float32), {
         "seed": int(seed), "width": int(width), "alpha": float(alpha),
         "learning_rate": float(learning_rate), "weight_decay": float(weight_decay),
@@ -238,6 +315,14 @@ def fit_boundary_quotient_pp(
         "support_gate_feature": support_gate_feature,
         "support_gate_threshold": float(support_gate_threshold),
         "support_gate_temperature": float(support_gate_temperature),
+        "ema_decay": None if ema_decay is None else float(ema_decay),
+        "swa_start_fraction": None if swa_start_fraction is None else float(swa_start_fraction),
+        "swa_checkpoints": int(swa_count),
+        "broad_residual_bound": (
+            None if broad_residual_bound is None else float(broad_residual_bound)
+        ),
+        "local_saturation_weight": float(local_saturation_weight),
+        "support_adaptive_saturation": bool(support_adaptive_saturation),
     })
 
 
