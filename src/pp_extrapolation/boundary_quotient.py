@@ -89,6 +89,7 @@ def fit_boundary_quotient_pp(
     alpha: float = 10.0, learning_rate: float = 1e-3,
     weight_decay: float = 1e-2, max_epochs: int = 500, patience: int = 70,
     batch_size: int = 512, residual_bound: float = 2.0, restore_best: bool = True,
+    trainable_affine: bool = False,
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -100,8 +101,11 @@ def fit_boundary_quotient_pp(
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
-    model.affine.requires_grad_(False)
-    optimizer = torch.optim.AdamW(model.nonlinear.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    model.affine.requires_grad_(bool(trainable_affine))
+    parameters = list(model.nonlinear.parameters())
+    if trainable_affine:
+        parameters += list(model.affine.parameters())
+    optimizer = torch.optim.AdamW(parameters, lr=learning_rate, weight_decay=weight_decay)
     x = torch.tensor((np.asarray(train["x"]) - center) / scale, dtype=torch.float32)
     margin = torch.tensor(train["margin"], dtype=torch.float32)
     y = torch.tensor(train["y"], dtype=torch.float32)
@@ -141,6 +145,7 @@ def fit_boundary_quotient_pp(
         "learning_rate": float(learning_rate), "weight_decay": float(weight_decay),
         "selected_epoch": int(best_epoch), "validation_dataset_macro_mse": float(best),
         "residual_bound": float(residual_bound), "restore_best": bool(restore_best),
+        "trainable_affine": bool(trainable_affine),
     })
 
 

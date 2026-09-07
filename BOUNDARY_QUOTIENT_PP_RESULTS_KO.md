@@ -81,3 +81,6 @@ BQ-PP는 **관측 가능한 EOL health 경계가 있는 continuous-degradation d
 `experiments/boundary_quotient_feature_ablation.py`, raw 결과는
 `results/boundary_quotient_pp_batteries_v1/results.json` 및
 `results/boundary_quotient_feature_ablation_v1/results.json`에 있다.
+
+선행연구 중복과 matched affine ablation을 포함한 노벨티 판정은
+`BQ_PP_NOVELTY_AUDIT_KO.md`에 별도로 정리했다.
