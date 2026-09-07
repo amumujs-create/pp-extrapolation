@@ -91,9 +91,13 @@ BQ-PP와 PAE 양쪽에서 exact-zero boundary architecture를 동시에 독립 �
   failure certificate가 핵심이다. BQ-PP는 boundary가 관측될 때만 켜는 선택 모듈로
   둔다.
 
-PAE를 먼저 게재한다면 PP는 PAE를 자기 인용하고, boundary multiplication이 아닌
-**frozen quotient residual이 strict extrapolation에서 주는 효과**만 추가 기여로 주장해야
-한다.
+### 게재 순서 확정: PP 먼저
+
+PP를 먼저 투고하므로 BQ-PP의 frozen quotient tail과 bounded residual은 PP가
+원 방법으로 소유한다. 후속 PAE는 PP를 인용하고 BQ-PP를 컴파일러가
+선택할 수 있는 executor로만 사용한다. PAE의 boundary-gated NN 결과는 PP의
+matched neural comparator로 먼저 보고하고, PAE 논문에서 같은 수치를 새 구조
+기여로 재사용하지 않는다.
 
 ## 투고 가능한 노벨티 문장
 
