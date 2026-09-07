@@ -20,7 +20,7 @@ gates={
  'failure_certificate':{'status':'PARTIAL','confusion':cert,'reason':'zero false accepts in six datasets, with one false reject; retrospective threshold'},
  'nasa_unit_consistency':{'status':'FAIL','evidence':'PP beats Engression on 2/4 batteries'},
  'ncmapss_independent_unit_count':{'status':'FAIL','evidence':'only two test engines have at least two evaluation points'},
- 'new_locked_final_model_cohort':{'status':'FAIL','reason':'no untouched cohort evaluated after freezing the current causal modular PP'},
+ 'new_locked_final_model_cohort':{'status':'FAIL','evidence':'Oxford outcome-held-out external evaluation completed after protocol commit 864c2b4, but PP pooled R2=-0.119 failed the predeclared positive-R2 criterion'},
  'compute_reporting':{'status':'PARTIAL','evidence':'PP parameter count, representative CPU fit and inference latency recorded; matched competitor profiling remains'} }
 out={'status':'top-journal evidence gate audit','gates':gates,'counts':{s:sum(v['status']==s for v in gates.values()) for s in ('PASS','PARTIAL','FAIL')}}
 d=R/'results/top_journal_evidence_audit_v1';d.mkdir(exist_ok=True);(d/'results.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out,indent=2))

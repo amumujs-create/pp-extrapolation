@@ -2,7 +2,7 @@
 
 ## 종합 판정
 
-총 11개 게이트 중 **통과 5, 부분통과 3, 실패 3**이다. 방법·성능·다중도메인 통계는 강해졌지만, 현재 최종 PP를 고정한 뒤 처음 보는 cohort에서 평가한 결과가 없으므로 최상위 수준의 확증 상태는 아니다.
+총 11개 게이트 중 **통과 5, 부분통과 3, 실패 3**이다. 방법·성능·다중도메인 통계는 강해졌지만, Oxford outcome-held-out cohort까지 실행했지만 사전 성공 기준을 통과하지 못했으므로 최상위 수준의 확증 상태는 아니다.
 
 | 게이트 | 판정 | 핵심 결과 |
 |---|---|---|
@@ -16,7 +16,7 @@
 | 계산비용 보고 | PARTIAL | PP profile 완료, 경쟁모델 동일 하드웨어 profile 미완료 |
 | NASA unit 일관성 | FAIL | Engression 대비 2/4 battery 승리 |
 | N-CMAPSS 독립 unit 수 | FAIL | 평가점 2개 이상인 test engine이 2개뿐 |
-| 최종 모델 새 cohort | FAIL | 현 causal modular PP 고정 이후 untouched 검증 없음 |
+| 최종 모델 새 cohort | FAIL | Oxford outcome-held-out 실행 완료; PP가 경쟁모델보다 우수했지만 R² -0.119로 사전 성공 기준 실패 |
 
 ## 새 ablation
 
