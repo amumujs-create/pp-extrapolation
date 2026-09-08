@@ -12,10 +12,10 @@ import torch
 from torch import nn
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
-from rtdl_revisiting_models import FTTransformer
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT / "experiments"), str(ROOT / ".benchmark_deps")]
+from rtdl_revisiting_models import FTTransformer
 from plain_mlp_ablation import fit_plain, predict_plain
 from pp_extrapolation import (
     fit_boundary_quotient_pp, predict_boundary_affine,
