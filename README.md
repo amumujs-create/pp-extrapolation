@@ -212,3 +212,8 @@ routes HUST to plain NN and Virkler/NASA to PP, increasing the three-dataset
 macro score by 0.012 over always-PP. Because the unanimity rule was introduced
 after observing HUST final rankings, this is a repair hypothesis requiring a new
 locked cohort.
+
+The dataset-level untouched axial-fan confirmation and its negative result are
+reported in [`AXIAL_FAN_UNTOUCHED_RESULTS_KO.md`](AXIAL_FAN_UNTOUCHED_RESULTS_KO.md).
+The predictions for three official configurations were saved before their RUL
+files were parsed; PP obtained pooled R² -0.746 versus -0.455 for the matched MLP.
