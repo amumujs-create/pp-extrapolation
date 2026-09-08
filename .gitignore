@@ -12,3 +12,4 @@ examples/synthetic_rul.csv
 
 # Isolated benchmark dependency installation
 .benchmark_deps/
+
