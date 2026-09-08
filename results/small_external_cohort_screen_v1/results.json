@@ -1,0 +1,35 @@
+{
+  "status": "screen_complete",
+  "selection_was_based_on_score": false,
+  "candidates": {
+    "sjtu_fatigue_crack_workbook": {
+      "domain": "metal fatigue crack growth",
+      "download_bytes": 43064,
+      "sha256": "366be8711993ec0100c1830ca5f57d70ded3855bd12ced818ceec7f0f1c9b053",
+      "sheets": 4,
+      "unique_specimen_ids": ["E_0_175_1", "C_15_20_1"],
+      "status": "inconclusive",
+      "reason": "the four sheets are two analysis sections for each of only two named specimens; the frozen four-specimen split cannot be formed"
+    },
+    "nasa_phm2019_lap_joint": {
+      "domain": "aluminum lap-joint fatigue crack growth",
+      "download_bytes": 1887795,
+      "sha256": "354fc2bca3dc7f22a008044e825a521071ea46571b2a94cb5608615babf588e4",
+      "development_specimens": ["T1", "T2", "T3", "T4", "T5", "T6"],
+      "official_test_specimens": ["T7", "T8"],
+      "development_boundary_mm": 3.64,
+      "strict_preboundary_observations": {"T7": 5, "T8": 5},
+      "observations_including_first_crossing": {"T7": 6, "T8": 6},
+      "minimum_required": 10,
+      "status": "inconclusive",
+      "reason": "both official test specimens fail the preregistered minimum optical-history length"
+    },
+    "cmapss_fd001_fd003": {
+      "domain": "turbofan degradation",
+      "local_data_bytes_approx": 43000000,
+      "status": "completed_as_pp_model_level_cohort",
+      "untouched_dataset": false,
+      "reason": "the datasets were used previously in the PAE project; the first PP representation was frozen before its PP scores, while the successful representation repair is posthoc"
+    }
+  }
+}

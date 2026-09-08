@@ -109,6 +109,15 @@ PYTHONPATH=src:experiments python experiments/additional_real_batteries.py
 
 The current applicability logic, paper novelty candidate, and claim limitations are
 summarized in `APPLICABILITY_NOVELTY_LIMITS_KO.md`.
+
+The C-MAPSS FD001/FD003 mechanism repair is reported in
+[`CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md`](CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md).
+Place the official `train_FD00x.txt`, `test_FD00x.txt`, and `RUL_FD00x.txt` files
+under `data/cmapss` (or set `CMAPSS_DATA_DIR`) and reproduce it with:
+
+```bash
+PYTHONPATH=src:experiments python experiments/cmapss_regime_normalized_pp.py
+```
 The first executable selective gate and its conservative zero-coverage result are
 reported in `SELECTIVE_GATE_RESULTS_KO.md`.
 The gate was then frozen and applied once to untouched XJTU-SY operating-condition

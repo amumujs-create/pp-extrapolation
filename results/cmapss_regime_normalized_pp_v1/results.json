@@ -1,0 +1,234 @@
+{
+  "status": "posthoc representation repair; not untouched confirmation",
+  "estimand": "unseen-engine official endpoint RUL with standard 125-cycle capped training target",
+  "model": "one PP network: frozen affine path plus learned tanh residual",
+  "representation": "train-only operating-condition normalization; 30-cycle causal last/mean/std/slope; first-20-cycle sensor delta; current operating condition and log cycle",
+  "test_used_for_epoch_or_hyperparameter_selection": false,
+  "subsets": {
+    "FD001": {
+      "n_train_units": 80,
+      "n_validation_units": 20,
+      "n_test_units": 100,
+      "target": "official endpoint RUL; training labels and predictions capped at 125, official test truth unchanged",
+      "runs": [
+        {
+          "seed": 42,
+          "pp_epoch": 387,
+          "mlp_epoch": 387,
+          "pp": {
+            "r2": 0.9134106033886709,
+            "rmse": 12.22818861035629,
+            "mae": 9.335122433900834
+          },
+          "plain_mlp": {
+            "r2": 0.8887430838324537,
+            "rmse": 13.860959069252175,
+            "mae": 10.797718364000321
+          }
+        },
+        {
+          "seed": 43,
+          "pp_epoch": 393,
+          "mlp_epoch": 381,
+          "pp": {
+            "r2": 0.9087315152655109,
+            "rmse": 12.554233219358851,
+            "mae": 9.456927146911621
+          },
+          "plain_mlp": {
+            "r2": 0.8897514940786131,
+            "rmse": 13.797999613025903,
+            "mae": 10.543870854377747
+          }
+        },
+        {
+          "seed": 44,
+          "pp_epoch": 398,
+          "mlp_epoch": 148,
+          "pp": {
+            "r2": 0.9127883846539009,
+            "rmse": 12.27204495216963,
+            "mae": 9.177732338905335
+          },
+          "plain_mlp": {
+            "r2": 0.8725513179191846,
+            "rmse": 14.835338036102337,
+            "mae": 11.747918464541435
+          }
+        },
+        {
+          "seed": 45,
+          "pp_epoch": 391,
+          "mlp_epoch": 399,
+          "pp": {
+            "r2": 0.9121126310631308,
+            "rmse": 12.31949778363809,
+            "mae": 9.221910090446473
+          },
+          "plain_mlp": {
+            "r2": 0.8895847018400294,
+            "rmse": 13.808432994637343,
+            "mae": 10.71888602256775
+          }
+        },
+        {
+          "seed": 46,
+          "pp_epoch": 398,
+          "mlp_epoch": 367,
+          "pp": {
+            "r2": 0.9052382012472113,
+            "rmse": 12.792234734693885,
+            "mae": 9.79843801021576
+          },
+          "plain_mlp": {
+            "r2": 0.8860486627514707,
+            "rmse": 14.02779740992266,
+            "mae": 10.980114290714264
+          }
+        }
+      ],
+      "ensemble": {
+        "pp": {
+          "r2": 0.911411125597577,
+          "rmse": 12.368566372209932,
+          "mae": 9.310273167848587
+        },
+        "plain_mlp": {
+          "r2": 0.887325665883637,
+          "rmse": 13.948974237763506,
+          "mae": 10.84755563378334
+        }
+      },
+      "seed_mean_r2": {
+        "pp": 0.9104562671236849,
+        "plain_mlp": 0.8853358520843504
+      },
+      "pp_beats_mlp": true,
+      "paired_inference": {
+        "rmse_gain_mlp_minus_pp": 1.5804078655535747,
+        "paired_engine_bootstrap_95ci": [
+          0.4767657230105517,
+          2.7420429917923728
+        ],
+        "bootstrap_probability_positive": 0.9973,
+        "one_sided_paired_sign_flip_p": 0.004109958900410996,
+        "engine_absolute_error_win_fraction": 0.63,
+        "bootstrap_replicates": 20000,
+        "permutation_replicates": 100000
+      }
+    },
+    "FD003": {
+      "n_train_units": 80,
+      "n_validation_units": 20,
+      "n_test_units": 100,
+      "target": "official endpoint RUL; training labels and predictions capped at 125, official test truth unchanged",
+      "runs": [
+        {
+          "seed": 42,
+          "pp_epoch": 316,
+          "mlp_epoch": 366,
+          "pp": {
+            "r2": 0.9098020168348154,
+            "rmse": 12.432338777426422,
+            "mae": 9.415799825191497
+          },
+          "plain_mlp": {
+            "r2": 0.8947636467834256,
+            "rmse": 13.428803457667934,
+            "mae": 10.230922784805298
+          }
+        },
+        {
+          "seed": 43,
+          "pp_epoch": 385,
+          "mlp_epoch": 265,
+          "pp": {
+            "r2": 0.9052287263559644,
+            "rmse": 12.74361907251479,
+            "mae": 9.59869191467762
+          },
+          "plain_mlp": {
+            "r2": 0.8908086840549039,
+            "rmse": 13.678814895463656,
+            "mae": 10.171148045063019
+          }
+        },
+        {
+          "seed": 44,
+          "pp_epoch": 212,
+          "mlp_epoch": 399,
+          "pp": {
+            "r2": 0.907785953614589,
+            "rmse": 12.57051186596349,
+            "mae": 9.359996497631073
+          },
+          "plain_mlp": {
+            "r2": 0.8966323328174578,
+            "rmse": 13.309041528284562,
+            "mae": 9.919085959494113
+          }
+        },
+        {
+          "seed": 45,
+          "pp_epoch": 339,
+          "mlp_epoch": 339,
+          "pp": {
+            "r2": 0.9097270758681225,
+            "rmse": 12.437502407532124,
+            "mae": 9.34754412651062
+          },
+          "plain_mlp": {
+            "r2": 0.8917803600073868,
+            "rmse": 13.617816101130389,
+            "mae": 10.484194078445434
+          }
+        },
+        {
+          "seed": 46,
+          "pp_epoch": 339,
+          "mlp_epoch": 312,
+          "pp": {
+            "r2": 0.9057609503352201,
+            "rmse": 12.707785382663955,
+            "mae": 9.470204763412475
+          },
+          "plain_mlp": {
+            "r2": 0.88939200433989,
+            "rmse": 13.767265374938303,
+            "mae": 10.257528507709504
+          }
+        }
+      ],
+      "ensemble": {
+        "pp": {
+          "r2": 0.9087791339298448,
+          "rmse": 12.502634009189405,
+          "mae": 9.369031930565832
+        },
+        "plain_mlp": {
+          "r2": 0.8935082956759761,
+          "rmse": 13.508661256747725,
+          "mae": 10.149831278324127
+        }
+      },
+      "seed_mean_r2": {
+        "pp": 0.9076609446017423,
+        "plain_mlp": 0.8926754056006129
+      },
+      "pp_beats_mlp": true,
+      "paired_inference": {
+        "rmse_gain_mlp_minus_pp": 1.00602724755832,
+        "paired_engine_bootstrap_95ci": [
+          0.36128607585148925,
+          1.6404666013519276
+        ],
+        "bootstrap_probability_positive": 0.9988,
+        "one_sided_paired_sign_flip_p": 0.001809981900180998,
+        "engine_absolute_error_win_fraction": 0.57,
+        "bootstrap_replicates": 20000,
+        "permutation_replicates": 100000
+      }
+    }
+  },
+  "combined_success": true
+}
