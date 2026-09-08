@@ -1,0 +1,21 @@
+{
+  "unit": "E2",
+  "archive": "E2.7z",
+  "archive_sha256": "209a6d7692c893b3fc326765d9052cbdb70cbcca8244cd40eaceaa32215f4086",
+  "n_acquisitions": 1985,
+  "feature_names": [
+    "raw_abs_peak_g",
+    "rms_g",
+    "std_g",
+    "kurtosis",
+    "crest_factor",
+    "peak_to_peak_g",
+    "log_band_0_1khz",
+    "log_band_1_3khz",
+    "log_band_3_6khz",
+    "log_band_6_12p8khz"
+  ],
+  "raw_peak_min": 4.058170205373628,
+  "raw_peak_max": 21.83237780139357,
+  "first_20g_index": 1981
+}

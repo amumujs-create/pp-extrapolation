@@ -1,0 +1,21 @@
+{
+  "unit": "E3",
+  "archive": "E3.7z",
+  "archive_sha256": "ece1e90f952190cacea9cff364a6f761cb77422ce7dfb7b4f31a819d6c88b238",
+  "n_acquisitions": 2386,
+  "feature_names": [
+    "raw_abs_peak_g",
+    "rms_g",
+    "std_g",
+    "kurtosis",
+    "crest_factor",
+    "peak_to_peak_g",
+    "log_band_0_1khz",
+    "log_band_1_3khz",
+    "log_band_3_6khz",
+    "log_band_6_12p8khz"
+  ],
+  "raw_peak_min": 4.758275524739586,
+  "raw_peak_max": 23.204242491934224,
+  "first_20g_index": 2380
+}
