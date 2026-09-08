@@ -1,0 +1,12 @@
+{
+  "dataset": "University of Ferrara self-aligning double-row bearing run-to-failure",
+  "frozen_split": {"train": ["E1", "E2", "E3"], "validation": ["E4"], "test": ["E5", "E6"]},
+  "files": {
+    "E1": {"bytes": 4854917627, "sha256": "3bb171939ee5a137107404f2251cb13a58a361484fd844faf2831b9311e4daff", "url": "https://data.mendeley.com/public-files/datasets/htk59pp5wx/files/ed5a7f8b-897f-4813-b52c-749b1735774c/file_downloaded"},
+    "E2": {"bytes": 1968022214, "sha256": "209a6d7692c893b3fc326765d9052cbdb70cbcca8244cd40eaceaa32215f4086", "url": "https://data.mendeley.com/public-files/datasets/htk59pp5wx/files/28dc48f9-a72e-43be-a8f9-fabce38f6172/file_downloaded"},
+    "E3": {"bytes": 2365092818, "sha256": "ece1e90f952190cacea9cff364a6f761cb77422ce7dfb7b4f31a819d6c88b238", "url": "https://data.mendeley.com/public-files/datasets/htk59pp5wx/files/29c71e95-da8d-4032-9d35-97cdb033b656/file_downloaded"},
+    "E4": {"bytes": 659509503, "sha256": "cc8412052cca18b0e754105622797a54d1c919afbd5639348870aa263c33b30c", "url": "https://data.mendeley.com/public-files/datasets/zz8hpyx939/files/b7f03ae1-ebec-46d3-8eed-4bb5a3e2e2da/file_downloaded"},
+    "E5": {"bytes": 1695371997, "sha256": "8703dcb53e90ca221fbd945f8cff6e2c7c092c4e5045bd9fe6d9a9d41fed3ec7", "url": "https://data.mendeley.com/public-files/datasets/zz8hpyx939/files/c1f2f36c-7329-426a-b50f-faf9c8af183c/file_downloaded"},
+    "E6": {"bytes": 504308773, "sha256": "3673e9a5d6d015826ac192749eae106d53137d7225ccfb90344d75e706cd03eb", "url": "https://data.mendeley.com/public-files/datasets/zz8hpyx939/files/636fba29-01c6-480b-ab9f-6e0733f002b5/file_downloaded"}
+  }
+}
