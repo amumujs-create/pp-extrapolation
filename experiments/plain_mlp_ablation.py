@@ -111,14 +111,18 @@ def fit_plain(
     }
 
 
-def predict_plain(fit: dict, x: np.ndarray) -> np.ndarray:
+def predict_plain(
+    fit: dict, x: np.ndarray, *, clip_to_train_max: bool = True
+) -> np.ndarray:
     value = torch.as_tensor(
         transform_features(x, fit["center"], fit["scale"]), dtype=torch.float32
     )
     fit["model"].eval()
     with torch.no_grad():
         estimate = fit["model"](value).cpu().numpy() * fit["target_scale"]
-    return np.clip(estimate, 0.0, fit["target_scale"])
+    if clip_to_train_max:
+        return np.clip(estimate, 0.0, fit["target_scale"])
+    return np.maximum(estimate, 0.0)
 
 
 def summarize(rows: list[dict], key: str) -> dict:

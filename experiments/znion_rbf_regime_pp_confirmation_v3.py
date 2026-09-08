@@ -6,6 +6,7 @@ import znion_rbf_regime_pp_confirmation_v2 as frozen
 ROOT=Path(__file__).resolve().parents[1]
 frozen.TEST_DIR=ROOT/'data/znion_rbf_regime_confirmation_v3'
 frozen.OUT=ROOT/'results/znion_rbf_regime_confirmation_v3'
+frozen.PRIOR_DIRS=(*frozen.PRIOR_DIRS,'znion_rbf_regime_confirmation_v2')
 frozen.EXPECTED=(
  'ZN-coin_205-1_20231205230230_07_4',
  'ZN-coin_209-1_20231205230248_07_7',

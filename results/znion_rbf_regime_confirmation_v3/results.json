@@ -13,6 +13,7 @@
   ],
   "eligibility": {
     "exact_duplicates": {},
+    "candidate_internal_duplicates": {},
     "right_censored": [],
     "tail_shorter_than_50": [
       "ZN-coin_205-1_20231205230230_07_4",

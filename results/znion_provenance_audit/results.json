@@ -1,0 +1,22 @@
+{
+  "status": "retrospective provenance audit",
+  "n_files": 29,
+  "n_eligible_trajectories": 28,
+  "exact_file_duplicate_groups": [
+    [
+      "data/znion_bq_confirmatory/test/ZN-coin_438-3_20231227204754_04_5.xlsx",
+      "data/znion_regime_scale_confirmation_v1/ZN-coin_439-1_20231227204804_04_6.xlsx"
+    ]
+  ],
+  "normalized_eol_trajectory_duplicate_groups": [
+    [
+      "data/znion_bq_confirmatory/test/ZN-coin_438-3_20231227204754_04_5.xlsx",
+      "data/znion_regime_scale_confirmation_v1/ZN-coin_439-1_20231227204804_04_6.xlsx"
+    ]
+  ],
+  "read_failures": {
+    "data/znion_bq_confirmatory/validation/ZN-coin_420-1_20231205230010_01_1.xlsx": "no observed EOL or missing cycle-10 nominal"
+  },
+  "fingerprint": "SHA-256 of little-endian float64 [reset cycle, SOH rounded to 10 decimals] through first observed 80%-SOH crossing",
+  "limitation": "A matching fingerprint establishes processed trajectory duplication; a non-match does not establish independent experimental provenance."
+}
