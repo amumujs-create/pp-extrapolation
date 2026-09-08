@@ -89,6 +89,13 @@ Pooled 격차는 작지만, cell별 실패가 크므로 평균 수치만으로 �
 누적하는 동적 regime gate로 설계한다. 이 후속 모델은 별도 untouched cohort에서 다시
 검증해야 한다.
 
+후속 개발에서 공식 80%-EOL이라는 알려진 경계를 PP 구조에 직접 반영한
+boundary-quotient PP는 같은 5-cell 개발 재평가에서 pooled R² `0.781`을 얻어 generic
+PP `0.457`과 MLP `0.470`을 넘었다. 이는 gate threshold 수리가 아니라
+`RUL=(capacity-0.8)×learned positive quotient`라는 typed PP route의 효과다. 이미 본
+test에 대한 개발 결과이므로 prospective 성공으로 재분류하지 않으며 상세는
+`NAION_BOUNDARY_QUOTIENT_PP_RESULTS_KO.md`에 둔다.
+
 ## 재현 파일
 
 - 공식 EOL 프로토콜: `protocols/NAION_80EOL_PROSPECTIVE_GATE_PROTOCOL.md`
@@ -96,4 +103,3 @@ Pooled 격차는 작지만, cell별 실패가 크므로 평균 수치만으로 �
 - 사전 결정: `results/naion_80eol_prospective_gate/gate_decision_preoutcome.json`
 - 전체 결과: `results/naion_80eol_prospective_gate/results.json`
 - 초기 순차 audit 프로토콜과 결과는 `protocols/NAION_*` 및 `results/naion_*`에 보존한다.
-
