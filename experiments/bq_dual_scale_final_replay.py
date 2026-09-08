@@ -8,9 +8,10 @@ ROOT=Path(__file__).resolve().parents[1];ADAPTERS=ROOT.parent/'ca-css-ncmapss';s
 from pae_boundary_realdata import DATASETS,prepare_dataset
 from pae_shared_battery_nn import BatteryRepresentationScale,concatenate_rows
 from boundary_quotient_pp_batteries import build_rows,full_part,score_by_dataset
+from pp_extrapolation import battery_dual_scale_pp_config
 from pp_extrapolation.boundary_quotient import fit_boundary_quotient_pp,predict_boundary_affine,predict_boundary_quotient
 OUT=ROOT/'results/bq_dual_scale_final_replay_v1';SEEDS=(42,43,44,45,46)
-CFG=dict(width=64,alpha=1000.,learning_rate=1e-3,weight_decay=.01,residual_bound=2.,broad_residual_bound=6.,local_saturation_weight=.4,support_gate_feature=2,support_gate_threshold=.5,support_gate_temperature=.25,support_adaptive_saturation=True)
+CFG=battery_dual_scale_pp_config()
 def main():
  torch.set_num_threads(2);OUT.mkdir(parents=True,exist_ok=True);start=time.perf_counter();scales={};audits={};parts={k:[] for k in ('train','validation','full','source')}
  for i,n in enumerate(DATASETS):

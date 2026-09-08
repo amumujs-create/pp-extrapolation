@@ -1,5 +1,7 @@
 # 전체 데이터셋 비교
 
+> **발표·논문용 최종 모델 표:** `FINAL_PP_BENCHMARK_TABLE_KO.md`를 사용한다. 아래 표에는 초기 PP, 봉인 confirmatory PP, 중간 지원 gate 결과가 함께 남아 있어 최종 PP 성능표로 인용하면 안 된다.
+
 > 외삽/OOD 특화 경쟁군을 12개 설정 전부에 추가한 최신 표는 `ALL_DATASET_EXTRAPOLATION_COMPETITORS_KO.md`에 있다.
 
 ## 원래 latent PP와 FT-Transformer의 직접 비교
@@ -20,24 +22,40 @@ MATR에서 PP의 width·learning rate·weight decay를 추가로 9개 탐색한 
 
 아래 행은 데이터 분할과 PP 버전이 서로 다르다. 직접 PP–FT 비교표가 아니며, FT 빈칸은 미실행을 뜻한다. `평균`은 5개 seed의 R² 평균, `ensemble`은 seed 예측 평균의 R²다.
 
-| 데이터/설정 | 집계 | Ridge/affine | 일반 NN | 기본 PP | support·개선 PP | FT | 판정 |
+| 데이터/설정 | 집계 | Ridge/affine | 일반 NN | 기본 PP | support·개선 PP | FT / TabPFN† | 판정 |
 |---|---|---:|---:|---:|---:|---:|---|
 | HUST unseen-protocol tail | seed 평균 | 0.601 | 0.758±0.032 | 0.724±0.039 | **0.910±0.013** | 미실행 | 개선 PP 성공 |
 | Virkler unseen-specimen tail | seed 평균 | -0.823 | -0.604±0.472 | 0.857±0.019 | **0.886±0.025** | 미실행 | PP 성공 |
 | NASA battery health tail | seed 평균 | 0.424 | 0.233±0.094 | 0.495±0.004 | **0.513±0.002** | 미실행 | PP 성공 |
-| Sunwoda unseen-cell tail | seed 평균 | 0.844 | -1.035±1.478 | **0.862±0.009** | 0.857±0.007 | 미실행 | PP 성공 |
-| RWTH unseen-cell tail | seed 평균 | 0.419 | -0.113±1.663 | **0.506±0.020** | 0.506±0.020 | 미실행 | PP 성공 |
-| MICH unseen-cell tail | seed 평균 | -1.522 | **-1.116±1.053** | -1.522±0.000 | -1.522±0.000 | 미실행 | 모두 실패 |
-| MATR batch 2 | ensemble | -1.276 | **0.744** | 0.471 | 0.523 | 미실행 | 일반 NN 우세 |
+| Sunwoda unseen-cell tail | 5-seed 평균±SD / ensemble | 0.844 | -1.035±1.478 | 0.862±0.009 | **0.842±0.099 / 0.934 dual-scale PP** | -0.886±0.033† | 개선 PP 성공 |
+| RWTH unseen-cell tail | 5-seed 평균±SD / ensemble | 0.419 | -0.113±1.663 | 0.506±0.020 | **0.818±0.050 / 0.842 dual-scale PP** | -2.175±0.106† | 개선 PP 성공 |
+| MICH unseen-cell tail | 5-seed 평균±SD / ensemble | -1.522 | 0.339±0.359 / 0.684 direct NN | -1.522±0.000 | **0.703±0.077 / 0.751 dual-scale PP** | 미실행 | 개선 PP로 복구 |
+| MATR batch 2 | 5-seed 평균±SD / ensemble | -1.276 | 0.744 ensemble | 0.471 | **0.852±0.061 / 0.862‡** | TabPFN 0.616±0.041 / 0.618† | 최종 개발 PP 우세 |
 | XJTU untouched | ensemble | -1.477 | -1.565 | **-1.308** | -1.317 | 미실행 | 모두 실패 |
 | FEMTO prospective | seed 평균 | -1.378 | **-0.902** | -1.378 | — | 미실행 | 모두 실패 |
 | C-MAPSS FD002+FD004 strict OP-hull | seed 평균 | — | — | — | **0.747±0.011** | 미실행 | support PP 양의 R², 직접 대조 부족 |
 | N-CMAPSS hard (unseen engine × high TRA × late life) | seed 평균 | 0.485 cycle-isotonic | 0.767±0.006 sequence Transformer+iso | 0.931±0.012 raw PP / 0.886±0.004 PP+iso | **0.934±0.007 adaptive multiscale PP** | 미실행 | adaptive PP ensemble 0.937; TabPFN 단일 seed 0.934와 동률권 |
 | NASA milling material transfer | seed 평균 | — | -15.462±19.427 | **-4.826±0.000** | — | 미실행 | 모두 실패 |
 
+† TabPFN v3 CPU는 5 seeds(42–46), estimator 1개, train에서 label을 보지 않는 deterministic equal-unit subsampling(최대 1,000행)으로 실행했다. Sunwoda/RWTH와 MATR batch 2 모두 seed 평균±표준편차와 prediction ensemble을 분리해 보고한다. 모두 PP와 같은 고정 test 행이지만 train cap이 달라 보조 비교다. 상세 수치·예측은 `results/tabpfn_external_batteries_v1/`에 보관한다.
+
+‡ MATR batch 2의 0.471/0.523은 원본 봉인 confirmatory PP/support-PP 결과다. 0.862는 그 뒤 같은 고정 split에서 architecture·optimizer·state/rate transport를 validation으로 재선택한 최종 개발 PP다. 따라서 최종 모델 비교에는 0.862를 쓰되, 독립 confirmatory 증거로는 0.523을 대체하지 않는다.
+
+MATRb2의 완전한 동일 seed 비교는 다음과 같다. `평균±SD`는 개별 pooled R², `ensemble`은 다섯 예측 평균의 pooled R²다.
+
+| 모델 | seeds | 개별 pooled R² 평균±SD | prediction ensemble R² |
+|---|---|---:|---:|
+| **최종 PP** | 42–46 | **0.852±0.061** | **0.862** |
+| V-REx | 42–46 | 0.046±0.468 | 0.850 |
+| TabPFN v3 | 42–46 | 0.616±0.041 | 0.618 |
+| BatteryLife CPGRU | 42–46 | 0.386±0.334 | 0.537 |
+| BatteryLife CPTransformer | 42–46 | −0.081±1.044 | 0.380 |
+
+PP는 같은 seed의 네 경쟁모델 비교에서 모두 5승 0패였다. seed별 값과 paired 검정은 `MATR_BATCH2_FIVE_SEED_COMPARISON_KO.md`에 있다.
+
 ## 현재 결론
 
-FT는 MATR2019에서는 PP보다 높지만 HUST에서는 크게 낮고, Virkler에서는 seed에 따라 붕괴한다. 따라서 “FT가 외삽에서 항상 우세하다”는 결론은 성립하지 않는다. 반대로 PP도 MICH·XJTU·FEMTO·Milling과 MATR batch 2의 일반 NN 비교에서 한계를 보이므로 보편적 우월성을 주장할 수 없다.
+FT는 MATR2019의 초기 비교에서는 PP보다 높았지만 HUST에서는 크게 낮고, Virkler에서는 seed에 따라 붕괴한다. 이후 validation-only calibration을 포함한 최종 PP는 MATR2019에서도 0.466으로 개선됐다. 반대로 PP도 MICH·XJTU·FEMTO·Milling에서 실패하므로 보편적 우월성을 주장할 수 없다.
 
 MATR2019의 Transformer 패배를 해결하기 위해 temporal latent PP, GRU residual PP, attention-Jacobian PP를 추가 실험했으나 각각 0.203, -0.236, 0.259로 FT 0.331을 넘지 못했다. 최종 attention-tail PP는 validation에서 beta=0을 선택해 FT 0.331을 정확히 복원한다. 따라서 성능 하락은 막았지만 이 split에서 prior 고유 이득은 없다.
 

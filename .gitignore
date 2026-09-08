@@ -13,3 +13,5 @@ examples/synthetic_rul.csv
 # Isolated benchmark dependency installation
 .benchmark_deps/
 
+# Third-party benchmark repositories cloned for local comparison
+external/

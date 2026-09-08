@@ -1,5 +1,7 @@
 # PP 상위저널 증거 게이트 테스트
 
+> **상태 갱신:** 이 문서는 당시 8-domain 감사 기록이다. 이후 final modular PP 9개 양의 설정, 77개 물리 unit paired 분석, 다차원 hull 민감도, validation-route 감사가 추가됐다. 제출 판단과 최신 수치는 `JOURNAL_EVIDENCE_COMPLETE_KO.md` 및 `results/final_modular_pp_evidence_v1/results.json`을 우선한다.
+
 ## 종합 판정
 
 총 11개 게이트 중 **통과 5, 부분통과 3, 실패 3**이다. 방법·성능·다중도메인 통계는 강해졌지만, Oxford outcome-held-out cohort까지 실행했지만 사전 성공 기준을 통과하지 못했으므로 최상위 수준의 확증 상태는 아니다.

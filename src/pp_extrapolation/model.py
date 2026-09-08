@@ -16,7 +16,11 @@ from .priors import (CounterfactualRays, PriorPairs, TransportTriples,
 class PPNet(nn.Module):
     """One network containing an affine path and a tanh correction path."""
 
-    def __init__(self, input_dim: int, width: int = 32, *, residual_decay: float = 0.0):
+    def __init__(self, input_dim: int, width: int = 32, *, residual_decay: float = 0.0,
+                 learned_affine_gate: bool = False, residual_zero_init: bool = True,
+                 affine_gate_initial_trust: float = 0.9,
+                 direct_residual_mixture: bool = False,
+                 fixed_affine_trust: float | None = None):
         super().__init__()
         if residual_decay < 0 or not np.isfinite(residual_decay):
             raise ValueError("residual_decay must be finite and nonnegative")
@@ -24,6 +28,21 @@ class PPNet(nn.Module):
         self.register_buffer("support_min", torch.full((input_dim,), -torch.inf))
         self.register_buffer("support_max", torch.full((input_dim,), torch.inf))
         self.affine = nn.Linear(input_dim, 1)
+        if fixed_affine_trust is not None and not 0 <= fixed_affine_trust <= 1:
+            raise ValueError("fixed_affine_trust must be in [0, 1] or None")
+        self.fixed_affine_trust = fixed_affine_trust
+        self.affine_gate = nn.Linear(input_dim, 1) if learned_affine_gate else None
+        self.direct_residual_mixture = bool(direct_residual_mixture)
+        if self.direct_residual_mixture and self.affine_gate is None:
+            if self.fixed_affine_trust is None:
+                raise ValueError("direct_residual_mixture requires a learned or fixed affine gate")
+        if self.affine_gate is not None and self.fixed_affine_trust is not None:
+            raise ValueError("learned and fixed affine trust are mutually exclusive")
+        if self.affine_gate is not None:
+            if not 0 < affine_gate_initial_trust < 1:
+                raise ValueError("affine_gate_initial_trust must lie in (0, 1)")
+            nn.init.zeros_(self.affine_gate.weight)
+            nn.init.constant_(self.affine_gate.bias, float(np.log(affine_gate_initial_trust / (1-affine_gate_initial_trust))))
         self.nonlinear = nn.Sequential(
             nn.Linear(input_dim, width),
             nn.Tanh(),
@@ -31,17 +50,32 @@ class PPNet(nn.Module):
             nn.Tanh(),
             nn.Linear(width, 1),
         )
-        nn.init.zeros_(self.nonlinear[-1].weight)
-        nn.init.zeros_(self.nonlinear[-1].bias)
+        if residual_zero_init:
+            nn.init.zeros_(self.nonlinear[-1].weight)
+            nn.init.zeros_(self.nonlinear[-1].bias)
+
+    def components(self, value: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        affine = self.affine(value)
+        correction = self.nonlinear(value)
+        if self.affine_gate is not None:
+            trust = torch.sigmoid(self.affine_gate(value))
+            affine = trust * affine
+            if self.direct_residual_mixture:
+                correction = (1.0 - trust) * correction
+        elif self.fixed_affine_trust is not None:
+            affine = float(self.fixed_affine_trust) * affine
+            if self.direct_residual_mixture:
+                correction = (1.0 - float(self.fixed_affine_trust)) * correction
+        return affine, correction
 
     def forward(self, value: torch.Tensor) -> torch.Tensor:
-        correction = self.nonlinear(value)
+        affine, correction = self.components(value)
         if self.residual_decay > 0:
             below = torch.relu(self.support_min - value)
             above = torch.relu(value - self.support_max)
             distance = torch.linalg.vector_norm(below + above, dim=1, keepdim=True)
             correction = correction * torch.exp(-self.residual_decay * distance)
-        return (self.affine(value) + correction).squeeze(1)
+        return (affine + correction).squeeze(1)
 
 
 @dataclass(frozen=True)
@@ -181,6 +215,12 @@ def fit_pp(
     width: int = 32,
     learning_rate: float = 5e-4,
     weight_decay: float = 2.0,
+    learned_affine_gate: bool = False,
+    residual_zero_init: bool = True,
+    affine_gate_initial_trust: float = 0.9,
+    direct_residual_mixture: bool = False,
+    fixed_affine_trust: float | None = None,
+    residual_seed_replay: bool = False,
 ) -> PPFit:
     """Fit PP and select the checkpoint using validation MSE only."""
     train_x, train_y, groups = _arrays(train)
@@ -229,7 +269,20 @@ def fit_pp(
         transform_features(validation_x, center, scale), dtype=torch.float32
     )
 
-    model = PPNet(input_dim=x.shape[1], width=int(width), residual_decay=residual_decay)
+    model = PPNet(input_dim=x.shape[1], width=int(width), residual_decay=residual_decay,
+                  learned_affine_gate=learned_affine_gate,
+                  residual_zero_init=residual_zero_init,
+                  affine_gate_initial_trust=affine_gate_initial_trust,
+                  direct_residual_mixture=direct_residual_mixture,
+                  fixed_affine_trust=fixed_affine_trust)
+    if residual_seed_replay:
+        # Reproduce the standalone MLP initialization exactly even though PP's
+        # affine layer is constructed first.  This makes fixed trust=0 a true
+        # same-seed safety continuation rather than a different random draw.
+        torch.manual_seed(int(seed))
+        for layer in model.nonlinear:
+            if isinstance(layer, nn.Linear):
+                layer.reset_parameters()
     with torch.no_grad():
         model.support_min.copy_(x.amin(dim=0))
         model.support_max.copy_(x.amax(dim=0))
@@ -240,6 +293,8 @@ def fit_pp(
         raise ValueError("affine_anchor_weight must be finite and nonnegative")
     model.affine.requires_grad_(soft_anchor)
     parameters = list(model.nonlinear.parameters())
+    if model.affine_gate is not None:
+        parameters += list(model.affine_gate.parameters())
     if soft_anchor:
         parameters += list(model.affine.parameters())
     optimizer = torch.optim.AdamW(parameters, lr=float(learning_rate), weight_decay=float(weight_decay))
@@ -335,6 +390,12 @@ def fit_pp(
             "width": int(width),
             "learning_rate": float(learning_rate),
             "weight_decay": float(weight_decay),
+            "learned_affine_gate": bool(learned_affine_gate),
+            "residual_zero_init": bool(residual_zero_init),
+            "affine_gate_initial_trust": float(affine_gate_initial_trust),
+            "direct_residual_mixture": bool(direct_residual_mixture),
+            "fixed_affine_trust": None if fixed_affine_trust is None else float(fixed_affine_trust),
+            "residual_seed_replay": bool(residual_seed_replay),
             "affine_alpha": float(selection["selected_alpha"]),
             "selected_epoch": int(best_epoch),
             "epochs_executed": int(last_epoch),

@@ -40,7 +40,7 @@ PAE에서 boundary multiplication, BQ-PP network, PP calibration을 새로운 �
 
 - exact-zero gate의 최초성보다 frozen quotient과 bounded residual의 역할 분리
 - ordinary future prediction과 다른 unit-disjoint strict support extrapolation
-- MICH의 `-1.522 -> 0.468` 복구와 unit 31 실패를 동시 보고
+- MICH의 기존 PP `-1.522` 실패, bounded BQ-PP `0.468`, support-adaptive dual-scale PP `0.751`의 단계적 복구를 보고
 - 성공 평균뿐 아니라 validation eligibility, fallback, failure taxonomy
 
 ## PAE와 공유하지 않을 주 결과

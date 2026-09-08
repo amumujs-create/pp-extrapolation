@@ -38,8 +38,13 @@ def predict_components(fit: PPFit, x: np.ndarray) -> tuple[np.ndarray, np.ndarra
         transform_features(x, fit.center, fit.scale), dtype=torch.float32
     )
     with torch.no_grad():
-        affine = fit.model.affine(value).squeeze(1).cpu().numpy()
-        correction = fit.model.nonlinear(value).squeeze(1).cpu().numpy()
+        if hasattr(fit.model, "components"):
+            affine_t, correction_t = fit.model.components(value)
+            affine = affine_t.squeeze(1).cpu().numpy()
+            correction = correction_t.squeeze(1).cpu().numpy()
+        else:
+            affine = fit.model.affine(value).squeeze(1).cpu().numpy()
+            correction = fit.model.nonlinear(value).squeeze(1).cpu().numpy()
     return (
         affine.astype(np.float64) * fit.target_scale,
         correction.astype(np.float64) * fit.target_scale,
