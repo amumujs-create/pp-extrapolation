@@ -1,0 +1,203 @@
+{
+  "status": "prospective one-shot external confirmation; empty-tail handling repair after frozen gate decision",
+  "development_source": "group-3 mixed unit response; no group-4 outcome used",
+  "gate": {
+    "protocol": "protocols/NAION_UNIT_ROUTE_GATE_V4_PROTOCOL.md",
+    "split_ids": {
+      "train": [
+        "270040-4-1-48.csv",
+        "270040-4-2-47.csv",
+        "270040-4-3-46.csv",
+        "270040-4-4-45.csv"
+      ],
+      "validation": [
+        "270040-4-5-44.csv",
+        "270040-4-6-43.csv"
+      ],
+      "test": [
+        "270040-4-7-42.csv",
+        "270040-4-8-41.csv"
+      ]
+    },
+    "boundary_train_cycle_span": 142.0,
+    "known_max_life_validation": 248.0,
+    "validation_projected": {
+      "plain": {
+        "pooled": {
+          "r2": 0.6228733516636389,
+          "rmse": 17.116311059614855,
+          "mae": 14.756999063648676,
+          "n": 152
+        },
+        "unit_macro_r2": -0.2655064354729254,
+        "per_unit": {
+          "270040-4-5-44.csv": {
+            "r2": 0.7785633739565319,
+            "rmse": 13.71937069026666,
+            "mae": 11.121406275919167,
+            "n": 101
+          },
+          "270040-4-6-43.csv": {
+            "r2": -1.3095762449023827,
+            "rmse": 22.369805238211534,
+            "mae": 21.956898506014955,
+            "n": 51
+          }
+        }
+      },
+      "pp": {
+        "pooled": {
+          "r2": 0.52090662484766,
+          "rmse": 19.29197286999723,
+          "mae": 13.411133396625518,
+          "n": 152
+        },
+        "unit_macro_r2": -1.4898438157675993,
+        "per_unit": {
+          "270040-4-5-44.csv": {
+            "r2": 0.9793336271594139,
+            "rmse": 4.191230954564333,
+            "mae": 3.6471219912613977,
+            "n": 101
+          },
+          "270040-4-6-43.csv": {
+            "r2": -3.9590212586946123,
+            "rmse": 32.778874386569456,
+            "mae": 32.74770500332701,
+            "n": 51
+          }
+        }
+      },
+      "relative_mse_gain": -0.2703779413780234,
+      "normalized_seed_disagreement": 0.024851752243907066
+    },
+    "global_checks": {
+      "validation_mse_gain_at_least_2pct": false,
+      "seed_disagreement_at_most_0_25": true,
+      "enough_units": true
+    },
+    "unit_decisions": {
+      "270040-4-7-42.csv": {
+        "train_distance": 0.4936076759097087,
+        "validation_distance": 1.6289032820063916,
+        "approved": false
+      },
+      "270040-4-8-41.csv": {
+        "train_distance": 124.16065469151634,
+        "validation_distance": 124.53829605816797,
+        "approved": false
+      }
+    },
+    "coverage": 0.0,
+    "test_prefix_commitment_sha256": "6ed5822ded36f67866b509a1805df74bc3a94baa38da1f45d270ea4a5e599064"
+  },
+  "n": {
+    "train": 560,
+    "validation": 152,
+    "test": 95
+  },
+  "projected_all": {
+    "plain": {
+      "pooled": {
+        "r2": 0.958641362822911,
+        "rmse": 5.576889380037127,
+        "mae": 5.016552741402074,
+        "n": 95
+      },
+      "unit_macro_r2": 0.958641362822911,
+      "per_unit": {
+        "270040-4-7-42.csv": {
+          "r2": 0.958641362822911,
+          "rmse": 5.576889380037127,
+          "mae": 5.016552741402074,
+          "n": 95
+        }
+      }
+    },
+    "pp": {
+      "pooled": {
+        "r2": 0.8467239559056626,
+        "rmse": 10.736087982079027,
+        "mae": 10.722218756424754,
+        "n": 95
+      },
+      "unit_macro_r2": 0.8467239559056626,
+      "per_unit": {
+        "270040-4-7-42.csv": {
+          "r2": 0.8467239559056626,
+          "rmse": 10.736087982079027,
+          "mae": 10.722218756424754,
+          "n": 95
+        }
+      }
+    }
+  },
+  "per_unit_route": {
+    "270040-4-7-42.csv": {
+      "decision": "MLP",
+      "evaluable": true,
+      "actual_pp_success": false,
+      "correct": true,
+      "plain": {
+        "pooled": {
+          "r2": 0.958641362822911,
+          "rmse": 5.576889380037127,
+          "mae": 5.016552741402074,
+          "n": 95
+        },
+        "unit_macro_r2": 0.958641362822911,
+        "per_unit": {
+          "270040-4-7-42.csv": {
+            "r2": 0.958641362822911,
+            "rmse": 5.576889380037127,
+            "mae": 5.016552741402074,
+            "n": 95
+          }
+        }
+      },
+      "pp": {
+        "pooled": {
+          "r2": 0.8467239559056626,
+          "rmse": 10.736087982079027,
+          "mae": 10.722218756424754,
+          "n": 95
+        },
+        "unit_macro_r2": 0.8467239559056626,
+        "per_unit": {
+          "270040-4-7-42.csv": {
+            "r2": 0.8467239559056626,
+            "rmse": 10.736087982079027,
+            "mae": 10.722218756424754,
+            "n": 95
+          }
+        }
+      }
+    },
+    "270040-4-8-41.csv": {
+      "decision": "ABSTAIN",
+      "evaluable": false,
+      "reason": "no cycles beyond train-defined boundary"
+    }
+  },
+  "unit_route_accuracy": 1.0,
+  "selective_pp_metrics": null,
+  "deployment_route_metrics": {
+    "pooled": {
+      "r2": 0.958641362822911,
+      "rmse": 5.576889380037127,
+      "mae": 5.016552741402074,
+      "n": 95
+    },
+    "unit_macro_r2": 0.958641362822911,
+    "per_unit": {
+      "270040-4-7-42.csv": {
+        "r2": 0.958641362822911,
+        "rmse": 5.576889380037127,
+        "mae": 5.016552741402074,
+        "n": 95
+      }
+    }
+  },
+  "gate_success": false,
+  "correct_rejection_without_coverage": true
+}

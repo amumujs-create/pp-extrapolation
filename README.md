@@ -117,6 +117,12 @@ negative test R². See `XJTU_UNTOUCHED_PROTOCOL.md` and `XJTU_UNTOUCHED_RESULTS_
 The separately locked Oxford protocol stopped at its predeclared feasibility check
 because Cell6 supplied only one strict-tail window; see
 `OXFORD_UNTOUCHED_FEASIBILITY_KO.md`.
+The subsequent prospective Na-ion audit precommitted each gate before downloading
+the corresponding cohort. It found one correct rejection but also repeated false
+acceptance. After correcting recording-end labels to BatteryLife's official 80%-EOL
+definition, the untouched five-cell test achieved PP/MLP pooled R2 of 0.457/0.470
+and only 1/5 correct PP approvals. The static pre-gate is therefore still not a
+validated deployment selector; see `PROSPECTIVE_GATE_AUDIT_KO.md`.
 The sealed MATR batch2 confirmatory cohort produced stable positive PP runs and a
 7.23% pre-label gate coverage, while failing one predeclared selective-success
 criterion. See `MATR_BATCH2_CONFIRMATORY_PROTOCOL.md` and

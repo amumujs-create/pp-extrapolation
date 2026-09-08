@@ -1,0 +1,82 @@
+{
+  "protocol": "protocols/NAION_PREFIX_GATE_V2_PROTOCOL.md",
+  "split_ids": {
+    "train": [
+      "270040-2-1-12.csv",
+      "270040-2-2-12.csv",
+      "270040-2-3-12.csv",
+      "270040-2-4-12.csv"
+    ],
+    "validation": [
+      "270040-2-5-12.csv",
+      "270040-2-6-12.csv"
+    ],
+    "test": [
+      "270040-2-7-12.csv",
+      "270040-2-8-12.csv"
+    ]
+  },
+  "boundary_train_cycle_span": 74.0,
+  "validation": {
+    "plain": {
+      "pooled": {
+        "r2": 0.5159726685742573,
+        "rmse": 11.411928984244042,
+        "mae": 9.77531308199452,
+        "n": 113
+      },
+      "unit_macro_r2": 0.518430998089441,
+      "per_unit": {
+        "270040-2-5-12.csv": {
+          "r2": 0.5584066799254046,
+          "rmse": 10.35714136887139,
+          "mae": 8.76791321789777,
+          "n": 54
+        },
+        "270040-2-6-12.csv": {
+          "r2": 0.47845531625347737,
+          "rmse": 12.298290868510614,
+          "mae": 10.697340076252566,
+          "n": 59
+        }
+      }
+    },
+    "pp": {
+      "pooled": {
+        "r2": 0.9033768996037779,
+        "rmse": 5.098760375246543,
+        "mae": 4.246150318078235,
+        "n": 113
+      },
+      "unit_macro_r2": 0.8926350208790168,
+      "per_unit": {
+        "270040-2-5-12.csv": {
+          "r2": 0.8155721469336958,
+          "rmse": 6.693324981454014,
+          "mae": 6.238971833829527,
+          "n": 54
+        },
+        "270040-2-6-12.csv": {
+          "r2": 0.9696978948243379,
+          "rmse": 2.964390409669753,
+          "mae": 2.4222119816279006,
+          "n": 59
+        }
+      }
+    },
+    "relative_mse_gain": 0.8003767677506748,
+    "normalized_seed_disagreement": 0.0053205195284680784
+  },
+  "test_prefix_distance": {
+    "270040-2-7-12.csv": 0.8038501645998611,
+    "270040-2-8-12.csv": 0.5388993467953692
+  },
+  "checks": {
+    "validation_mse_gain_at_least_2pct": true,
+    "seed_disagreement_at_most_0_25": true,
+    "enough_units": true,
+    "all_prefix_distances_at_most_3": true
+  },
+  "approved": true,
+  "test_prefix_commitment_sha256": "3c831ee9ad3f4d7040910ffb8948964c17f7bdcab0caa07f62c94292c6c05afb"
+}

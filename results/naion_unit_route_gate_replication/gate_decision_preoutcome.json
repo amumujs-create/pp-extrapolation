@@ -1,0 +1,90 @@
+{
+  "protocol": "protocols/NAION_UNIT_ROUTE_GATE_V4_PROTOCOL.md",
+  "split_ids": {
+    "train": [
+      "270040-5-1-39.csv",
+      "270040-5-2-38.csv",
+      "270040-5-3-37.csv",
+      "270040-5-4-36.csv"
+    ],
+    "validation": [
+      "270040-5-5-35.csv",
+      "270040-5-6-34.csv"
+    ],
+    "test": [
+      "270040-5-7-33.csv",
+      "270040-5-8-32.csv"
+    ]
+  },
+  "boundary_train_cycle_span": 130.0,
+  "known_max_life_validation": 225.0,
+  "validation_projected": {
+    "plain": {
+      "pooled": {
+        "r2": 0.4559557797863679,
+        "rmse": 22.66411399768367,
+        "mae": 17.56186875232215,
+        "n": 206
+      },
+      "unit_macro_r2": 0.5438511641778675,
+      "per_unit": {
+        "270040-5-5-35.csv": {
+          "r2": 0.2039922620048774,
+          "rmse": 29.36000759997435,
+          "mae": 26.553042628472312,
+          "n": 114
+        },
+        "270040-5-6-34.csv": {
+          "r2": 0.8837100663508576,
+          "rmse": 9.056129178962594,
+          "mae": 6.420631557962168,
+          "n": 92
+        }
+      }
+    },
+    "pp": {
+      "pooled": {
+        "r2": 0.6968313121748504,
+        "rmse": 16.91857642681421,
+        "mae": 13.077734456478971,
+        "n": 206
+      },
+      "unit_macro_r2": 0.7582936873477408,
+      "per_unit": {
+        "270040-5-5-35.csv": {
+          "r2": 0.5287681529769359,
+          "rmse": 22.589927423641562,
+          "mae": 21.286717866596423,
+          "n": 114
+        },
+        "270040-5-6-34.csv": {
+          "r2": 0.9878192217185459,
+          "rmse": 2.9309544320912804,
+          "mae": 2.9057332743769106,
+          "n": 92
+        }
+      }
+    },
+    "relative_mse_gain": 0.44274991524383234,
+    "normalized_seed_disagreement": 0.0
+  },
+  "global_checks": {
+    "validation_mse_gain_at_least_2pct": true,
+    "seed_disagreement_at_most_0_25": true,
+    "enough_units": true
+  },
+  "unit_decisions": {
+    "270040-5-7-33.csv": {
+      "train_distance": 0.5927425106362604,
+      "validation_distance": 0.2863294455194693,
+      "approved": true
+    },
+    "270040-5-8-32.csv": {
+      "train_distance": 0.27263575628956593,
+      "validation_distance": 0.17555291372067514,
+      "approved": true
+    }
+  },
+  "coverage": 1.0,
+  "test_prefix_commitment_sha256": "c2c5a0036c8a5afdb6456e25d7ec6ea12cc0140c157a5d97d8b372de2563bf50"
+}
