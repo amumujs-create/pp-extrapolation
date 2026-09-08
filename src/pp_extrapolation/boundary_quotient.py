@@ -41,7 +41,8 @@ class BoundaryQuotientPPNet(nn.Module):
                  support_gate_threshold: float = 1.0, support_gate_temperature: float = 0.5,
                  broad_residual_bound: float | None = None,
                  local_saturation_weight: float = 1.0,
-                 support_adaptive_saturation: bool = False):
+                 support_adaptive_saturation: bool = False,
+                 correction_mode: str = "additive"):
         super().__init__()
         if residual_bound is not None and (not np.isfinite(residual_bound) or residual_bound <= 0):
             raise ValueError("residual_bound must be positive finite or None")
@@ -75,6 +76,9 @@ class BoundaryQuotientPPNet(nn.Module):
         ):
             raise ValueError("adaptive saturation requires broad bound and support feature")
         self.support_adaptive_saturation = bool(support_adaptive_saturation)
+        if correction_mode not in ("additive", "multiplicative"):
+            raise ValueError("correction_mode must be 'additive' or 'multiplicative'")
+        self.correction_mode = correction_mode
         if not np.isfinite(extra_residual_bound) or extra_residual_bound < 0:
             raise ValueError("extra_residual_bound must be finite and nonnegative")
         if residual_bound is None and extra_residual_bound > 0:
@@ -136,7 +140,10 @@ class BoundaryQuotientPPNet(nn.Module):
             if self.extra_residual_bound > 0:
                 gate = torch.sigmoid(self.regime_gate(value))
                 correction = correction + self.extra_residual_bound * gate * torch.tanh(raw)
-        quotient = torch.nn.functional.softplus(affine_score + correction)
+        if self.correction_mode == "additive":
+            quotient = torch.nn.functional.softplus(affine_score + correction)
+        else:
+            quotient = torch.nn.functional.softplus(affine_score) * torch.exp(correction)
         return affine_score, correction, quotient
 
 
@@ -191,6 +198,7 @@ def fit_boundary_quotient_pp(
     broad_residual_bound: float | None = None,
     local_saturation_weight: float = 1.0,
     support_adaptive_saturation: bool = False,
+    correction_mode: str = "additive",
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -214,7 +222,8 @@ def fit_boundary_quotient_pp(
                                   late_bound_growth, extra_residual_bound, late_bound_power,
                                   support_gate_feature, support_gate_threshold,
                                   support_gate_temperature, broad_residual_bound,
-                                  local_saturation_weight, support_adaptive_saturation)
+                                  local_saturation_weight, support_adaptive_saturation,
+                                  correction_mode)
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
@@ -323,6 +332,7 @@ def fit_boundary_quotient_pp(
         ),
         "local_saturation_weight": float(local_saturation_weight),
         "support_adaptive_saturation": bool(support_adaptive_saturation),
+        "correction_mode": correction_mode,
     })
 
 

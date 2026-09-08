@@ -152,3 +152,19 @@ def test_support_adaptive_dual_scale_is_bounded_by_broad_envelope():
     prediction = predict_boundary_quotient(fit, validation)
     affine = predict_boundary_affine(fit, validation)
     assert np.all(np.abs(prediction - affine) <= validation["margin"] * 8.0 + 1e-6)
+
+
+def test_multiplicative_residual_preserves_boundary_and_relative_bound():
+    train = rows(60); validation = rows(30)
+    fit = fit_boundary_quotient_pp(
+        train, validation, seed=12, max_epochs=5, patience=4,
+        residual_bound=1.5, correction_mode="multiplicative",
+    )
+    prediction = predict_boundary_quotient(fit, validation)
+    affine = predict_boundary_affine(fit, validation)
+    ratio = prediction / np.maximum(affine, 1e-12)
+    assert np.all(ratio >= np.exp(-1.5) - 1e-6)
+    assert np.all(ratio <= np.exp(1.5) + 1e-6)
+    query = {**validation, "margin": np.zeros(len(validation["margin"]), dtype="float32")}
+    assert np.count_nonzero(predict_boundary_quotient(fit, query)) == 0
+    assert fit.selection["correction_mode"] == "multiplicative"

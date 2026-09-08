@@ -1,0 +1,1760 @@
+{
+  "status": "nested unit-held-out development; not untouched confirmation",
+  "boundary": 152.0,
+  "seeds": [
+    42,
+    43
+  ],
+  "eligible_outer_units": [
+    "ZN-coin_202_20231213213655_03_3",
+    "ZN-coin_202_20231213213655_03_4",
+    "ZN-coin_202_20231213213655_03_5",
+    "ZN-coin_205-2_20231205230234_07_5",
+    "ZN-coin_442-2_20240104212424_09_2"
+  ],
+  "protocol": "outer and inner-validation units excluded from training; scale fit on inner train; bounds selected on inner validation pooled R2",
+  "folds": [
+    {
+      "outer_unit": "ZN-coin_202_20231213213655_03_3",
+      "inner_validation_unit": "ZN-coin_202_20231213213655_03_4",
+      "output_scale": 1009.0,
+      "selection": {
+        "A2_normalized_additive": {
+          "selected_bound": 6.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": 0.4661741973840301,
+              "epoch": 111
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9905488267969512,
+              "epoch": 30
+            },
+            {
+              "bound": 6.0,
+              "pooled_r2": 0.9958391916666229,
+              "epoch": 21
+            }
+          ]
+        },
+        "A3_multiplicative": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": 0.5548365010309216,
+              "epoch": 59
+            },
+            {
+              "bound": 1.0,
+              "pooled_r2": 0.9301107990914252,
+              "epoch": 68
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9867790937961444,
+              "epoch": 64
+            }
+          ]
+        },
+        "A4_support_shrunk": {
+          "selected": {
+            "source": "A2_normalized_additive",
+            "mode": "additive",
+            "bound": 6.0,
+            "beta": 0.0,
+            "pooled_r2": 0.9958391916666229
+          },
+          "screen": [
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9958391916666229
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.1,
+              "pooled_r2": 0.9931552703848014
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.5,
+              "pooled_r2": 0.9700574084316348
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 1.0,
+              "pooled_r2": 0.9227189058545636
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 2.0,
+              "pooled_r2": 0.8031788247304481
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 5.0,
+              "pooled_r2": 0.47843156344345894
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9867790937961444
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.9820044007209272
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.9530191640002396
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.9022756923053975
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": 0.7826996257238674
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": 0.46878999730928306
+            }
+          ]
+        }
+      },
+      "arms": {
+        "A0_raw_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": -1.4741864437774024,
+              "rmse": 95.3542290550257,
+              "mae": 84.20356905489628,
+              "n": 210
+            },
+            "unit_macro_r2": -1.4741864437774024,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_3": {
+                "r2": -1.4741864437774024,
+                "rmse": 95.3542290550257,
+                "mae": 84.20356905489628,
+                "n": 210
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 59
+            },
+            {
+              "seed": 43,
+              "epoch": 59
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A1_normalized_affine": {
+          "metrics": {
+            "pooled": {
+              "r2": -1.6618140413560845,
+              "rmse": 98.90371471358813,
+              "mae": 86.73096115630244,
+              "n": 210
+            },
+            "unit_macro_r2": -1.6618140413560845,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_3": {
+                "r2": -1.6618140413560845,
+                "rmse": 98.90371471358813,
+                "mae": 86.73096115630244,
+                "n": 210
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 0
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A2_normalized_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.18480533844664482,
+              "rmse": 65.98530809970667,
+              "mae": 51.79795789321582,
+              "n": 210
+            },
+            "unit_macro_r2": -0.18480533844664482,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_3": {
+                "r2": -0.18480533844664482,
+                "rmse": 65.98530809970667,
+                "mae": 51.79795789321582,
+                "n": 210
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 21
+            },
+            {
+              "seed": 43,
+              "epoch": 26
+            }
+          ],
+          "bound": 6.0,
+          "mode": "additive"
+        },
+        "A3_multiplicative": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.11709157670971304,
+              "rmse": 56.96152104614012,
+              "mae": 45.27238666577631,
+              "n": 210
+            },
+            "unit_macro_r2": 0.11709157670971304,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_3": {
+                "r2": 0.11709157670971304,
+                "rmse": 56.96152104614012,
+                "mae": 45.27238666577631,
+                "n": 210
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 64
+            },
+            {
+              "seed": 43,
+              "epoch": 40
+            }
+          ],
+          "bound": 2.0,
+          "mode": "multiplicative"
+        },
+        "A4_support_shrunk": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.18480533844664482,
+              "rmse": 65.98530809970667,
+              "mae": 51.79795789321582,
+              "n": 210
+            },
+            "unit_macro_r2": -0.18480533844664482,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_3": {
+                "r2": -0.18480533844664482,
+                "rmse": 65.98530809970667,
+                "mae": 51.79795789321582,
+                "n": 210
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 21
+            },
+            {
+              "seed": 43,
+              "epoch": 26
+            }
+          ],
+          "source": "A2_normalized_additive",
+          "mode": "additive",
+          "bound": 6.0,
+          "beta": 0.0,
+          "pooled_r2": 0.9958391916666229,
+          "distance": {
+            "median": 1.0815616846084595,
+            "max": 2.1528730392456055
+          }
+        }
+      }
+    },
+    {
+      "outer_unit": "ZN-coin_202_20231213213655_03_4",
+      "inner_validation_unit": "ZN-coin_202_20231213213655_03_5",
+      "output_scale": 1009.0,
+      "selection": {
+        "A2_normalized_additive": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": -0.02474276270279341,
+              "epoch": 219
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9960338470409446,
+              "epoch": 49
+            },
+            {
+              "bound": 6.0,
+              "pooled_r2": 0.9506692315327836,
+              "epoch": 25
+            }
+          ]
+        },
+        "A3_multiplicative": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": 0.1975389577612786,
+              "epoch": 218
+            },
+            {
+              "bound": 1.0,
+              "pooled_r2": 0.8178617231459997,
+              "epoch": 80
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9883553621573384,
+              "epoch": 48
+            }
+          ]
+        },
+        "A4_support_shrunk": {
+          "selected": {
+            "source": "A2_normalized_additive",
+            "mode": "additive",
+            "bound": 2.0,
+            "beta": 0.0,
+            "pooled_r2": 0.9960338470409446
+          },
+          "screen": [
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9960338470409446
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.9864662371932243
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.9051959357280324
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.7604847626160351
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": 0.4713915394098682
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": -0.05237069957907581
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9883553621573384
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.990884450353771
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.9323231787282945
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.7877766626653734
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": 0.47982762211444685
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": -0.06728143741195391
+            }
+          ]
+        }
+      },
+      "arms": {
+        "A0_raw_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.5312739330168186,
+              "rmse": 14.030856999233375,
+              "mae": 13.001211471540827,
+              "n": 71
+            },
+            "unit_macro_r2": 0.5312739330168186,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_4": {
+                "r2": 0.5312739330168186,
+                "rmse": 14.030856999233375,
+                "mae": 13.001211471540827,
+                "n": 71
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 93
+            },
+            {
+              "seed": 43,
+              "epoch": 88
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A1_normalized_affine": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.007669301657866279,
+              "rmse": 20.415163318075518,
+              "mae": 18.511351505166754,
+              "n": 71
+            },
+            "unit_macro_r2": 0.007669301657866279,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_4": {
+                "r2": 0.007669301657866279,
+                "rmse": 20.415163318075518,
+                "mae": 18.511351505166754,
+                "n": 71
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 0
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A2_normalized_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.17696742276687583,
+              "rmse": 18.592301698227473,
+              "mae": 14.789610875544177,
+              "n": 71
+            },
+            "unit_macro_r2": 0.17696742276687583,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_4": {
+                "r2": 0.17696742276687583,
+                "rmse": 18.592301698227473,
+                "mae": 14.789610875544177,
+                "n": 71
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 49
+            },
+            {
+              "seed": 43,
+              "epoch": 54
+            }
+          ],
+          "bound": 2.0,
+          "mode": "additive"
+        },
+        "A3_multiplicative": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.41983701698273657,
+              "rmse": 15.609883179167314,
+              "mae": 12.681416050000953,
+              "n": 71
+            },
+            "unit_macro_r2": 0.41983701698273657,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_4": {
+                "r2": 0.41983701698273657,
+                "rmse": 15.609883179167314,
+                "mae": 12.681416050000953,
+                "n": 71
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 48
+            },
+            {
+              "seed": 43,
+              "epoch": 48
+            }
+          ],
+          "bound": 2.0,
+          "mode": "multiplicative"
+        },
+        "A4_support_shrunk": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.17696742276687583,
+              "rmse": 18.592301698227473,
+              "mae": 14.789610875544177,
+              "n": 71
+            },
+            "unit_macro_r2": 0.17696742276687583,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_4": {
+                "r2": 0.17696742276687583,
+                "rmse": 18.592301698227473,
+                "mae": 14.789610875544177,
+                "n": 71
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 49
+            },
+            {
+              "seed": 43,
+              "epoch": 54
+            }
+          ],
+          "source": "A2_normalized_additive",
+          "mode": "additive",
+          "bound": 2.0,
+          "beta": 0.0,
+          "pooled_r2": 0.9960338470409446,
+          "distance": {
+            "median": 0.36906376481056213,
+            "max": 0.7278760671615601
+          }
+        }
+      }
+    },
+    {
+      "outer_unit": "ZN-coin_202_20231213213655_03_5",
+      "inner_validation_unit": "ZN-coin_205-2_20231205230234_07_5",
+      "output_scale": 1009.0,
+      "selection": {
+        "A2_normalized_additive": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": 0.13287665588997255,
+              "epoch": 216
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9616761669826432,
+              "epoch": 52
+            },
+            {
+              "bound": 6.0,
+              "pooled_r2": 0.8175619468407035,
+              "epoch": 24
+            }
+          ]
+        },
+        "A3_multiplicative": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": 0.35561574948049224,
+              "epoch": 220
+            },
+            {
+              "bound": 1.0,
+              "pooled_r2": 0.8689315425158185,
+              "epoch": 73
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.9074137385237698,
+              "epoch": 35
+            }
+          ]
+        },
+        "A4_support_shrunk": {
+          "selected": {
+            "source": "A2_normalized_additive",
+            "mode": "additive",
+            "bound": 2.0,
+            "beta": 0.0,
+            "pooled_r2": 0.9616761669826432
+          },
+          "screen": [
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9616761669826432
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.9504592707466973
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.8175327700741017
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.5994511584261987
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": 0.24583550474113058
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": -0.2096132070868626
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.9074137385237698
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.90850587494944
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.7740898895420392
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.5272113378495631
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": 0.14419089606805602
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": -0.28719657305746815
+            }
+          ]
+        }
+      },
+      "arms": {
+        "A0_raw_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.3522221882701042,
+              "rmse": 44.980689736809765,
+              "mae": 40.297621929823464,
+              "n": 134
+            },
+            "unit_macro_r2": -0.3522221882701042,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_5": {
+                "r2": -0.3522221882701042,
+                "rmse": 44.980689736809765,
+                "mae": 40.297621929823464,
+                "n": 134
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 119
+            },
+            {
+              "seed": 43,
+              "epoch": 123
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A1_normalized_affine": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.7814162314132223,
+              "rmse": 51.62793852413666,
+              "mae": 45.81339020991175,
+              "n": 134
+            },
+            "unit_macro_r2": -0.7814162314132223,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_5": {
+                "r2": -0.7814162314132223,
+                "rmse": 51.62793852413666,
+                "mae": 45.81339020991175,
+                "n": 134
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 0
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A2_normalized_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.9933405955845913,
+              "rmse": 3.1566016309561737,
+              "mae": 2.9268800214779174,
+              "n": 134
+            },
+            "unit_macro_r2": 0.9933405955845913,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_5": {
+                "r2": 0.9933405955845913,
+                "rmse": 3.1566016309561737,
+                "mae": 2.9268800214779174,
+                "n": 134
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 52
+            },
+            {
+              "seed": 43,
+              "epoch": 51
+            }
+          ],
+          "bound": 2.0,
+          "mode": "additive"
+        },
+        "A3_multiplicative": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.8901305689577048,
+              "rmse": 12.821549680012717,
+              "mae": 9.82810929013979,
+              "n": 134
+            },
+            "unit_macro_r2": 0.8901305689577048,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_5": {
+                "r2": 0.8901305689577048,
+                "rmse": 12.821549680012717,
+                "mae": 9.82810929013979,
+                "n": 134
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 35
+            },
+            {
+              "seed": 43,
+              "epoch": 46
+            }
+          ],
+          "bound": 2.0,
+          "mode": "multiplicative"
+        },
+        "A4_support_shrunk": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.9933405955845913,
+              "rmse": 3.1566016309561737,
+              "mae": 2.9268800214779174,
+              "n": 134
+            },
+            "unit_macro_r2": 0.9933405955845913,
+            "per_unit": {
+              "ZN-coin_202_20231213213655_03_5": {
+                "r2": 0.9933405955845913,
+                "rmse": 3.1566016309561737,
+                "mae": 2.9268800214779174,
+                "n": 134
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 52
+            },
+            {
+              "seed": 43,
+              "epoch": 51
+            }
+          ],
+          "source": "A2_normalized_additive",
+          "mode": "additive",
+          "bound": 2.0,
+          "beta": 0.0,
+          "pooled_r2": 0.9616761669826432,
+          "distance": {
+            "median": 0.6919945478439331,
+            "max": 1.3737374544143677
+          }
+        }
+      }
+    },
+    {
+      "outer_unit": "ZN-coin_205-2_20231205230234_07_5",
+      "inner_validation_unit": "ZN-coin_442-2_20240104212424_09_2",
+      "output_scale": 362.0,
+      "selection": {
+        "A2_normalized_additive": {
+          "selected_bound": 0.5,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            },
+            {
+              "bound": 6.0,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            }
+          ]
+        },
+        "A3_multiplicative": {
+          "selected_bound": 0.5,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            },
+            {
+              "bound": 1.0,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": -0.28947726644564464,
+              "epoch": 0
+            }
+          ]
+        },
+        "A4_support_shrunk": {
+          "selected": {
+            "source": "A2_normalized_additive",
+            "mode": "additive",
+            "bound": 0.5,
+            "beta": 0.0,
+            "pooled_r2": -0.28947726644564464
+          },
+          "screen": [
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 0.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 0.1,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 0.5,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 1.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 2.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 0.5,
+              "beta": 5.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 0.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 0.1,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 0.5,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 1.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 2.0,
+              "pooled_r2": -0.28947726644564464
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 0.5,
+              "beta": 5.0,
+              "pooled_r2": -0.28947726644564464
+            }
+          ]
+        }
+      },
+      "arms": {
+        "A0_raw_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.19170242607462207,
+              "rmse": 56.577915012290596,
+              "mae": 50.25200518719647,
+              "n": 218
+            },
+            "unit_macro_r2": 0.19170242607462207,
+            "per_unit": {
+              "ZN-coin_205-2_20231205230234_07_5": {
+                "r2": 0.19170242607462207,
+                "rmse": 56.577915012290596,
+                "mae": 50.25200518719647,
+                "n": 218
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 70
+            },
+            {
+              "seed": 43,
+              "epoch": 86
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A1_normalized_affine": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.009370954535107723,
+              "rmse": 63.224689186247964,
+              "mae": 56.35128021892587,
+              "n": 218
+            },
+            "unit_macro_r2": -0.009370954535107723,
+            "per_unit": {
+              "ZN-coin_205-2_20231205230234_07_5": {
+                "r2": -0.009370954535107723,
+                "rmse": 63.224689186247964,
+                "mae": 56.35128021892587,
+                "n": 218
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 0
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A2_normalized_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.18130040199764685,
+              "rmse": 56.94080332229972,
+              "mae": 50.81950476185745,
+              "n": 218
+            },
+            "unit_macro_r2": 0.18130040199764685,
+            "per_unit": {
+              "ZN-coin_205-2_20231205230234_07_5": {
+                "r2": 0.18130040199764685,
+                "rmse": 56.94080332229972,
+                "mae": 50.81950476185745,
+                "n": 218
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 81
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A3_multiplicative": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.4387756957099881,
+              "rmse": 47.14433742311498,
+              "mae": 41.74926410598142,
+              "n": 218
+            },
+            "unit_macro_r2": 0.4387756957099881,
+            "per_unit": {
+              "ZN-coin_205-2_20231205230234_07_5": {
+                "r2": 0.4387756957099881,
+                "rmse": 47.14433742311498,
+                "mae": 41.74926410598142,
+                "n": 218
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 43
+            }
+          ],
+          "bound": 0.5,
+          "mode": "multiplicative"
+        },
+        "A4_support_shrunk": {
+          "metrics": {
+            "pooled": {
+              "r2": 0.18130040199764685,
+              "rmse": 56.94080332229972,
+              "mae": 50.81950476185745,
+              "n": 218
+            },
+            "unit_macro_r2": 0.18130040199764685,
+            "per_unit": {
+              "ZN-coin_205-2_20231205230234_07_5": {
+                "r2": 0.18130040199764685,
+                "rmse": 56.94080332229972,
+                "mae": 50.81950476185745,
+                "n": 218
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 81
+            }
+          ],
+          "source": "A2_normalized_additive",
+          "mode": "additive",
+          "bound": 0.5,
+          "beta": 0.0,
+          "pooled_r2": -0.28947726644564464,
+          "distance": {
+            "median": 1.1225686073303223,
+            "max": 2.2348861694335938
+          }
+        }
+      }
+    },
+    {
+      "outer_unit": "ZN-coin_442-2_20240104212424_09_2",
+      "inner_validation_unit": "ZN-coin_202_20231213213655_03_3",
+      "output_scale": 370.0,
+      "selection": {
+        "A2_normalized_additive": {
+          "selected_bound": 6.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": -0.8907291570364406,
+              "epoch": 219
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.09848896452164324,
+              "epoch": 110
+            },
+            {
+              "bound": 6.0,
+              "pooled_r2": 0.8169236412302296,
+              "epoch": 69
+            }
+          ]
+        },
+        "A3_multiplicative": {
+          "selected_bound": 2.0,
+          "screen": [
+            {
+              "bound": 0.5,
+              "pooled_r2": -0.4318528330849005,
+              "epoch": 220
+            },
+            {
+              "bound": 1.0,
+              "pooled_r2": 0.27737354852672313,
+              "epoch": 117
+            },
+            {
+              "bound": 2.0,
+              "pooled_r2": 0.7930641942258617,
+              "epoch": 93
+            }
+          ]
+        },
+        "A4_support_shrunk": {
+          "selected": {
+            "source": "A2_normalized_additive",
+            "mode": "additive",
+            "bound": 6.0,
+            "beta": 0.0,
+            "pooled_r2": 0.8169236412302296
+          },
+          "screen": [
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.0,
+              "pooled_r2": 0.8169236412302296
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.1,
+              "pooled_r2": 0.7834533296468009
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 0.5,
+              "pooled_r2": 0.562234337868174
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 1.0,
+              "pooled_r2": 0.2549372293926738
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 2.0,
+              "pooled_r2": -0.2082629935749547
+            },
+            {
+              "source": "A2_normalized_additive",
+              "mode": "additive",
+              "bound": 6.0,
+              "beta": 5.0,
+              "pooled_r2": -0.7855042708729618
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.0,
+              "pooled_r2": 0.7930641942258617
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.1,
+              "pooled_r2": 0.7680519975030029
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 0.5,
+              "pooled_r2": 0.558390919274071
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 1.0,
+              "pooled_r2": 0.2480410775830616
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 2.0,
+              "pooled_r2": -0.22408729613273137
+            },
+            {
+              "source": "A3_multiplicative",
+              "mode": "multiplicative",
+              "bound": 2.0,
+              "beta": 5.0,
+              "pooled_r2": -0.8037985530183862
+            }
+          ]
+        }
+      },
+      "arms": {
+        "A0_raw_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.5705444854513644,
+              "rmse": 310.03806973912947,
+              "mae": 238.79710680778413,
+              "n": 857
+            },
+            "unit_macro_r2": -0.5705444854513644,
+            "per_unit": {
+              "ZN-coin_442-2_20240104212424_09_2": {
+                "r2": -0.5705444854513644,
+                "rmse": 310.03806973912947,
+                "mae": 238.79710680778413,
+                "n": 857
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 35
+            },
+            {
+              "seed": 43,
+              "epoch": 138
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A1_normalized_affine": {
+          "metrics": {
+            "pooled": {
+              "r2": -0.6588666963500434,
+              "rmse": 318.6365912499819,
+              "mae": 249.91302240563883,
+              "n": 857
+            },
+            "unit_macro_r2": -0.6588666963500434,
+            "per_unit": {
+              "ZN-coin_442-2_20240104212424_09_2": {
+                "r2": -0.6588666963500434,
+                "rmse": 318.6365912499819,
+                "mae": 249.91302240563883,
+                "n": 857
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 0
+            },
+            {
+              "seed": 43,
+              "epoch": 0
+            }
+          ],
+          "bound": 0.5,
+          "mode": "additive"
+        },
+        "A2_normalized_additive": {
+          "metrics": {
+            "pooled": {
+              "r2": -1.1263476250120368,
+              "rmse": 360.7505787122686,
+              "mae": 308.04687709562086,
+              "n": 857
+            },
+            "unit_macro_r2": -1.1263476250120368,
+            "per_unit": {
+              "ZN-coin_442-2_20240104212424_09_2": {
+                "r2": -1.1263476250120368,
+                "rmse": 360.7505787122686,
+                "mae": 308.04687709562086,
+                "n": 857
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 69
+            },
+            {
+              "seed": 43,
+              "epoch": 68
+            }
+          ],
+          "bound": 6.0,
+          "mode": "additive"
+        },
+        "A3_multiplicative": {
+          "metrics": {
+            "pooled": {
+              "r2": -12.480535573806591,
+              "rmse": 908.3296203797709,
+              "mae": 766.1615971999793,
+              "n": 857
+            },
+            "unit_macro_r2": -12.480535573806591,
+            "per_unit": {
+              "ZN-coin_442-2_20240104212424_09_2": {
+                "r2": -12.480535573806591,
+                "rmse": 908.3296203797709,
+                "mae": 766.1615971999793,
+                "n": 857
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 93
+            },
+            {
+              "seed": 43,
+              "epoch": 78
+            }
+          ],
+          "bound": 2.0,
+          "mode": "multiplicative"
+        },
+        "A4_support_shrunk": {
+          "metrics": {
+            "pooled": {
+              "r2": -1.1263476250120368,
+              "rmse": 360.7505787122686,
+              "mae": 308.04687709562086,
+              "n": 857
+            },
+            "unit_macro_r2": -1.1263476250120368,
+            "per_unit": {
+              "ZN-coin_442-2_20240104212424_09_2": {
+                "r2": -1.1263476250120368,
+                "rmse": 360.7505787122686,
+                "mae": 308.04687709562086,
+                "n": 857
+              }
+            }
+          },
+          "runs": [
+            {
+              "seed": 42,
+              "epoch": 69
+            },
+            {
+              "seed": 43,
+              "epoch": 68
+            }
+          ],
+          "source": "A2_normalized_additive",
+          "mode": "additive",
+          "bound": 6.0,
+          "beta": 0.0,
+          "pooled_r2": 0.8169236412302296,
+          "distance": {
+            "median": 4.398008823394775,
+            "max": 8.7857666015625
+          }
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "A0_raw_additive": {
+      "pooled": {
+        "r2": 0.1146226176463584,
+        "rmse": 239.2245092327689,
+        "mae": 160.81192920784147,
+        "n": 1490
+      },
+      "unit_macro_r2": -0.33479535168148605,
+      "per_unit": {
+        "ZN-coin_202_20231213213655_03_3": {
+          "r2": -1.4741864437774024,
+          "rmse": 95.3542290550257,
+          "mae": 84.20356905489628,
+          "n": 210
+        },
+        "ZN-coin_202_20231213213655_03_4": {
+          "r2": 0.5312739330168186,
+          "rmse": 14.030856999233375,
+          "mae": 13.001211471540827,
+          "n": 71
+        },
+        "ZN-coin_202_20231213213655_03_5": {
+          "r2": -0.3522221882701042,
+          "rmse": 44.980689736809765,
+          "mae": 40.297621929823464,
+          "n": 134
+        },
+        "ZN-coin_205-2_20231205230234_07_5": {
+          "r2": 0.19170242607462207,
+          "rmse": 56.577915012290596,
+          "mae": 50.25200518719647,
+          "n": 218
+        },
+        "ZN-coin_442-2_20240104212424_09_2": {
+          "r2": -0.5705444854513644,
+          "rmse": 310.03806973912947,
+          "mae": 238.79710680778413,
+          "n": 857
+        }
+      }
+    },
+    "A1_normalized_affine": {
+      "pooled": {
+        "r2": 0.06215926954361928,
+        "rmse": 246.21018004237348,
+        "mae": 169.21264521958176,
+        "n": 1490
+      },
+      "unit_macro_r2": -0.6207597243993183,
+      "per_unit": {
+        "ZN-coin_202_20231213213655_03_3": {
+          "r2": -1.6618140413560845,
+          "rmse": 98.90371471358813,
+          "mae": 86.73096115630244,
+          "n": 210
+        },
+        "ZN-coin_202_20231213213655_03_4": {
+          "r2": 0.007669301657866279,
+          "rmse": 20.415163318075518,
+          "mae": 18.511351505166754,
+          "n": 71
+        },
+        "ZN-coin_202_20231213213655_03_5": {
+          "r2": -0.7814162314132223,
+          "rmse": 51.62793852413666,
+          "mae": 45.81339020991175,
+          "n": 134
+        },
+        "ZN-coin_205-2_20231205230234_07_5": {
+          "r2": -0.009370954535107723,
+          "rmse": 63.224689186247964,
+          "mae": 56.35128021892587,
+          "n": 218
+        },
+        "ZN-coin_442-2_20240104212424_09_2": {
+          "r2": -0.6588666963500434,
+          "rmse": 318.6365912499819,
+          "mae": 249.91302240563883,
+          "n": 857
+        }
+      }
+    },
+    "A2_normalized_additive": {
+      "pooled": {
+        "r2": -0.17514727315870537,
+        "rmse": 275.6053280607723,
+        "mae": 192.88232292728122,
+        "n": 1490
+      },
+      "unit_macro_r2": 0.008091091378086456,
+      "per_unit": {
+        "ZN-coin_202_20231213213655_03_3": {
+          "r2": -0.18480533844664482,
+          "rmse": 65.98530809970667,
+          "mae": 51.79795789321582,
+          "n": 210
+        },
+        "ZN-coin_202_20231213213655_03_4": {
+          "r2": 0.17696742276687583,
+          "rmse": 18.592301698227473,
+          "mae": 14.789610875544177,
+          "n": 71
+        },
+        "ZN-coin_202_20231213213655_03_5": {
+          "r2": 0.9933405955845913,
+          "rmse": 3.1566016309561737,
+          "mae": 2.9268800214779174,
+          "n": 134
+        },
+        "ZN-coin_205-2_20231205230234_07_5": {
+          "r2": 0.18130040199764685,
+          "rmse": 56.94080332229972,
+          "mae": 50.81950476185745,
+          "n": 218
+        },
+        "ZN-coin_442-2_20240104212424_09_2": {
+          "r2": -1.1263476250120368,
+          "rmse": 360.7505787122686,
+          "mae": 308.04687709562086,
+          "n": 857
+        }
+      }
+    },
+    "A3_multiplicative": {
+      "pooled": {
+        "r2": -6.354247042140716,
+        "rmse": 689.4623699162523,
+        "mae": 454.6485750065288,
+        "n": 1490
+      },
+      "unit_macro_r2": -2.12294014308929,
+      "per_unit": {
+        "ZN-coin_202_20231213213655_03_3": {
+          "r2": 0.11709157670971304,
+          "rmse": 56.96152104614012,
+          "mae": 45.27238666577631,
+          "n": 210
+        },
+        "ZN-coin_202_20231213213655_03_4": {
+          "r2": 0.41983701698273657,
+          "rmse": 15.609883179167314,
+          "mae": 12.681416050000953,
+          "n": 71
+        },
+        "ZN-coin_202_20231213213655_03_5": {
+          "r2": 0.8901305689577048,
+          "rmse": 12.821549680012717,
+          "mae": 9.82810929013979,
+          "n": 134
+        },
+        "ZN-coin_205-2_20231205230234_07_5": {
+          "r2": 0.4387756957099881,
+          "rmse": 47.14433742311498,
+          "mae": 41.74926410598142,
+          "n": 218
+        },
+        "ZN-coin_442-2_20240104212424_09_2": {
+          "r2": -12.480535573806591,
+          "rmse": 908.3296203797709,
+          "mae": 766.1615971999793,
+          "n": 857
+        }
+      }
+    },
+    "A4_support_shrunk": {
+      "pooled": {
+        "r2": -0.17514727315870537,
+        "rmse": 275.6053280607723,
+        "mae": 192.88232292728122,
+        "n": 1490
+      },
+      "unit_macro_r2": 0.008091091378086456,
+      "per_unit": {
+        "ZN-coin_202_20231213213655_03_3": {
+          "r2": -0.18480533844664482,
+          "rmse": 65.98530809970667,
+          "mae": 51.79795789321582,
+          "n": 210
+        },
+        "ZN-coin_202_20231213213655_03_4": {
+          "r2": 0.17696742276687583,
+          "rmse": 18.592301698227473,
+          "mae": 14.789610875544177,
+          "n": 71
+        },
+        "ZN-coin_202_20231213213655_03_5": {
+          "r2": 0.9933405955845913,
+          "rmse": 3.1566016309561737,
+          "mae": 2.9268800214779174,
+          "n": 134
+        },
+        "ZN-coin_205-2_20231205230234_07_5": {
+          "r2": 0.18130040199764685,
+          "rmse": 56.94080332229972,
+          "mae": 50.81950476185745,
+          "n": 218
+        },
+        "ZN-coin_442-2_20240104212424_09_2": {
+          "r2": -1.1263476250120368,
+          "rmse": 360.7505787122686,
+          "mae": 308.04687709562086,
+          "n": 857
+        }
+      }
+    }
+  },
+  "limitations": [
+    "fixed boundary and candidate families were motivated after earlier Zn-ion tests",
+    "small and imbalanced development cohort",
+    "A0 uses raw-cycle target while A1-A3 use train-only output normalization"
+  ]
+}

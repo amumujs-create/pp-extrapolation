@@ -1,0 +1,37 @@
+{
+  "status": "implementation-derived scale audit on development validation",
+  "target_unit": "cycle",
+  "output_target_normalized": false,
+  "feature_time_scale": 370.0,
+  "boundary_age": 152.0,
+  "health_margin": "SOH - 0.8",
+  "residual_bound_score_units": 0.5,
+  "proof": "softplus is 1-Lipschitz, hence abs(BQ-affine) <= margin*0.5",
+  "margin": {
+    "min": 0.0,
+    "median": 0.25041481852531433,
+    "p95": 0.3506159484386444,
+    "max": 0.3575601279735565
+  },
+  "theoretical_max_cycle_correction": {
+    "min": 0.0,
+    "median": 0.12520740926265717,
+    "p95": 0.1753079742193222,
+    "max": 0.17878006398677826
+  },
+  "affine_absolute_error_cycle": {
+    "min": 0.0,
+    "median": 80.77069091796875,
+    "p95": 542.6392456054687,
+    "max": 552.1595153808594
+  },
+  "actual_nn_correction_cycle": {
+    "min": 0.0,
+    "median": 0.118377685546875,
+    "p95": 0.17508544921875,
+    "max": 0.177734375
+  },
+  "fraction_needed_error_reachable_by_bound": 0.002280501710376283,
+  "selected_epoch": 39,
+  "limitation": "The bound diagnoses representational scale; it is not a performance comparison."
+}
