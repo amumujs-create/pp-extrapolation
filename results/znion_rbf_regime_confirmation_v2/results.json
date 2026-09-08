@@ -1,0 +1,71 @@
+{
+  "status": "one-shot untouched confirmation",
+  "frozen_model": "deterministic single-seed BQ plus RBF-attention lifetime prior",
+  "locked_candidates": [
+    "ZN-coin_204-2_20231205230217_07_2",
+    "ZN-coin_205-3_20231205230239_07_6",
+    "ZN-coin_415-1_20231209233508_06_8",
+    "ZN-coin_428-2_20231212185058_01_4",
+    "ZN-coin_430-2_20231212185305_02_7",
+    "ZN-coin_436-2_20231227204653_03_6"
+  ],
+  "eligibility": {
+    "exact_duplicates": {},
+    "right_censored": [],
+    "tail_shorter_than_50": [
+      "ZN-coin_204-2_20231205230217_07_2",
+      "ZN-coin_415-1_20231209233508_06_8",
+      "ZN-coin_428-2_20231212185058_01_4",
+      "ZN-coin_430-2_20231212185305_02_7",
+      "ZN-coin_436-2_20231227204653_03_6"
+    ],
+    "eligible": [
+      "ZN-coin_205-3_20231205230239_07_6"
+    ]
+  },
+  "n_units": 1,
+  "n_rows": 171,
+  "gates": {
+    "ZN-coin_205-3_20231205230239_07_6": {
+      "slope": -0.00015404633998249034,
+      "gate": 0.17646792017894186,
+      "life_hat": 326.6489352614815
+    }
+  },
+  "pp": {
+    "pooled": {
+      "r2": 0.9591885116823775,
+      "rmse": 9.972160909281738,
+      "mae": 7.122745421959403,
+      "n": 171
+    },
+    "unit_macro_r2": 0.9591885116823775,
+    "per_unit": {
+      "ZN-coin_205-3_20231205230239_07_6": {
+        "r2": 0.9591885116823775,
+        "rmse": 9.972160909281738,
+        "mae": 7.122745421959403,
+        "n": 171
+      }
+    }
+  },
+  "plain_mlp": {
+    "pooled": {
+      "r2": 0.056979675218631454,
+      "rmse": 47.935646354085335,
+      "mae": 38.69333635296738,
+      "n": 171
+    },
+    "unit_macro_r2": 0.056979675218631454,
+    "per_unit": {
+      "ZN-coin_205-3_20231205230239_07_6": {
+        "r2": 0.056979675218631454,
+        "rmse": 47.935646354085335,
+        "mae": 38.69333635296738,
+        "n": 171
+      }
+    }
+  },
+  "success": false,
+  "criteria": "at least 2 eligible unique cells; PP pooled R2 > 0 and > single-seed plain MLP"
+}
