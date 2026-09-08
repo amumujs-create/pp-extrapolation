@@ -1,0 +1,47 @@
+{
+  "status": "descriptive sequential unit-level audit; improved v3 model is post-confirmation development",
+  "n_unique_units": 4,
+  "pp_unit_wins": 4,
+  "mean_relative_rmse_reduction": 0.567244008529149,
+  "median_relative_rmse_reduction": 0.5720345281846099,
+  "unit_bootstrap_ci95": [
+    0.5033773921808566,
+    0.6279254111983559
+  ],
+  "exact_one_sided_sign_test_p": 0.0625,
+  "units": [
+    {
+      "cohort": "v2",
+      "unit": "ZN-coin_205-3_20231205230239_07_6",
+      "pp_rmse": 21.931335689557685,
+      "plain_rmse": 47.935646354085335,
+      "relative_rmse_reduction": 0.5424837807013616,
+      "pp_wins": true
+    },
+    {
+      "cohort": "v3",
+      "unit": "ZN-coin_209-1_20231205230248_07_7",
+      "pp_rmse": 9.24417305675898,
+      "plain_rmse": 26.73778377970657,
+      "relative_rmse_reduction": 0.6542655467288536,
+      "pp_wins": true
+    },
+    {
+      "cohort": "v3",
+      "unit": "ZN-coin_412-1_20231209232958_09_7",
+      "pp_rmse": 19.84281251099659,
+      "plain_rmse": 37.484634562873985,
+      "relative_rmse_reduction": 0.47064143101852285,
+      "pp_wins": true
+    },
+    {
+      "cohort": "v3",
+      "unit": "ZN-coin_446-1_20240104212538_07_2",
+      "pp_rmse": 105.3579680969163,
+      "plain_rmse": 264.44295770826915,
+      "relative_rmse_reduction": 0.6015852756678581,
+      "pp_wins": true
+    }
+  ],
+  "warning": "Four units are insufficient for a conventional significance claim; temporal rows are not treated as independent samples."
+}

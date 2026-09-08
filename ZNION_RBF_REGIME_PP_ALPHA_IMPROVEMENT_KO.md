@@ -42,3 +42,11 @@ v3 셀별 R²:
 강한 ridge는 boundary quotient의 데이터 적합 계수를 작게 만들어 외삽 시 affine prior에 더 가깝게 유지한다. 즉 성능 개선은 test 셀별 gate를 조정한 것이 아니라, validation이 지지한 **prior-dominant extrapolation shrinkage**에서 나왔다.
 
 다만 이 설정은 v3 결과를 확인한 뒤 만든 개선 버전이다. selection rule은 test-independent이지만 0.822를 새로운 untouched 확증 결과로 재분류하지 않는다. 차기 데이터셋에서 alpha-selection 규칙 전체를 동결해야 한다.
+
+## 원래 Na-ion 성공 보존
+
+같은 alpha 변경을 Na-ion 5-cell 개발 코호트에 재생했다. pooled R²는 `0.781 → 0.819`로 높아졌고 macro R²는 `0.790 → 0.782`로 유지됐다. 따라서 이 강한 shrinkage는 Zn-ion을 개선하면서 원래 성공을 무너뜨린 수정은 아니다.
+
+## 순차 unique unit 통계 감사
+
+v2와 v3의 unique eligible cell 4개를 독립 unit로 두고 PP와 plain MLP의 RMSE를 쌍대비교했다. PP는 **4/4 unit**에서 RMSE가 낮았다. 다만 n=4의 one-sided exact sign-test는 최소 p=0.0625이므로 5% 유의성을 주장할 수 없다. 시계열 행을 독립 표본으로 부풀리지 않았다.
