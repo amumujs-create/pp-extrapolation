@@ -118,9 +118,17 @@ from .boundary_quotient import (
     predict_boundary_affine,
     predict_boundary_quotient,
 )
+from .log_boundary_quotient import (
+    LogBoundaryQuotientFit,
+    fit_log_boundary_quotient_pp,
+    predict_log_boundary_affine,
+    predict_log_boundary_quotient,
+)
 
 __all__ += [
     "BoundaryQuotientFit", "BoundaryQuotientPPNet",
     "fit_boundary_quotient_pp", "predict_boundary_affine",
     "predict_boundary_quotient",
+    "LogBoundaryQuotientFit", "fit_log_boundary_quotient_pp",
+    "predict_log_boundary_affine", "predict_log_boundary_quotient",
 ]
