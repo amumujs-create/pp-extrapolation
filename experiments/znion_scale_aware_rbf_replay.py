@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/"src"),str(ROOT/"experiments")]
 import znion_bq_confirmatory as data
 from naion_prefix_gate_eval import prefix_descriptor
+from plain_mlp_ablation import fit_plain,predict_plain
 from pp_extrapolation import fit_boundary_quotient_pp,predict_boundary_quotient,regression_metrics
 
 OUT=ROOT/"results"/"znion_scale_aware_rbf_replay_v1";SEEDS=(42,43);FINAL_SEEDS=(42,43,44,45,46)
@@ -34,14 +35,18 @@ def main():
    fit=fit_boundary_quotient_pp(scaled(train,out_scale),scaled(val,out_scale),seed=seed,alpha=1000.,residual_bound=bound,correction_mode=mode,max_epochs=300,patience=50)
    base=predict_boundary_quotient(fit,scaled(test,out_scale))*out_scale;combined=(1-gates)*base+gates*latent;pred.append(combined);runs.append({"seed":seed,"epoch":fit.selection["selected_epoch"],"metrics":regression_metrics(test["y"],combined,test["groups"])})
   ensemble=np.mean(pred,axis=0);results[name]={"output_scale":out_scale,"mode":mode,"bound":bound,"runs":runs,"ensemble":regression_metrics(test["y"],ensemble,test["groups"])};print(name,results[name]["ensemble"]["pooled"]["r2"],flush=True)
- full=data.make_rows(dev,boundary,feature_scale,"prefix");pred=[];runs=[]
+ full=data.make_rows(dev,boundary,feature_scale,"prefix");pred=[];plain_pred=[];runs=[];plain_runs=[]
  for seed in FINAL_SEEDS:
   selector=fit_boundary_quotient_pp(train,val,seed=seed,alpha=1000.,residual_bound=.5,max_epochs=300,patience=50)
   epoch=max(selector.selection["selected_epoch"],1)
   fit=fit_boundary_quotient_pp(full,full,seed=seed,alpha=1000.,residual_bound=.5,max_epochs=epoch,patience=10000,restore_best=False)
   base=predict_boundary_quotient(fit,test);combined=(1-gates)*base+gates*latent;pred.append(combined);runs.append({"seed":seed,"selected_epoch":epoch,"metrics":regression_metrics(test["y"],combined,test["groups"])})
+  plain_selector=fit_plain(train,val,seed=seed,max_epochs=300,patience=50);plain_epoch=max(plain_selector["selected_epoch"],1)
+  plain=fit_plain(full,full,seed=seed,max_epochs=plain_epoch,patience=10000,restore_best=False)
+  plain_value=predict_plain(plain,test["x"],clip_to_train_max=False);plain_pred.append(plain_value);plain_runs.append({"seed":seed,"selected_epoch":plain_epoch,"metrics":regression_metrics(test["y"],plain_value,test["groups"])})
  ensemble=np.mean(pred,axis=0);results["raw_additive_full_dev_refit"]={"output_scale":1.,"mode":"additive","bound":.5,"seeds":FINAL_SEEDS,"runs":runs,"ensemble":regression_metrics(test["y"],ensemble,test["groups"])};print("raw_additive_full_dev_refit",results["raw_additive_full_dev_refit"]["ensemble"]["pooled"]["r2"],flush=True)
+ plain_ensemble=np.mean(plain_pred,axis=0);results["plain_mlp_full_dev_refit"]={"seeds":FINAL_SEEDS,"runs":plain_runs,"ensemble":regression_metrics(test["y"],plain_ensemble,test["groups"])};print("plain_mlp_full_dev_refit",results["plain_mlp_full_dev_refit"]["ensemble"]["pooled"]["r2"],flush=True)
  result={"status":"retrospective v3 architecture replay; not confirmation","diagnostic_seeds":SEEDS,"final_refit_seeds":FINAL_SEEDS,"results":results,"selection":"none; all prespecified diagnostic arms reported","limitation":"v3 outcomes were already known and development memory includes validation EOL labels"}
- OUT.mkdir(parents=True,exist_ok=True);(OUT/"results.json").write_text(json.dumps(result,indent=2)+"\n");np.savez_compressed(OUT/"full_dev_refit_predictions.npz",y=test["y"],groups=test["groups"],prediction=np.asarray(pred),ensemble=ensemble)
+ OUT.mkdir(parents=True,exist_ok=True);(OUT/"results.json").write_text(json.dumps(result,indent=2)+"\n");np.savez_compressed(OUT/"full_dev_refit_predictions.npz",y=test["y"],groups=test["groups"],prediction=np.asarray(pred),ensemble=ensemble,plain_prediction=np.asarray(plain_pred),plain_ensemble=plain_ensemble)
 
 if __name__=="__main__":main()

@@ -48,6 +48,7 @@ def fit_plain(
     max_epochs: int = 300,
     patience: int = 70,
     batch_size: int = 512,
+    restore_best: bool = True,
 ) -> dict:
     torch.manual_seed(seed)
     center, scale = fit_feature_scale(train["x"])
@@ -99,7 +100,10 @@ def fit_plain(
             best_state = copy.deepcopy(model.state_dict())
         if epoch - best_epoch > patience:
             break
-    model.load_state_dict(best_state)
+    if restore_best:
+        model.load_state_dict(best_state)
+    else:
+        best_epoch = int(max_epochs)
     return {
         "model": model,
         "center": center,
@@ -108,6 +112,7 @@ def fit_plain(
         "selected_epoch": best_epoch,
         "epochs_executed": last_epoch,
         "validation_mse": best_loss,
+        "restore_best": bool(restore_best),
     }
 
 

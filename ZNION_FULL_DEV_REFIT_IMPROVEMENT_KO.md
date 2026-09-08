@@ -8,6 +8,7 @@
 |---|---:|---:|---:|
 | 기존 alpha1000 RBF-regime PP | 0.822 | 0.375 | 약 97.7 |
 | **full-development refit PP** | **0.909** | **0.690** | **69.612** |
+| 동일 full-development refit MLP | 0.528 | -3.728 | 158.738 |
 
 | v3 unit | 기존 R² | refit R² |
 |---|---:|---:|
@@ -22,6 +23,8 @@ Seeds 42–46의 개별 pooled R²는 0.909257535–0.909257578이었다. 현재
 새로운 test label이나 test feature를 학습에 넣은 것이 아니다. validation으로 config와 epoch을 고른 다음, 최종 모델이 사용할 수 있는 development prefix supervision을 모두 포함해 동일 epoch만큼 재학습했다. RBF memory는 이전 모델과 동일하게 development cell의 prefix descriptor와 EOL label을 사용한다.
 
 이 개선의 중심은 새로운 NN layer가 아니라 **누락됐던 final refit 계약**이다. 특히 validation의 장수명 cell이 RBF memory에만 들어가고 BQ affine fitting에는 빠져 있던 정보 비대칭을 줄였다.
+
+동일한 epoch-selection 후 full-development refit을 MLP에도 적용했다. MLP pooled R²는 0.528이었으므로 PP 0.909의 우위가 유지됐다. 다만 현재 MLP는 하나의 architecture이며 충분히 튜닝한 모든 NN을 대표하지 않는다.
 
 ## 함께 실행한 구조 후보
 

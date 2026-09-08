@@ -7,9 +7,12 @@
 - 현재 raw-cycle BQ residual의 이론적 보정 폭 중앙값은 0.125 cycle인데 affine 절대오차 중앙값은 80.771 cycle이었다. bound 안에서 필요한 오차가 도달 가능한 행은 0.228%였다.
 - 단위를 정규화해 보정 폭을 넓인 후보는 단기 unit 4개 중 3개를 개선했지만, 장수명 unit을 제외한 fold에서 실패했다. nested aggregate pooled R²는 기존 raw BQ 0.115, normalized additive -0.175, multiplicative -6.354였다. support shrinkage도 inner validation이 beta=0을 골라 실패했다. 이 후보들을 최종 모델로 채택하지 않는다.
 - 기존 BQ의 epoch/config 선택 후 validation prefix를 포함해 전체 development prefix로 고정 epoch refit하는 누락을 수정한 후보가 Zn-ion v3 replay에서 pooled R² **0.822→0.909**, unit-macro R² **0.375→0.690**으로 개선됐다. 세 test unit R²가 모두 양수였다.
+- 동일 full-development refit MLP는 Zn-ion pooled R² 0.528이었다. PP의 0.909 우위가 동일 재학습 계약에서도 유지됐다.
+- 같은 80%-EOL prior를 쓰는 Na-ion 관측 cohort에서도 BQ-PP가 no-refit 0.781에서 refit 0.824로 올랐다. 동일 refit MLP는 0.304였다. Na-ion PP의 unit-macro R²는 0.806이고 5개 test cell 모두 양의 R²였다.
+- 공동 dual-scale battery executor의 기존 refit도 재실행해 Sunwoda/RWTH/MICH 0.934/0.842/0.751과 residual bound 위반 0건을 재현했다.
 - 최종 refit의 seeds 42–46 pooled R² 범위는 0.909257535–0.909257578로 사실상 동일했다. 현재 residual bound가 매우 작아 seed 영향이 작은 것과 일관된다.
 
-이 0.909는 이미 관측한 v3에 대한 사후 개발 결과다. 새로운 untouched 확증 점수로 쓰지 않는다. 개선의 주원인은 새 NN 구조가 아니라 **동일하게 선택된 epoch으로 validation prefix supervision을 포함한 표준 full-development refit**이다. 같은 refit 계약을 비교 baseline에도 적용해야 한다.
+Zn-ion 0.909와 Na-ion 0.824는 이미 관측한 test에 대한 사후 개발 결과다. 새로운 untouched 확증 점수로 쓰지 않는다. 개선의 주원인은 새 NN 구조가 아니라 **동일하게 선택된 epoch으로 validation prefix supervision을 포함한 표준 full-development refit**이다. 같은 refit 계약을 비교 baseline에도 적용해야 한다.
 
 ## 1. 결론과 실행 우선순위
 
