@@ -59,3 +59,4 @@ MATR batch 2의 `0.471`(기본 PP) 및 `0.523`(support-PP)은 test 공개 전에
 - 실패 도메인 NN safety route 감사: `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`
 - NASA milling known-boundary route: `results/milling_boundary_quotient_route_v1/results.json`
 - XJTU/FEMTO structural routes: `REMAINING_FAILURES_STRUCTURAL_PP_KO.md`
+- 남은 음수 R2의 식별가능성 한계: `NEGATIVE_R2_IDENTIFIABILITY_AUDIT_KO.md`
