@@ -110,6 +110,16 @@ PYTHONPATH=src:experiments python experiments/additional_real_batteries.py
 The current applicability logic, paper novelty candidate, and claim limitations are
 summarized in `APPLICABILITY_NOVELTY_LIMITS_KO.md`.
 
+The paper-safe boundary between a PP predictor result and a prospective routing
+claim is specified in [`PP_INFORMATION_LIMITS_AND_CLAIMS_KO.md`](PP_INFORMATION_LIMITS_AND_CLAIMS_KO.md).
+The next external route confirmation must follow
+[`PROSPECTIVE_GATE_CONFIRMATION_V2_KO.md`](PROSPECTIVE_GATE_CONFIRMATION_V2_KO.md).
+Audit the available external artifacts without retraining with:
+
+```bash
+python experiments/audit_external_cohort_evidence.py
+```
+
 The C-MAPSS FD001/FD003 mechanism repair is reported in
 [`CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md`](CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md).
 Place the official `train_FD00x.txt`, `test_FD00x.txt`, and `RUL_FD00x.txt` files
