@@ -1,0 +1,192 @@
+{
+  "status": "untouched controlled-synthetic external confirmation complete",
+  "protocol_commit": "23f3827",
+  "archive_sha256": "3a8a3e76121ddce10f2f7733c37504a84212835768a4df80daf89aed944982b8",
+  "n": {
+    "train_machines": 80,
+    "test_machines": 20,
+    "test_rows": 1298
+  },
+  "pp_selection": {
+    "fraction": 0.3,
+    "config": {
+      "width": 16,
+      "learning_rate": 0.001,
+      "weight_decay": 2.0
+    },
+    "stage1_rmse": 7.911856439318425,
+    "stage1_epoch": 106,
+    "stage2_rmse": 7.9763969527125385,
+    "selected_epoch": 106
+  },
+  "pp_finalists": [
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 64,
+        "learning_rate": 0.0005,
+        "weight_decay": 5.0
+      },
+      "stage1_rmse": 7.909742970987642,
+      "stage1_epoch": 146,
+      "stage2_rmse": 7.9160762846965085,
+      "selected_epoch": 146
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 16,
+        "learning_rate": 0.001,
+        "weight_decay": 2.0
+      },
+      "stage1_rmse": 7.911856439318425,
+      "stage1_epoch": 106,
+      "stage2_rmse": 7.9763969527125385,
+      "selected_epoch": 106
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 16,
+        "learning_rate": 0.001,
+        "weight_decay": 0.5
+      },
+      "stage1_rmse": 7.912814164225047,
+      "stage1_epoch": 66,
+      "stage2_rmse": 8.05059573092588,
+      "selected_epoch": 58
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 32,
+        "learning_rate": 0.0005,
+        "weight_decay": 2.0
+      },
+      "stage1_rmse": 7.934422180660889,
+      "stage1_epoch": 208,
+      "stage2_rmse": 8.058910129873073,
+      "selected_epoch": 119
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 64,
+        "learning_rate": 0.001,
+        "weight_decay": 5.0
+      },
+      "stage1_rmse": 7.934907789455699,
+      "stage1_epoch": 66,
+      "stage2_rmse": 7.95252164491968,
+      "selected_epoch": 60
+    }
+  ],
+  "mlp_selection": {
+    "fraction": 0.3,
+    "config": {
+      "width": 32,
+      "learning_rate": 0.001,
+      "weight_decay": 2.0
+    },
+    "stage1_rmse": 8.480448871138261,
+    "stage1_epoch": 145,
+    "stage2_rmse": 8.257390950852104,
+    "selected_epoch": 275
+  },
+  "mlp_finalists": [
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 32,
+        "learning_rate": 0.001,
+        "weight_decay": 2.0
+      },
+      "stage1_rmse": 8.480448871138261,
+      "stage1_epoch": 145,
+      "stage2_rmse": 8.257390950852104,
+      "selected_epoch": 275
+    },
+    {
+      "fraction": 0.7,
+      "config": {
+        "width": 64,
+        "learning_rate": 0.001,
+        "weight_decay": 2.0
+      },
+      "stage1_rmse": 8.581585850080998,
+      "stage1_epoch": 283,
+      "stage2_rmse": 8.602042013634714,
+      "selected_epoch": 347
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 32,
+        "learning_rate": 0.001,
+        "weight_decay": 5.0
+      },
+      "stage1_rmse": 8.5864889157378,
+      "stage1_epoch": 142,
+      "stage2_rmse": 8.671700684959854,
+      "selected_epoch": 124
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 32,
+        "learning_rate": 0.0005,
+        "weight_decay": 2.0
+      },
+      "stage1_rmse": 8.623334670466544,
+      "stage1_epoch": 146,
+      "stage2_rmse": 8.494155539943746,
+      "selected_epoch": 281
+    },
+    {
+      "fraction": 0.3,
+      "config": {
+        "width": 64,
+        "learning_rate": 0.001,
+        "weight_decay": 5.0
+      },
+      "stage1_rmse": 8.646133766936542,
+      "stage1_epoch": 141,
+      "stage2_rmse": 8.55225510963429,
+      "selected_epoch": 141
+    }
+  ],
+  "pp_epochs": [
+    105,
+    106,
+    105,
+    106,
+    105
+  ],
+  "mlp_epochs": [
+    275,
+    275,
+    275,
+    275,
+    275
+  ],
+  "pp": {
+    "r2": 0.8327390802577108,
+    "rmse": 8.481284404833225,
+    "mae": 6.424873842743264
+  },
+  "plain_mlp": {
+    "r2": 0.8540776372147277,
+    "rmse": 7.921826255214675,
+    "mae": 6.005017533832343
+  },
+  "paired_machine_bootstrap": {
+    "mean": -0.5526643973347893,
+    "95ci": [
+      -1.0489840114618125,
+      -0.09945144134764662
+    ],
+    "probability_positive": 0.0046,
+    "replicates": 20000
+  },
+  "confirmatory_success": false
+}
