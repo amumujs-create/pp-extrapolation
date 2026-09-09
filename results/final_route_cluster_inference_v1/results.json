@@ -1,0 +1,215 @@
+{
+  "protocol": "final PP-X route vs 30-candidate/5-seed baseline; exact row audit; unit-cluster bootstrap (20k); paired sign-flip",
+  "datasets": {
+    "hust": {
+      "n_units": 16,
+      "ppx_r2": 0.9579589106806569,
+      "comparisons": {
+        "vrex": {
+          "baseline_r2": 0.8089916408061981,
+          "delta_r2": 0.14896726987445874,
+          "delta_r2_cluster_bootstrap_95": [
+            0.07990168115623994,
+            0.14671815632397506,
+            0.21272975730767252
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 3022.979268883157,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 3.0517578125e-05
+        },
+        "groupdro": {
+          "baseline_r2": 0.7123028337955475,
+          "delta_r2": 0.24565607688510938,
+          "delta_r2_cluster_bootstrap_95": [
+            0.15809317078164267,
+            0.2443350132033097,
+            0.3497414614829153
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 5438.778493736673,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.000152587890625
+        },
+        "monotone": {
+          "baseline_r2": 0.8196427077054977,
+          "delta_r2": 0.13831620297515912,
+          "delta_r2_cluster_bootstrap_95": [
+            0.08018797130641696,
+            0.13669816515594524,
+            0.1927102738859007
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 2847.583963249612,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 3.0517578125e-05
+        }
+      }
+    },
+    "xjtu": {
+      "n_units": 5,
+      "ppx_r2": 0.2568185329437256,
+      "comparisons": {
+        "vrex": {
+          "baseline_r2": -1.716123104095459,
+          "delta_r2": 1.9729416370391846,
+          "delta_r2_cluster_bootstrap_95": [
+            -1.0544291734695435,
+            1.9729415774345398,
+            2.7279880046844482
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 417910.6875,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.375
+        },
+        "groupdro": {
+          "baseline_r2": -1.7274482250213623,
+          "delta_r2": 1.984266757965088,
+          "delta_r2_cluster_bootstrap_95": [
+            -1.0560801029205322,
+            1.984266757965088,
+            2.743539810180664
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 421206.9375,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.375
+        },
+        "monotone": {
+          "baseline_r2": -1.7082328796386719,
+          "delta_r2": 1.9650514125823975,
+          "delta_r2_cluster_bootstrap_95": [
+            -1.0613079071044922,
+            1.9650514721870422,
+            2.7186524868011475
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 415427.15625,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.3125
+        }
+      }
+    },
+    "matr": {
+      "n_units": 10,
+      "ppx_r2": 0.4656983017921448,
+      "comparisons": {
+        "vrex": {
+          "baseline_r2": -0.6905057430267334,
+          "delta_r2": 1.1562040448188782,
+          "delta_r2_cluster_bootstrap_95": [
+            0.7553922012448311,
+            1.160116747021675,
+            1.574175480008125
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 5539.2080078125,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.013671875
+        },
+        "groupdro": {
+          "baseline_r2": -0.5784401893615723,
+          "delta_r2": 1.044138491153717,
+          "delta_r2_cluster_bootstrap_95": [
+            0.6236018151044845,
+            1.0545332729816437,
+            1.3208965510129924
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 4664.91552734375,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.025390625
+        },
+        "monotone": {
+          "baseline_r2": -0.6604123115539551,
+          "delta_r2": 1.1261106133460999,
+          "delta_r2_cluster_bootstrap_95": [
+            0.6672945559024811,
+            1.1300966143608093,
+            1.5594680957496165
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 5265.68896484375,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.0234375
+        }
+      }
+    },
+    "matr_batch2": {
+      "n_units": 9,
+      "ppx_r2": 0.8623913698607073,
+      "comparisons": {
+        "vrex": {
+          "baseline_r2": 0.8498380482196808,
+          "delta_r2": 0.012553321641026516,
+          "delta_r2_cluster_bootstrap_95": [
+            -0.10408352102713658,
+            0.015168937580039454,
+            0.3477518406651592
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 71.2194512283048,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.3359375
+        },
+        "groupdro": {
+          "baseline_r2": 0.34978628158569336,
+          "delta_r2": 0.5126050882750139,
+          "delta_r2_cluster_bootstrap_95": [
+            0.3942801846256258,
+            0.5141554717739865,
+            0.623420751249726
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 391.3877844938213,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.00390625
+        },
+        "monotone": {
+          "baseline_r2": 0.24063175916671753,
+          "delta_r2": 0.6217596106939898,
+          "delta_r2_cluster_bootstrap_95": [
+            0.3264465792892606,
+            0.6155738513501856,
+            0.8062823661789275
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 443.93830888753877,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.00390625
+        }
+      }
+    },
+    "milling": {
+      "n_units": 5,
+      "ppx_r2": 0.3408275238749984,
+      "comparisons": {
+        "vrex": {
+          "baseline_r2": -1.085587978363037,
+          "delta_r2": 1.4264155022380356,
+          "delta_r2_cluster_bootstrap_95": [
+            0.07657636154964298,
+            1.4264152638194565,
+            5.0299288244389935
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 5.320512714188912,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.25
+        },
+        "groupdro": {
+          "baseline_r2": -1.8398091793060303,
+          "delta_r2": 2.1806367031810288,
+          "delta_r2_cluster_bootstrap_95": [
+            0.5872097021488456,
+            2.2117928573356544,
+            5.4262582273625775
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 7.451869197514275,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.25
+        },
+        "monotone": {
+          "baseline_r2": -1.041337013244629,
+          "delta_r2": 1.3821645371196274,
+          "delta_r2_cluster_bootstrap_95": [
+            -0.17880695115253598,
+            1.3821647755382065,
+            5.8539763898991986
+          ],
+          "unit_mse_gain_ppx_minus_baseline": 5.503504396740714,
+          "sign_flip": "exact",
+          "paired_sign_flip_pvalue": 0.5
+        }
+      }
+    }
+  }
+}

@@ -30,3 +30,17 @@ unit sign-flip 및 unit-cluster bootstrap을 수행했다. PP-X의 R² .826은 V
 prediction artifact까지 보존해 `results/mich_cluster_inference_v1/`에서 통계검정을
 재현할 수 있다. 나머지 데이터셋의 cluster bootstrap/sign-flip은 PP-X의 동일 test-row
 prediction artifact를 검증한 뒤에만 추가한다.
+
+## 최종 PP-X route의 paired inference
+
+최종 route와 robust baseline의 `y` 및 unit ID가 완전히 일치한 HUST, XJTU,
+MATR2019, MATR-b2, NASA Milling에는 별도 paired inference를 적용했다. HUST에서는
+PP-X가 V-REx보다 ΔR²=+.149 (95% CI [.080, .213], exact p=.00003), GroupDRO보다
+ΔR²=+.246 ([.158, .350], p=.00015), monotone NN보다 +.138 ([.080, .193], p=.00003)로
+우세했다. MATR2019도 세 baseline 각각에 대해 CI가 0보다 컸고 exact p≤.0254였다.
+MATR-b2에서는 GroupDRO 및 monotone NN에는 유의하게 우세했지만, V-REx와의 차이
+ΔR²=+.013은 유의하지 않았다(p=.336). XJTU는 ΔR² 자체는 컸어도 5개 test unit의
+이질성이 커 p≥.3125로 유의하지 않았다. Milling은 validation unit이 하나이고
+bootstrap 일부 재표본에서 R² 분모가 0이어서 inferential claim에서 제외한다.
+
+재현 결과는 `results/final_route_cluster_inference_v1/results.json`에 저장한다.
