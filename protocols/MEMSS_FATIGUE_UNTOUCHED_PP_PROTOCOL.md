@@ -64,6 +64,28 @@ only, so the task is future-boundary extrapolation on unseen specimens.
 - The primary reported prediction is the mean across the five frozen seeds.
   Per-seed results and dispersion must also be reported.
 
+### Pre-download tuning amendment
+
+This amendment was committed after the axial-fan repair request but still
+before downloading or inspecting any numeric `Fatigue` values. Hyperparameters
+will be tuned on development units only rather than copied blindly from the
+axial-fan domain.
+
+- Candidate PP executors are fixed to: frozen-affine residual PP, learned
+  affine-gate residual PP, log boundary-quotient PP, and ordinary
+  boundary-quotient PP. All are single PP networks, not prediction ensembles of
+  separately completed model families.
+- Width is in `{16, 32, 64}`, learning rate in `{5e-4, 1e-3}`, and weight decay
+  in `{0.5, 2.0, 5.0}`. Boundary residual bounds are in `{0.25, 0.5, 1.0}` and
+  log-quotient margin floors in `{0.02, 0.05, 0.10}`.
+- Use grouped cross-validation across the 17 development paths (the original
+  train plus validation allocation). Select by mean held-out path RMSE; break
+  ties within 1% in favor of the narrower/simpler model.
+- The selected configuration is refit on all 17 development paths. The four
+  test paths remain unused until predictions have been serialized.
+- The matched MLP receives the same width, learning-rate, and weight-decay
+  search budget with the same grouped folds.
+
 ## Outcome handling and success rule
 
 Predictions, unit order, and eligibility must be serialized before test targets
