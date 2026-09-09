@@ -1,0 +1,232 @@
+{
+  "status": "post-test structural development; no new cohort opened",
+  "xjtu": {
+    "model": "scale-free progress-quotient PP affine head",
+    "formula": "RUL=elapsed*exp(-logit_progress)",
+    "search": [
+      {
+        "alpha": 0.01,
+        "validation_rmse": 168.3857665562081
+      },
+      {
+        "alpha": 0.1,
+        "validation_rmse": 168.40878196837684
+      },
+      {
+        "alpha": 1.0,
+        "validation_rmse": 167.15071266734893
+      },
+      {
+        "alpha": 10.0,
+        "validation_rmse": 163.4532422329907
+      },
+      {
+        "alpha": 100.0,
+        "validation_rmse": 150.78843784599962
+      },
+      {
+        "alpha": 1000.0,
+        "validation_rmse": 97.97315134291678
+      },
+      {
+        "alpha": 10000.0,
+        "validation_rmse": 64.89030638308728
+      },
+      {
+        "alpha": 100000.0,
+        "validation_rmse": 65.95659232119071
+      }
+    ],
+    "selected_alpha": 10000.0,
+    "test": {
+      "pooled": {
+        "r2": -0.8429382672158008,
+        "rmse": 979.903129910307,
+        "mae": 729.9332851922999,
+        "n": 6999
+      },
+      "unit_macro_r2": -1.5437578044440394,
+      "per_unit": {
+        "Bearing3_1": {
+          "r2": -1.2573060908129672,
+          "rmse": 1097.7329868682484,
+          "mae": 846.7542140504881,
+          "n": 2531
+        },
+        "Bearing3_2": {
+          "r2": -1.4106093795005568,
+          "rmse": 1115.5721394248592,
+          "mae": 883.9608798426729,
+          "n": 2489
+        },
+        "Bearing3_3": {
+          "r2": -2.7003680683083577,
+          "rmse": 202.13037607991942,
+          "mae": 172.1615694449509,
+          "n": 364
+        },
+        "Bearing3_4": {
+          "r2": -0.9523505241230232,
+          "rmse": 608.2603670810424,
+          "mae": 463.4118210682673,
+          "n": 1508
+        },
+        "Bearing3_5": {
+          "r2": -1.398154959475293,
+          "rmse": 47.83136869607046,
+          "mae": 37.36149459624757,
+          "n": 107
+        }
+      }
+    }
+  },
+  "femto": {
+    "model": "unit-count capacity-controlled causal-prefix PP safety route",
+    "width_rule": "next power of two >= number of independent training units",
+    "selected_width": 8,
+    "search": [
+      {
+        "learning_rate": 0.0001,
+        "weight_decay": 0.1,
+        "validation_rmse": 6223.228998530842
+      },
+      {
+        "learning_rate": 0.0001,
+        "weight_decay": 2.0,
+        "validation_rmse": 6253.050510162851
+      },
+      {
+        "learning_rate": 0.0001,
+        "weight_decay": 10.0,
+        "validation_rmse": 6349.766757032621
+      },
+      {
+        "learning_rate": 0.0002,
+        "weight_decay": 0.1,
+        "validation_rmse": 6167.910768632448
+      },
+      {
+        "learning_rate": 0.0002,
+        "weight_decay": 2.0,
+        "validation_rmse": 6214.630475117084
+      },
+      {
+        "learning_rate": 0.0002,
+        "weight_decay": 10.0,
+        "validation_rmse": 6180.091291315459
+      },
+      {
+        "learning_rate": 0.0005,
+        "weight_decay": 0.1,
+        "validation_rmse": 5991.306848659353
+      },
+      {
+        "learning_rate": 0.0005,
+        "weight_decay": 2.0,
+        "validation_rmse": 6061.889474322466
+      },
+      {
+        "learning_rate": 0.0005,
+        "weight_decay": 10.0,
+        "validation_rmse": 6067.3405578240645
+      },
+      {
+        "learning_rate": 0.001,
+        "weight_decay": 0.1,
+        "validation_rmse": 5709.514174428441
+      },
+      {
+        "learning_rate": 0.001,
+        "weight_decay": 2.0,
+        "validation_rmse": 5830.782604594192
+      },
+      {
+        "learning_rate": 0.001,
+        "weight_decay": 10.0,
+        "validation_rmse": 6017.950908199827
+      }
+    ],
+    "selected": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.1,
+      "validation_rmse": 5709.514174428441
+    },
+    "test": {
+      "pooled": {
+        "r2": -0.5708447040427562,
+        "rmse": 3297.575131512329,
+        "mae": 2827.682988392223,
+        "n": 11
+      },
+      "unit_macro_r2": null,
+      "per_unit": {
+        "Bearing1_3": {
+          "r2": null,
+          "rmse": 3095.5956909179686,
+          "mae": 3095.5956909179686,
+          "n": 1
+        },
+        "Bearing1_4": {
+          "r2": null,
+          "rmse": 2971.9964599609375,
+          "mae": 2971.9964599609375,
+          "n": 1
+        },
+        "Bearing1_5": {
+          "r2": null,
+          "rmse": 295.4197692871094,
+          "mae": 295.4197692871094,
+          "n": 1
+        },
+        "Bearing1_6": {
+          "r2": null,
+          "rmse": 817.8877441406248,
+          "mae": 817.8877441406248,
+          "n": 1
+        },
+        "Bearing1_7": {
+          "r2": null,
+          "rmse": 5245.735247802734,
+          "mae": 5245.735247802734,
+          "n": 1
+        },
+        "Bearing2_3": {
+          "r2": null,
+          "rmse": 5175.359338378907,
+          "mae": 5175.359338378907,
+          "n": 1
+        },
+        "Bearing2_4": {
+          "r2": null,
+          "rmse": 1097.8236755371095,
+          "mae": 1097.8236755371095,
+          "n": 1
+        },
+        "Bearing2_5": {
+          "r2": null,
+          "rmse": 1255.5049072265624,
+          "mae": 1255.5049072265624,
+          "n": 1
+        },
+        "Bearing2_6": {
+          "r2": null,
+          "rmse": 3158.2411132812504,
+          "mae": 3158.2411132812504,
+          "n": 1
+        },
+        "Bearing2_7": {
+          "r2": null,
+          "rmse": 4848.885009765625,
+          "mae": 4848.885009765625,
+          "n": 1
+        },
+        "Bearing3_3": {
+          "r2": null,
+          "rmse": 3142.063916015625,
+          "mae": 3142.063916015625,
+          "n": 1
+        }
+      }
+    }
+  }
+}

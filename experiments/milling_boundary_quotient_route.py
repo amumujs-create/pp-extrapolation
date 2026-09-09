@@ -15,7 +15,9 @@ sys.path[:0] = [str(ROOT / "src"), str(ROOT / "experiments"), str(ROOT.parent / 
 from milling_locked_transfer import FEATURES, subset
 from nasa_milling_causal import BOUNDARY, prepare_causal_milling
 from plain_mlp_ablation import fit_plain, predict_plain
-from pp_extrapolation import certify_categorical_regime, regression_metrics
+from pp_extrapolation import (certify_categorical_regime,
+                              inspection_boundary_quotient,
+                              regression_metrics)
 
 OUT = ROOT / "results" / "milling_boundary_quotient_route_v1"
 SELECTION_SEEDS = (42, 43, 44)
@@ -30,7 +32,8 @@ BOUNDARY_OFFSETS = tuple(float(x) for x in np.arange(-.05, .101, .01))
 def quotient(rows, effective_boundary):
     health = rows["x"][:, FEATURES.index("health")]
     rate = np.maximum(rows["x"][:, FEATURES.index("rate")], 1e-6)
-    return np.maximum(float(effective_boundary) - health, 0.0) / rate
+    return inspection_boundary_quotient(health, rate, boundary=float(BOUNDARY),
+        inspection_offset=float(effective_boundary)-float(BOUNDARY))
 
 
 def main():

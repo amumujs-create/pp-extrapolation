@@ -13,8 +13,8 @@
 | MATR batch 2 strict tail | **0.862** | V-REx 0.850 | 0.618† | 우세 |
 | N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | 동률권에 가까운 우세 |
 | MICH unseen-cell tail | **0.751** | direct NN 0.684 | 미실행 | 개선 dual-scale PP 우세 |
-| XJTU condition transfer | −1.229 | linear-tail RBF −1.418 | 미실행 | 모두 실패, PP 상대 우세 |
-| FEMTO endpoint transfer | −1.165 | monotone NN −0.973 | 미실행 | safety NN route로 개선됐지만 패배; 적용 거절 |
+| XJTU condition transfer | **−0.843** | linear-tail RBF −1.418 | 미실행 | scale-free progress PP 상대 우세; 절대 실패 |
+| FEMTO endpoint transfer | **−0.571** | monotone NN −0.973 | 미실행 | capacity-controlled prefix PP 상대 우세; 절대 실패 |
 | NASA milling material transfer | **0.341** | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | inspection-calibrated boundary-quotient PP 우세‡ |
 
 ## 이 표를 읽는 방법
@@ -58,3 +58,4 @@ MATR batch 2의 `0.471`(기본 PP) 및 `0.523`(support-PP)은 test 공개 전에
 - 배터리 boundary executor 개선: `UNIFIED_DUAL_SCALE_PP_IMPROVEMENT_KO.md`
 - 실패 도메인 NN safety route 감사: `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`
 - NASA milling known-boundary route: `results/milling_boundary_quotient_route_v1/results.json`
+- XJTU/FEMTO structural routes: `REMAINING_FAILURES_STRUCTURAL_PP_KO.md`

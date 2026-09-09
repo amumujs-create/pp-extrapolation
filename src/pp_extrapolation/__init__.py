@@ -43,6 +43,9 @@ from .output_calibration import (OutputCalibrator, approve_dual_evidence, approv
 from .presets import (battery_dual_scale_pp_config,
                       safety_continuation_pp_config,
                       safety_continuation_trust_grid)
+from .adaptive_routes import (capacity_from_independent_groups,
+                              inspection_boundary_quotient,
+                              progress_quotient)
 
 __all__ = [
     "ConvexHullAudit",
@@ -110,6 +113,9 @@ __all__ = [
     "battery_dual_scale_pp_config",
     "safety_continuation_pp_config",
     "safety_continuation_trust_grid",
+    "capacity_from_independent_groups",
+    "inspection_boundary_quotient",
+    "progress_quotient",
 ]
 
 
