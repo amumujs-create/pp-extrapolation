@@ -1,8 +1,10 @@
-# PP Research Detailed Briefing (v2)
+# PP research slides (pointer only)
 
-- Fixed deck: `../../output/PP_Research_Detailed_v2.pptx`
-- Build: `python3 generate_figures.py && python3 build_pp_research_deck_v2.py`
-- Naming: **SAAR** = final adaptive dual-scale PP (`SAAR_NAMING.md`)
-- Study index: `STUDY_APPENDIX.md`
+상세 브리핑 PPTX는 **이 레포에 두지 않습니다.**
 
-Do not create v3+ copies; edit v2 in place.
+**단일 고정본:**  
+https://github.com/amumujs-create/pp_pae_total/blob/main/output/PP_Research_Detailed_v2.pptx
+
+로컬 경로: `../pp_pae_total/output/PP_Research_Detailed_v2.pptx`
+
+빌드·부록 문서가 필요하면 `pp_pae_total/slides/pp_research/`를 사용하세요.

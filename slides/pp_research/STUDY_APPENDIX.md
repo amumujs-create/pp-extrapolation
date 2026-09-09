@@ -1,7 +1,8 @@
 # PP 공부용 부록 색인
 
-발표 고정본: `ppt/pp/PP_Research_Detailed_v2.pptx` (본문 + Appendix)  
-갱신: 2026-09 — SAAR 주결과 유지, Zn/교차도메인·주장 경계 슬라이드 추가
+발표 고정본(단일): `pp_pae_total/output/PP_Research_Detailed_v2.pptx`  
+갱신: 2026-09 — SAAR 주결과 유지, Zn/교차도메인·주장 경계 슬라이드 추가  
+※ `ppt/pp/` · `pp-extrapolation/slides/`에 PPTX 복사본을 두지 않음
 
 ## 명칭
 
