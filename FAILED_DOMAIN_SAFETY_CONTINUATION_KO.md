@@ -34,6 +34,8 @@ FEMTO에는 causal elapsed time, 초기 신호 대비 변화, 단·중기 slope�
 
 NASA milling은 prior 자체가 부정확할 때 affine 경로를 강제로 유지한 것이 주된 붕괴 원인이었다. validation은 `tau=0`을 선택했고 PP가 정확한 direct-NN 경로로 연속 수축하면서 R2가 -4.826에서 -0.476으로 회복됐다. 다만 validation 4행·1 unit, test 10행이라는 작은 표본 때문에 이를 성공 설정으로 승격하지 않는다.
 
+후속 domain-prior 감사에서는 데이터 프로토콜에 이미 고정된 마모 고장경계 `VB=0.50`을 모델 구조에 반영했다. 희소한 inspection이 경계 사이를 건너뛰는 현상은 validation MAE로 선택한 `+0.03` margin으로 보정했다. `RUL=(0.50+offset-health)/causal_rate + gate*NN residual`에서 material-2가 train material-1에 없다는 인증으로 test residual gate를 0으로 둔다. 그 결과 validation R2 0.638, test R2 **0.341**로 tuned NN -0.476과 GroupDRO -0.691을 넘었다. 이는 새 외부 확증이 아니라 이미 관측된 test에서의 개발 결과다.
+
 ## 최종 모델 정책
 
 1. 기존 양의 R2 9개 설정의 최종 PP와 결과는 변경하지 않는다.

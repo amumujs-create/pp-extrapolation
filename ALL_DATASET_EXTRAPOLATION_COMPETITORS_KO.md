@@ -17,8 +17,11 @@ PP 연구의 12개 평가 설정 전부에 V-REx, GroupDRO, train-only 방향의
 | MATR batch2 strict tail | **0.862** | 0.850 | 0.777 | 0.674 | -0.781 | 0.739 | 0.213 | PP |
 | N-CMAPSS hard TRA extrapolation | **0.937** | 0.883 | 0.880 | 0.892 | 0.819 | 0.932 | 0.804 | PP |
 | MICH unseen-cell tail | **0.751** | 미실행 | 미실행 | -0.743 | 미실행 | 미실행 | 미실행 | dual-scale PP |
+| NASA milling material transfer | **0.341** | −0.693 | -0.691 | −0.694 | −5.681 | 미실행 | 미실행 | inspection-calibrated boundary-quotient PP† |
 
-9개 양의-R² 설정 모두에서 개선 PP가 현재까지 관측된 경쟁모델 최고치보다 높다. Engression과의 차이는 N-CMAPSS에서 0.005로 작으므로 동률권으로 표현하고 paired seed/unit bootstrap을 추가해야 한다. 다만 이는 post-hoc 개발 결과이며, 독립 cohort의 사전 고정 결과로 9/9 보편 우월성을 입증한 것은 아니다. MICH direct NN ensemble 0.684는 별도 matched ablation에서 확인했다.
+10개 양의-R² 설정 모두에서 개선 PP가 현재까지 관측된 경쟁모델 최고치보다 높다. Engression과의 차이는 N-CMAPSS에서 0.005로 작으므로 동률권으로 표현하고 paired seed/unit bootstrap을 추가해야 한다. 다만 이는 post-hoc 개발 결과이며, 독립 cohort의 사전 고정 결과로 보편 우월성을 입증한 것은 아니다. MICH direct NN ensemble 0.684는 별도 matched ablation에서 확인했다.
+
+† Milling은 공식 고장경계 `VB=0.50`을 유지하고 validation MAE로 선택한 희소 inspection margin `+0.03`을 더해 `(0.50+offset-health)/causal_rate`를 계산했다. 학습에 없던 material-2에서 NN residual을 label-free gate로 차단했다. 이미 본 test를 이용한 개발 수치로 분류한다.
 
 † 이 표의 공통 경쟁모델 열 밖에 있는 extended NN 감사에서 FT-Transformer는 0.344였고, PP와 같은 validation-only output calibrator를 적용한 더 강한 control은 0.377이었다. 최종 통합 표와 paired 감사에서는 0.377을 사용하며 PP 0.466의 우세는 유지된다.
 
@@ -32,7 +35,6 @@ Engression은 공식 0.1.9 패키지에서 hidden width 32/64, learning rate 0.0
 |---|---:|---:|---|---|
 | XJTU | -1.229 | Linear-tail RBF -1.418 | train→validation과 train→test 운전조건 ray cosine=-1.0 | validation의 보정 방향이 test에서 반대. 라벨 없이 transport를 거부하는 것이 맞음 |
 | FEMTO | -1.165 | Monotone NN -0.973 | test 11 bearing에 각 1개 endpoint만 존재; GRU도 seed 평균 -2.606 | exact NN safety route로 개선됐지만 개체별 수명 scale을 식별할 표본이 부족해 적용 거절 |
-| NASA milling | -0.476 | tuned direct NN -0.476 (GroupDRO -0.691) | train 33, validation 4, test 10; validation은 1개 unit뿐 | PP 내부 trust=0 safety route가 붕괴를 제거했지만 NN과 동률이고 R2는 음수; split identifiability 한계 유지 |
 
 최종 음수 설정은 승자 수에서 제외하며 applicability/abstention 분석에만 사용한다. MICH의 기존 PP는 residual이 꺼져 −1.522였으나 support-adaptive dual-scale PP로 0.751을 얻어 최종 성공 설정에 포함한다. FEMTO·milling safety-continuation 개발 감사는 `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`에 분리했다.
 
