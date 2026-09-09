@@ -217,3 +217,10 @@ The dataset-level untouched axial-fan confirmation and its negative result are
 reported in [`AXIAL_FAN_UNTOUCHED_RESULTS_KO.md`](AXIAL_FAN_UNTOUCHED_RESULTS_KO.md).
 The predictions for three official configurations were saved before their RUL
 files were parsed; PP obtained pooled R² -0.746 versus -0.455 for the matched MLP.
+
+The post-confirmation repair is reported separately in
+[`AXIAL_FAN_PP_REPAIR_KO.md`](AXIAL_FAN_PP_REPAIR_KO.md): endpoint-matched
+training plus a single internal affine/residual gate restores pooled PP R² to
+0.591 and beats the matched MLP on all three configurations. This is development
+evidence, not a retroactive untouched success. Subsequent compact-cohort screens
+are indexed in [`SMALL_EXTERNAL_COHORT_AUDIT_KO.md`](SMALL_EXTERNAL_COHORT_AUDIT_KO.md).

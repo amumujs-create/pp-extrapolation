@@ -15,3 +15,21 @@ C-MAPSS의 첫 동결 PP 실행은 uncapped physical RUL에서 양의 R²를 냈
 ## 추가 실행: axial fan
 
 Mendeley axial-fan 데이터는 12개 텍스트 파일 합계 9 MB 미만, 설정별 train/test fan 각 100대로 크기와 표본 조건을 모두 만족했다. 세 outcome-sealed 설정에 고정 PP를 적용했지만 PP pooled R² -0.746, matched MLP -0.455로 확증에 실패했다. 이 자료는 판정 불가가 아니라 충분한 표본에서 얻은 외부 negative cohort이며 `AXIAL_FAN_UNTOUCHED_RESULTS_KO.md`에 상세히 기록했다.
+
+공식 결과를 확인한 뒤 endpoint 분포 불일치를 수정한 개발 실험에서는 PP
+pooled R²가 0.591로 회복됐고 matched MLP 0.502를 앞섰다. 이 결과는
+`AXIAL_FAN_PP_REPAIR_KO.md`에 기록했으며 untouched 성공으로 소급하지 않는다.
+
+## 후속 저용량 후보 감사
+
+| 후보 | 크기/독립 단위 | 판정 | 핵심 이유 |
+|---|---:|---|---|
+| MEMSS Fatigue | 4.9 KB / 21 | inconclusive | 사전 test 중 경계 도달 2개 |
+| GaAs laser | 1.9 KB / 15 | inconclusive | 공식 10% 경계 도달 3개 |
+| MATWI labels | 535 KB / 17 | 확증 실패 | PP -0.137, MLP -0.151; 절삭 context 없는 수명척도 이동 |
+| Misata machine | 526 KB / 100 | PP 우월성 실패 | PP 0.833, MLP 0.854; 둘 다 양의 절대 성능 |
+| Device-B | 4.0 KB / 34 | inconclusive | 충분한 pre-failure history를 가진 경계 도달 장치 4개 |
+
+이 감사는 작은 파일 크기와 유효한 외삽 표본 수가 별개임을 보여준다. 공통
+경계를 가진 고전 accelerated-degradation 자료도 빠른 경계 도달 또는 검열
+때문에 독립 확증에 필요한 history와 unit 수를 동시에 충족하지 못할 수 있다.
