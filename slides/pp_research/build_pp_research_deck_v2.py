@@ -162,10 +162,10 @@ def build():
     rect(s, 72, 78, 88, 5, C["white"])
     add_text(s, 72, 42, 360, 24, "KOREA UNIVERSITY", 14, C["white"], True)
     add_text(s, 72, 155, 560, 110, "PP EXTRAPOLATION\nRESEARCH BRIEFING", 38, C["white"], True)
-    add_text(s, 76, 310, 520, 70, "왜 필요한지 · 어떻게 만드는지 ·\n실험 결과 · 다음에 할 일", 18, C["pink"])
-    add_text(s, 76, 420, 460, 28, "남은수명 · 배터리 · 균열 · 엔진 상태예측", 14, C["rose"])
-    add_text(s, 76, 560, 400, 50, "Smart Production Systems Lab.\nPP 연구 발표자료", 14, C["white"])
-    add_text(s, 76, 650, 120, 20, "2026", 12, C["rose"])
+    add_text(s, 76, 310, 520, 70, "SAAR 주결과 · Zn/교차도메인 업데이트 ·\n주장 경계 · 다음에 할 일", 18, C["pink"])
+    add_text(s, 76, 420, 500, 28, "남은수명 · 배터리 · 베어링 · 공구 상태예측", 14, C["rose"])
+    add_text(s, 76, 560, 400, 50, "Smart Production Systems Lab.\nPP 연구 발표자료 (v2 갱신)", 14, C["white"])
+    add_text(s, 76, 650, 200, 20, "2026-09", 12, C["rose"])
     p()
 
     # ===== 2 Agenda =====
@@ -174,8 +174,8 @@ def build():
     items = [
         ("A", "문제 설정", "외삽 바운더리와\n연구 범위", C["orange"]),
         ("B", "방법론", "SAAR 구조와\n공용 prior", C["teal"]),
-        ("C", "실증 분석", "결과·ablation·\n데이터별 스플릿", C["blue"]),
-        ("D", "전망", "PAE 경계와\n부록", C["navy"]),
+        ("C", "실증·업데이트", "3배터리 + Zn·\n교차도메인 현황", C["blue"]),
+        ("D", "전망", "논문 타깃·PAE\n경계·부록", C["navy"]),
     ]
     for i, (letter, title, body, col) in enumerate(items):
         x = 85 + i * 290
@@ -193,8 +193,8 @@ def build():
         520,
         1050,
         40,
-        "요지  ·  PP는 식 없는 외삽 안전장치. PAE는 식 뼈대 + NN 부족분 보정.",
-        17,
+        "요지  ·  논문 주모델은 SAAR. Zn·베어링은 확장·한계 보고. PAE 결과와는 아직 안 겹침.",
+        16,
         C["ink"],
         True,
     )
@@ -489,11 +489,108 @@ def build():
         555,
         1100,
         45,
-        "고정 경계형: 최고 0.939로 비슷하나 최저 0.468. 최종 SAAR는 최고를 유지하면서 최저·평균을 같이 올림.",
+        "논문 주표(개발 3데이터). 고정 경계형 최저 0.468 → SAAR 최저 0.751. 확증 cohort는 별도.",
         13,
         C["crimson"],
         True,
     )
+    foot(s, p())
+
+    # ===== 11a Status update (Sep 2026) =====
+    s = blank(prs)
+    topbar(s, "C", "최신 업데이트 (2026-09)", "무엇이 바뀌었고, 무엇을 아직 주장하지 않나")
+    rows = [
+        ("유지", "SAAR / dual-scale BQ", "Sunwoda·RWTH·MICH 0.934 / 0.842 / 0.751\n논문 1편의 주 executor", C["teal"]),
+        ("확장", "Na / Zn-ion", "BQ만으로는 Zn untouched 실패 →\nRBF-regime·refit으로 개발 점수 회복", C["blue"]),
+        ("교차", "XJTU · FEMTO · Milling", "구조 복구·입력 감사 단계\n통합 우월성 주장 전 아님", C["orange"]),
+        ("경계", "PAE / 저널", "결과 표는 PP만 · PAE 라우팅 실험 없음\n분야 Q1–Q2가 현실 본선", C["navy"]),
+    ]
+    for i, (tag, title, body, col) in enumerate(rows):
+        x = 70 + (i % 2) * 590
+        y = 155 + (i // 2) * 230
+        rect(s, x, y, 560, 205, C["white"], C["line"], True)
+        rect(s, x, y, 560, 48, col)
+        add_text(s, x + 20, y + 12, 80, 24, tag, 14, C["white"], True)
+        add_text(s, x + 110, y + 12, 420, 24, title, 15, C["white"], True)
+        add_text(s, x + 24, y + 70, 510, 110, body, 15, C["ink"])
+    foot(s, p())
+
+    # ===== 11a2 Zn-ion path =====
+    s = blank(prs)
+    topbar(s, "C", "Zn-ion에서 무엇이 달라졌나", "실패 → 경로 분기 → 개발 개선 (확증 아님)")
+    steps = [
+        ("1", "BQ-PP", "untouched Zn\n실패 (≈ −0.38)", C["red"]),
+        ("2", "RBF-regime", "장수명 memory\n+ BQ 혼합", C["orange"]),
+        ("3", "α / refit", "강한 shrinkage +\nfull-dev refit", C["blue"]),
+        ("4", "개발 점수", "Zn ≈ 0.91\nNa ≈ 0.82", C["teal"]),
+    ]
+    for i, (sn, sh, sb, scol) in enumerate(steps):
+        x = 70 + i * 300
+        rect(s, x, 180, 275, 220, C["white"], C["line"], True)
+        rect(s, x, 180, 275, 52, scol)
+        add_text(s, x + 18, 192, 40, 28, sn, 18, C["white"], True)
+        add_text(s, x + 55, 196, 200, 28, sh, 16, C["white"], True)
+        add_text(s, x + 20, 260, 235, 110, sb, 16, C["ink"])
+        if i < 3:
+            arrow(s, x + 278, 270, 18, 22, C["line"])
+    rect(s, 70, 440, 1140, 140, C["wash"], None, True)
+    add_text(
+        s,
+        95,
+        460,
+        1090,
+        100,
+        "주의  ·  0.91/0.82는 이미 본 test에 대한 사후 개발 결과. 새 untouched 확증으로 쓰지 않음.\n"
+        "개선의 큰 축은 새 NN 구조만이 아니라 ridge shrinkage와 validation을 포함한 standard refit 계약.\n"
+        "RBF+BQ 혼합은 margin=0 경계를 항상 보장하지 않음 → 다음 후보: quotient 안 결합(Dynamic Boundary-Scale).",
+        14,
+        C["ink"],
+    )
+    foot(s, p())
+
+    # ===== 11a3 Why numbers moved =====
+    s = blank(prs)
+    topbar(s, "C", "점수가 오른 이유 — 정직하게", "구조 혁신 vs 학습 계약·수축")
+    cards = [
+        ("구조로 설명되는 것", "SAAR dual-scale로\nMICH 최저점 회복\n(고정 bound 0.468→0.751)\n\nZn에서 lifetime 경로\n추가로 BQ 단독 실패 보완", C["teal"]),
+        ("계약·조율로 오른 것", "α=1000 affine shrinkage\nfull-development refit\n(같은 epoch로 val prefix 포함)\n\n같은 refit을 MLP에도\n줘야 공정 비교", C["orange"]),
+        ("아직 분리 안 된 것", "RBF memory 정보량 vs\nNN residual 기여\n\n공정 NN 대조·nested\nunit CV·표본 수", C["red"]),
+    ]
+    for i, (h, b, a) in enumerate(cards):
+        card(s, 70 + i * 390, 175, 370, 340, h, b, a)
+    add_text(
+        s,
+        90,
+        545,
+        1100,
+        40,
+        "발표/논문 멘트: ‘모델이 통째로 한 단계 진화’보다 ‘어디서 구조가, 어디서 계약이 이득인지’를 분리한다.",
+        14,
+        C["crimson"],
+        True,
+    )
+    foot(s, p())
+
+    # ===== 11a4 Cross-domain =====
+    s = blank(prs)
+    topbar(s, "C", "교차 도메인 현황", "배터리 밖 — 복구·감사 중, 통합 성공 아님")
+    headers = ["도메인", "상태", "핵심 수치/사실", "주장"]
+    rows = [
+        ["XJTU", "개발 개선", "progress+scale transport ≈ 0.257\n(기존 Ridge −0.84)", "post-test 개발. 독립 확증 아님"],
+        ["FEMTO", "판정 보류/실패", "잘못된 진동 채널 발견\n교정 후 PP 구조들 채택 실패", "우월 실패가 아니라 설계 미성숙"],
+        ["Milling", "감사", "일부 양수 점수는 수식 보정\nNN 경로 꺼진 경우 있음", "NN 기여와 보정 기여 분리 필요"],
+        ["정보 한계", "이론", "비슷한 prefix + 다른 Z면\n어떤 f(H)도 한계", "안 보이는 lifetime을 복원하지 않음"],
+    ]
+    xs = [60, 220, 420, 860]
+    ws = [150, 180, 420, 340]
+    for i, h in enumerate(headers):
+        add_text(s, xs[i], 150, ws[i], 24, h, 13, C["navy"], True)
+    for ri, row in enumerate(rows):
+        y = 185 + ri * 85
+        bg = C["wash"] if ri % 2 == 0 else C["white"]
+        rect(s, 50, y - 8, 1180, 75, bg, C["line"], True)
+        for i, val in enumerate(row):
+            add_text(s, xs[i], y + 5, ws[i], 60, val, 13, C["ink"])
     foot(s, p())
 
     # ===== 11b Ablation overview =====
@@ -784,9 +881,9 @@ def build():
     s = blank(prs)
     topbar(s, "C", "어디서 되고, 어디서 안 되나", "성공과 실패를 한 지도에 같이 둔다")
     pic(s, "experiment_map.png", 40, 140, 820, 430)
-    card(s, 900, 170, 310, 130, "잘 되는 곳", "열화 범위 밖 예측\n가정이 맞고\n검증 방향이 비슷할 때", C["teal"])
-    card(s, 900, 320, 310, 130, "안 되는 곳", "관계가 반대로 바뀌거나\n표본이 너무 적을 때\n→ 예측을 거절하는 게 맞음", C["red"])
-    card(s, 900, 470, 310, 110, "해석", "어디서나 이긴다가 아니라\n언제 쓸지 지도가 중요", C["navy"])
+    card(s, 900, 170, 310, 130, "잘 되는 곳", "연속 열화·경계 prior\n검증≈테스트 방향\nSAAR 3배터리", C["teal"])
+    card(s, 900, 320, 310, 130, "조심할 곳", "Zn 장수명·교차조건\n개발 점수는 있으나\n확증·공정대조 남음", C["orange"])
+    card(s, 900, 470, 310, 110, "아직 안 되는 곳", "FEMTO 현 설계\n정보 한계(Z 미관측)\n→ 거절·재설계", C["red"])
     foot(s, p())
 
     # ===== 15 Bootstrap =====
@@ -800,13 +897,37 @@ def build():
     s = blank(prs)
     topbar(s, "C", "어디까지 말해도 될까", "과장하지 않고, 솔직하게")
     cards = [
-        ("꽤 확실한 것", "잘 된 8곳에서 경쟁 우위\nMICH 유닛 회복\n경계 위반 없음\n유닛 단위 개선 확인", C["teal"]),
-        ("조심할 것", "핵심 3데이터는\n개발하면서 본 결과\n경쟁 비교도 후향\n새 데이터 확인이 필요", C["orange"]),
-        ("아직 약한 것", "도메인 종류가 적음\n일부 설정은 전부 실패\n실패를 항상 미리\n잡진 못함", C["red"]),
+        ("꽤 확실한 것", "SAAR로 3배터리 최저점 회복\n잘 된 cohort에서 경쟁 우위\n경계 위반 0건(해당 설정)\nPAE와 결과 표 분리", C["teal"]),
+        ("조심할 것", "핵심 표는 개발 결과\nZn 0.9대·XJTU 0.26은\n사후/소표본 성격\nrefit·정보량 맞춰 비교", C["orange"]),
+        ("아직 약한 것", "보편 pre-gate 실패\nFEMTO 미성숙\n통합 executor 미검증\nICML급 증거는 부족", C["red"]),
     ]
     for i, (h, b, a) in enumerate(cards):
         card(s, 80 + i * 390, 200, 360, 280, h, b, a)
-    add_text(s, 90, 530, 1100, 50, "말할 때: ‘어디서나 1등’이 아니라 ‘가정이 맞고, 검증이 테스트와 비슷할 때 잘 된다’.", 15, C["ink"], True)
+    add_text(s, 90, 530, 1100, 50, "말할 때: ‘어디서나 1등’이 아니라 ‘연속 열화·경계 prior가 맞고 검증이 비슷할 때 SAAR가 안전장치로 작동한다’.", 14, C["ink"], True)
+    foot(s, p())
+
+    # ===== 16b Journal target =====
+    s = blank(prs)
+    topbar(s, "D", "논문으로 어디를 노리나", "지금 증거 강도 기준")
+    tiers = [
+        ("현실 본선", "RESS · MSSP ·\nIEEE Reliability/TII", "분야 Q1–Q2\n외삽·RUL 스토리 적합", C["teal"]),
+        ("도전", "Applied Energy 등\n배터리 특화", "청구항을 Li 연속열화로\n좁힐 때만", C["blue"]),
+        ("아직 이름만", "ICML / NeurIPS\nNature 계열", "새 학습 원리·대규모\n확증이 더 필요", C["grey"]),
+    ]
+    for i, (h, b, c, col) in enumerate(tiers):
+        card(s, 80 + i * 390, 180, 370, 280, h, f"{b}\n\n{c}", col)
+    add_text(
+        s,
+        90,
+        500,
+        1100,
+        80,
+        "전략  ·  PP 1편은 SAAR+3배터리(+정직한 한계). Zn·베어링은 같은 편의 주 claim에 넣지 않거나\n"
+        "개발/한계 절로만. ‘세계 탑’과 ‘분야 상위(Q1)’는 다른 줄.",
+        14,
+        C["ink"],
+        True,
+    )
     foot(s, p())
 
     # ===== 17 Claim boundary =====
@@ -845,7 +966,7 @@ def build():
         560,
         1060,
         28,
-        "지금: PP  |  다음: PAE  |  “PP is prior-free”는 쓰지 말 것 (affine·경계도 넓은 prior)",
+        "지금: PP(SAAR)  |  Zn·교차는 한계/확장  |  다음: PAE  |  prior-free라고 쓰지 말 것",
         14,
         C["crimson"],
         True,
@@ -892,17 +1013,17 @@ def build():
     topbar(s, "D", "한 장 요약", "오늘 가져갈 말")
     bullets = [
         ("왜", "학습 밖에서는 가정이 필요하다. 식만 넣으면 답이 아니다."),
-        ("PP", "식 없는 외삽 안전장치. prior-free가 아니라 equation-free."),
-        ("켜는 법", "데이터셋 이름이 아니라 계약·고정 eligibility로 weak bundle만."),
-        ("PAE", "식 뼈대 + NN 부족분. 이득 없으면 식을 끈다."),
-        ("경계", "PP의 선택을 너무 똑똑하게 만들면 PAE와 겹친다."),
+        ("PP", "주모델 SAAR: equation-free 외삽 안전장치 (prior-free 아님)."),
+        ("증거", "3배터리 개발 표가 본선. Zn·XJTU 숫자는 개발/한계로 분리."),
+        ("PAE", "결과 표와 안 겹침. 식 컴파일·라우팅은 후속."),
+        ("다음", "scale-aware / boundary-consistent quotient · 미개봉 cohort."),
     ]
     cols = [C["orange"], C["teal"], C["blue"], C["navy"], C["crimson"]]
     for i, ((h, b), col) in enumerate(zip(bullets, cols)):
         y = 170 + i * 85
         rect(s, 90, y, 160, 60, col, None, True)
         add_text(s, 105, y + 16, 130, 28, h, 14, C["white"], True, "center")
-        add_text(s, 280, y + 14, 900, 35, b, 17, C["ink"])
+        add_text(s, 280, y + 14, 900, 35, b, 16, C["ink"])
     foot(s, p())
 
     # ===== 19 Discussion =====
@@ -910,19 +1031,19 @@ def build():
     rect(s, 0, 0, 1280, 10, C["crimson"])
     rect(s, 72, 100, 85, 6, C["crimson"])
     add_text(s, 72, 130, 600, 50, "같이 정할 것", 40, C["ink"], True)
-    add_text(s, 76, 200, 500, 28, "발표를 더 다듬을 때", 18, C["crimson"], True)
+    add_text(s, 76, 200, 500, 28, "발표·논문 다듬을 때", 18, C["crimson"], True)
     qs = [
-        "메인 결과로 3개 배터리 그래프를 둘지, 잘 된 8곳 비교를 둘지",
-        "실패한 실험은 본문에 둘지, ‘적용 한계’로 뺄지",
-        "PAE(식)·PP(식 없음) 경계를 이 자료에서 얼마나 길게 둘지",
-        "완전히 새 데이터로 확인하는 실험을 언제 넣을지",
+        "주표를 SAAR 3배터리만 둘지, Zn 개발 숫자를 한계 절로만 둘지",
+        "XJTU 0.257·FEMTO 실패를 본문 한계로 둘지 Appendix로 뺄지",
+        "투고 본선을 RESS/MSSP로 고정할지, 배터리 특화로 좁힐지",
+        "미개봉 cohort·공정 refit MLP 대조를 언제 동결할지",
     ]
     for i, q in enumerate(qs):
         y = 260 + i * 70
         rect(s, 80, y, 34, 34, [C["crimson"], C["teal"], C["blue"], C["orange"]][i], None, True)
         add_text(s, 88, y + 6, 18, 20, str(i + 1), 12, C["white"], True, "center")
         add_text(s, 140, y + 4, 1000, 35, q, 16, C["ink"])
-    add_text(s, 76, 580, 900, 40, "자료: 외삽 문헌조사 · pp-extrapolation · 발표 양식", 12, C["grey"])
+    add_text(s, 76, 580, 900, 40, "자료: pp-extrapolation · SAAR_NAMING · PP_INFORMATION_LIMITS · 외삽 문헌조사", 12, C["grey"])
     p()
 
     # =====================================================================
@@ -969,16 +1090,15 @@ def build():
         1040,
         360,
         "남은수명(RUL) 예측기는 학습 구간 안에서는 잘 맞아도, 관측된 열화 범위 밖에서는\n"
-        "행동이 통제되지 않는 경우가 많다. 본 연구는 안정적인 기본 경향(고정 affine)과\n"
-        "제한된 신경망 보정을 분리하고, 개체 단위로 검증된 출력 오차만 옮길지 결정한다.\n"
-        "수명 경계가 관측되는 영역에서는 경계-몫(Boundary-Quotient) 확장으로\n"
-        "고장점에서 남은수명이 0이 되도록 한다. 여러 데이터에서 개체 분리·범위 밖 평가를\n"
-        "적용했을 때, 가정이 맞는 구간에서는 정확도가 오르고, 관계가 바뀌는 실패는\n"
-        "일반 랜덤 분할로는 잘 드러나지 않는다는 점을 함께 보인다.",
+        "행동이 통제되지 않는 경우가 많다. 본 연구(SAAR)는 안정적인 기본 경향(고정 affine)과\n"
+        "support-aware dual-scale residual을 분리해 equation-free 외삽 안전장치로 둔다.\n"
+        "경계가 관측되면 Boundary-Quotient로 고장점 RUL=0을 강제한다. 주 개발 표는\n"
+        "Sunwoda·RWTH·MICH이며, Zn-ion·베어링 확장은 한계·개발 결과로 분리 보고한다.\n"
+        "PAE(식 컴파일)와는 결과 표를 공유하지 않는다.",
         16,
         C["ink"],
     )
-    add_text(s, 120, 560, 1040, 30, "원문: pp-extrapolation/PP_FIRST_PUBLICATION_CLAIMS_KO.md", 12, C["grey"])
+    add_text(s, 120, 560, 1040, 30, "원문: PP_FIRST_PUBLICATION_CLAIMS_KO · UNIFIED_DUAL_SCALE · PP_INFORMATION_LIMITS", 12, C["grey"])
     foot(s, p())
 
     # A3 problem formulation
