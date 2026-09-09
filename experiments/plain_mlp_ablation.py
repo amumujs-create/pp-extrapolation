@@ -49,6 +49,9 @@ def fit_plain(
     patience: int = 70,
     batch_size: int = 512,
     restore_best: bool = True,
+    width: int = 32,
+    learning_rate: float = 5e-4,
+    weight_decay: float = 2.0,
 ) -> dict:
     torch.manual_seed(seed)
     center, scale = fit_feature_scale(train["x"])
@@ -64,8 +67,10 @@ def fit_plain(
         transform_features(validation["x"], center, scale), dtype=torch.float32
     )
     validation_y = np.asarray(validation["y"], dtype=np.float64)
-    model = PlainMLP(x.shape[1], width=32)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4, weight_decay=2.0)
+    model = PlainMLP(x.shape[1], width=int(width))
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=float(learning_rate), weight_decay=float(weight_decay)
+    )
     rng = np.random.default_rng(seed)
 
     def validation_mse() -> float:
@@ -113,6 +118,9 @@ def fit_plain(
         "epochs_executed": last_epoch,
         "validation_mse": best_loss,
         "restore_best": bool(restore_best),
+        "width": int(width),
+        "learning_rate": float(learning_rate),
+        "weight_decay": float(weight_decay),
     }
 
 
