@@ -1,0 +1,21 @@
+{
+  "source": "results/ppx_final_ablation_statistics_v1/results.json",
+  "figures": [
+    "fig_ablation_delta_r2.pdf",
+    "fig_ablation_delta_r2.png",
+    "fig_ablation_seed_stability.pdf",
+    "fig_ablation_seed_stability.png",
+    "fig_ablation_significance_status.pdf",
+    "fig_ablation_significance_status.png",
+    "fig_ablation_unit_forest.pdf",
+    "fig_ablation_unit_forest.png",
+    "fig_competitor_score_matrix.pdf",
+    "fig_competitor_score_matrix.png",
+    "fig_ppx_vs_strongest_competitor.pdf",
+    "fig_ppx_vs_strongest_competitor.png",
+    "fig_selected_ppx_vs_direct.pdf",
+    "fig_selected_ppx_vs_direct.png",
+    "manifest.json"
+  ],
+  "note": "PNG 300 dpi and vector PDF; generated from stored row-aligned predictions"
+}

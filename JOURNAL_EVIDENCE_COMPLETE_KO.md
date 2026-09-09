@@ -11,8 +11,8 @@ PP를 하나의 고정 회귀식으로 모든 데이터에 강제하지 않고, 
 | HUST unseen-cell late tail | **0.958** | GroupDRO | 0.934 | +0.024 |
 | Virkler unseen-specimen crack tail | **0.888** | linear-tail RBF | 0.805 | +0.083 |
 | NASA battery unseen-cell tail | **0.584** | linear-tail RBF | 0.550 | +0.034 |
-| Sunwoda unseen-cell tail | **0.934** | linear-tail RBF | 0.838 | +0.096 |
-| RWTH unseen-cell tail | **0.842** | V-REx | 0.645 | +0.197 |
+| Sunwoda unseen-cell tail | **0.939** | linear-tail RBF | 0.838 | +0.101 |
+| RWTH unseen-cell tail | **0.878** | V-REx | 0.645 | +0.233 |
 | MICH unseen-cell tail | **0.751** | matched direct NN | 0.684 | +0.067 |
 | MATR2019 strict health tail | **0.466** | calibrated FT-Transformer | 0.377 | +0.089 |
 | MATR batch 2 strict tail | **0.862** | V-REx | 0.850 | +0.012 |

@@ -142,3 +142,9 @@ __all__ += [
     "LogBoundaryQuotientFit", "fit_log_boundary_quotient_pp",
     "predict_log_boundary_affine", "predict_log_boundary_quotient",
 ]
+from .lifetime_scale import fit_lifetime_scale_pp, predict_lifetime_scale, LifetimeScaleFit
+from .latent_pp import fit_latent_pp, predict_latent, LatentFit
+from .transferability_gate import PriorEvidence, GateDecision, select_ppx_route
+from .executor_policy import ExecutorEvidence, ExecutorDecision, select_residual_executor
+
+__all__ += ["PriorEvidence", "GateDecision", "select_ppx_route"]

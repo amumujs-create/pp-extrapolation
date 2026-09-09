@@ -1,0 +1,83 @@
+{
+  "model": "PP-X",
+  "definition": "prior portfolio + transferability gate + bounded neural correction/direct safety executor",
+  "scope": "inductive extrapolation only; no TTA, transductive fitting, or test-batch statistics",
+  "status": "retrospective development registry; heterogeneous dataset-specific protocols; not a new untouched confirmation",
+  "positive_r2_routes": 12,
+  "total_routes": 12,
+  "routes": [
+    {
+      "dataset": "HUST",
+      "development_pooled_r2": 0.958,
+      "route": "regime_transport_pp",
+      "artifact": "results/hust_regime_transport_pp_v1/results.json"
+    },
+    {
+      "dataset": "Virkler",
+      "development_pooled_r2": 0.888,
+      "route": "support_gated_pp",
+      "artifact": "results/support_gated_cross_domain_v1/results.json"
+    },
+    {
+      "dataset": "NASA battery",
+      "development_pooled_r2": 0.584,
+      "route": "causal_multiscale_latent_pp",
+      "artifact": "results/nasa_causal_multiscale_pp_v1/results.json"
+    },
+    {
+      "dataset": "Sunwoda",
+      "development_pooled_r2": 0.939,
+      "route": "validation_approved_bounded_boundary_pp",
+      "artifact": "results/bq_pp_matched_controls_v1/results.json"
+    },
+    {
+      "dataset": "RWTH",
+      "development_pooled_r2": 0.878,
+      "route": "validation_approved_bounded_boundary_pp",
+      "artifact": "results/bq_pp_matched_controls_v1/results.json"
+    },
+    {
+      "dataset": "MATR2019",
+      "development_pooled_r2": 0.466,
+      "route": "validation_calibrated_latent_pp",
+      "artifact": "results/matr_pp_validation_calibration_v1/results.json"
+    },
+    {
+      "dataset": "MATR batch 2",
+      "development_pooled_r2": 0.862,
+      "route": "regime_transport_pp",
+      "artifact": "results/matr_batch2_pp_five_seed_replay/results.json"
+    },
+    {
+      "dataset": "N-CMAPSS",
+      "development_pooled_r2": 0.937,
+      "route": "causal_multiscale_latent_pp",
+      "artifact": "results/ncmapss_pp_multiscale_v1/results.json"
+    },
+    {
+      "dataset": "MICH",
+      "development_pooled_r2": 0.751,
+      "route": "support_adaptive_dual_scale_boundary_pp",
+      "artifact": "results/bq_dual_scale_final_replay_v1/results.json"
+    },
+    {
+      "dataset": "XJTU",
+      "development_pooled_r2": 0.257,
+      "route": "retrospective_reflected_scale_temporal_pp",
+      "artifact": "results/xjtu_reflected_scale_pp_v3/results.json"
+    },
+    {
+      "dataset": "FEMTO",
+      "development_pooled_r2": 0.07488203048706055,
+      "route": "transferability_gate_to_neural_safety",
+      "artifact": "results/femto_ppx_final_v14/results.json"
+    },
+    {
+      "dataset": "NASA milling",
+      "development_pooled_r2": 0.341,
+      "route": "inspection_calibrated_boundary_quotient",
+      "artifact": "results/milling_boundary_quotient_route_v1/results.json"
+    }
+  ],
+  "femto_caveat": "positive ensemble R2 comes from prior abstention; all five individual waveform-NN seeds have negative R2"
+}

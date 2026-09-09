@@ -11,8 +11,8 @@ PP 연구의 12개 평가 설정 전부에 V-REx, GroupDRO, train-only 방향의
 | HUST protocol-tail | **0.958** | 0.809 | 0.934 | 0.822 | 0.710 | 0.878 | -0.320 | PP |
 | Virkler crack-tail | **0.888** | 0.583 | 0.554 | 0.565 | 0.805 | 0.552 | 0.539 | PP |
 | NASA battery LOO-tail | **0.584** | 0.285 | 0.286 | 0.283 | 0.550 | 0.549 | 0.438 | PP |
-| Sunwoda unseen-cell tail | **0.934** | -0.240 | -0.295 | -0.048 | 0.838 | 0.619 | -1.598 | dual-scale PP |
-| RWTH unseen-cell tail | **0.842** | 0.645 | 0.602 | -0.005 | 0.385 | 0.526 | -0.474 | dual-scale PP |
+| Sunwoda unseen-cell tail | **0.939** | -0.240 | -0.295 | -0.048 | 0.838 | 0.619 | -1.598 | validation-approved bounded BQ-PP |
+| RWTH unseen-cell tail | **0.878** | 0.645 | 0.602 | -0.005 | 0.385 | 0.526 | -0.474 | validation-approved bounded BQ-PP |
 | MATR2019 strict health-tail | **0.466** | 0.044 | 0.272 | 0.018 | -2.639 | -0.726 | -2.461 | PP† |
 | MATR batch2 strict tail | **0.862** | 0.850 | 0.777 | 0.674 | -0.781 | 0.739 | 0.213 | PP |
 | N-CMAPSS hard TRA extrapolation | **0.937** | 0.883 | 0.880 | 0.892 | 0.819 | 0.932 | 0.804 | PP |

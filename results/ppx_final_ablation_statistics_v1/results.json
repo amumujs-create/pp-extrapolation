@@ -1,0 +1,739 @@
+{
+  "experiment": "ppx_final_ablation_statistics_v1",
+  "status": "retrospective matched replay from stored row-aligned predictions",
+  "metric_contract": "pooled R2; prediction ensemble is primary; units are the population sampling level",
+  "inference": {
+    "bootstrap_resamples": 50000,
+    "seed": 20260909,
+    "unit_effect": "off RMSE minus on RMSE; positive favors component",
+    "multiplicity": "Benjamini-Hochberg across all component-dataset comparisons"
+  },
+  "limitations": [
+    "Seed p-values quantify optimizer sensitivity and have minimum attainable two-sided p=0.0625 for five seeds.",
+    "Unit bootstrap is unreliable for very small unit counts; FEMTO has one test row per unit.",
+    "These are retrospective development splits, not untouched confirmation.",
+    "N-CMAPSS has only three hard-test engines and one has a single row, limiting unit inference."
+  ],
+  "comparisons": [
+    {
+      "dataset": "Sunwoda",
+      "component": "nonlinear residual",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.2809266887777516,
+      "on_ensemble_r2": 0.9394506412142191,
+      "ensemble_delta_r2": 0.6585239524364674,
+      "off_seed_r2_mean_sd": [
+        0.2809266887777516,
+        0.0
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9085374666037149,
+        0.020000159213518814
+      ],
+      "seed_delta_r2": [
+        0.6376843947426855,
+        0.6019402406354657,
+        0.6540157452573172,
+        0.6286852567786136,
+        0.6157282517157346
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.33846376710980597,
+      "unit_rmse_wins": 9,
+      "unit_bootstrap_ci95": [
+        0.26557430069522897,
+        0.40185878591686647
+      ],
+      "unit_signflip_p_two_sided": 0.00390625,
+      "unit_signflip_q_bh": 0.01953125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "Sunwoda",
+      "component": "frozen affine path",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.9003352610269933,
+      "on_ensemble_r2": 0.9394506412142191,
+      "ensemble_delta_r2": 0.03911538018722571,
+      "off_seed_r2_mean_sd": [
+        0.8980773879502945,
+        0.005679616990635036
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9085374666037149,
+        0.020000159213518814
+      ],
+      "seed_delta_r2": [
+        0.019396646758167657,
+        -0.02370843507981457,
+        0.03694458629479713,
+        0.01853308117834629,
+        0.0011345141156064997
+      ],
+      "seed_signflip_p_two_sided": 0.4375,
+      "mean_unit_rmse_reduction": 0.037984983308909835,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        -0.019672020509137765,
+        0.09080915492572579
+      ],
+      "unit_signflip_p_two_sided": 0.2421875,
+      "unit_signflip_q_bh": 0.29411764705882354,
+      "seed_signflip_q_bh": 0.4605263157894737
+    },
+    {
+      "dataset": "Sunwoda",
+      "component": "fixed residual bound",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.7180911609045368,
+      "on_ensemble_r2": 0.9394506412142191,
+      "ensemble_delta_r2": 0.22135948030968222,
+      "off_seed_r2_mean_sd": [
+        0.6893981407867837,
+        0.14054889064195825
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9085374666037149,
+        0.020000159213518814
+      ],
+      "seed_delta_r2": [
+        0.36642408945177984,
+        0.2004890542523161,
+        0.06263812453452944,
+        0.3534310424246546,
+        0.11271431842137614
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.15319922943728612,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        0.07441155207734734,
+        0.2253889545038639
+      ],
+      "unit_signflip_p_two_sided": 0.015625,
+      "unit_signflip_q_bh": 0.03125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "Sunwoda",
+      "component": "support-adaptive dual scale",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.9394506412142191,
+      "on_ensemble_r2": 0.934307578685484,
+      "ensemble_delta_r2": -0.005143062528735087,
+      "off_seed_r2_mean_sd": [
+        0.9085374666037149,
+        0.020000159213518814
+      ],
+      "on_seed_r2_mean_sd": [
+        0.841751882258416,
+        0.09874025938903559
+      ],
+      "seed_delta_r2": [
+        -0.022146540560641026,
+        0.028094592780896988,
+        -0.02739439815310274,
+        -0.09605060954800348,
+        -0.2164309662456445
+      ],
+      "seed_signflip_p_two_sided": 0.25,
+      "mean_unit_rmse_reduction": -0.005135507877816365,
+      "unit_rmse_wins": 5,
+      "unit_bootstrap_ci95": [
+        -0.03472072586701939,
+        0.02096418710842449
+      ],
+      "unit_signflip_p_two_sided": 0.7578125,
+      "unit_signflip_q_bh": 0.7578125,
+      "seed_signflip_q_bh": 0.29411764705882354
+    },
+    {
+      "dataset": "Sunwoda",
+      "component": "complete selected PP-X vs direct NN",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": -1.3518961879187152,
+      "on_ensemble_r2": 0.9394506412142191,
+      "ensemble_delta_r2": 2.291346829132934,
+      "off_seed_r2_mean_sd": [
+        -1.6819908621955642,
+        1.8035906310017067
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9085374666037149,
+        0.020000159213518814
+      ],
+      "seed_delta_r2": [
+        3.0288870828958516,
+        2.5414111924893974,
+        1.6088831634217042,
+        5.3046067028003625,
+        0.4688535023890794
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.7184494392375077,
+      "unit_rmse_wins": 9,
+      "unit_bootstrap_ci95": [
+        0.6552517525778572,
+        0.7718610670907785
+      ],
+      "unit_signflip_p_two_sided": 0.00390625,
+      "unit_signflip_q_bh": 0.01953125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "RWTH",
+      "component": "nonlinear residual",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.6587050285826467,
+      "on_ensemble_r2": 0.878381798509073,
+      "ensemble_delta_r2": 0.21967676992642637,
+      "off_seed_r2_mean_sd": [
+        0.6587050285826467,
+        0.0
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8708834352465177,
+        0.015865420915835964
+      ],
+      "seed_delta_r2": [
+        0.21814067091987355,
+        0.21177644204643953,
+        0.18517402159654328,
+        0.22045351865465979,
+        0.22534738010183875
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.31227877943979615,
+      "unit_rmse_wins": 8,
+      "unit_bootstrap_ci95": [
+        0.22027216271035452,
+        0.39376949290595176
+      ],
+      "unit_signflip_p_two_sided": 0.0078125,
+      "unit_signflip_q_bh": 0.022321428571428572,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "RWTH",
+      "component": "frozen affine path",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.8545837280569965,
+      "on_ensemble_r2": 0.878381798509073,
+      "ensemble_delta_r2": 0.023798070452076603,
+      "off_seed_r2_mean_sd": [
+        0.8510025947530468,
+        0.0056235253193946694
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8708834352465177,
+        0.015865420915835964
+      ],
+      "seed_delta_r2": [
+        0.019362010558010345,
+        0.014064113387539545,
+        -0.005465177052657255,
+        0.03317816113055261,
+        0.0382650944439078
+      ],
+      "seed_signflip_p_two_sided": 0.125,
+      "mean_unit_rmse_reduction": 0.07812701665871984,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        -0.07091330923693723,
+        0.18388442375495107
+      ],
+      "unit_signflip_p_two_sided": 0.3046875,
+      "unit_signflip_q_bh": 0.3385416666666667,
+      "seed_signflip_q_bh": 0.16666666666666666
+    },
+    {
+      "dataset": "RWTH",
+      "component": "fixed residual bound",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.7882218652461832,
+      "on_ensemble_r2": 0.878381798509073,
+      "ensemble_delta_r2": 0.09015993326288985,
+      "off_seed_r2_mean_sd": [
+        0.7600742528095041,
+        0.047149834897109846
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8708834352465177,
+        0.015865420915835964
+      ],
+      "seed_delta_r2": [
+        0.17552160364113922,
+        0.06665947848090359,
+        0.07759870318629536,
+        0.15621792070123064,
+        0.07804820617549812
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.17682060261784688,
+      "unit_rmse_wins": 6,
+      "unit_bootstrap_ci95": [
+        0.012874619874665927,
+        0.33229777116381687
+      ],
+      "unit_signflip_p_two_sided": 0.09375,
+      "unit_signflip_q_bh": 0.15625,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "RWTH",
+      "component": "support-adaptive dual scale",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.878381798509073,
+      "on_ensemble_r2": 0.8417776315499763,
+      "ensemble_delta_r2": -0.03660416695909674,
+      "off_seed_r2_mean_sd": [
+        0.8708834352465177,
+        0.015865420915835964
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8176197420588902,
+        0.05003886424234467
+      ],
+      "seed_delta_r2": [
+        -0.02444209284265264,
+        -0.03753869552343758,
+        -0.035007572913743124,
+        -0.14402038195111833,
+        -0.025309722707185456
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": -0.06156662668419226,
+      "unit_rmse_wins": 0,
+      "unit_bootstrap_ci95": [
+        -0.08428758107698034,
+        -0.0422116869572419
+      ],
+      "unit_signflip_p_two_sided": 0.0078125,
+      "unit_signflip_q_bh": 0.022321428571428572,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "RWTH",
+      "component": "complete selected PP-X vs direct NN",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.6334541052574859,
+      "on_ensemble_r2": 0.878381798509073,
+      "ensemble_delta_r2": 0.24492769325158714,
+      "off_seed_r2_mean_sd": [
+        0.319109843207021,
+        0.553821159100587
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8708834352465177,
+        0.015865420915835964
+      ],
+      "seed_delta_r2": [
+        1.2561935278358896,
+        0.0838402148443097,
+        1.0253565576723929,
+        0.16038770957991533,
+        0.2330899502649757
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.381400288120919,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        0.14772370022782982,
+        0.55762675840877
+      ],
+      "unit_signflip_p_two_sided": 0.0234375,
+      "unit_signflip_q_bh": 0.04261363636363636,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "MICH",
+      "component": "nonlinear residual",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": -3.3431916112092663,
+      "on_ensemble_r2": 0.46795865285291083,
+      "ensemble_delta_r2": 3.811150264062177,
+      "off_seed_r2_mean_sd": [
+        -3.3431916112092663,
+        0.0
+      ],
+      "on_seed_r2_mean_sd": [
+        0.4679511130250038,
+        0.0003974733295816811
+      ],
+      "seed_delta_r2": [
+        3.811755298315787,
+        3.8110897438376687,
+        3.8111420843941772,
+        3.8106422595820773,
+        3.8110842350416405
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.3053439720553953,
+      "unit_rmse_wins": 8,
+      "unit_bootstrap_ci95": [
+        0.2479341696087562,
+        0.3439381920904847
+      ],
+      "unit_signflip_p_two_sided": 0.0078125,
+      "unit_signflip_q_bh": 0.022321428571428572,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "MICH",
+      "component": "frozen affine path",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.31906748209347835,
+      "on_ensemble_r2": 0.46795865285291083,
+      "ensemble_delta_r2": 0.14889117075943248,
+      "off_seed_r2_mean_sd": [
+        0.31797199884156696,
+        0.02191471685806062
+      ],
+      "on_seed_r2_mean_sd": [
+        0.4679511130250038,
+        0.0003974733295816811
+      ],
+      "seed_delta_r2": [
+        0.11974973006245881,
+        0.17879920905047053,
+        0.15999997032586588,
+        0.14673408572709778,
+        0.14461257575129105
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.022965346652308122,
+      "unit_rmse_wins": 6,
+      "unit_bootstrap_ci95": [
+        -0.007608472033846913,
+        0.054232353789104466
+      ],
+      "unit_signflip_p_two_sided": 0.2109375,
+      "unit_signflip_q_bh": 0.29411764705882354,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "MICH",
+      "component": "fixed residual bound",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.7592579762924931,
+      "on_ensemble_r2": 0.46795865285291083,
+      "ensemble_delta_r2": -0.2912993234395823,
+      "off_seed_r2_mean_sd": [
+        0.5315621516235767,
+        0.21676248277785287
+      ],
+      "on_seed_r2_mean_sd": [
+        0.4679511130250038,
+        0.0003974733295816811
+      ],
+      "seed_delta_r2": [
+        -0.15996444337562998,
+        -0.3051906578673662,
+        0.1072771453364827,
+        0.21585087834839056,
+        -0.1760281154347414
+      ],
+      "seed_signflip_p_two_sided": 0.5625,
+      "mean_unit_rmse_reduction": -0.05435104963671141,
+      "unit_rmse_wins": 1,
+      "unit_bootstrap_ci95": [
+        -0.07353427285531822,
+        -0.031218196816637865
+      ],
+      "unit_signflip_p_two_sided": 0.015625,
+      "unit_signflip_q_bh": 0.03125,
+      "seed_signflip_q_bh": 0.5625
+    },
+    {
+      "dataset": "MICH",
+      "component": "support-adaptive dual scale",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.46795865285291083,
+      "on_ensemble_r2": 0.7512253884216676,
+      "ensemble_delta_r2": 0.2832667355687568,
+      "off_seed_r2_mean_sd": [
+        0.4679511130250038,
+        0.0003974733295816811
+      ],
+      "on_seed_r2_mean_sd": [
+        0.7032786441761566,
+        0.07663033678179056
+      ],
+      "seed_delta_r2": [
+        0.2847968785467476,
+        0.10630845916417786,
+        0.24657717157470393,
+        0.30052119966571567,
+        0.23843394680441854
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.05764908570784453,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        0.028791368144366766,
+        0.08660922771183154
+      ],
+      "unit_signflip_p_two_sided": 0.015625,
+      "unit_signflip_q_bh": 0.03125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "MICH",
+      "component": "complete selected PP-X vs direct NN",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.6841255916916853,
+      "on_ensemble_r2": 0.7512253884216676,
+      "ensemble_delta_r2": 0.06709979672998234,
+      "off_seed_r2_mean_sd": [
+        0.3389946462868214,
+        0.35912853651351895
+      ],
+      "on_seed_r2_mean_sd": [
+        0.7032786441761566,
+        0.07663033678179056
+      ],
+      "seed_delta_r2": [
+        0.374852641807248,
+        0.27696496177880636,
+        -0.12694347254447202,
+        0.9388912678132033,
+        0.35765459059188975
+      ],
+      "seed_signflip_p_two_sided": 0.125,
+      "mean_unit_rmse_reduction": 0.019910834936002902,
+      "unit_rmse_wins": 6,
+      "unit_bootstrap_ci95": [
+        -0.0006803199491430378,
+        0.040320848113319555
+      ],
+      "unit_signflip_p_two_sided": 0.1171875,
+      "unit_signflip_q_bh": 0.18028846153846154,
+      "seed_signflip_q_bh": 0.16666666666666666
+    },
+    {
+      "dataset": "HUST",
+      "component": "regime transport",
+      "status": "matched",
+      "n_rows": 7775,
+      "n_units": 16,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.8294894610549373,
+      "on_ensemble_r2": 0.9579589078968902,
+      "ensemble_delta_r2": 0.12846944684195294,
+      "off_seed_r2_mean_sd": [
+        0.8116702956589676,
+        0.02792409122262417
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9531426512163019,
+        0.013040099719999209
+      ],
+      "seed_delta_r2": [
+        0.12124516869710666,
+        0.14347020626295703,
+        0.1648293508404538,
+        0.13137027574775018,
+        0.14644677623840363
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 31.506548912471885,
+      "unit_rmse_wins": 15,
+      "unit_bootstrap_ci95": [
+        21.724909707235497,
+        40.573717627739775
+      ],
+      "unit_signflip_p_two_sided": 0.0001220703125,
+      "unit_signflip_q_bh": 0.00244140625,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "MATR batch 2",
+      "component": "regime transport after support decay",
+      "status": "matched",
+      "n_rows": 733,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.6752271354358794,
+      "on_ensemble_r2": 0.8623913670039096,
+      "ensemble_delta_r2": 0.1871642315680302,
+      "off_seed_r2_mean_sd": [
+        0.5556788821225254,
+        0.14778124533563908
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8523810298394119,
+        0.06141362735255405
+      ],
+      "seed_delta_r2": [
+        0.21757330016673238,
+        0.3032994857011204,
+        0.4462405990556948,
+        0.1369704484240415,
+        0.3794269052368434
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 7.313530037408258,
+      "unit_rmse_wins": 9,
+      "unit_bootstrap_ci95": [
+        5.54382049864336,
+        9.338317240052325
+      ],
+      "unit_signflip_p_two_sided": 0.00390625,
+      "unit_signflip_q_bh": 0.01953125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "FEMTO",
+      "component": "transferability gate / prior abstention",
+      "status": "retrospective route ablation; test has only one row per unit",
+      "n_rows": 11,
+      "n_units": 11,
+      "n_seeds": 5,
+      "off_ensemble_r2": -1.3470391448373733,
+      "on_ensemble_r2": 0.07488205797483394,
+      "ensemble_delta_r2": 1.4219212028122072,
+      "off_seed_r2_mean_sd": [
+        -1.7366347065046313,
+        0.7817941488002238
+      ],
+      "on_seed_r2_mean_sd": [
+        -1.153817472949163,
+        0.3357035057034181
+      ],
+      "seed_delta_r2": [
+        1.9714790588582367,
+        0.21305877228736514,
+        -0.2092711536243692,
+        1.001113057331796,
+        -0.06229356707568634
+      ],
+      "seed_signflip_p_two_sided": 0.3125,
+      "mean_unit_rmse_reduction": 1361.247213745117,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        -689.7222641823511,
+        3282.538569693133
+      ],
+      "unit_signflip_p_two_sided": 0.232421875,
+      "unit_signflip_q_bh": 0.29411764705882354,
+      "seed_signflip_q_bh": 0.3472222222222222
+    },
+    {
+      "dataset": "NASA battery",
+      "component": "validation-selected causal history",
+      "status": "matched",
+      "n_rows": 255,
+      "n_units": 4,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.5721108605508758,
+      "on_ensemble_r2": 0.5837508517315282,
+      "ensemble_delta_r2": 0.011639991180652398,
+      "off_seed_r2_mean_sd": [
+        0.572029204526873,
+        0.0034005066689224827
+      ],
+      "on_seed_r2_mean_sd": [
+        0.5836501105133961,
+        0.00481633732048578
+      ],
+      "seed_delta_r2": [
+        0.013070290995190414,
+        0.013861265432920322,
+        0.01778145555365529,
+        0.0076903054863639575,
+        0.005701212464485184
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.05735558865931023,
+      "unit_rmse_wins": 2,
+      "unit_bootstrap_ci95": [
+        -0.139269084289664,
+        0.31122131683976306
+      ],
+      "unit_signflip_p_two_sided": 0.75,
+      "unit_signflip_q_bh": 0.7578125,
+      "seed_signflip_q_bh": 0.09615384615384616
+    },
+    {
+      "dataset": "N-CMAPSS",
+      "component": "validation-selected multiscale history",
+      "status": "matched",
+      "n_rows": 159,
+      "n_units": 3,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.9280060633635627,
+      "on_ensemble_r2": 0.9372705172310921,
+      "ensemble_delta_r2": 0.009264453867529387,
+      "off_seed_r2_mean_sd": [
+        0.9239954895440325,
+        0.014711805152724976
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9338815800155021,
+        0.007497261324747749
+      ],
+      "seed_delta_r2": [
+        0.0,
+        0.03353107388019527,
+        -0.005909273560031014,
+        0.008448451755930453,
+        0.013360200281252621
+      ],
+      "seed_signflip_p_two_sided": 0.25,
+      "mean_unit_rmse_reduction": 0.8253547828535144,
+      "unit_rmse_wins": 3,
+      "unit_bootstrap_ci95": [
+        0.31052979146633053,
+        1.8139022827148423
+      ],
+      "unit_signflip_p_two_sided": 0.25,
+      "unit_signflip_q_bh": 0.29411764705882354,
+      "seed_signflip_q_bh": 0.29411764705882354
+    }
+  ]
+}

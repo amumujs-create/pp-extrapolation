@@ -7,21 +7,24 @@
 | HUST protocol-tail | **0.958** | GroupDRO 0.934 | 0.218 | 우세 |
 | Virkler crack-tail | **0.888** | linear-tail RBF 0.805 | 0.621 | 우세 |
 | NASA battery LOO-tail | **0.584** | linear-tail RBF 0.550 | −0.691 | 우세 |
-| Sunwoda unseen-cell tail | **0.934** | linear-tail RBF 0.838 | −0.886 | 개선 dual-scale PP 우세 |
-| RWTH unseen-cell tail | **0.842** | V-REx 0.645 | −2.174 | 개선 dual-scale PP 우세 |
+| Sunwoda unseen-cell tail | **0.939** | linear-tail RBF 0.838 | −0.886 | validation-approved bounded BQ-PP 우세 |
+| RWTH unseen-cell tail | **0.878** | V-REx 0.645 | −2.174 | validation-approved bounded BQ-PP 우세 |
 | MATR2019 strict health-tail | **0.466** | 같은 validation calibrator를 적용한 FT-Transformer 0.377 | 미실행 | 우세 |
 | MATR batch 2 strict tail | **0.862** | V-REx 0.850 | 0.618† | 우세 |
 | N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | 동률권에 가까운 우세 |
 | MICH unseen-cell tail | **0.751** | direct NN 0.684 | 미실행 | 개선 dual-scale PP 우세 |
-| XJTU condition transfer | **−0.843** | linear-tail RBF −1.418 | 미실행 | scale-free progress PP 상대 우세; 절대 실패 |
-| FEMTO endpoint transfer | **−0.571** | monotone NN −0.973 | 미실행 | capacity-controlled prefix PP 상대 우세; 절대 실패 |
+| XJTU condition transfer | **0.257** | linear-tail RBF −1.418 | 미실행 | progress-temporal PP + validation opposite-ray scale transport; post-test 개발 성공§ |
+| FEMTO endpoint transfer | **0.075*** | 교정 causal GRU −0.248 | 미실행 | prior abstention → waveform neural safety; ensemble만 양수 |
 | NASA milling material transfer | **0.341** | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | inspection-calibrated boundary-quotient PP 우세‡ |
 
 ## 이 표를 읽는 방법
 
-- **양의 R² 10개 설정**에서는 최종 PP가 현재 동일 행으로 실행된 비-PP 비교모델 중 최고값보다 높다. N-CMAPSS의 PP 0.937 대 Engression 0.932 차이는 작으므로 엄밀한 우월성보다 동률권에 가까운 우세로 쓴다.
-- XJTU는 전 모델이 음수이므로 PP의 상대 수치가 더 높아도 성공 데이터셋으로 세지 않는다.
-- MICH는 support-adaptive dual-scale boundary executor로 0.751까지 복구됐다. FEMTO는 safety route로 개선됐지만 경쟁모델보다 낮아 실패 설정으로 남긴다. Milling은 공식 고장경계 `VB=0.50`을 사용한 quotient prior로 양의 R2를 회복했다.
+- **양의 R² 12개 설정**은 final selected PP-X route에서 확보됐다. 단, FEMTO의 .075는 다섯 예측의 ensemble만 양수이고 개별 seed는 모두 음수이므로 강건한 성공이나 경쟁모델 우세에 포함하지 않는다. XJTU의 0.257은 이미 관측된 test에서 구조를 개발한 결과라 독립 확증 성공에는 포함하지 않는다. N-CMAPSS의 PP 0.937 대 Engression 0.932 차이는 작으므로 엄밀한 우월성보다 동률권에 가까운 우세로 쓴다.
+- MICH는 support-adaptive dual-scale boundary executor로 0.751까지 복구됐다. Sunwoda·RWTH는 dual-scale을 전역으로 쓰지 않고 fixed bounded executor를 사용한다. Milling은 공식 고장경계 `VB=0.50`을 사용한 quotient prior로 양의 R2를 회복했다.
+
+> **2026-09-09 FEMTO 정정:** 과거 −0.571 경로는 6열 CSV에서 실제 진동 열 4/5가 아니라 시간 metadata 열 0/1을 사용했다. 해당 값과 같은 입력에서 나온 비교값은 최종 성능 근거에서 철회한다. 교정 이후 PP-X는 source evidence로 physical prior를 거절하고 waveform neural safety로 간다. `*.075`는 ensemble R²이며 individual seed 안정성은 해결되지 않았다.
+
+§ **XJTU 0.257:** RUL을 직접 제한해 예측하지 않고 `log1p(RUL/position)`을 affine+GRU residual PP가 학습한다. Train condition을 좌표 0, validation/test 조건을 반대 방향 −1/+1로 놓고, validation의 zero-intercept scale을 identity 1 주위로 반사해 test scale을 사전 계산한다. Seed 42~46 개별 R²는 0.241~0.256, 평균 0.252±0.006, prediction ensemble 0.257이다. Test label을 scale 계산에 사용하지 않았지만 test를 이미 본 뒤 개발한 구조이므로 `results/xjtu_reflected_scale_pp_v3/`의 retrospective 결과이며 새 cohort 확증이 필요하다.
 
 ‡ Milling 0.341은 이미 관측된 test에서 개발한 결과다. 공식 고장경계 0.50은 유지하고, 희소한 마모 측정 간격을 보정하는 margin `+0.03`을 validation MAE로 선택했다. Residual hyperparameter도 train/validation으로 튜닝했다. Test material-2가 train material-1에 없다는 label-free 인증으로 NN residual을 끄고 quotient route를 적용했다. 외부 확증 결과로는 쓰지 않는다.
 - TabPFN은 로컬 CPU v3에서 seed 42–46 예측을 평균했다. HUST·Virkler·NASA·C-MAPSS는 최대 3,000 train행, Sunwoda·RWTH·MATRb2는 최대 1,000 equal-unit train행을 사용한 보조 비교다. 다른 모델과 train cap이 다를 수 있어, 최고 비-PP 경쟁모델 열의 순위 결정에는 쓰지 않는다.
