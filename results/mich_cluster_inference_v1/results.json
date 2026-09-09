@@ -1,0 +1,42 @@
+{
+  "protocol": "unit-cluster bootstrap (20k) and exact paired unit sign-flip on seed-average predictions",
+  "n_units": 8,
+  "comparisons": {
+    "vrex": {
+      "ppx_r2": 0.826346069033101,
+      "baseline_r2": -0.6966068744659424,
+      "delta_r2": 1.5229529434990434,
+      "delta_r2_cluster_bootstrap_95": [
+        1.2957640866159867,
+        1.5345546970873736,
+        1.8299979618131543
+      ],
+      "unit_mse_gain_ppx_minus_baseline": 379.4742326242099,
+      "exact_sign_flip_pvalue": 0.0078125
+    },
+    "groupdro": {
+      "ppx_r2": 0.826346069033101,
+      "baseline_r2": -0.75087571144104,
+      "delta_r2": 1.577221780474141,
+      "delta_r2_cluster_bootstrap_95": [
+        1.3259406341792976,
+        1.5894995936350083,
+        1.8710110658134271
+      ],
+      "unit_mse_gain_ppx_minus_baseline": 387.9346646768222,
+      "exact_sign_flip_pvalue": 0.0078125
+    },
+    "monotone": {
+      "ppx_r2": 0.826346069033101,
+      "baseline_r2": -0.6896694898605347,
+      "delta_r2": 1.5160155588936357,
+      "delta_r2_cluster_bootstrap_95": [
+        1.2943768008459058,
+        1.528476741346849,
+        1.8095977975649733
+      ],
+      "unit_mse_gain_ppx_minus_baseline": 377.3898725015292,
+      "exact_sign_flip_pvalue": 0.0078125
+    }
+  }
+}
