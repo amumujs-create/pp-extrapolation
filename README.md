@@ -120,6 +120,10 @@ Audit the available external artifacts without retraining with:
 python experiments/audit_external_cohort_evidence.py
 ```
 
+The causal loader and target-scale audit for FEMTO/XJTU is in
+[`FEMTO_XJTU_FINAL_RESOLUTION_KO.md`](FEMTO_XJTU_FINAL_RESOLUTION_KO.md), and can be
+reproduced without fitting a model using `python experiments/failed_domain_data_audit.py`.
+
 The C-MAPSS FD001/FD003 mechanism repair is reported in
 [`CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md`](CMAPSS_REGIME_NORMALIZED_PP_RESULTS_KO.md).
 Place the official `train_FD00x.txt`, `test_FD00x.txt`, and `RUL_FD00x.txt` files
