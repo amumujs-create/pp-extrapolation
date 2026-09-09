@@ -41,3 +41,22 @@ def safety_continuation_pp_config() -> dict:
         "residual_seed_replay": True,
         "residual_zero_init": False,
     }
+
+
+def safety_continuation_trust_grid() -> tuple[dict, ...]:
+    """Return nested PP routes containing the exact direct-NN submodel.
+
+    ``fixed_affine_trust=0`` is intentionally included.  With seed replay this
+    route has exactly the same initialization, optimizer and predictions as the
+    matched standalone MLP.  Validation can therefore decline an unsupported
+    affine prior without averaging predictions from separate model families.
+    """
+    common = {
+        "direct_residual_mixture": True,
+        "residual_seed_replay": True,
+        "residual_zero_init": False,
+    }
+    return tuple(
+        {**common, "fixed_affine_trust": trust}
+        for trust in (0.0, 0.02, 0.05, 0.1, 0.2, 0.4)
+    )

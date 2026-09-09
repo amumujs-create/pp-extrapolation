@@ -76,6 +76,8 @@ RWTH·MATR-b2·N-CMAPSS의 표 첫 절에 쓴 최강 비교모델은 각각 V-RE
 
 validation에서 PP/MLP를 선택하는 단순 route도 12개 중 7개만 맞고 false accept 4개가 발생했다. Milling은 validation 상대 RMSE가 51.1% 개선됐지만 test에서는 PP 상대 효과가 −6.21이었다. 따라서 작은 validation 점수 하나가 아니라 `prior role → mechanism coverage → executor` 순서가 필요하다.
 
+후속 safety-continuation 개발에서 PP 네트워크 내부에 exact direct-NN 부분공간을 추가했다. NASA milling은 validation이 affine trust 0을 선택해 test R2가 -4.826에서 -0.476으로 복구됐고, 기존 GroupDRO -0.691보다 높았다. 그러나 이 경로는 동일 tuned MLP와 예측이 정확히 같고 R2도 음수이므로, PP 우월 성공이 아니라 negative-transfer 방지 결과로 분류한다. FEMTO는 -1.378에서 -1.165로 개선됐지만 monotone NN -0.973을 넘지 못했고, XJTU safety 후보도 기존 PP보다 나빠 채택하지 않았다. 이 결과는 `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`에 분리한다.
+
 논문의 비교 구조는 다음과 같이 쓴다.
 
 1. **주 결과:** final modular PP와 강한 동일-split 비교모델

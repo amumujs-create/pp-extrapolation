@@ -40,7 +40,9 @@ from .output_calibration import (OutputCalibrator, approve_dual_evidence, approv
                                  fit_output_calibrator, group_loo_affine_evidence,
                                  transport_direction_cosine,
                                  select_group_loo_calibrator)
-from .presets import battery_dual_scale_pp_config, safety_continuation_pp_config
+from .presets import (battery_dual_scale_pp_config,
+                      safety_continuation_pp_config,
+                      safety_continuation_trust_grid)
 
 __all__ = [
     "ConvexHullAudit",
@@ -107,6 +109,7 @@ __all__ = [
     "approve_transport",
     "battery_dual_scale_pp_config",
     "safety_continuation_pp_config",
+    "safety_continuation_trust_grid",
 ]
 
 

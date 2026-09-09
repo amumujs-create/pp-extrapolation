@@ -31,10 +31,10 @@ Engression은 공식 0.1.9 패키지에서 hidden width 32/64, learning rate 0.0
 | 설정 | PP | 최고 경쟁모델 | 근거가 있는 주요 원인 | 해석 |
 |---|---:|---:|---|---|
 | XJTU | -1.229 | Linear-tail RBF -1.418 | train→validation과 train→test 운전조건 ray cosine=-1.0 | validation의 보정 방향이 test에서 반대. 라벨 없이 transport를 거부하는 것이 맞음 |
-| FEMTO | -1.378 | Monotone NN -0.973 | test 11 bearing에 각 1개 endpoint만 존재; GRU도 seed 평균 -2.606 | 개체별 수명 scale 차이와 표본 부족. unit R²도 정의 불가 |
-| NASA milling | -4.826 | GroupDRO -0.691 | train 33, validation 4, test 10; validation은 1개 unit뿐 | 검증 환경이 test 다중 unit shift를 대표하지 못함. 모델 보다 split identifiability 문제가 큼 |
+| FEMTO | -1.165 | Monotone NN -0.973 | test 11 bearing에 각 1개 endpoint만 존재; GRU도 seed 평균 -2.606 | exact NN safety route로 개선됐지만 개체별 수명 scale을 식별할 표본이 부족해 적용 거절 |
+| NASA milling | -0.476 | tuned direct NN -0.476 (GroupDRO -0.691) | train 33, validation 4, test 10; validation은 1개 unit뿐 | PP 내부 trust=0 safety route가 붕괴를 제거했지만 NN과 동률이고 R2는 음수; split identifiability 한계 유지 |
 
-최종 음수 설정은 승자 수에서 제외하며 applicability/abstention 분석에만 사용한다. MICH의 기존 PP는 residual이 꺼져 −1.522였으나 support-adaptive dual-scale PP로 0.751을 얻어 최종 성공 설정에 포함한다.
+최종 음수 설정은 승자 수에서 제외하며 applicability/abstention 분석에만 사용한다. MICH의 기존 PP는 residual이 꺼져 −1.522였으나 support-adaptive dual-scale PP로 0.751을 얻어 최종 성공 설정에 포함한다. FEMTO·milling safety-continuation 개발 감사는 `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`에 분리했다.
 
 ## GroupDRO 패배 개선 실험
 

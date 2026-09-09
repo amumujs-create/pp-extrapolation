@@ -14,14 +14,14 @@
 | N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | 동률권에 가까운 우세 |
 | MICH unseen-cell tail | **0.751** | direct NN 0.684 | 미실행 | 개선 dual-scale PP 우세 |
 | XJTU condition transfer | −1.229 | linear-tail RBF −1.418 | 미실행 | 모두 실패, PP 상대 우세 |
-| FEMTO endpoint transfer | −1.378 | monotone NN −0.973 | 미실행 | 패배; 적용 범위 밖 |
-| NASA milling material transfer | −4.826 | GroupDRO −0.691 | 미실행 | 패배; 적용 범위 밖 |
+| FEMTO endpoint transfer | −1.165 | monotone NN −0.973 | 미실행 | safety NN route로 개선됐지만 패배; 적용 거절 |
+| NASA milling material transfer | −0.476 | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | exact NN safety route와 동률; 절대 성공 아님 |
 
 ## 이 표를 읽는 방법
 
 - **양의 R² 9개 설정**에서는 최종 PP가 현재 동일 행으로 실행된 비-PP 비교모델 중 최고값보다 높다. N-CMAPSS의 PP 0.937 대 Engression 0.932 차이는 작으므로 엄밀한 우월성보다 동률권에 가까운 우세로 쓴다.
 - XJTU는 전 모델이 음수이므로 PP의 상대 수치가 더 높아도 성공 데이터셋으로 세지 않는다.
-- MICH는 support-adaptive dual-scale boundary executor로 0.751까지 복구됐다. FEMTO·milling은 최종 PP도 해결하지 못했으므로 적용 범위 반례로 유지한다.
+- MICH는 support-adaptive dual-scale boundary executor로 0.751까지 복구됐다. FEMTO는 safety route로 개선됐지만 경쟁모델보다 낮고, milling은 catastrophic failure를 제거했지만 exact NN route와 동률이며 둘 다 R2가 음수다. 따라서 성공 설정으로 올리지 않는다.
 - TabPFN은 로컬 CPU v3에서 seed 42–46 예측을 평균했다. HUST·Virkler·NASA·C-MAPSS는 최대 3,000 train행, Sunwoda·RWTH·MATRb2는 최대 1,000 equal-unit train행을 사용한 보조 비교다. 다른 모델과 train cap이 다를 수 있어, 최고 비-PP 경쟁모델 열의 순위 결정에는 쓰지 않는다.
 
 † MATRb2 BatteryLife CPGRU는 최종 PP와 동일한 11,552 train행에서 ensemble 0.537이다. 봉인 confirmatory train 11,553행에서 나온 0.912는 protocol-sensitivity 결과로 분리하며 최종 직접 비교에 사용하지 않는다.
@@ -54,3 +54,4 @@ MATR batch 2의 `0.471`(기본 PP) 및 `0.523`(support-PP)은 test 공개 전에
 - BatteryLife 공식 CPGRU·CPTransformer backbone strict-tail 재실행: `BATTERYLIFE_BACKBONE_STRICT_TAIL_RESULTS_KO.md`
 - PP 구성요소 matched ablation: `FINAL_PP_COMPONENT_ABLATION_RESULTS_KO.md`
 - 배터리 boundary executor 개선: `UNIFIED_DUAL_SCALE_PP_IMPROVEMENT_KO.md`
+- 실패 도메인 NN safety route 감사: `FAILED_DOMAIN_SAFETY_CONTINUATION_KO.md`

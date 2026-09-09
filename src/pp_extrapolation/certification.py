@@ -26,8 +26,19 @@ def certify_extrapolation(
     normalized_seed_disagreement: float, regime_covered: bool,
     minimum_validation_r2: float = 0.0, minimum_relative_gain: float = 0.02,
     maximum_seed_disagreement: float = 0.25,
+    validation_group_count: int | None = None,
+    minimum_validation_groups: int = 2,
+    minimum_source_rows_per_group: int | None = None,
+    required_source_rows_per_group: int = 2,
+    transport_compatible: bool | None = None,
 ) -> ExtrapolationCertificate:
-    """Accept only when coverage, pseudo-tail skill, gain, and stability pass."""
+    """Accept only when label-free coverage and validation evidence pass.
+
+    Optional group, endpoint-density and transport checks encode whether the
+    validation split can identify the requested deployment shift.  They use
+    split metadata and source inputs, never source labels.  Omitting them keeps
+    the original behaviour for backwards compatibility.
+    """
     values=np.asarray([validation_r2,baseline_relative_mse_gain,
                        normalized_seed_disagreement,minimum_validation_r2,
                        minimum_relative_gain,maximum_seed_disagreement],dtype=float)
@@ -39,6 +50,12 @@ def certify_extrapolation(
         "beats_baseline_margin":float(baseline_relative_mse_gain)>=float(minimum_relative_gain),
         "seed_stable":float(normalized_seed_disagreement)<=float(maximum_seed_disagreement),
     }
+    if validation_group_count is not None:
+        checks["validation_group_diversity"] = int(validation_group_count) >= int(minimum_validation_groups)
+    if minimum_source_rows_per_group is not None:
+        checks["source_endpoint_density"] = int(minimum_source_rows_per_group) >= int(required_source_rows_per_group)
+    if transport_compatible is not None:
+        checks["transport_compatible"] = bool(transport_compatible)
     reasons=tuple(name for name,passed in checks.items() if not passed)
     return ExtrapolationCertificate(not reasons,float(validation_r2),
         float(baseline_relative_mse_gain),float(normalized_seed_disagreement),checks,reasons)

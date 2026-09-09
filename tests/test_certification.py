@@ -28,3 +28,19 @@ def test_extrapolation_certificate_rejects_unstable_or_uncovered():
         normalized_seed_disagreement=.3,regime_covered=False)
     assert not cert.accepted
     assert set(cert.reasons)=={"regime_covered","seed_stable"}
+
+def test_certificate_rejects_unidentifiable_endpoint_transfer_without_labels():
+    cert=certify_extrapolation(validation_r2=.5,baseline_relative_mse_gain=.2,
+        normalized_seed_disagreement=.05,regime_covered=True,
+        validation_group_count=1,minimum_source_rows_per_group=1,
+        transport_compatible=False)
+    assert not cert.accepted
+    assert set(cert.reasons)=={"validation_group_diversity",
+        "source_endpoint_density","transport_compatible"}
+
+def test_certificate_accepts_identifiable_transfer_metadata():
+    cert=certify_extrapolation(validation_r2=.5,baseline_relative_mse_gain=.2,
+        normalized_seed_disagreement=.05,regime_covered=True,
+        validation_group_count=3,minimum_source_rows_per_group=8,
+        transport_compatible=True)
+    assert cert.accepted
