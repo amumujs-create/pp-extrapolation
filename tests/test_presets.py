@@ -1,4 +1,5 @@
 from pp_extrapolation import (battery_dual_scale_pp_config,
+                              robust_generalization_policy_config,
                               safety_continuation_pp_config,
                               safety_continuation_trust_grid)
 
@@ -26,3 +27,10 @@ def test_safety_trust_grid_contains_exact_nn_and_only_nested_routes():
     assert [row["fixed_affine_trust"] for row in grid] == sorted(
         row["fixed_affine_trust"] for row in grid
     )
+
+
+def test_robust_generalization_policy_is_conservative():
+    policy = robust_generalization_policy_config()
+    assert policy["min_relative_gain"] == 0.02
+    assert policy["confidence"] == 0.95
+    assert policy["bootstrap_replicates"] >= 5000

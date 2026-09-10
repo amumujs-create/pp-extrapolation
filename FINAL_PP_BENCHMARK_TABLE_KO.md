@@ -12,7 +12,7 @@
 | MATR2019 strict health-tail | **0.466** | 같은 validation calibrator를 적용한 FT-Transformer 0.377 | 미실행 | 우세 |
 | MATR batch 2 strict tail | **0.862** | V-REx 0.850 | 0.618† | 우세 |
 | N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | 동률권에 가까운 우세 |
-| MICH unseen-cell tail | **0.751** | direct NN 0.684 | 미실행 | 개선 dual-scale PP 우세 |
+| MICH unseen-cell tail | **0.751** | direct NN 0.684 | −1.860 | 개선 dual-scale PP 우세 |
 | XJTU condition transfer | **0.257** | linear-tail RBF −1.418 | 미실행 | progress-temporal PP + validation opposite-ray scale transport; post-test 개발 성공§ |
 | FEMTO endpoint transfer | **0.075*** | 교정 causal GRU −0.248 | 미실행 | prior abstention → waveform neural safety; ensemble만 양수 |
 | NASA milling material transfer | **0.341** | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | inspection-calibrated boundary-quotient PP 우세‡ |

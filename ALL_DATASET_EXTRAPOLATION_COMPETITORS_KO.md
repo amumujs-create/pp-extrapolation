@@ -16,10 +16,10 @@ PP 연구의 12개 평가 설정 전부에 V-REx, GroupDRO, train-only 방향의
 | MATR2019 strict health-tail | **0.466** | 0.044 | 0.272 | 0.018 | -2.639 | -0.726 | -2.461 | PP† |
 | MATR batch2 strict tail | **0.862** | 0.850 | 0.777 | 0.674 | -0.781 | 0.739 | 0.213 | PP |
 | N-CMAPSS hard TRA extrapolation | **0.937** | 0.883 | 0.880 | 0.892 | 0.819 | 0.932 | 0.804 | PP |
-| MICH unseen-cell tail | **0.751** | 미실행 | 미실행 | -0.743 | 미실행 | 미실행 | 미실행 | dual-scale PP |
+| MICH unseen-cell tail | **0.751** | -0.750 | -0.750 | -0.743 | -2.729 | -1.580 | -2.247† | dual-scale PP |
 | NASA milling material transfer | **0.341** | −0.693 | -0.691 | −0.694 | −5.681 | 미실행 | 미실행 | inspection-calibrated boundary-quotient PP† |
 
-10개 양의-R² 설정 모두에서 개선 PP가 현재까지 관측된 경쟁모델 최고치보다 높다. Engression과의 차이는 N-CMAPSS에서 0.005로 작으므로 동률권으로 표현하고 paired seed/unit bootstrap을 추가해야 한다. 다만 이는 post-hoc 개발 결과이며, 독립 cohort의 사전 고정 결과로 보편 우월성을 입증한 것은 아니다. MICH direct NN ensemble 0.684는 별도 matched ablation에서 확인했다.
+10개 양의-R² 설정 모두에서 개선 PP가 현재까지 관측된 경쟁모델 최고치보다 높다. Engression과의 차이는 N-CMAPSS에서 0.005로 작으므로 동률권으로 표현하고 paired seed/unit bootstrap을 추가해야 한다. 다만 이는 post-hoc 개발 결과이며, 독립 cohort의 사전 고정 결과로 보편 우월성을 입증한 것은 아니다. MICH의 V-REx·GroupDRO·Monotone·LinRBF는 `extrapolation_competitors_all_v1`의 동일 202행 split이고, Engression은 `final_engression_extension_v1`, GP는 full-train SVGP(`final_svgp_extension_v1`, †750행 exact GP가 아님)다. TabPFN은 같은 split에서 local v3 CPU, seeds 42–46, 1,000행 cap으로 실행했고 ensemble R²는 −1.860이다(`final_tabpfn_mich_extension_v1`). 별도 matched ablation의 direct NN ensemble은 0.684다.
 
 † Milling은 공식 고장경계 `VB=0.50`을 유지하고 validation MAE로 선택한 희소 inspection margin `+0.03`을 더해 `(0.50+offset-health)/causal_rate`를 계산했다. 학습에 없던 material-2에서 NN residual을 label-free gate로 차단했다. 이미 본 test를 이용한 개발 수치로 분류한다.
 

@@ -5,6 +5,7 @@ from .gating import PriorGateDecision, select_prior_from_scores
 from .certification import (ExtrapolationCertificate, RegimeCertificate,
                             certify_categorical_regime, certify_extrapolation)
 from .metrics import regression_metrics
+from .generalization_policy import PriorTrustDecision, select_prior_trust
 from .model import (
     PPFit,
     PPNet,
@@ -41,6 +42,7 @@ from .output_calibration import (OutputCalibrator, approve_dual_evidence, approv
                                  transport_direction_cosine,
                                  select_group_loo_calibrator)
 from .presets import (battery_dual_scale_pp_config,
+                      robust_generalization_policy_config,
                       safety_continuation_pp_config,
                       safety_continuation_trust_grid)
 from .adaptive_routes import (capacity_from_independent_groups,
@@ -66,6 +68,8 @@ __all__ = [
     "audit_convex_hull_support",
     "fit_feature_scale",
     "fit_pp",
+    "PriorTrustDecision",
+    "select_prior_trust",
     "predict",
     "regression_metrics",
     "select_prior_from_scores",
@@ -111,6 +115,7 @@ __all__ = [
     "transport_direction_cosine",
     "approve_transport",
     "battery_dual_scale_pp_config",
+    "robust_generalization_policy_config",
     "safety_continuation_pp_config",
     "safety_continuation_trust_grid",
     "capacity_from_independent_groups",

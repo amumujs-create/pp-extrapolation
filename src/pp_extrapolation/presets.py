@@ -60,3 +60,15 @@ def safety_continuation_trust_grid() -> tuple[dict, ...]:
         {**common, "fixed_affine_trust": trust}
         for trust in (0.0, 0.02, 0.05, 0.1, 0.2, 0.4)
     )
+
+
+def robust_generalization_policy_config() -> dict:
+    """Frozen conservative evidence requirements for PP-X v1.1 development."""
+    return {
+        "min_relative_gain": 0.02,
+        "min_unit_win_fraction": 0.60,
+        "max_worst_unit_rmse_ratio": 1.10,
+        "confidence": 0.95,
+        "bootstrap_replicates": 5000,
+        "seed": 20260910,
+    }
