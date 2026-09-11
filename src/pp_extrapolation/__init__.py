@@ -11,6 +11,14 @@ from .adaptive_shrinkage import (
     apply_adaptive_shrinkage,
     select_adaptive_prior_shrinkage,
 )
+from .residual_authority import (
+    CrossfitAuthorityResult,
+    ResidualAuthorityPolicy,
+    apply_residual_authority,
+    crossfit_residual_authority,
+    distance_shell_edges,
+    fit_residual_authority,
+)
 from .continuous_portfolio import (
     ContinuousPortfolioDecision,
     combine_portfolio,
@@ -133,6 +141,12 @@ __all__ = [
     "AdaptiveShrinkageDecision",
     "apply_adaptive_shrinkage",
     "select_adaptive_prior_shrinkage",
+    "ResidualAuthorityPolicy",
+    "CrossfitAuthorityResult",
+    "distance_shell_edges",
+    "fit_residual_authority",
+    "crossfit_residual_authority",
+    "apply_residual_authority",
     "ContinuousPortfolioDecision",
     "combine_portfolio",
     "select_continuous_portfolio",

@@ -33,6 +33,8 @@ Model card and validation boundary:
 - [`PPX_GCIE_REJECTED_EXPERIMENT_KO.md`](PPX_GCIE_REJECTED_EXPERIMENT_KO.md)
 - [`CCMR_V22_SMALL_COHORT_RESULTS_KO.md`](CCMR_V22_SMALL_COHORT_RESULTS_KO.md)
 - [`CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md`](CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md)
+- [`RESIDUAL_AUTHORITY_EXPERIMENT_KO.md`](RESIDUAL_AUTHORITY_EXPERIMENT_KO.md):
+  retrospective challenger; exact fallback worked, but the model was not promoted.
 
 ## Install
 
