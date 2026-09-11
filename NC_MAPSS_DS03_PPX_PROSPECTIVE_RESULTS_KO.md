@@ -91,3 +91,19 @@ Engression보다 RMSE가 낮은 unit은 1개였고, mean unit log-RMSE ratio는
 따라서 논문에서는 “prospective route-selection success”라고 쓸 수 있지만
 “prospective predictive superiority”라고 쓰면 안 된다. 또한 DS03는 DS02와
 같은 N-CMAPSS 계열이므로 독립 실제 도메인 확증은 별도로 필요하다.
+
+## CCMR v2.2 후속 실행
+
+사용자 요청에 따라 prospective 공개가 끝난 뒤 PP-X direct prediction을 anchor로
+두고 CCMR v2.2 dynamics bank를 train units 1–6과 validation units 7–9에서
+적합했다. validation risk certificate가 correction을 승인하지 않아
+`exact_fallback`이 선택됐다.
+
+- CCMR v2.2 deployed R²: **0.882**
+- anchor PP-X direct R²: **0.882**
+- pooled/macro improvement: **0**
+- maximum raw regret: **0**
+
+즉 이 데이터에서 CCMR는 보정을 적용하지 않아 PP-X fallback과 정확히 같은
+결과를 냈다. 이 후속 실행은 test 공개 뒤 요청된 exploratory analysis이므로
+prospective 성능 근거에는 포함하지 않는다.
