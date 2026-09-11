@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 37
+    TOTAL = 38
 
     def p():
         nonlocal n
@@ -339,7 +339,38 @@ def build():
              10, C["red"], True, "center")
     foot(s, p(), TOTAL)
 
-    # 6 Research route — full diagram
+    # 6 Evidence-backed failure analysis
+    s = blank(prs)
+    head(s, "잘 안 된 경우 — 왜 실패했는가",
+         "사후 추측이 아니라 matched ablation·unit 결과·validation/test 불일치로 확인된 원인만 남긴다.")
+
+    failures = [
+        (48, 98, 570, 216, "① 제약이 실제 shift와 맞지 않음",
+         "MICH  fixed bound가 residual 용량을 과도하게 제한\nR² .759(unbounded) → .468(fixed), Δ −.291\n\nRWTH  dual-scale은 8/8 unit에서 악화\nR² .878 → .842, BH q=.022",
+         "교훈  좋은 제약도 전역 default로 켜면 negative transfer", C["soft_orange"], C["orange"]),
+        (662, 98, 570, 216, "② validation evidence가 test로 이동하지 않음",
+         "단순 validation PP/MLP 선택은 12개 중 7개만 정답\nfalse accept 4개\n\nCI 강화 정책도 retrospective 정확도 .833\n즉 validation 점수만으로 보편적 전이를 보장하지 못함",
+         "교훈  unit risk와 CI가 필요하지만 미래 보장은 아님", C["soft"], C["ink"]),
+        (48, 338, 570, 216, "③ prior 거절 뒤 fallback 표현력이 부족",
+         "DS03  prior route 거절 자체는 test-best PP-X route와 일치\n하지만 Engression 대비 ΔR² −.0195\nunit wins 1/6 · worst ratio 1.989",
+         "교훈  안전한 선택과 최고 정확도는 서로 다른 문제", C["soft_blue"], C["blue"]),
+        (662, 338, 570, 216, "④ 구조를 학습할 정보가 부족",
+         "Virkler late-tail은 test specimen당 2 rows\nResidual-state·temporal projection은 val에서 off 선택\n\nPrior-geometry는 val 승인 후 test RMSE +31.3%\nworst-unit ratio 5.82",
+         "교훈  짧은 tail에서 복잡한 trajectory head는 과적합 위험", C["soft"], C["ink"]),
+    ]
+    for x, y, w, h, title, evidence, lesson, fill, line in failures:
+        rect(s, x, y, w, h, fill, line, True)
+        add_text(s, x + 18, y + 14, w - 36, 26, title, 14, line, True)
+        add_text(s, x + 18, y + 52, w - 36, 104, evidence, 11, C["ink"])
+        hline(s, x + 18, x + w - 18, y + 166, C["rule"])
+        add_text(s, x + 18, y + 176, w - 36, 30, lesson, 11, line, True)
+
+    add_text(s, 48, 586, 1184, 32,
+             "정리  PP-X가 실패를 없앤 것이 아니다. 현재 증거는 ‘어떤 구조가 왜 무너졌는지 식별하고, 해로운 route를 전역 적용하지 않는 것’까지 지지한다.",
+             12, C["red"], True, "center")
+    foot(s, p(), TOTAL)
+
+    # 7 Research route — full diagram
     s = blank(prs)
     head(s, "연구 루트", "그래서 후보식이 정당화되는지에 따라 경로를 나눈다")
 
