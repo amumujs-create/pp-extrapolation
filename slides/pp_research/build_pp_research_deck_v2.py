@@ -15,7 +15,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Pt
 
-OUT = Path("/Users/baghyeongbae/Desktop/연구/pp_pae_total/output/PP_Research_Detailed_v2.pptx")
+OUT = Path("/Users/baghyeongbae/Desktop/연구/pp-extrapolation/ppt/PP-X_Research_Detailed_v2.pptx")
 ASSETS = Path("/Users/baghyeongbae/Desktop/연구/ppt/pp/_build")
 FIGS = ASSETS / "figs"
 
@@ -311,17 +311,17 @@ def build():
 
     # 5 Why the contribution matters
     s = blank(prs)
-    head(s, "그래서 PP-X로 무엇을 할 수 있는가",
-         "외삽 가정을 논문 속 아이디어가 아니라, 새로운 cohort에 적용할 수 있는 승인·거절 결정으로 바꾼다.")
+    head(s, "그래서 외삽에서 무엇이 좋아졌는가",
+         "현재 retrospective 데이터 안에서 확인된 효과와 아직 주장할 수 없는 범위를 분리한다.")
     add_text(s, 48, 82, 1184, 36,
-             "현장 문제  학습 범위를 벗어난 배터리·설비·재료에서는 ‘어떤 prior를 믿고 얼마나 수정할지’를 test 정답 없이 결정해야 한다.",
+             "비교 대상  하나의 prior나 optional module을 모든 데이터에 항상 켜는 외삽 모델",
              15, C["ink"], True)
 
     uses = [
-        (48, "새 cohort 수명 예측", "새 충전조건·운전조건·재료에서\n경계·추세·열화 prior가 유효한지\nsource/validation evidence로 먼저 판정", "무조건 적용한 prior가\n말기 RUL을 망치는 위험 감소", C["soft_blue"], C["blue"]),
-        (350, "도메인별 지식 재사용", "배터리는 failure boundary,\n균열은 진행 법칙, 엔진은 regime처럼\n서로 다른 지식을 같은 절차로 연결", "새 도메인마다 완전히 다른\n배포 논리를 다시 만들 필요 감소", C["soft"], C["ink"]),
-        (652, "안전한 자동 후퇴", "prior나 executor의 이득 근거가 없으면\n미리 정한 direct·persistence 경로\n또는 abstention으로 전환", "틀린 구조를 억지로 실행하지 않고\n최소한의 예측 경로를 유지", C["soft_orange"], C["orange"]),
-        (954, "감사 가능한 의사결정", "왜 이 prior·bound·history·transport가\n켜졌는지 unit-level evidence와\nfrozen artifact로 추적", "의료·제조·예지보전에서\n사후 튜닝과 선택 편향을 점검", C["soft"], C["ink"]),
+        (48, "① 평균 예측오차", "각 contract에서 validation이 지지한\nexecutor만 선택해, 맞는 구조의\n외삽 이득은 유지", "개발 결과\n동일예산 최강 비교군 대비 8/9 우세\npaired GM-RMSE 33.8% 감소", C["soft_blue"], C["blue"]),
+        (350, "② 전역 적용 붕괴 방지", "모든 셋에 같은 bound·scale을\n항상 켜지 않고, 해당 contract에서\n지지된 executor만 최종 route에 포함", "직접 반례\nMICH fixed bound ΔR² −.291\nRWTH dual-scale ΔR² −.037", C["soft"], C["ink"]),
+        (652, "③ 유닛 단위 안정성", "평균 RMSE만 보지 않고 unit wins와\nworst-unit ratio를 승인 조건에 포함해\n일부 설비에 손해가 몰리는 route 제한", "직접 근거\nHUST transport 15/16 unit 개선\nMICH dual-scale 7/8 unit 개선", C["soft_orange"], C["orange"]),
+        (954, "④ 잘못된 승인 감소", "12-domain common-backbone audit에서\nunit-gain CI 조건을 추가해\n근거가 약한 prior 승인을 걸러냄", "retrospective policy audit\nfalse accept 2 → 0\n선택 정확도 .667 → .833", C["soft"], C["ink"]),
     ]
     for x, title, action, value, fill, line in uses:
         rect(s, x, 142, 278, 344, fill, line, True)
@@ -331,9 +331,12 @@ def build():
         add_text(s, x + 18, 366, 242, 76, value, 12, line, True, "center")
 
     rect(s, 48, 520, 1184, 82, C["ink"], None, True)
-    add_text(s, 70, 538, 1140, 46,
-             "최종 가치  PP-X는 ‘항상 맞는 보편 모델’이 아니라, 외삽에 필요한 가정을 조건부로 사용하고 근거가 없으면 적용하지 않게 만드는 risk-aware prediction workflow다.",
+    add_text(s, 70, 532, 1140, 56,
+             "기여 효과  현재 평가 데이터셋에서 PP-X는 validation이 지지한 구조만 실행해 전역 prior/executor의 성능 붕괴를 줄이고, 평균 오차와 unit-level risk를 함께 관리했다.",
              14, C["white"], True, "center")
+    add_text(s, 48, 612, 1184, 22,
+             "범위  위 수치는 retrospective evidence다. 보지 않은 미래 cohort에서 같은 실패 감소를 보장한다는 주장은 하지 않는다.",
+             10, C["red"], True, "center")
     foot(s, p(), TOTAL)
 
     # 6 Research route — full diagram
