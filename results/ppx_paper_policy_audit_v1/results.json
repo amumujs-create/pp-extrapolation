@@ -1,0 +1,390 @@
+{
+  "status": "retrospective common-backbone paper-policy audit",
+  "owner": "\ubc15\uc9c4\uc11c",
+  "holdouts_loaded": false,
+  "frozen_policy": {
+    "minimum_validation_gain": 0.02,
+    "minimum_unit_win_fraction": 0.6,
+    "maximum_worst_unit_rmse_ratio": 1.1
+  },
+  "policies": {
+    "always_direct": {
+      "accepted": 0,
+      "correct": 6,
+      "accuracy": 0.5,
+      "false_accepts": 0,
+      "false_rejects": 6,
+      "dataset_improvements": 0,
+      "dataset_losses": 0,
+      "equal_dataset_mean_log_rmse_ratio": 0.0,
+      "bootstrap_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "always_pp": {
+      "accepted": 12,
+      "correct": 6,
+      "accuracy": 0.5,
+      "false_accepts": 6,
+      "false_rejects": 0,
+      "dataset_improvements": 6,
+      "dataset_losses": 6,
+      "equal_dataset_mean_log_rmse_ratio": 0.08190968721623451,
+      "bootstrap_ci95": [
+        -0.29743936747384014,
+        0.5034422846598983
+      ]
+    },
+    "simple_validation": {
+      "accepted": 9,
+      "correct": 7,
+      "accuracy": 0.5833333333333334,
+      "false_accepts": 4,
+      "false_rejects": 1,
+      "dataset_improvements": 5,
+      "dataset_losses": 4,
+      "equal_dataset_mean_log_rmse_ratio": 0.10786043392504269,
+      "bootstrap_ci95": [
+        -0.2685387183574762,
+        0.5170751300728884
+      ]
+    },
+    "paper_ppx": {
+      "accepted": 6,
+      "correct": 8,
+      "accuracy": 0.6666666666666666,
+      "false_accepts": 2,
+      "false_rejects": 2,
+      "dataset_improvements": 4,
+      "dataset_losses": 2,
+      "equal_dataset_mean_log_rmse_ratio": 0.0413863570874413,
+      "bootstrap_ci95": [
+        -0.28332904553984306,
+        0.4094978076523441
+      ]
+    },
+    "test_oracle_non_deployable": {
+      "accepted": 6,
+      "correct": 12,
+      "accuracy": 1.0,
+      "false_accepts": 0,
+      "false_rejects": 0,
+      "dataset_improvements": 6,
+      "dataset_losses": 0,
+      "equal_dataset_mean_log_rmse_ratio": 0.268901369632607,
+      "bootstrap_ci95": [
+        0.016583158432187765,
+        0.6264615076133699
+      ]
+    }
+  },
+  "datasets": [
+    {
+      "dataset": "hust",
+      "validation": {
+        "direct_loss": 5170.659882627121,
+        "pp_loss": 3732.650692088061,
+        "unit_win_fraction": 0.4375,
+        "worst_unit_ratio": 2.7409595339773265
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -0.45356629826095135,
+        "mean_unit_log_rmse_ratio": -0.2087556490980328,
+        "pp_unit_wins": 7,
+        "n_units": 16
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "virkler",
+      "validation": {
+        "direct_loss": 84.46334139230743,
+        "pp_loss": 15.288250220379723,
+        "unit_win_fraction": 1.0,
+        "worst_unit_ratio": 0.9713493416225889
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.7524183852464639,
+        "mean_unit_log_rmse_ratio": 1.6067840325334024,
+        "pp_unit_wins": 10,
+        "n_units": 10
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    },
+    {
+      "dataset": "matr",
+      "validation": {
+        "direct_loss": 2591.7194173269654,
+        "pp_loss": 5150.446341692307,
+        "unit_win_fraction": 0.125,
+        "worst_unit_ratio": 2.8933487458794995
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -0.39160296790120375,
+        "mean_unit_log_rmse_ratio": -0.27945557064271204,
+        "pp_unit_wins": 2,
+        "n_units": 10
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": false,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "sunwoda",
+      "validation": {
+        "direct_loss": 3270.8442403844692,
+        "pp_loss": 1828.216661362861,
+        "unit_win_fraction": 0.5,
+        "worst_unit_ratio": 3.0109136344517404
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.7297197176448018,
+        "mean_unit_log_rmse_ratio": 1.3376606222520577,
+        "pp_unit_wins": 9,
+        "n_units": 9
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "rwth",
+      "validation": {
+        "direct_loss": 1797.6269715340018,
+        "pp_loss": 5996.539428245738,
+        "unit_win_fraction": 0.375,
+        "worst_unit_ratio": 2.905728742456613
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -0.11482534769101552,
+        "mean_unit_log_rmse_ratio": -0.0700856393679809,
+        "pp_unit_wins": 3,
+        "n_units": 8
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": false,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "mich",
+      "validation": {
+        "direct_loss": 1400.757048899618,
+        "pp_loss": 966.834703828566,
+        "unit_win_fraction": 0.5,
+        "worst_unit_ratio": 5.8148101144441595
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -0.41420022916334187,
+        "mean_unit_log_rmse_ratio": -0.33121605110280794,
+        "pp_unit_wins": 0,
+        "n_units": 8
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "matr_batch2",
+      "validation": {
+        "direct_loss": 536.1647894425954,
+        "pp_loss": 359.2898985268986,
+        "unit_win_fraction": 0.8888888888888888,
+        "worst_unit_ratio": 1.0328114247369324
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.1028290350833003,
+        "mean_unit_log_rmse_ratio": 0.14549407976873094,
+        "pp_unit_wins": 6,
+        "n_units": 9
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    },
+    {
+      "dataset": "xjtu",
+      "validation": {
+        "direct_loss": 2349.2767629313535,
+        "pp_loss": 5467.627042637272,
+        "unit_win_fraction": 0.4,
+        "worst_unit_ratio": 6.268921217179903
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.03385899359892275,
+        "mean_unit_log_rmse_ratio": 0.03813224950499448,
+        "pp_unit_wins": 4,
+        "n_units": 5
+      },
+      "paper_policy_accepts_pp": false,
+      "simple_validation_accepts_pp": false,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "direct_fallback",
+        "reason": "no prior-residual executor passed frozen validation criteria"
+      }
+    },
+    {
+      "dataset": "femto",
+      "validation": {
+        "direct_loss": 50984395.112584315,
+        "pp_loss": 30789870.104521107,
+        "unit_win_fraction": 1.0,
+        "worst_unit_ratio": 0.7771150016667597
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -0.34652133821047254,
+        "mean_unit_log_rmse_ratio": -0.15694874803889036,
+        "pp_unit_wins": 5,
+        "n_units": 11
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    },
+    {
+      "dataset": "milling",
+      "validation": {
+        "direct_loss": 104.70498492483397,
+        "pp_loss": 25.005340801236017,
+        "unit_win_fraction": 1.0,
+        "worst_unit_ratio": 0.4886891644836472
+      },
+      "test": {
+        "pp_helped": false,
+        "mean_relative_unit_gain": -6.211925577424571,
+        "mean_unit_log_rmse_ratio": -1.1974385307460458,
+        "pp_unit_wins": 0,
+        "n_units": 5
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": false,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    },
+    {
+      "dataset": "nasa_battery",
+      "validation": {
+        "direct_loss": 269.85497797739805,
+        "pp_loss": 124.17755330786369,
+        "unit_win_fraction": 1.0,
+        "worst_unit_ratio": 0.6963090764092346
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.08431939064555985,
+        "mean_unit_log_rmse_ratio": 0.0936215942279224,
+        "pp_unit_wins": 3,
+        "n_units": 4
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    },
+    {
+      "dataset": "ncmapss",
+      "validation": {
+        "direct_loss": 128.9236283665006,
+        "pp_loss": 110.88357429236228,
+        "unit_win_fraction": 1.0,
+        "worst_unit_ratio": 0.9906094070164211
+      },
+      "test": {
+        "pp_helped": true,
+        "mean_relative_unit_gain": 0.0038110823759982537,
+        "mean_unit_log_rmse_ratio": 0.005123857304175927,
+        "pp_unit_wins": 2,
+        "n_units": 3
+      },
+      "paper_policy_accepts_pp": true,
+      "simple_validation_accepts_pp": true,
+      "always_pp": true,
+      "always_direct": false,
+      "test_oracle": true,
+      "decision": {
+        "executor": "unbounded",
+        "reason": "validation gain and physical-unit risk criteria passed"
+      }
+    }
+  ],
+  "guardrails": [
+    "Policy decisions are computed before test arrays are scored.",
+    "This is retrospective and cannot validate prospective transfer.",
+    "The audit isolates executor approval with prior admissibility held true.",
+    "The test oracle is an upper bound and is not a deployable comparator."
+  ]
+}

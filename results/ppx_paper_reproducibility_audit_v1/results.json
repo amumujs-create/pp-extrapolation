@@ -1,0 +1,175 @@
+{
+  "status": "PP-X paper reproducibility audit complete",
+  "owner": "\ubc15\uc9c4\uc11c",
+  "paper_method": "PP-X",
+  "protocol": {
+    "path": "protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md",
+    "sha256": "97ead53235b92da397ffb18ddea6ee36ecd5ea132ef4adb7de096c26c261299a",
+    "introduction_commit": "03b3affc40a6e175538e17537e4778271a157f78"
+  },
+  "selection_firewall": {
+    "selectors": [
+      {
+        "function": "pp_extrapolation.transferability_gate.select_ppx_route",
+        "parameters": [
+          "evidence",
+          "min_groups",
+          "min_per_regime",
+          "max_oof_regret",
+          "min_mode_stability"
+        ],
+        "forbidden_test_parameters": [],
+        "passed": true
+      },
+      {
+        "function": "pp_extrapolation.executor_policy.select_residual_executor",
+        "parameters": [
+          "evidence",
+          "min_relative_improvement",
+          "dual_scale_min_heterogeneity"
+        ],
+        "forbidden_test_parameters": [],
+        "passed": true
+      },
+      {
+        "function": "pp_extrapolation.paper_ppx.select_paper_ppx",
+        "parameters": [
+          "contract",
+          "prior_evidence",
+          "candidates",
+          "min_relative_improvement",
+          "min_unit_win_fraction",
+          "max_worst_unit_rmse_ratio"
+        ],
+        "forbidden_test_parameters": [],
+        "passed": true
+      }
+    ],
+    "all_passed": true,
+    "note": "Signature exclusion is necessary but not sufficient; integration tests also verify fallback and contract behavior."
+  },
+  "registry": {
+    "routes": 12,
+    "artifacts_present": 12,
+    "retrospective_main": 9,
+    "retrospective_limitation": 3,
+    "prospective_confirmations": 0,
+    "rows": [
+      {
+        "dataset": "HUST",
+        "route": "regime_transport_pp",
+        "artifact": "results/hust_regime_transport_pp_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "180f66f694a0b9cf35b38e4c6149714cc179d51b99bfcc30d0614dce959aad8c",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "Virkler",
+        "route": "support_gated_pp",
+        "artifact": "results/support_gated_cross_domain_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "e3815b4c956d5cd9548e2d0573323abad77bf0db7a3f5bc12252d4957d9a2576",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "NASA battery",
+        "route": "causal_multiscale_latent_pp",
+        "artifact": "results/nasa_causal_multiscale_pp_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "305aa8281257e02afe773e3b4b3f0458f9217ec7872d8e8d4d2f426bc4e3d4e5",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "Sunwoda",
+        "route": "validation_approved_bounded_boundary_pp",
+        "artifact": "results/bq_pp_matched_controls_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "54e4cb124d8460b1bf1073a17275168fb722c7eee765732abd13446246b6ef86",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "RWTH",
+        "route": "validation_approved_bounded_boundary_pp",
+        "artifact": "results/bq_pp_matched_controls_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "54e4cb124d8460b1bf1073a17275168fb722c7eee765732abd13446246b6ef86",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "MATR2019",
+        "route": "validation_calibrated_latent_pp",
+        "artifact": "results/matr_pp_validation_calibration_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "23dbb7bcc39e190ef836f4872956a6986674db8ca433f8be69e5aba12edbee7d",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "MATR batch 2",
+        "route": "regime_transport_pp",
+        "artifact": "results/matr_batch2_pp_five_seed_replay/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "931ba394a7c8cea290b34d33bdf76040f73eb456a851511aeb28df11a609f472",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "N-CMAPSS",
+        "route": "causal_multiscale_latent_pp",
+        "artifact": "results/ncmapss_pp_multiscale_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "32f5173c5af57d8c65a60dffd411fda485f8017b7f48c1c5c8ff14b81638c54c",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "MICH",
+        "route": "support_adaptive_dual_scale_boundary_pp",
+        "artifact": "results/bq_dual_scale_final_replay_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "28e2fec53868b3dcb316c4f9e2b9301fae8367711d1e500dd3ba5f2cf72d532e",
+        "tier": "retrospective_main"
+      },
+      {
+        "dataset": "XJTU",
+        "route": "retrospective_reflected_scale_temporal_pp",
+        "artifact": "results/xjtu_reflected_scale_pp_v3/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "beee4eff8644465e4b5f5e764693882b660b59b5bab7ea50ede7abc185a6ef8a",
+        "tier": "retrospective_limitation"
+      },
+      {
+        "dataset": "FEMTO",
+        "route": "transferability_gate_to_neural_safety",
+        "artifact": "results/femto_ppx_final_v14/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "bfcf30586cd44dffc425acc542eeac2e3db9f2cb99565a0fb4886ae060e6600b",
+        "tier": "retrospective_limitation"
+      },
+      {
+        "dataset": "NASA milling",
+        "route": "inspection_calibrated_boundary_quotient",
+        "artifact": "results/milling_boundary_quotient_route_v1/results.json",
+        "artifact_exists": true,
+        "artifact_sha256": "e682bc0c68890c493be5dd7f7628805a10ffdddb45e34d7eee44884eebe426af",
+        "tier": "retrospective_limitation"
+      }
+    ]
+  },
+  "corrected_paired_evidence": {
+    "datasets": 9,
+    "physical_units": 77,
+    "dataset_wins": 9,
+    "dataset_sign_test_p": 0.00390625,
+    "equal_dataset_mean_log_rmse_ratio": 0.4119419105749017,
+    "hierarchical_log_ratio_ci95": [
+      0.17166973042770442,
+      0.6652733712765878
+    ],
+    "geometric_mean_rmse_reduction": 0.3376372487939643
+  },
+  "hard_limitations": [
+    "The 9-domain main evidence is retrospective and development-final.",
+    "The 12 routes are heterogeneous adapters, not one shared fitted neural network.",
+    "A simple validation-RMSE route has four false accepts in 12 domains.",
+    "The frozen paper policy still requires a genuinely unopened prospective cohort.",
+    "Strongest pooled comparators and row-aligned paired comparators differ on some domains."
+  ]
+}

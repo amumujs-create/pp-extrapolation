@@ -34,9 +34,9 @@ e_u = \log\frac{\operatorname{RMSE}_{u,\,comparison}}
 - 9개 데이터셋 모두 prediction-ensemble pooled R² 우세
 - 데이터셋 승패 exact sign test: **p = 0.00390625**
 - 총 **77개 물리 unit** 평가
-- 데이터셋 동일 가중 평균 log-RMSE ratio: **0.394**
-- 데이터셋과 unit을 함께 재표집한 hierarchical bootstrap 95% CI: **[0.161, 0.646]**
-- 기하평균 RMSE 감소: **32.5%**, 95% CI 환산 시 **14.9%–47.6%**
+- 데이터셋 동일 가중 평균 log-RMSE ratio: **0.412**
+- 데이터셋과 unit을 함께 재표집한 hierarchical bootstrap 95% CI: **[0.172, 0.665]**
+- 기하평균 RMSE 감소: **33.8%**, 95% CI 환산 시 **15.8%–48.6%**
 
 | 데이터셋 | PP seed R² 평균±SD | 저장 예측 비교모델 평균±SD | PP 승리 unit | mean log-RMSE ratio | unit bootstrap 95% CI | BH q |
 |---|---:|---:|---:|---:|---:|---:|
@@ -134,7 +134,7 @@ PP의 novelty는 “물리식과 NN을 결합했다”는 일반적 PINN 주장�
 
 이 정도면 RESS, MSSP, EAAI, ESWA 계열의 방법론 논문으로 제출 가능한 근거가 있다. 더 높은 보편 일반화 주장은 최종 model/routing rule을 고정한 뒤 새로운 성공 cohort에서 한 번 검증해야 한다. 현재 논문의 주장은 다음 문장으로 제한하는 것이 성능과 정직성을 함께 살린다.
 
-> Across nine concept-aligned extrapolation settings, the development-final modular PP improved pooled R² over the strongest evaluated same-split comparator in every setting. Across 77 row-aligned physical units, its equal-dataset geometric mean RMSE reduction was 32.5% (hierarchical 95% CI 14.9%–47.6%). The common-backbone and failure-cohort audits show that the gain depends on matching an observable prior contract to its executor rather than applying one universal architecture.
+> Across nine concept-aligned extrapolation settings, the development-final modular PP improved pooled R² over the strongest evaluated same-split comparator in every setting. Across 77 row-aligned physical units, its equal-dataset geometric mean RMSE reduction was 33.8% (hierarchical 95% CI 15.8%–48.6%). The common-backbone and failure-cohort audits show that the gain depends on matching an observable prior contract to its executor rather than applying one universal architecture.
 
 ## 9. 관련 방법과의 구분
 

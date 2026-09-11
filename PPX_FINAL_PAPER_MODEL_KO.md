@@ -4,6 +4,12 @@
 
 PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 않는다. 최종 논문 모델은 **작은 공통 core와 validation-approved executor**로 정의한다. 이 정리는 최종 ablation의 유의성 결과를 반영한다.
 
+논문 Algorithm 1의 동결 구현은
+`src/pp_extrapolation/paper_ppx.py::select_paper_ppx`이며, 입력·후보·임계값·
+동률 규칙·fallback은 `protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`에
+고정한다. 이 함수는 선택정책을 하나의 실행 가능한 인터페이스로 만든 것이며,
+12개 과거 route가 하나의 동일 신경망이었다는 뜻은 아니다.
+
 ## 공통 core: 모든 승인 prior 경로에 유지
 
 각 시점의 causal adapter가 현재 상태, 짧은 history, 열화율, context, support feature를 만든다. 알려진 boundary 또는 source OOF에서 승인된 tail prior를 먼저 계산하고, frozen affine/quotient path 주위의 nonlinear residual을 학습한다.
@@ -37,6 +43,13 @@ PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 �
 5. **Frozen final evaluation:** 선택된 구조와 hyperparameter를 고정한 뒤 test를 한 번 예측한다.
 
 이것은 mixture-of-experts나 test-time routing이 아니다. route와 executor는 source/validation evidence로 한 번 정해지고 test에는 frozen forward만 실행한다.
+
+단순히 validation RMSE가 낮은 PP를 고르는 규칙은 12개 retrospective setting에서
+7/12만 맞고 false accept 4개를 냈다. 따라서 Algorithm 1은 outcome-free typed
+contract로 후보를 제한하고, 2% validation gain뿐 아니라 validation physical-unit
+win fraction 60%와 worst-unit RMSE ratio 1.10을 함께 요구한다. 이 강화 정책도
+contract admissibility를 고정 승인한 공통백본 감사에서는 false accept 2개가
+남으므로, prospective validity가 확정됐다고 쓰지 않는다.
 
 ## 최종 주장 문장
 

@@ -36,7 +36,8 @@ PP unit gain의 dataset-level 연관은 모두 유의하지 않았다
 
 route를 데이터 계약에 맞게 분리한 final modular evidence에서는 9개 dataset,
 77 physical unit에서 ensemble 기준 9/9 승리했고 dataset sign test
-p=.0039, geometric-mean RMSE reduction은 32.5%였다.
+p=.0039, 최종 executor를 데이터셋별로 올바르게 적용한 교정 감사에서
+geometric-mean RMSE reduction은 33.8%였다.
 
 단, 이 route들은 서로 다른 retrospective 개발을 거쳐 선택됐으므로 그 숫자를
 새 범용모형의 확증 성능으로 부르면 안 된다. 여기서 얻을 수 있는 정당한 결론은

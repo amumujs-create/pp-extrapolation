@@ -61,10 +61,18 @@ def battery_scale_and_controls():
         scale = BatteryRepresentationScale.fit(split["train"], audit["boundary"]).time_scale
         mask = np.asarray(final["dataset"]) == index
         assert np.array_equal(np.asarray(final["y"])[mask], np.asarray(controls["y"])[mask])
+        # Paper-final routing is fixed-bound BQ-PP for Sunwoda/RWTH and
+        # support-adaptive dual-scale only for MICH.  Applying the dual-scale
+        # replay to all three would audit a non-final executor.
+        selected_pp = (
+            np.asarray(final["prediction"])[:, mask]
+            if name == "mich"
+            else np.asarray(controls["bq_pp"])[:, mask]
+        )
         out[name] = {
             "y": np.asarray(final["y"])[mask].astype(float) * scale,
             "groups": np.asarray(final["units"])[mask].astype(str),
-            "pp": np.asarray(final["prediction"])[:, mask].astype(float) * scale,
+            "pp": selected_pp.astype(float) * scale,
             "direct_nn": np.asarray(controls["direct_nn"])[:, mask].astype(float) * scale,
         }
     return out
