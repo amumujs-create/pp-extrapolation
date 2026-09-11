@@ -1,7 +1,11 @@
 import numpy as np
 import torch
 
-from pp_extrapolation.ctbf import CTBFNet, predict_rate_quotient
+from pp_extrapolation.ctbf import (
+    CTBFNet,
+    contract_normalize_features,
+    predict_rate_quotient,
+)
 
 
 def make_model(*, weak_rate_prior=True):
@@ -48,3 +52,39 @@ def test_rate_quotient_respects_boundary_and_rate_floor():
     x = np.asarray([[0.8, -0.01], [0.9, 0.01]], dtype=float)
     result = predict_rate_quotient(x, boundary=0.8, rate_floor=0.001)
     assert np.allclose(result, [0.0, 100.0])
+
+
+def test_multiscale_velocity_uses_median_rate_prior():
+    model = CTBFNet(
+        dimension=4,
+        width=4,
+        boundary=0.0,
+        quadrature_points=32,
+        weak_rate_prior=True,
+        residual_bound=1.0,
+        rate_floor=1e-4,
+        center=np.zeros(4, dtype=np.float32),
+        scale=np.ones(4, dtype=np.float32),
+        rate_indices=(1, 2, 3),
+        rate_aggregation="median",
+    )
+    x = torch.tensor([[0.5, -0.01, -0.02, -0.10]])
+    assert np.isclose(model.local_velocity(x).item(), 0.02, rtol=1e-5)
+
+
+def test_contract_normalization_maps_each_boundary_to_zero():
+    x = np.asarray(
+        [[0.80, -0.02, 0.85, 0.01], [0.75, -0.025, 0.80, 0.02]]
+    )
+    boundary = np.asarray([0.80, 0.75])
+    transformed = contract_normalize_features(
+        x,
+        boundary,
+        rate_indices=(1,),
+        mean_indices=(2,),
+        std_indices=(3,),
+    )
+    assert np.allclose(transformed[:, 0], 0.0)
+    assert np.allclose(transformed[:, 1], [-0.1, -0.1])
+    assert np.allclose(transformed[:, 2], [0.25, 0.2])
+    assert np.allclose(transformed[:, 3], [0.05, 0.08])

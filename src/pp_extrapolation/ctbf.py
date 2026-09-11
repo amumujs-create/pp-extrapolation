@@ -44,6 +44,8 @@ class CTBFNet(nn.Module):
         rate_floor: float,
         center: np.ndarray,
         scale: np.ndarray,
+        rate_indices: tuple[int, ...] = (1,),
+        rate_aggregation: str = "first",
     ):
         super().__init__()
         if quadrature_points < 2:
@@ -54,6 +56,14 @@ class CTBFNet(nn.Module):
         self.weak_rate_prior = bool(weak_rate_prior)
         self.residual_bound = float(residual_bound)
         self.rate_floor = float(rate_floor)
+        if not rate_indices:
+            raise ValueError("at least one rate index is required")
+        if rate_aggregation not in {"first", "median"}:
+            raise ValueError("rate_aggregation must be first or median")
+        self.rate_indices = tuple(int(value) for value in rate_indices)
+        if min(self.rate_indices) < 0 or max(self.rate_indices) >= dimension:
+            raise ValueError("rate index is outside the feature dimension")
+        self.rate_aggregation = rate_aggregation
         self.register_buffer("center", torch.as_tensor(center, dtype=torch.float32))
         self.register_buffer("scale", torch.as_tensor(scale, dtype=torch.float32))
         self.register_buffer(
@@ -67,7 +77,14 @@ class CTBFNet(nn.Module):
         correction = self.velocity_field(standardized_x)
         if not self.weak_rate_prior:
             return correction
-        base = torch.clamp(-raw_x[..., 1], min=self.rate_floor)
+        rates = torch.stack(
+            [-raw_x[..., index] for index in self.rate_indices], dim=-1
+        )
+        rates = torch.clamp(rates, min=self.rate_floor)
+        if self.rate_aggregation == "median":
+            base = torch.median(rates, dim=-1).values
+        else:
+            base = rates[..., 0]
         return torch.log(base) + self.residual_bound * torch.tanh(correction)
 
     def local_velocity(self, raw_x: torch.Tensor) -> torch.Tensor:
@@ -116,6 +133,8 @@ def fit_ctbf(
     quadrature_points: int = 24,
     weak_rate_prior: bool = True,
     residual_bound: float = 1.0,
+    rate_indices: tuple[int, ...] = (1,),
+    rate_aggregation: str = "first",
     learning_rate: float = 1e-3,
     weight_decay: float = 0.1,
     max_epochs: int = 350,
@@ -129,7 +148,9 @@ def fit_ctbf(
     center = tx.mean(axis=0)
     scale = tx.std(axis=0)
     scale[scale < 1e-8] = 1.0
-    observed_rates = -tx[:, 1]
+    observed_rates = -tx[:, np.asarray(rate_indices)]
+    if observed_rates.ndim == 1:
+        observed_rates = observed_rates[:, None]
     positive_rates = observed_rates[observed_rates > 1e-8]
     rate_floor = (
         float(np.quantile(positive_rates, 0.10))
@@ -146,6 +167,8 @@ def fit_ctbf(
         weak_rate_prior=weak_rate_prior,
         residual_bound=residual_bound,
         rate_floor=max(rate_floor, 1e-6),
+        rate_indices=rate_indices,
+        rate_aggregation=rate_aggregation,
         center=center,
         scale=scale,
     )
@@ -177,7 +200,14 @@ def fit_ctbf(
 
             # A weak local constraint anchors velocity where a negative
             # transition was observed; RUL supervision remains primary.
-            rate = -x_train[index, 1]
+            rates = torch.stack(
+                [-x_train[index, value] for value in model.rate_indices], dim=1
+            )
+            rates = torch.clamp(rates, min=model.rate_floor)
+            if model.rate_aggregation == "median":
+                rate = torch.median(rates, dim=1).values
+            else:
+                rate = rates[:, 0]
             valid = rate > model.rate_floor
             if torch.any(valid):
                 predicted_rate = model.local_velocity(x_train[index][valid])
@@ -214,6 +244,8 @@ def fit_ctbf(
             "quadrature_points": int(quadrature_points),
             "weak_rate_prior": bool(weak_rate_prior),
             "residual_bound": float(residual_bound),
+            "rate_indices": list(rate_indices),
+            "rate_aggregation": rate_aggregation,
             "rate_floor": float(model.rate_floor),
             "selected_epoch": int(best_epoch),
             "validation_rmse": float(best),
@@ -237,3 +269,32 @@ def predict_rate_quotient(
     span = np.maximum(values[:, 0] - boundary, 0.0)
     rate = np.maximum(-values[:, 1], rate_floor)
     return span / rate
+
+
+def contract_normalize_features(
+    x: np.ndarray,
+    boundaries: np.ndarray,
+    *,
+    rate_indices: tuple[int, ...],
+    mean_indices: tuple[int, ...] = (),
+    std_indices: tuple[int, ...] = (),
+) -> np.ndarray:
+    """Map unit-specific failure boundaries to zero without label access."""
+    values = np.asarray(x, dtype=np.float64)
+    boundary = np.asarray(boundaries, dtype=np.float64)
+    if values.ndim != 2 or boundary.shape != (len(values),):
+        raise ValueError("unaligned contract-normalization arrays")
+    if not np.isfinite(values).all() or not np.isfinite(boundary).all():
+        raise ValueError("contract normalization requires finite values")
+    denominator = 1.0 - boundary
+    if np.any(denominator <= 1e-8):
+        raise ValueError("failure boundary must be below initial health")
+    transformed = values.copy()
+    transformed[:, 0] = (values[:, 0] - boundary) / denominator
+    for index in rate_indices:
+        transformed[:, index] = values[:, index] / denominator
+    for index in mean_indices:
+        transformed[:, index] = (values[:, index] - boundary) / denominator
+    for index in std_indices:
+        transformed[:, index] = values[:, index] / denominator
+    return transformed.astype(np.float32)
