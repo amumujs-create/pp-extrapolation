@@ -21,7 +21,10 @@ domain validation. Its result must be reported whether positive or negative.
   Simulation Data Set 2
 - Canonical filename: `N-CMAPSS_DS03-012.h5`
 - Expected units: development 1–9; test 10–15
-- Raw file SHA-256: recorded immediately after download and before opening HDF5
+- Raw file size: `3,693,395,776` bytes
+- Raw file SHA-256:
+  `f67cc4bd0cf927f09eb8e0198bd62c777e1c6213177cfc46d81cc43bba52c333`
+- Integrity timestamp: 2026-09-11 14:29 KST, recorded before opening HDF5
 - No dataset-specific architecture or threshold change is allowed after the
   raw hash is recorded.
 
