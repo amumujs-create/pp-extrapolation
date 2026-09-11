@@ -81,6 +81,13 @@ Engression보다 낮았고, MultiStage에서는 안전성을 확보한 gate도 C
 부족할 때 기존 fallback/abstention을 유지한다. 상세한 음성 결과와 재현 경로는
 `PPX_CRT_REJECTED_EXPERIMENT_KO.md`에 기록한다.
 
+CRT 이후 support-grade 조건부 implicit generator, group-CVaR energy loss,
+unit-disjoint nested pseudo-extrapolation, source-only global gate를 결합한
+GCIE도 평가했다. DS03에서 direct fallback 개선 신호는 있었지만 equal-budget
+Engression과 2% worst-unit regret 기준을 동시에 넘지 못했다. 이 구조 역시
+Algorithm 1에서 제외하며 상세 결과는
+`PPX_GCIE_REJECTED_EXPERIMENT_KO.md`에 보존한다.
+
 ## 근거와 산출물
 
 - 최종 on/off 및 BH 보정: `results/ppx_final_ablation_statistics_v1/REPORT_KO.md`
