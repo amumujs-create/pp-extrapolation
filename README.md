@@ -1,20 +1,21 @@
-# CCMR — Risk-Aware Extrapolation
+# PP-X — Prior-Transferability Adaptive Extrapolation
 
-**Current deployed model: CCMR v2.2 small-cohort crossfit route.**
+**Current paper model: PP-X.**
 
-CCMR combines a causal dynamics expert bank, physical-unit validation risk
-constraints, a small-cohort crossfit route, and exact persistence fallback.
-The frozen deployment manifest is
+PP-X is a contract-conditioned prior-residual framework with
+transferability-aware abstention. CCMR v2.2 is the current trajectory-domain
+risk-certified executor inside the PP-X evidence portfolio; it is not the
+paper's top-level model name. Its frozen manifest is
 [`protocols/CCMR_V22_FROZEN_MANIFEST.json`](protocols/CCMR_V22_FROZEN_MANIFEST.json).
 CCMR v2.3 AC-CRPE was evaluated but rejected because it did not strictly improve
-development geometric-mean RMSE; it is not the deployed model.
+development geometric-mean RMSE.
 
 The original PP neural regressor remains available as the package's base
 extrapolation implementation and for reproducing earlier experiments.
 
 PP is a compact neural regressor for strict out-of-support RUL experiments. It contains an affine tail path and a learned two-layer tanh correction path. The model forward pass contains no domain degradation equation.
 
-## Current CCMR API
+## PP-X and CCMR executor API
 
 ```python
 from pp_extrapolation import (
@@ -26,7 +27,8 @@ from pp_extrapolation import (
 
 Model card and validation boundary:
 
-- [`CCMR_CURRENT_MODEL_KO.md`](CCMR_CURRENT_MODEL_KO.md)
+- [`PPX_CURRENT_MODEL_KO.md`](PPX_CURRENT_MODEL_KO.md)
+- [`PPX_FINAL_PAPER_MODEL_KO.md`](PPX_FINAL_PAPER_MODEL_KO.md)
 - [`CCMR_V22_SMALL_COHORT_RESULTS_KO.md`](CCMR_V22_SMALL_COHORT_RESULTS_KO.md)
 - [`CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md`](CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md)
 
