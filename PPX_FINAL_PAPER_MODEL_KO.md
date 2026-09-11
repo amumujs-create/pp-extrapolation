@@ -71,6 +71,16 @@ contract admissibility를 고정 승인한 공통백본 감사에서는 false ac
 
 FEMTO, XJTU, milling처럼 retrospective route 또는 낮은 식별성 setting은 applicability/limitation 표에 두며, main superiority 평균에 섞지 않는다.
 
+## 기각된 generic residual transport 확장
+
+Prior 거절 시 일반 외삽을 강화하려고 residual-only stochastic transport와
+depth-shell gate를 추가로 평가했으나 논문 구조로 승격하지 않았다. DS03의
+validation-only 연속 mass gate는 direct fallback보다 소폭 개선됐지만
+Engression보다 낮았고, MultiStage에서는 안전성을 확보한 gate도 CCMR 단독보다
+낮았다. 따라서 현재 Algorithm 1은 이 확장을 포함하지 않으며 prior evidence가
+부족할 때 기존 fallback/abstention을 유지한다. 상세한 음성 결과와 재현 경로는
+`PPX_CRT_REJECTED_EXPERIMENT_KO.md`에 기록한다.
+
 ## 근거와 산출물
 
 - 최종 on/off 및 BH 보정: `results/ppx_final_ablation_statistics_v1/REPORT_KO.md`

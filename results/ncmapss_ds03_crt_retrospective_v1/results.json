@@ -1,0 +1,186 @@
+{
+  "schema": "ncmapss-ds03-crt-rigorous-retrospective-v1",
+  "status": "retrospective matched; test outcome never used for selection",
+  "split": {
+    "train_units": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "validation_units": [
+      7,
+      8,
+      9
+    ],
+    "test_units": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "information_contract": {
+    "prior_route": "generic prior rejected; direct fallback",
+    "train_anchor": "unit-held-out OOF direct fits, seeds 42--46",
+    "validation_test_anchor": "frozen prospective selection direct fits, seeds 42--46",
+    "envelope_radius": "single max-absolute train OOF residual; frozen before validation/test",
+    "test_used_for_selection": false,
+    "oof_fit_units_by_held_unit": {
+      "1": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "2": [
+        "1",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "3": [
+        "1",
+        "2",
+        "4",
+        "5",
+        "6"
+      ],
+      "4": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "6"
+      ],
+      "5": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "6": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    }
+  },
+  "n_rows": {
+    "train": 428,
+    "validation": 235,
+    "test": 438
+  },
+  "envelope_radius_value": 27.71859283547266,
+  "rho": 0.75,
+  "validation_risk_decision": {
+    "rho": 0.75,
+    "mean_regret": -0.09748224121258457,
+    "cvar_regret": 0.005639785115867553,
+    "max_regret": 0.005639785115867553,
+    "feasible_count": 76
+  },
+  "test": {
+    "pooled_r2": 0.879899163732892,
+    "pooled_rmse": 7.794249490648531,
+    "macro_rmse": 7.738462338824789,
+    "energy_score": 5.289986526997879,
+    "physical_unit_rmse": {
+      "10": 7.24610170887157,
+      "11": 8.319734505043426,
+      "12": 8.30074616119128,
+      "13": 8.435882003942542,
+      "14": 7.288905741584616,
+      "15": 6.839403912315306
+    },
+    "anchor_physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "unit_regret_relative_rmse": {
+      "10": 0.6961542513571943,
+      "11": 0.028159463104337347,
+      "12": -0.23940174091411806,
+      "13": -0.001901942532667759,
+      "14": 0.25040292306321,
+      "15": 0.2648450784318359
+    },
+    "unit_regret_summary": {
+      "mean": 0.16637633875163196,
+      "maximum": 0.6961542513571943,
+      "units_improved": 2
+    }
+  },
+  "ablation_rho_0": {
+    "pooled_r2": 0.8818049662993922,
+    "pooled_rmse": 7.732161241688431,
+    "macro_rmse": 7.160983457322111,
+    "energy_score": 5.406413413024276,
+    "physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "anchor_physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "unit_regret_relative_rmse": {
+      "10": 0.0,
+      "11": 0.0,
+      "12": 0.0,
+      "13": 0.0,
+      "14": 0.0,
+      "15": 0.0
+    },
+    "unit_regret_summary": {
+      "mean": 0.0,
+      "maximum": 0.0,
+      "units_improved": 0
+    }
+  },
+  "equal_budget_engression": {
+    "artifact": "results/ncmapss_ds03_equal_budget_v1/engression/predictions.npz",
+    "candidate_budget": 30,
+    "refit_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "pooled_r2": 0.9013228562831286,
+    "pooled_rmse": 7.064957631375723,
+    "macro_rmse": 6.097457993200719,
+    "prediction_checked_r2": 0.9013228639960289
+  },
+  "comparison_to_engression": {
+    "pooled_r2_difference": -0.021423692550236573,
+    "macro_rmse_difference": 1.6410043456240695
+  },
+  "invariance_checks": {
+    "rho_zero_bitwise_anchor_distribution": true,
+    "test_samples_inside_frozen_train_oof_envelope": true,
+    "held_unit_absent_from_each_oof_fit": true
+  }
+}

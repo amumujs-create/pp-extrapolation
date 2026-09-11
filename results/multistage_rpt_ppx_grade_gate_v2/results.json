@@ -1,0 +1,147 @@
+{
+  "status": "retrospective grade-gated CRT v2 complete",
+  "confirmatory": false,
+  "test_status": "previously opened",
+  "cohort": "MultiStage_RPT_Stage1",
+  "evidence_grade": "unit-disjoint outer OOF on validation units",
+  "evidence_limitation": "outer OOF is confined to the frozen validation cohort; test was already opened before this exploratory gate was designed",
+  "label_policy": "validation labels only construct outer-OOF shell evidence; frozen test routing uses progress-derived grades without labels",
+  "shell_definition": "within-unit progress order mid-rank; edges (0.0, 0.5, 0.75, 1.0)",
+  "gate": {
+    "selected_routes": [
+      "persistence",
+      "persistence",
+      "persistence"
+    ],
+    "minimum_units": 10,
+    "maximum_worst_unit_regret": 0.0,
+    "evidence": [
+      {
+        "lower_grade": 0.0,
+        "upper_grade": 0.5,
+        "route": "persistence",
+        "safe": true,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.006132401646121626,
+        "worst_unit_regret": 0.0,
+        "reason": "approved"
+      },
+      {
+        "lower_grade": 0.0,
+        "upper_grade": 0.5,
+        "route": "crt",
+        "safe": false,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.0026271679078536466,
+        "worst_unit_regret": 0.0016797065977279813,
+        "reason": "risk_budget_exceeded"
+      },
+      {
+        "lower_grade": 0.5,
+        "upper_grade": 0.75,
+        "route": "persistence",
+        "safe": true,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.006887005238323259,
+        "worst_unit_regret": 0.0,
+        "reason": "approved"
+      },
+      {
+        "lower_grade": 0.5,
+        "upper_grade": 0.75,
+        "route": "crt",
+        "safe": false,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.0029047939198236783,
+        "worst_unit_regret": 8.942111282361775e-05,
+        "reason": "risk_budget_exceeded"
+      },
+      {
+        "lower_grade": 0.75,
+        "upper_grade": 1.0,
+        "route": "persistence",
+        "safe": true,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.006323893088108934,
+        "worst_unit_regret": 0.0,
+        "reason": "approved"
+      },
+      {
+        "lower_grade": 0.75,
+        "upper_grade": 1.0,
+        "route": "crt",
+        "safe": false,
+        "unit_count": 14,
+        "mean_unit_rmse": 0.0033940826624128595,
+        "worst_unit_regret": 0.00022702905266913653,
+        "reason": "risk_budget_exceeded"
+      }
+    ],
+    "outer_oof_episode_count": 84,
+    "oof_sample_count": 256
+  },
+  "test_route_counts": {
+    "persistence": 33,
+    "crt": 0
+  },
+  "scores": {
+    "PP-X_grade_gate_v2": {
+      "pooled_r2": 0.9727757105641195,
+      "pooled_rmse": 0.006129188890698183,
+      "macro_rmse": 0.005710806984322247,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": 0.0,
+      "unit_regret_cvar20": 0.0
+    },
+    "PP-X_CRT_v1": {
+      "pooled_r2": 0.9880706617450802,
+      "pooled_rmse": 0.004057260619387094,
+      "macro_rmse": 0.0036247294879333458,
+      "worst_unit_regret": 1.6330931647247018,
+      "unit_regret_mean": -0.02842903021982702,
+      "unit_regret_cvar20": 1.2911073884334032
+    },
+    "PP_latest_successful": {
+      "pooled_r2": 0.979397056495107,
+      "pooled_rmse": 0.005331990474803474,
+      "macro_rmse": 0.004775086537188332,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": -0.35301833399437343,
+      "unit_regret_cvar20": -0.05054393159618913
+    },
+    "Engression": {
+      "pooled_r2": 0.9794042338434642,
+      "pooled_rmse": 0.005331061653963114,
+      "macro_rmse": 0.004846495119401286,
+      "worst_unit_regret": 2.054914172137879,
+      "unit_regret_mean": -0.06051525792436131,
+      "unit_regret_cvar20": 1.0504796186990997
+    },
+    "CCMR_v2.0": {
+      "pooled_r2": 0.9888468292646878,
+      "pooled_rmse": 0.003923050551159109,
+      "macro_rmse": 0.0028655136957099177,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": -0.7094245643990327,
+      "unit_regret_cvar20": -0.09792376025006522
+    },
+    "Persistence": {
+      "pooled_r2": 0.9727757105641195,
+      "pooled_rmse": 0.006129188890698183,
+      "macro_rmse": 0.005710806984322247,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": 0.0,
+      "unit_regret_cvar20": 0.0
+    }
+  },
+  "goal_check": {
+    "pooled_rmse_improvement_retained_vs_persistence": false,
+    "worst_regret_reduced_vs_crt_v1": true
+  },
+  "alignment_checks": {
+    "v1_truth": true,
+    "v1_groups": true,
+    "comparators_truth": true,
+    "ccmr_truth": true
+  }
+}

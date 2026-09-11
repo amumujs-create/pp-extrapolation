@@ -1,0 +1,102 @@
+{
+  "status": "retrospective exploratory matched experiment complete",
+  "confirmatory": false,
+  "test_status": "previously opened",
+  "cohort": "MultiStage_RPT_Stage1",
+  "adapter": "multistage_rpt_ccmr_v19 frozen unit split/make_rows; identical intervals to cohort_ml_benchmark.load_cohorts",
+  "fit_label_policy": "train labels fit residual map/radius; validation labels select rho; test labels score only",
+  "prior": {
+    "name": "Persistence",
+    "reason": "structurally aligned on train/validation/test; archived PP_latest_successful predictions are test-only",
+    "sample_count": 1024,
+    "envelope_radius": 0.018733609428872023
+  },
+  "rows": {
+    "train": 110,
+    "validation": 50,
+    "test": 33
+  },
+  "units": {
+    "train": 43,
+    "validation": 14,
+    "test": 15
+  },
+  "alignment_checks": {
+    "competitor_truth": true,
+    "competitor_groups": true,
+    "competitor_persistence": true,
+    "ccmr_truth": true,
+    "ccmr_groups": true
+  },
+  "transport": {
+    "rho": 1.0,
+    "risk_decision": {
+      "rho": 1.0,
+      "mean_regret": -0.659647161893554,
+      "cvar_regret": -0.22285980670460534,
+      "max_regret": -0.18239562572520465,
+      "feasible_count": 101
+    },
+    "seed": 20260911
+  },
+  "scores": {
+    "PP-X_residual_transport": {
+      "pooled_r2": 0.9880706617450802,
+      "pooled_rmse": 0.004057260619387094,
+      "macro_rmse": 0.0036247294879333458,
+      "worst_unit_regret": 1.6330931647247018,
+      "unit_regret_mean": -0.02842903021982702,
+      "unit_regret_cvar20": 1.2911073884334032
+    },
+    "PP_latest_successful": {
+      "pooled_r2": 0.979397056495107,
+      "pooled_rmse": 0.005331990474803474,
+      "macro_rmse": 0.004775086537188332,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": -0.35301833399437343,
+      "unit_regret_cvar20": -0.05054393159618913
+    },
+    "Engression": {
+      "pooled_r2": 0.9794042338434642,
+      "pooled_rmse": 0.005331061653963114,
+      "macro_rmse": 0.004846495119401286,
+      "worst_unit_regret": 2.054914172137879,
+      "unit_regret_mean": -0.06051525792436131,
+      "unit_regret_cvar20": 1.0504796186990997
+    },
+    "CCMR_v2.0": {
+      "pooled_r2": 0.9888468292646878,
+      "pooled_rmse": 0.003923050551159109,
+      "macro_rmse": 0.0028655136957099177,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": -0.7094245643990327,
+      "unit_regret_cvar20": -0.09792376025006522
+    },
+    "Persistence": {
+      "pooled_r2": 0.9727757105641195,
+      "pooled_rmse": 0.006129188890698183,
+      "macro_rmse": 0.005710806984322247,
+      "worst_unit_regret": 0.0,
+      "unit_regret_mean": 0.0,
+      "unit_regret_cvar20": 0.0
+    }
+  },
+  "reference_r2_rounded": {
+    "PP_latest_successful": 0.979397,
+    "Engression": 0.979404,
+    "CCMR_v2.0": 0.988847
+  },
+  "r2_delta_vs_reference": {
+    "PP_latest_successful": 0.008673661745080219,
+    "Engression": 0.008666661745080129,
+    "CCMR_v2.0": -0.0007763382549198505
+  },
+  "artifacts": {
+    "comparators": "results/two_success_cohorts_extrapolation_competitors_v2_nonnegative/multistage_rpt_ensemble_predictions.npz",
+    "ccmr": "results/ccmr_v20_frozen_holdout_replay/predictions.npz"
+  },
+  "source_sha256": {
+    "comparators": "555d40e5a948b374f4bf5cf0fbcc232f97e47255fe8ad33da4511aaf4c94b51b",
+    "ccmr": "a1c12865940cb3bc2aa4adade7f3aa42c15b9c37bbd58c575251d307f9d91133"
+  }
+}

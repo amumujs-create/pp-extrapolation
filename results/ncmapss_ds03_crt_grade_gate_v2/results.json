@@ -1,0 +1,298 @@
+{
+  "schema": "ncmapss-ds03-crt-depth-shell-gate-v2",
+  "status": "retrospective validation-evidence gate; test-label-blind selection",
+  "split": {
+    "train_units": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "validation_units": [
+      7,
+      8,
+      9
+    ],
+    "test_units": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "gate_training": {
+    "source": "independent validation physical units 7--9",
+    "test_labels_used": false,
+    "candidate_routes": [
+      "direct_fallback",
+      "crt"
+    ],
+    "engression_candidate": false,
+    "engression_exclusion_reason": "no unit-OOF prediction artifact",
+    "frozen_gate": {
+      "shell_edges": [
+        0.5,
+        0.65,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "selected_routes": [
+        "direct_fallback",
+        "direct_fallback",
+        "direct_fallback",
+        "direct_fallback"
+      ],
+      "evidence": [
+        {
+          "lower_grade": 0.5,
+          "upper_grade": 0.65,
+          "route": "direct_fallback",
+          "safe": true,
+          "unit_count": 3,
+          "mean_unit_rmse": 3.5626735614440572,
+          "worst_unit_regret": 0.0,
+          "reason": "approved"
+        },
+        {
+          "lower_grade": 0.5,
+          "upper_grade": 0.65,
+          "route": "crt",
+          "safe": false,
+          "unit_count": 3,
+          "mean_unit_rmse": 4.892505728624459,
+          "worst_unit_regret": 2.3281372202032227,
+          "reason": "risk_budget_exceeded"
+        },
+        {
+          "lower_grade": 0.65,
+          "upper_grade": 0.8,
+          "route": "direct_fallback",
+          "safe": true,
+          "unit_count": 3,
+          "mean_unit_rmse": 4.899557629432047,
+          "worst_unit_regret": 0.0,
+          "reason": "approved"
+        },
+        {
+          "lower_grade": 0.65,
+          "upper_grade": 0.8,
+          "route": "crt",
+          "safe": false,
+          "unit_count": 3,
+          "mean_unit_rmse": 5.793315608270686,
+          "worst_unit_regret": 3.353804039179626,
+          "reason": "risk_budget_exceeded"
+        },
+        {
+          "lower_grade": 0.8,
+          "upper_grade": 0.9,
+          "route": "direct_fallback",
+          "safe": true,
+          "unit_count": 3,
+          "mean_unit_rmse": 5.532139126377698,
+          "worst_unit_regret": 0.0,
+          "reason": "approved"
+        },
+        {
+          "lower_grade": 0.8,
+          "upper_grade": 0.9,
+          "route": "crt",
+          "safe": false,
+          "unit_count": 3,
+          "mean_unit_rmse": 4.559007110047861,
+          "worst_unit_regret": 0.7552953832288871,
+          "reason": "risk_budget_exceeded"
+        },
+        {
+          "lower_grade": 0.9,
+          "upper_grade": 1.0,
+          "route": "direct_fallback",
+          "safe": true,
+          "unit_count": 3,
+          "mean_unit_rmse": 3.3471010894295596,
+          "worst_unit_regret": 0.0,
+          "reason": "approved"
+        },
+        {
+          "lower_grade": 0.9,
+          "upper_grade": 1.0,
+          "route": "crt",
+          "safe": false,
+          "unit_count": 3,
+          "mean_unit_rmse": 7.504573145005601,
+          "worst_unit_regret": 10.33723840446492,
+          "reason": "risk_budget_exceeded"
+        }
+      ],
+      "minimum_units": 3,
+      "maximum_worst_unit_regret": 0.0
+    }
+  },
+  "selected_shell_routes": [
+    {
+      "lower_grade": 0.5,
+      "upper_grade": 0.65,
+      "route": "direct_fallback"
+    },
+    {
+      "lower_grade": 0.65,
+      "upper_grade": 0.8,
+      "route": "direct_fallback"
+    },
+    {
+      "lower_grade": 0.8,
+      "upper_grade": 0.9,
+      "route": "direct_fallback"
+    },
+    {
+      "lower_grade": 0.9,
+      "upper_grade": 1.0,
+      "route": "direct_fallback"
+    }
+  ],
+  "selected_test_row_counts": {
+    "direct_fallback": 438,
+    "crt": 0
+  },
+  "rho": 0.75,
+  "envelope_radius_value": 27.71859283547266,
+  "test": {
+    "pooled_r2": 0.8818049662993922,
+    "pooled_rmse": 7.732161241688431,
+    "macro_rmse": 7.160983457322111,
+    "energy_score": 5.406413413024276,
+    "physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "anchor_physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "unit_regret_relative_rmse": {
+      "10": 0.0,
+      "11": 0.0,
+      "12": 0.0,
+      "13": 0.0,
+      "14": 0.0,
+      "15": 0.0
+    },
+    "unit_regret_summary": {
+      "mean": 0.0,
+      "maximum": 0.0,
+      "units_improved": 0
+    }
+  },
+  "ungated_direct_fallback": {
+    "pooled_r2": 0.8818049662993922,
+    "pooled_rmse": 7.732161241688431,
+    "macro_rmse": 7.160983457322111,
+    "energy_score": 5.406413413024276,
+    "physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "anchor_physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "unit_regret_relative_rmse": {
+      "10": 0.0,
+      "11": 0.0,
+      "12": 0.0,
+      "13": 0.0,
+      "14": 0.0,
+      "15": 0.0
+    },
+    "unit_regret_summary": {
+      "mean": 0.0,
+      "maximum": 0.0,
+      "units_improved": 0
+    }
+  },
+  "ungated_crt": {
+    "pooled_r2": 0.879899163732892,
+    "pooled_rmse": 7.794249490648531,
+    "macro_rmse": 7.738462338824789,
+    "energy_score": 5.289986526997879,
+    "physical_unit_rmse": {
+      "10": 7.24610170887157,
+      "11": 8.319734505043426,
+      "12": 8.30074616119128,
+      "13": 8.435882003942542,
+      "14": 7.288905741584616,
+      "15": 6.839403912315306
+    },
+    "anchor_physical_unit_rmse": {
+      "10": 4.272077084424091,
+      "11": 8.091871741299279,
+      "12": 10.913443545305316,
+      "13": 8.451957140712748,
+      "14": 5.8292456032719535,
+      "15": 5.407305628919273
+    },
+    "unit_regret_relative_rmse": {
+      "10": 0.6961542513571943,
+      "11": 0.028159463104337347,
+      "12": -0.23940174091411806,
+      "13": -0.001901942532667759,
+      "14": 0.25040292306321,
+      "15": 0.2648450784318359
+    },
+    "unit_regret_summary": {
+      "mean": 0.16637633875163196,
+      "maximum": 0.6961542513571943,
+      "units_improved": 2
+    }
+  },
+  "equal_budget_engression_external_only": {
+    "artifact": "results/ncmapss_ds03_equal_budget_v1/engression/predictions.npz",
+    "candidate_budget": 30,
+    "refit_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "pooled_r2": 0.9013228562831286,
+    "pooled_rmse": 7.064957631375723,
+    "macro_rmse": 6.097457993200719,
+    "prediction_checked_r2": 0.9013228639960289
+  },
+  "comparison": {
+    "gated_minus_direct_pooled_r2": 0.0,
+    "gated_minus_direct_macro_rmse": 0.0,
+    "gated_minus_engression_pooled_r2": -0.01951788998373638
+  },
+  "invariance_checks": {
+    "held_train_unit_absent_from_oof_fit": true,
+    "gate_frozen_before_test_load": true,
+    "fallback_rows_bitwise_exact": true
+  },
+  "external_artifacts": {
+    "v1_results_unchanged": "results/ncmapss_ds03_crt_retrospective_v1",
+    "engression": "results/ncmapss_ds03_equal_budget_v1"
+  }
+}
