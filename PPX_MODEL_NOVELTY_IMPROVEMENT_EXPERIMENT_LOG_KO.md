@@ -174,3 +174,69 @@ validation 신호와 겹치는 것으로 해석한다. 사전 동결 규칙에 �
   2. ISU Contract-Normalized Boundary-Flow PP-X
   3. MICH Distributional Tail PP-X
 
+## 10) PP-X-nested 구조 후보 3종 Virkler 실험
+
+### 10-1) 실험 목적
+
+PP-X를 exact off-state로 포함해 성능과 coverage를 보존하면서 예측함수
+자체의 노벨티를 추가할 수 있는지 세 구조를 동일 Virkler split에서
+검증했다.
+
+1. Projected Residual-State
+2. Causal Temporal Self-Consistency Projection
+3. Prior-Geometry-Conditioned Residual
+
+프로토콜은 실행 전에
+`protocols/PPX_STRUCTURAL_TRIO_VIRKLER_PROTOCOL.md`로 동결했다.
+
+### 10-2) 공통 기준 결과
+
+- 최종 support-gated PP-X, seed 42--46
+- test PP-X: RMSE 2.5769, R² 0.8880, MAE 1.6004
+- test units/rows: 10/20
+- 모든 arm의 full-row coverage 유지
+- off 상태의 PP-X exact replay 확인
+
+### 10-3) Projected Residual-State
+
+- validation 선택: persistence 1, tube infinity
+- 의미: exact PP-X off-state
+- test RMSE/R²: 2.5769/0.8880
+- 판정: 비활성 fallback; 구조 효과 없음
+
+### 10-4) Temporal Self-Consistency
+
+- validation 선택: projection strength 0
+- test RMSE/R²: 2.5769/0.8880
+- 판정: 비활성 fallback; 구조 효과 없음
+- 원인 해석: late-tail contract에 specimen당 두 row만 있어 causal trajectory
+  state가 활용할 history가 부족함
+
+### 10-5) Prior-Geometry Residual
+
+- validation 선택: Ridge alpha 100
+- validation RMSE: 3.9100 → 3.6793
+- test RMSE: 2.5769 → 3.3830
+- test R²: 0.8880 → 0.8069
+- test RMSE 악화: 31.3%
+- unit win: 2/10
+- worst-unit RMSE ratio: 5.820
+- unit bootstrap CI: [-0.765, 0.224]
+- 판정: 5% harm 기준 초과, 즉시 기각
+
+### 10-6) 최종 결정
+
+세 구조 모두 PP-X 승격 대상이 아니다. exact nesting은 실패 후보에서
+PP-X 성능과 coverage를 지켰지만, 그 자체는 구조 효과의 증거가 아니다.
+Prior-Geometry arm은 validation false accept 사례로 기록한다.
+
+Virkler에서 다음에 우선할 구조는 이미 독립적인 성능 신호가 있었던
+Event-Coordinate PP-X다. Residual-state와 temporal projection은 더 긴
+unit history를 제공하는 데이터에서만 재검토한다.
+
+관련 자료:
+
+- `PPX_STRUCTURAL_TRIO_VIRKLER_RESULT_KO.md`
+- `experiments/ppx_structural_trio_virkler.py`
+- `results/ppx_structural_trio_virkler/results.json`
+
