@@ -1,0 +1,178 @@
+{
+  "source": "results/full_equal_candidate_budget_summary_v1/results.json",
+  "scope": "9 retrospective main settings; 30 candidates per baseline",
+  "stability_definition": "cross-domain dispersion and failure, not merely random-seed variance",
+  "models": {
+    "ppx": {
+      "macro_mean_r2": 0.807122774578052,
+      "domain_sd_r2": 0.17373139377340394,
+      "domain_iqr_r2": 0.18604512880942448,
+      "worst_domain_r2": 0.4656982693191565,
+      "q10_domain_r2": 0.5601403301073389,
+      "positive_r2_domains": 9,
+      "failed_r2_domains": 0
+    },
+    "plain_mlp": {
+      "macro_mean_r2": 0.09343156709729161,
+      "domain_sd_r2": 1.00692968024125,
+      "domain_iqr_r2": 1.073933399786901,
+      "worst_domain_r2": -2.1396318408245643,
+      "q10_domain_r2": -0.9796906435967926,
+      "positive_r2_domains": 6,
+      "failed_r2_domains": 3
+    },
+    "ft_transformer": {
+      "macro_mean_r2": 0.1151048038636504,
+      "domain_sd_r2": 1.004972640134456,
+      "domain_iqr_r2": 0.6801042655125744,
+      "worst_domain_r2": -2.00952726874356,
+      "q10_domain_r2": -1.2762618468135434,
+      "positive_r2_domains": 7,
+      "failed_r2_domains": 2
+    },
+    "vrex": {
+      "macro_mean_r2": 0.0711841087043796,
+      "domain_sd_r2": 1.0075039277786348,
+      "domain_iqr_r2": 1.0057415012022368,
+      "worst_domain_r2": -2.187610290352838,
+      "q10_domain_r2": -0.993472859560189,
+      "positive_r2_domains": 6,
+      "failed_r2_domains": 3
+    },
+    "groupdro": {
+      "macro_mean_r2": 0.010695909298827874,
+      "domain_sd_r2": 0.9975278660668604,
+      "domain_iqr_r2": 1.3184249017587042,
+      "worst_domain_r2": -2.057106505407978,
+      "q10_domain_r2": -1.0108086435704153,
+      "positive_r2_domains": 5,
+      "failed_r2_domains": 4
+    },
+    "monotone": {
+      "macro_mean_r2": 0.05377999882736206,
+      "domain_sd_r2": 1.056771803303772,
+      "domain_iqr_r2": 1.0761278764017415,
+      "worst_domain_r2": -2.3507467465038347,
+      "q10_domain_r2": -1.0188226795963757,
+      "positive_r2_domains": 6,
+      "failed_r2_domains": 3
+    },
+    "engression": {
+      "macro_mean_r2": 0.2566985521229823,
+      "domain_sd_r2": 0.9485504083465386,
+      "domain_iqr_r2": 0.3315437205880495,
+      "worst_domain_r2": -1.58040817403166,
+      "q10_domain_r2": -1.2729559506699832,
+      "positive_r2_domains": 7,
+      "failed_r2_domains": 2
+    },
+    "linear_tail_rbf": {
+      "macro_mean_r2": -0.08462585051631463,
+      "domain_sd_r2": 1.4730172701226694,
+      "domain_iqr_r2": 0.7332528314984901,
+      "worst_domain_r2": -2.6486345328048233,
+      "q10_domain_r2": -2.6413142140325068,
+      "positive_r2_domains": 7,
+      "failed_r2_domains": 2
+    },
+    "svgp": {
+      "macro_mean_r2": -1.6393662002756286,
+      "domain_sd_r2": 4.2573581749637075,
+      "domain_iqr_r2": 2.189176320991783,
+      "worst_domain_r2": -12.584149768736514,
+      "q10_domain_r2": -4.31478392827796,
+      "positive_r2_domains": 5,
+      "failed_r2_domains": 4
+    }
+  },
+  "comparisons_vs_ppx": {
+    "plain_mlp": {
+      "sd_ratio_vs_ppx": 5.795899396021527,
+      "bootstrap_sd_difference_ci95": [
+        0.11774052115529457,
+        1.1866667449395083
+      ],
+      "bootstrap_probability_baseline_sd_greater": 1.0,
+      "brown_forsythe_p": 0.030697437289984,
+      "brown_forsythe_holm_q": 0.214882061029888
+    },
+    "ft_transformer": {
+      "sd_ratio_vs_ppx": 5.784634649539688,
+      "bootstrap_sd_difference_ci95": [
+        0.04036658952536379,
+        1.1363270705337993
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.99744,
+      "brown_forsythe_p": 0.07755945709022556,
+      "brown_forsythe_holm_q": 0.31023782836090225
+    },
+    "vrex": {
+      "sd_ratio_vs_ppx": 5.799204771779543,
+      "bootstrap_sd_difference_ci95": [
+        0.11462378300305343,
+        1.1948196506368678
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.99994,
+      "brown_forsythe_p": 0.039755173054503434,
+      "brown_forsythe_holm_q": 0.2385310383270206
+    },
+    "groupdro": {
+      "sd_ratio_vs_ppx": 5.7417824401266575,
+      "bootstrap_sd_difference_ci95": [
+        0.2792781955393159,
+        1.1437452834462034
+      ],
+      "bootstrap_probability_baseline_sd_greater": 1.0,
+      "brown_forsythe_p": 0.01379149022296493,
+      "brown_forsythe_holm_q": 0.11033192178371944
+    },
+    "monotone": {
+      "sd_ratio_vs_ppx": 6.082791258107954,
+      "bootstrap_sd_difference_ci95": [
+        0.12365960114613819,
+        1.2728240089185876
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.99996,
+      "brown_forsythe_p": 0.04140155598560276,
+      "brown_forsythe_holm_q": 0.2385310383270206
+    },
+    "engression": {
+      "sd_ratio_vs_ppx": 5.459867602188947,
+      "bootstrap_sd_difference_ci95": [
+        0.005109229095050742,
+        0.9899017606692726
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.97936,
+      "brown_forsythe_p": 0.12360240891959653,
+      "brown_forsythe_holm_q": 0.35960504986425845
+    },
+    "linear_tail_rbf": {
+      "sd_ratio_vs_ppx": 8.478705190403932,
+      "bootstrap_sd_difference_ci95": [
+        0.03386757372378129,
+        1.5201022400575088
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.99908,
+      "brown_forsythe_p": 0.11986834995475282,
+      "brown_forsythe_holm_q": 0.35960504986425845
+    },
+    "svgp": {
+      "sd_ratio_vs_ppx": 24.50540505371491,
+      "bootstrap_sd_difference_ci95": [
+        0.6034777823732691,
+        5.807478486338791
+      ],
+      "bootstrap_probability_baseline_sd_greater": 0.99958,
+      "brown_forsythe_p": 0.1489288145840995,
+      "brown_forsythe_holm_q": 0.35960504986425845
+    }
+  },
+  "main_findings": {
+    "ppx_positive_domains": "9/9",
+    "best_baseline_positive_domains": "7/9",
+    "ppx_domain_sd_r2": 0.17373139377340394,
+    "smallest_baseline_domain_sd_r2": 0.9485504083465386,
+    "smallest_baseline_sd_model": "engression",
+    "formal_multiplicity_caveat": "No Brown--Forsythe comparison remains significant after Holm correction across eight baselines; treat dispersion as retrospective descriptive/secondary evidence."
+  }
+}

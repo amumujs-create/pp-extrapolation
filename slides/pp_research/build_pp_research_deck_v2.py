@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 38
+    TOTAL = 39
 
     def p():
         nonlocal n
@@ -339,7 +339,47 @@ def build():
              10, C["red"], True, "center")
     foot(s, p(), TOTAL)
 
-    # 6 Evidence-backed failure analysis
+    # 6 Cross-domain stability — success/failure across domains, not seed SD
+    s = blank(prs)
+    head(s, "도메인이 바뀌어도 덜 무너졌는가",
+         "동일 30후보 예산 · 9개 메인 setting  |  안정성은 seed뿐 아니라 도메인별 성공·실패와 편차로 본다.")
+    add_table(
+        s,
+        48,
+        104,
+        760,
+        382,
+        ["모델", "macro R²", "도메인 SD", "최악 R²", "R²>0"],
+        [
+            ["PP-X", "0.807", "0.174", "0.466", "9/9"],
+            ["Engression", "0.257", "0.949", "−1.580", "7/9"],
+            ["FT-Transformer", "0.115", "1.005", "−2.010", "7/9"],
+            ["plain MLP", "0.093", "1.007", "−2.140", "6/9"],
+            ["V-REx", "0.071", "1.008", "−2.188", "6/9"],
+            ["GroupDRO", "0.011", "0.998", "−2.057", "5/9"],
+        ],
+        font_size=12,
+    )
+    rect(s, 840, 104, 392, 174, C["soft_blue"], C["blue"], True)
+    add_text(s, 860, 124, 352, 28, "관측된 안정성", 16, C["blue"], True, "center")
+    add_text(s, 866, 170, 340, 82,
+             "PP-X만 9/9 양의 R²\n가장 작은 비교군 SD의 1/5.46\n최악 도메인도 R² 0.466",
+             14, C["ink"], True, "center")
+    rect(s, 840, 300, 392, 186, C["soft_orange"], C["orange"], True)
+    add_text(s, 860, 320, 352, 28, "통계와 주장 경계", 16, C["orange"], True, "center")
+    add_text(s, 862, 364, 348, 102,
+             "최강 동일예산 대비 8/9 우세\nexact sign p=.0391\n분산검정은 Holm 보정 후 q>.05\n→ 도메인 분산은 secondary evidence",
+             12, C["ink"], False, "center")
+    rect(s, 48, 520, 1184, 78, C["ink"], None, True)
+    add_text(s, 70, 532, 1140, 52,
+             "기여  PP-X는 현재 평가 범위에서 높은 평균 정확도만 만든 것이 아니라, prior와 executor의 전역 오적용을 피하면서 도메인 간 실패와 성능 편차를 함께 줄였다.",
+             14, C["white"], True, "center")
+    add_text(s, 48, 612, 1184, 22,
+             "주의  R²는 데이터셋별 target 분산에 민감하므로 unit log-RMSE·worst-unit regret과 함께 해석한다.",
+             10, C["red"], True, "center")
+    foot(s, p(), TOTAL)
+
+    # 7 Evidence-backed failure analysis
     s = blank(prs)
     head(s, "잘 안 된 경우 — 왜 실패했는가",
          "사후 추측이 아니라 matched ablation·unit 결과·validation/test 불일치로 확인된 원인만 남긴다.")
