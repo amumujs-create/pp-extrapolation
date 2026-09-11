@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import itertools
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +22,7 @@ def summary(values: np.ndarray) -> dict[str, float | int]:
         "macro_mean_r2": float(np.mean(values)),
         "domain_sd_r2": float(np.std(values, ddof=1)),
         "domain_iqr_r2": float(np.subtract(*np.percentile(values, [75, 25]))),
+        "domain_mad_r2": float(np.median(np.abs(values - np.median(values)))),
         "worst_domain_r2": float(np.min(values)),
         "q10_domain_r2": float(np.quantile(values, 0.10)),
         "positive_r2_domains": int(np.sum(values > 0)),
@@ -48,9 +50,25 @@ def main() -> None:
         for name in names[1:]
     ]
     holm_q = multipletests(raw_p, method="holm")[1]
+    exact_p = []
+    for name in names[1:]:
+        observed = rows[name]["domain_mad_r2"] - rows["ppx"]["domain_mad_r2"]
+        null = []
+        for bits in itertools.product((False, True), repeat=len(datasets)):
+            bits = np.asarray(bits)
+            first = np.where(bits, scores["ppx"], scores[name])
+            second = np.where(bits, scores[name], scores["ppx"])
+            first_mad = np.median(np.abs(first - np.median(first)))
+            second_mad = np.median(np.abs(second - np.median(second)))
+            null.append(second_mad - first_mad)
+        null = np.asarray(null)
+        exact_p.append(float(np.mean(np.abs(null) >= abs(observed))))
+    exact_holm_q = multipletests(exact_p, method="holm")[1]
     rng = np.random.default_rng(SEED)
     comparisons = {}
-    for name, p_value, q_value in zip(names[1:], raw_p, holm_q):
+    for name, p_value, q_value, paired_p, paired_q in zip(
+        names[1:], raw_p, holm_q, exact_p, exact_holm_q
+    ):
         differences = np.empty(N_BOOT)
         for draw in range(N_BOOT):
             index = rng.integers(0, len(datasets), len(datasets))
@@ -70,6 +88,8 @@ def main() -> None:
             ),
             "brown_forsythe_p": p_value,
             "brown_forsythe_holm_q": float(q_value),
+            "paired_exact_mad_p_two_sided": paired_p,
+            "paired_exact_mad_holm_q": float(paired_q),
         }
 
     payload = {
@@ -90,6 +110,9 @@ def main() -> None:
             "smallest_baseline_sd_model": min(
                 names[1:], key=lambda name: rows[name]["domain_sd_r2"]
             ),
+            "engression_paired_exact_mad_p_two_sided": comparisons[
+                "engression"
+            ]["paired_exact_mad_p_two_sided"],
             "formal_multiplicity_caveat": (
                 "No Brown--Forsythe comparison remains significant after Holm "
                 "correction across eight baselines; treat dispersion as "

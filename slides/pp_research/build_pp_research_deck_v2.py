@@ -366,16 +366,16 @@ def build():
              "PP-X만 9/9 양의 R²\n가장 작은 비교군 SD의 1/5.46\n최악 도메인도 R² 0.466",
              14, C["ink"], True, "center")
     rect(s, 840, 300, 392, 186, C["soft_orange"], C["orange"], True)
-    add_text(s, 860, 320, 352, 28, "통계와 주장 경계", 16, C["orange"], True, "center")
+    add_text(s, 860, 320, 352, 28, "소표본 비모수 검정", 16, C["orange"], True, "center")
     add_text(s, 862, 364, 348, 102,
-             "최강 동일예산 대비 8/9 우세\nexact sign p=.0391\n분산검정은 Holm 보정 후 q>.05\n→ 도메인 분산은 secondary evidence",
+             "Engression 대비 MAD  .061 vs .280\npaired exact p=.0391\nGroupDRO .0156 · MLP .0469\nV-REx .0469",
              12, C["ink"], False, "center")
     rect(s, 48, 520, 1184, 78, C["ink"], None, True)
     add_text(s, 70, 532, 1140, 52,
              "기여  PP-X는 현재 평가 범위에서 높은 평균 정확도만 만든 것이 아니라, prior와 executor의 전역 오적용을 피하면서 도메인 간 실패와 성능 편차를 함께 줄였다.",
              14, C["white"], True, "center")
     add_text(s, 48, 612, 1184, 22,
-             "주의  R²는 데이터셋별 target 분산에 민감하므로 unit log-RMSE·worst-unit regret과 함께 해석한다.",
+             "8개 모델 동시 Holm 보정은 비유의. 전체표는 성공률·최악값·unit log-RMSE와 함께 해석한다.",
              10, C["red"], True, "center")
     foot(s, p(), TOTAL)
 
