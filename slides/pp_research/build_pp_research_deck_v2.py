@@ -297,11 +297,14 @@ def build():
         add_text(s, x + 18, 142, 242, 30, title, 15, line, True, "center")
         hline(s, x + 24, x + 254, 192, C["rule"])
         add_text(s, x + 18, 224, 242, 138, body, 13, C["ink"], False, "center")
-    rect(s, 48, 470, 1184, 90, C["ink"], None, True)
-    add_text(s, 70, 488, 1140, 52,
-             "주장 경계  prior+residual, validation, abstention은 각각 기존에 있다. PP-X의 novelty는 typed admissibility + bounded residual authority + physical-unit approval + frozen fallback의 결합이다.",
-             14, C["white"], True, "center")
-    add_text(s, 48, 590, 1184, 30,
+    rect(s, 48, 458, 1184, 120, C["ink"], None, True)
+    add_text(s, 70, 472, 1140, 34,
+             "결합 방식  Contract C → 허용 후보 E(C) 제한 → prior-residual 후보 학습 → unit-risk 제약 아래 validation-best executor 선택 → frozen route / fallback",
+             13, C["white"], True, "center")
+    add_text(s, 70, 518, 1140, 42,
+             "차별점  prior+residual·validation·abstention을 나열한 것이 아니라, 앞 단계의 출력이 다음 단계의 허용 입력을 제한하는 하나의 실행 알고리즘으로 만든다.",
+             13, C["white"], False, "center")
+    add_text(s, 48, 602, 1184, 30,
              "실증  9개 retrospective setting 중 동일예산 최강 비교모델 대비 8개 우세 · DS03에서는 prior 거절 성공, Engression보다 정확도 우월은 미확증",
              11, C["muted"], False, "center")
     foot(s, p(), TOTAL)
