@@ -72,3 +72,27 @@ def robust_generalization_policy_config() -> dict:
         "bootstrap_replicates": 5000,
         "seed": 20260910,
     }
+
+
+def adaptive_shrinkage_policy_config() -> dict:
+    """Development defaults for PP-X v1.2's three-level prior evidence."""
+    return {
+        "strong_relative_gain": 0.02,
+        "strong_unit_win_fraction": 0.60,
+        "maximum_worst_unit_ratio": 1.10,
+        "weak_unit_win_fraction": 0.50,
+        "maximum_weak_prior_weight": 0.50,
+        "confidence": 0.95,
+        "bootstrap_replicates": 5000,
+        "seed": 20260910,
+    }
+
+
+def continuous_portfolio_policy_config() -> dict:
+    """Frozen development regularization for PP-X v1.2 OOF stacking."""
+    return {
+        "rho": 0.50,
+        "tau": 0.02,
+        "gamma": 0.01,
+        "cvar_fraction": 0.20,
+    }

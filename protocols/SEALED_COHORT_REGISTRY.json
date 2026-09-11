@@ -1,0 +1,134 @@
+{
+  "policy": "append-only; never overwrite, retune, delete, or relabel a sealed cohort",
+  "owner": "박진서",
+  "counted_sealed_cohort_limit": 3,
+  "counted_sealed_cohort_ids": [
+    "alloya_ccmr_v16_20260911",
+    "concrete_material_shift_ccmr_v17_20260911",
+    "multistage_rpt_ccmr_v19_20260911"
+  ],
+  "audit_only_not_counted_ids": [
+    "luminosity_temperature_shift_ccmr_v161_20260911",
+    "lgm50t_expt1_ccmr_v17_20260911",
+    "sit_lfp_sequential_ccmr_v17_20260911",
+    "radar_nmc_cyclic_ccmr_v18_20260911"
+  ],
+  "cohorts": [
+    {
+      "id": "alloya_ccmr_v16_20260911",
+      "status": "sealed independent success with post-score definition audit",
+      "protocol": {
+        "path": "protocols/ALLOYA_UNOPENED_CCMR_V16_PROTOCOL.md",
+        "sha256": "caaca02c0ebfb80a30f40ae023c351d4dfe648b5e37bfd75523309342b76895f"
+      },
+      "predictions": {
+        "path": "results/alloya_unopened_ccmr_v16/sealed_predictions.npz",
+        "sha256": "e836ce98539619f58f0137704207f0dfcd13873b207bdb59e6833d11976fde43"
+      },
+      "result": {
+        "path": "results/alloya_unopened_ccmr_v16/results.json",
+        "sha256": "7a9cf7e21756c8a455c09b0777a08d6022cdb1048ec5043414ea81167c612561"
+      },
+      "audit": {
+        "path": "results/alloya_unopened_ccmr_v16/raw_regret_audit.json",
+        "sha256": "847c700cced9083193fd080e493b61a4bee2dfd37239e3022e91419ecc724d4d"
+      }
+    },
+    {
+      "id": "luminosity_temperature_shift_ccmr_v161_20260911",
+      "status": "sealed condition-shift robustness failure",
+      "protocol": {
+        "path": "protocols/LUMINOSITY_TEMPERATURE_SHIFT_CCMR_V161_PROTOCOL.md",
+        "sha256": "01b2769ae5a49674c9b5dcbfd977bc6201b212ed18f6823befb66eb65fdb3d84"
+      },
+      "predictions": {
+        "path": "results/luminosity_temperature_shift_ccmr_v161/sealed_predictions.npz",
+        "sha256": "b927ba23619bd75a84ed973999fe28181ea08fb9954dcc40be0a3200e27b645c"
+      },
+      "result": {
+        "path": "results/luminosity_temperature_shift_ccmr_v161/results.json",
+        "sha256": "ce496e9c09cc5d86ad286e1d8efb3297c36ab640a252fa8116bdbf459e38057f"
+      }
+    },
+    {
+      "id": "concrete_material_shift_ccmr_v17_20260911",
+      "status": "sealed one-shot safe fallback; not performance success",
+      "protocol": {
+        "path": "protocols/CONCRETE_MATERIAL_SHIFT_CCMR_V17_PROTOCOL.md",
+        "sha256": "c6c4c68cc2cd5194a5191761692790971672c2b1ce2073cf45519ef33560e959"
+      },
+      "predictions": {
+        "path": "results/concrete_material_shift_ccmr_v17/sealed_predictions.npz",
+        "sha256": "3b38ca375b94f49b33f8a3d2c45dcf2f8775b22f784301106e961a55cb96cac8"
+      },
+      "result": {
+        "path": "results/concrete_material_shift_ccmr_v17/results.json",
+        "sha256": "12c0ec43748f529db4a401d5bb3c6fa311f35ba2284d2cb3a4f7d6d25a014730"
+      }
+    },
+    {
+      "id": "lgm50t_expt1_ccmr_v17_20260911",
+      "status": "sealed safe fallback; performance failure; pre-score eligibility amendment",
+      "protocol": {
+        "path": "protocols/LGM50T_EXPT1_UNOPENED_CCMR_V17_PROTOCOL.md",
+        "sha256": "0b919526def82df2a58a106b6a22be5a3c37c7d047e4a4436626e9cf766656af"
+      },
+      "predictions": {
+        "path": "results/lgm50t_expt1_ccmr_v17/sealed_predictions.npz",
+        "sha256": "5f5ccc5beabb4f02674a83d17ea2a393b642f3da15fd17fe70ffefbe14e50902"
+      },
+      "result": {
+        "path": "results/lgm50t_expt1_ccmr_v17/results.json",
+        "sha256": "1f99540d756e94d36f2bbc35b4bd4fc64d0bd4d1c6a7e9c59e3e8a3ef88a48a7"
+      }
+    },
+    {
+      "id": "sit_lfp_sequential_ccmr_v17_20260911",
+      "status": "sealed safe fallback; selection-conditioned performance failure",
+      "protocol": {
+        "path": "protocols/SIT_LFP_SEQUENTIAL_CCMR_V17_PROTOCOL.md",
+        "sha256": "67e80b958d907fbb79d4e03e590afffcc708a370e88d37a3f58ce1094896e05b"
+      },
+      "predictions": {
+        "path": "results/sit_lfp_sequential_ccmr_v17_amended/sealed_predictions.npz",
+        "sha256": "ec1b0030a2b7c0ee35a4b531c2061480832193a69d1c24279ffd365ac63aad53"
+      },
+      "result": {
+        "path": "results/sit_lfp_sequential_ccmr_v17_amended/results.json",
+        "sha256": "778fa7a5827a5f2920bdb4dee7fd1c137f04a7bf1ec85974bdb824ff00ecde1d"
+      }
+    },
+    {
+      "id": "radar_nmc_cyclic_ccmr_v18_20260911",
+      "status": "sealed safe fallback; exploratory candidate pass but deployed failure",
+      "protocol": {
+        "path": "protocols/RADAR_NMC_CYCLIC_CCMR_V18_PROTOCOL.md",
+        "sha256": "dd5d49aea1c8b5d45e7bbf9326b94c979dbc1fce65aa13066e40479ec9731f41"
+      },
+      "predictions": {
+        "path": "results/radar_nmc_cyclic_ccmr_v18/sealed_predictions.npz",
+        "sha256": "cbff788ade5f6601365278e51d6820fd32646739bd75b29dae56cc8e57ad2382"
+      },
+      "result": {
+        "path": "results/radar_nmc_cyclic_ccmr_v18/results.json",
+        "sha256": "af0afd59498ea2e7e0759052d7b36740523c6bc96d7e7f8c7f513948acced078"
+      }
+    },
+    {
+      "id": "multistage_rpt_ccmr_v19_20260911",
+      "status": "sealed selection-conditioned independent performance success with pre-fit parser/QC amendments",
+      "protocol": {
+        "path": "protocols/MULTISTAGE_RPT_CCMR_V19_PROTOCOL.md",
+        "sha256": "6c0056f56c977d7a8bc0dd847d9da973e6bd9a8400711e344dd4ad09cc1afd7d"
+      },
+      "predictions": {
+        "path": "results/multistage_rpt_ccmr_v19_amended2/sealed_predictions.npz",
+        "sha256": "825643bf12c1b9a5f95c606c822332b6b34bd6fe06015f750532d9c236e0ee56"
+      },
+      "result": {
+        "path": "results/multistage_rpt_ccmr_v19_amended2/results.json",
+        "sha256": "706f204556d5cf961347b842724328503acd7b59e56a78be9eb5351f2d0b2258"
+      }
+    }
+  ]
+}

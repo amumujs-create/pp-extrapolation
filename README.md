@@ -1,6 +1,34 @@
-# PP Extrapolation
+# CCMR — Risk-Aware Extrapolation
+
+**Current deployed model: CCMR v2.2 small-cohort crossfit route.**
+
+CCMR combines a causal dynamics expert bank, physical-unit validation risk
+constraints, a small-cohort crossfit route, and exact persistence fallback.
+The frozen deployment manifest is
+[`protocols/CCMR_V22_FROZEN_MANIFEST.json`](protocols/CCMR_V22_FROZEN_MANIFEST.json).
+CCMR v2.3 AC-CRPE was evaluated but rejected because it did not strictly improve
+development geometric-mean RMSE; it is not the deployed model.
+
+The original PP neural regressor remains available as the package's base
+extrapolation implementation and for reproducing earlier experiments.
 
 PP is a compact neural regressor for strict out-of-support RUL experiments. It contains an affine tail path and a learned two-layer tanh correction path. The model forward pass contains no domain degradation equation.
+
+## Current CCMR API
+
+```python
+from pp_extrapolation import (
+    fit_causal_dynamics_bank,
+    predict_causal_dynamics_bank,
+    select_ccmr_v22_route,
+)
+```
+
+Model card and validation boundary:
+
+- [`CCMR_CURRENT_MODEL_KO.md`](CCMR_CURRENT_MODEL_KO.md)
+- [`CCMR_V22_SMALL_COHORT_RESULTS_KO.md`](CCMR_V22_SMALL_COHORT_RESULTS_KO.md)
+- [`CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md`](CCMR_V22_VALIDATION_GAPS_RESOLVED_KO.md)
 
 ## Install
 

@@ -1,0 +1,54 @@
+{
+  "model": "CCMR v2.0 causal dynamics bank",
+  "owner": "박진서",
+  "frozen_before_holdout_replay": true,
+  "holdouts": [
+    "Alloy A",
+    "Multi-Stage RPT"
+  ],
+  "artifacts": {
+    "firewall": {
+      "path": "protocols/CCMR_V20_PREDICTOR_DEVELOPMENT_FIREWALL.md",
+      "sha256": "e3c108acac841b9a34170c4985e0ebf3892f96d2bced0a80a5d1a0f00337dc53"
+    },
+    "predictor": {
+      "path": "src/pp_extrapolation/causal_dynamics_bank.py",
+      "sha256": "6c9bf4de5458ac20123ca71626c78c7f07e6b0314dd44a83afdd42113335153c"
+    },
+    "causal_gate": {
+      "path": "src/pp_extrapolation/causal_backtest.py",
+      "sha256": "f525daabda35cbe04ce8ade62e15de568a8a4f1ca2cd398ef9d62c66e81a60b6"
+    },
+    "development_runner": {
+      "path": "experiments/ccmr_v20_trajectory_development.py",
+      "sha256": "5e1f5e64e73ac15f020cbfebab9284d36bd98eb72ce880d5e5f736c6c8f6b248"
+    },
+    "development_result": {
+      "path": "results/ccmr_v20_trajectory_development/results.json",
+      "sha256": "060beade358cd9fdd7ba4ce6a4ad7eef46eec93c05fe87f45b7a5a71b2cf2ddc"
+    }
+  },
+  "development_summary": {
+    "cohorts": 5,
+    "validation_approvals": 2,
+    "false_accepts": 0,
+    "maximum_test_raw_regret": 0.0,
+    "exact_fallback_all": true,
+    "radar_nmc_pooled_rmse_improvement": 0.05909463550067122,
+    "radar_nmc_macro_rmse_improvement": 0.07517577579846599
+  },
+  "fixed_route": {
+    "stable_minimum_validation_units": 10,
+    "stable_minimum_base_active_fraction": 0.5,
+    "stable_minimum_macro_improvement": 0.05,
+    "stable_causal_shadow_coverage": 0.1,
+    "raw_regret_caps": {
+      "mean": 0.0,
+      "cvar20": 0.01,
+      "maximum": 0.02
+    },
+    "cautious_minimum_history": 2,
+    "cautious_maximum_history": 5,
+    "fallback": "exact persistence"
+  }
+}

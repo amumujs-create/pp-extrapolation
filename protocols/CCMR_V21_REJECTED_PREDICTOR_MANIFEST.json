@@ -1,0 +1,34 @@
+{
+  "candidate": "CCMR v2.1 stochastic dynamics",
+  "owner": "박진서",
+  "status": "rejected before holdout replay",
+  "promotion_gate_passed": false,
+  "holdout_replay_executed": false,
+  "reason": "zero non-holdout cohorts strictly improved over frozen CCMR v2.0",
+  "artifacts": {
+    "firewall": {
+      "path": "protocols/CCMR_V21_STOCHASTIC_PREDICTOR_FIREWALL.md",
+      "sha256": "0d288ba5ab37dd99edc2be1581292402c96a7550e9d369d4c7d038daea5d2089"
+    },
+    "predictor": {
+      "path": "src/pp_extrapolation/stochastic_dynamics.py",
+      "sha256": "d4ba9828dae384a05c817aa5dc13525b38d6eefff740a489ff556cd312b81fe4"
+    },
+    "development_runner": {
+      "path": "experiments/ccmr_v21_trajectory_development.py",
+      "sha256": "7f34b8c4379a8b453f2e6ff122173f98701896d0a691c2c8d3f92fe456b08d7b"
+    },
+    "development_result": {
+      "path": "results/ccmr_v21_trajectory_development/results.json",
+      "sha256": "98eec183d6b24145f9c7336d4c676bdfb3cb8af36d31ed5ee8b6e91818e7e70c"
+    }
+  },
+  "development_summary": {
+    "cohorts": 5,
+    "approvals": 2,
+    "false_accepts": 0,
+    "maximum_test_raw_regret": 0.00586893464251712,
+    "strict_v20_wins": 0,
+    "exact_fallback_all": true
+  }
+}

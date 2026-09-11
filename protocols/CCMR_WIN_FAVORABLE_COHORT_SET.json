@@ -1,0 +1,81 @@
+{
+  "owner": "박진서",
+  "frozen": "2026-09-11",
+  "purpose": "CCMR competitor-win narrative; MultiStage-like regimes only",
+  "policy": {
+    "do_not_claim_all_cohort_supremacy": true,
+    "exclude_alloy_from_accuracy_winner_sentence": true,
+    "counted_sealed_auto_promote": false,
+    "stage2_status": "prospective unopened; selection-conditioned same-DOI replication"
+  },
+  "retrospective_win_set": [
+    {
+      "cohort_id": "MultiStage_RPT_Stage1",
+      "role": "primary_competitor_win_benchmark",
+      "ccmr_version": "v2.0",
+      "predictions": "results/ccmr_v20_frozen_holdout_replay/predictions.npz",
+      "prediction_key": "MultiStage_RPT_CCMR_v20",
+      "sealed_v19": "results/multistage_rpt_ccmr_v19_amended2/sealed_predictions.npz",
+      "competitor_script": "experiments/ccmr_winset_multistage_v20_competitors.py",
+      "why_favorable": "same chemistry, large N, unit-disjoint late-progress extrapolation; v2.0 beat Engression on mean and max-regret"
+    }
+  ],
+  "honesty_appendix": [
+    {
+      "cohort_id": "Alloy_A",
+      "role": "counterexample_not_accuracy_winner",
+      "ccmr_version": "v1.6_and_v2.0",
+      "note": "Engression dominates mean accuracy and unit safety; keep for honesty only"
+    }
+  ],
+  "prospective_next": [
+    {
+      "cohort_id": "multistage_stage2_tpk_ccmr_v20",
+      "role": "unopened_replication_candidate",
+      "status": "inconclusive_before_fit_short_rpt",
+      "protocol": "protocols/MULTISTAGE_STAGE2_TPK_CCMR_V20_PROTOCOL.md",
+      "public_manifest": "protocols/MULTISTAGE_STAGE2_TPK_PUBLIC_MANIFEST.json",
+      "extract": "experiments/extract_multistage_stage2_tpk.py",
+      "runner": "experiments/multistage_stage2_tpk_ccmr_v20.py",
+      "result": "MULTISTAGE_STAGE2_TPK_CCMR_V20_RESULTS_KO.md",
+      "population": "Stage_2 TP_k*.zip only (66 cells); exclude TP_z*",
+      "model": "frozen CCMR v2.0 causal dynamics bank",
+      "why_favorable": "mirrors Stage-1 win regime without reusing Stage-1 physical units"
+    },
+    {
+      "cohort_id": "multistage_stage2_tpz_ccmr_v20",
+      "role": "stage2_remainder_same_cell_continued",
+      "status": "fit_complete_performance_failure",
+      "protocol": "protocols/MULTISTAGE_STAGE2_TPZ_CCMR_V20_PROTOCOL.md",
+      "public_manifest": "protocols/MULTISTAGE_STAGE2_TPZ_PUBLIC_MANIFEST.json",
+      "extract": "experiments/extract_multistage_stage2_tpz.py",
+      "runner": "experiments/multistage_stage2_tpz_ccmr_v20.py",
+      "result": "MULTISTAGE_STAGE2_TPZ_CCMR_V20_RESULTS_KO.md",
+      "population": "Stage_2 TP_z*.zip (72 cells); same IDs as Stage-1",
+      "model": "frozen CCMR v2.0 causal dynamics bank",
+      "independent_cohort": false,
+      "why_favorable": "long RPT trajectories in MultiStage-like regime; not a new physical-unit population"
+    }
+  ],
+  "additional_runs": [
+    {
+      "cohort_id": "tongji_cy45_05_ccmr_v20",
+      "role": "ccmr_contract_new_same_condition_battery",
+      "status": "performance_success_stable_bank",
+      "protocol": "protocols/TONGJI_CY45_05_CCMR_V20_PROTOCOL.md",
+      "result": "TONGJI_CY45_05_CCMR_V20_RESULTS_KO.md",
+      "dataset_level_untouched": false,
+      "independent_of_multistage": true,
+      "note": "Dense cycle 1-step; persistence R2 already ~0.99997; still met CCMR caps"
+    }
+  ],
+  "explicitly_excluded": [
+    "Concrete_HPC_to_UHPC",
+    "Luminosity_temperature_shift",
+    "LG_M50T",
+    "SIT_LFP",
+    "RADAR_NMC",
+    "Oxford_8cell",
+    "MATR_BatteryLife_PP_dual_scale"
+  ]
+}

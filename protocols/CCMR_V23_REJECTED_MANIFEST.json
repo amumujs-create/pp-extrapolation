@@ -1,0 +1,47 @@
+{
+  "model": "CCMR v2.3 AC-CRPE",
+  "owner": "\ubc15\uc9c4\uc11c",
+  "status": "rejected by preregistered promotion gate",
+  "holdout_replay_authorized": false,
+  "holdouts_loaded_by_freezer": false,
+  "artifacts": {
+    "firewall": [
+      "protocols/CCMR_V23_AC_CRPE_FIREWALL.md",
+      "b3db9b78910ef6e594781a90758931582cc234a098708f651aecd79fc4bd862e"
+    ],
+    "contracts": [
+      "src/pp_extrapolation/contracts.py",
+      "3697077e70811f34e82c9653836e4c101a9e03d5818c83168af1579e45e9f998"
+    ],
+    "predictor_portfolio": [
+      "src/pp_extrapolation/predictor_portfolio.py",
+      "056dd633293ca0d5a1523ecafeb314ec652bd8789222a92f0af04d3ec9842f31"
+    ],
+    "contract_risk_experts": [
+      "src/pp_extrapolation/contract_risk_experts.py",
+      "23ec09028cf9552cc8f0eac258154e2aedcce9a26dbb249572d2b67dab8eab87"
+    ],
+    "causal_dynamics_bank": [
+      "src/pp_extrapolation/causal_dynamics_bank.py",
+      "23f22828c5319f8a5275c87b2da33d775922c1708e3023ab2fb3970db1ca218e"
+    ],
+    "development_runner": [
+      "experiments/ccmr_v23_cross_domain_development.py",
+      "8dab8736c83981750699c98c4026870cada0d76ba29be2ef67f399e314587f69"
+    ],
+    "development_result": [
+      "results/ccmr_v23_cross_domain_development_v10/results.json",
+      "0885cd14c61b3f26435c0a9296f18d16e20398e10ab968249ce566c3ce002e7a"
+    ]
+  },
+  "development_summary": {
+    "domains": 5,
+    "geometric_rmse_ratio_to_v22": 1.000002146918836,
+    "geometric_rmse_improvement_over_v22": -2.1469188360434543e-06,
+    "v22_nonworse_domains": 4,
+    "false_accepts": 0,
+    "maximum_test_raw_regret": 0.0,
+    "exact_fallback_all": true,
+    "promoted": false
+  }
+}

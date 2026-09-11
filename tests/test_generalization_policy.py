@@ -12,6 +12,8 @@ def test_rejects_small_validation_gain():
                                   bootstrap_replicates=200)
     assert not decision.accepted
     assert decision.candidate_index is None
+    assert decision.bootstrap_ci is not None
+    assert decision.bootstrap_ci != (0.0, 0.0)
 
 
 def test_accepts_replicated_unit_gain():
@@ -34,3 +36,4 @@ def test_rejects_too_few_validation_units():
     )
     assert not decision.accepted
     assert decision.reason == "fewer than three validation units"
+    assert decision.bootstrap_ci is None

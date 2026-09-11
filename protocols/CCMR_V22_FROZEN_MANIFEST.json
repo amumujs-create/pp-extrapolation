@@ -1,0 +1,20 @@
+{
+  "model": "CCMR v2.2 small-cohort crossfit route",
+  "owner": "박진서",
+  "promotion_gate_passed": true,
+  "frozen_before_holdout_replay": true,
+  "artifacts": {
+    "firewall": ["protocols/CCMR_V22_SMALL_COHORT_ROUTE_FIREWALL.md", "3d12fa68c1168334f57a9e84955a7cc4731eda7ee4b179a2402f013612cb8075"],
+    "predictor": ["src/pp_extrapolation/causal_dynamics_bank.py", "6c9bf4de5458ac20123ca71626c78c7f07e6b0314dd44a83afdd42113335153c"],
+    "route": ["src/pp_extrapolation/small_cohort_route.py", "3140cb71690df6f1023cee2ba11eb074bc4343d5e1a1adf4b03629d87f97652f"],
+    "development_runner": ["experiments/ccmr_v22_trajectory_development.py", "c56f2910076efdc5c3f9d1fbc7825960f367b75cc8ae1eb8f1d9205140d8e916"],
+    "development_result": ["results/ccmr_v22_trajectory_development/results.json", "d911053efe6fec2059d8621b41eecb703faf9df1c8b29efe0588e42f58333656"]
+  },
+  "development_summary": {
+    "cohorts": 5,
+    "false_accepts": 0,
+    "maximum_test_raw_regret": 0.0,
+    "strict_v20_wins": 1,
+    "exact_fallback_all": true
+  }
+}

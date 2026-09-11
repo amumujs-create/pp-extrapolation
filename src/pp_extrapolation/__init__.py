@@ -6,6 +6,57 @@ from .certification import (ExtrapolationCertificate, RegimeCertificate,
                             certify_categorical_regime, certify_extrapolation)
 from .metrics import regression_metrics
 from .generalization_policy import PriorTrustDecision, select_prior_trust
+from .adaptive_shrinkage import (
+    AdaptiveShrinkageDecision,
+    apply_adaptive_shrinkage,
+    select_adaptive_prior_shrinkage,
+)
+from .continuous_portfolio import (
+    ContinuousPortfolioDecision,
+    combine_portfolio,
+    select_continuous_portfolio,
+)
+from .stability_first import (
+    StabilityFirstDecision,
+    raw_unit_regret,
+    regret_summary,
+    select_stability_first_prior,
+    unit_regret,
+)
+from .regime_prior_bank import (
+    AutoRegimePriorDecision,
+    RegimeMap,
+    fit_auto_regime_prior,
+    fit_regime_map,
+    predict_auto_regime_prior,
+    regime_probabilities,
+)
+from .invariant_residual import (
+    InvariantResidualFit,
+    fit_invariant_residual,
+    predict_invariant_residual,
+)
+from .consensus_residual import (
+    ConsensusResidualFit,
+    fit_consensus_residual,
+    predict_consensus_residual,
+)
+from .causal_backtest import apply_causal_backtest_gate
+from .causal_dynamics_bank import (
+    CausalDynamicsBankFit,
+    DynamicsExpert,
+    fit_causal_dynamics_bank,
+    predict_causal_dynamics_bank,
+)
+from .small_cohort_route import (
+    SmallCohortRouteDecision,
+    select_ccmr_v22_route,
+)
+from .regime_router import (
+    RegimeRouteDecision,
+    select_ccmr_regime_route,
+    select_ccmr_v19_regime_route,
+)
 from .model import (
     PPFit,
     PPNet,
@@ -41,7 +92,9 @@ from .output_calibration import (OutputCalibrator, approve_dual_evidence, approv
                                  fit_output_calibrator, group_loo_affine_evidence,
                                  transport_direction_cosine,
                                  select_group_loo_calibrator)
-from .presets import (battery_dual_scale_pp_config,
+from .presets import (adaptive_shrinkage_policy_config,
+                      battery_dual_scale_pp_config,
+                      continuous_portfolio_policy_config,
                       robust_generalization_policy_config,
                       safety_continuation_pp_config,
                       safety_continuation_trust_grid)
@@ -70,6 +123,39 @@ __all__ = [
     "fit_pp",
     "PriorTrustDecision",
     "select_prior_trust",
+    "AdaptiveShrinkageDecision",
+    "apply_adaptive_shrinkage",
+    "select_adaptive_prior_shrinkage",
+    "ContinuousPortfolioDecision",
+    "combine_portfolio",
+    "select_continuous_portfolio",
+    "StabilityFirstDecision",
+    "unit_regret",
+    "raw_unit_regret",
+    "regret_summary",
+    "select_stability_first_prior",
+    "RegimeMap",
+    "AutoRegimePriorDecision",
+    "fit_regime_map",
+    "regime_probabilities",
+    "fit_auto_regime_prior",
+    "predict_auto_regime_prior",
+    "InvariantResidualFit",
+    "fit_invariant_residual",
+    "predict_invariant_residual",
+    "ConsensusResidualFit",
+    "fit_consensus_residual",
+    "predict_consensus_residual",
+    "apply_causal_backtest_gate",
+    "DynamicsExpert",
+    "CausalDynamicsBankFit",
+    "fit_causal_dynamics_bank",
+    "predict_causal_dynamics_bank",
+    "SmallCohortRouteDecision",
+    "select_ccmr_v22_route",
+    "RegimeRouteDecision",
+    "select_ccmr_regime_route",
+    "select_ccmr_v19_regime_route",
     "predict",
     "regression_metrics",
     "select_prior_from_scores",
@@ -115,6 +201,8 @@ __all__ = [
     "transport_direction_cosine",
     "approve_transport",
     "battery_dual_scale_pp_config",
+    "adaptive_shrinkage_policy_config",
+    "continuous_portfolio_policy_config",
     "robust_generalization_policy_config",
     "safety_continuation_pp_config",
     "safety_continuation_trust_grid",

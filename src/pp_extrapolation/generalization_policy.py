@@ -13,7 +13,7 @@ class PriorTrustDecision:
     accepted: bool
     candidate_index: int | None
     relative_rmse_gain: float
-    bootstrap_ci: tuple[float, float]
+    bootstrap_ci: tuple[float, float] | None
     unit_win_fraction: float
     worst_unit_rmse_ratio: float
     reason: str
@@ -48,7 +48,7 @@ def select_prior_trust(
     if candidates.ndim != 2 or candidates.shape[1] != len(y):
         raise ValueError("candidate_predictions must have shape [candidate, row]")
     if len(np.unique(groups)) < 3:
-        return PriorTrustDecision(False, None, 0.0, (0.0, 0.0), 0.0, float("inf"),
+        return PriorTrustDecision(False, None, 0.0, None, 0.0, float("inf"),
                                   "fewer than three validation units")
     if not 0 < confidence < 1 or bootstrap_replicates < 100:
         raise ValueError("invalid bootstrap settings")
@@ -57,9 +57,6 @@ def select_prior_trust(
     candidate_rmse = np.sqrt(np.mean((candidates - y[None, :]) ** 2, axis=1))
     best_index = int(np.argmin(candidate_rmse))
     gain = (fallback_rmse - float(candidate_rmse[best_index])) / max(fallback_rmse, 1e-12)
-    if gain < min_relative_gain:
-        return PriorTrustDecision(False, None, gain, (0.0, 0.0), 0.0, float("inf"),
-                                  "validation RMSE gain below required margin")
 
     labels = np.unique(groups)
     positions = {label: np.flatnonzero(groups == label) for label in labels}
@@ -74,16 +71,6 @@ def select_prior_trust(
     unit_ratios = np.asarray(unit_ratios)
     win_fraction = float(np.mean(unit_ratios < 1.0))
     worst_ratio = float(np.max(unit_ratios))
-    if win_fraction < min_unit_win_fraction:
-        return PriorTrustDecision(
-            False, None, gain, (0.0, 0.0), win_fraction, worst_ratio,
-            "prior does not win on enough validation units",
-        )
-    if worst_ratio > max_worst_unit_rmse_ratio:
-        return PriorTrustDecision(
-            False, None, gain, (0.0, 0.0), win_fraction, worst_ratio,
-            "prior violates worst-unit noninferiority",
-        )
     rng = np.random.default_rng(seed)
     differences = np.empty(bootstrap_replicates, dtype=np.float64)
     chosen_prediction = candidates[best_index]
@@ -96,6 +83,21 @@ def select_prior_trust(
     alpha = (1.0 - confidence) / 2.0
     low, high = np.quantile(differences, (alpha, 1.0 - alpha))
     interval = (float(low), float(high))
+    if gain < min_relative_gain:
+        return PriorTrustDecision(
+            False, None, gain, interval, win_fraction, worst_ratio,
+            "validation RMSE gain below required margin",
+        )
+    if win_fraction < min_unit_win_fraction:
+        return PriorTrustDecision(
+            False, None, gain, interval, win_fraction, worst_ratio,
+            "prior does not win on enough validation units",
+        )
+    if worst_ratio > max_worst_unit_rmse_ratio:
+        return PriorTrustDecision(
+            False, None, gain, interval, win_fraction, worst_ratio,
+            "prior violates worst-unit noninferiority",
+        )
     if low <= 0:
         return PriorTrustDecision(False, None, gain, interval, win_fraction, worst_ratio,
                                   "unit-bootstrap improvement is not positive")
