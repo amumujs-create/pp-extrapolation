@@ -52,6 +52,13 @@ from .small_cohort_route import (
     SmallCohortRouteDecision,
     select_ccmr_v22_route,
 )
+from .paper_ppx import (
+    PPXCandidateEvidence,
+    PPXContract,
+    PaperPPXDecision,
+    admissible_executors,
+    select_paper_ppx,
+)
 from .regime_router import (
     RegimeRouteDecision,
     select_ccmr_regime_route,
@@ -153,6 +160,11 @@ __all__ = [
     "predict_causal_dynamics_bank",
     "SmallCohortRouteDecision",
     "select_ccmr_v22_route",
+    "PPXContract",
+    "PPXCandidateEvidence",
+    "PaperPPXDecision",
+    "admissible_executors",
+    "select_paper_ppx",
     "RegimeRouteDecision",
     "select_ccmr_regime_route",
     "select_ccmr_v19_regime_route",
