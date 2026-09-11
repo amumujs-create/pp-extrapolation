@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 37
+    TOTAL = 38
 
     def p():
         nonlocal n
@@ -248,6 +248,38 @@ def build():
     rect(s, 696, 374, 548, 154, C["soft_blue"], C["blue"], True)
     add_text(s, 712, 382, 516, 22, "출발점", 13, C["blue"], True)
     add_text(s, 712, 408, 516, 108, "맞는 답이 하나가 아니다. 밖을 지탱하는 것은 데이터가 아니라 지금 정당화되는 prior다. prior가 많을수록 좋은 것이 아니라, 그 수준과 신뢰성에 맞춰 외삽 전략을 고른다. 다음 장에서 경로를 나눈다.", 12, C["ink"])
+    foot(s, p(), TOTAL)
+
+    # 3 Prior work — what existing extrapolation methods assume
+    s = blank(prs)
+    head(s, "사전 조사 — 외삽 성능은 결국 ‘밖에서도 유지될 가정’에 달려 있다",
+         "대표 방법은 서로 다른 prior를 구조·손실·분포 가정으로 넣는다. 문제는 그 prior의 적용 자격이다.")
+
+    add_text(s, 48, 88, 1184, 34,
+             "조사 결론  범용 회귀기가 데이터만으로 support 밖 함수를 정해 주지는 않는다.", 16, C["ink"], True)
+
+    cards = [
+        (48, "제약 없는 NN", "ReLU 네트워크", "마지막 선형 조각을\n밖으로 연장", "가정이 암묵적이라\ntail 형태를 통제하기 어렵다", C["soft"], C["ink"]),
+        (350, "형상 제약", "CMNN · monotone NN", "증가/감소 방향을\n구조로 강제", "단조 방향이 맞다는\n도메인 prior가 필요하다", C["soft_blue"], C["blue"]),
+        (652, "식·물리 제약", "EQL · PINN · Physics-ML", "함수식·PDE·열화 법칙을\n구조 또는 loss에 반영", "식과 적용 조건이 맞는\n도메인에서 강하다", C["soft_orange"], C["orange"]),
+        (954, "통계적 외삽", "Bounds · UQ · distributional", "smoothness·미분·분포 가정으로\n범위 또는 분포를 추정", "가정이 약하면 band가 넓고\n점예측은 식별되지 않는다", C["soft"], C["ink"]),
+    ]
+    for x, title, family, mechanism, limit, fill, line in cards:
+        rect(s, x, 142, 278, 300, fill, line, True)
+        add_text(s, x + 18, 158, 242, 26, title, 16, line, True, "center")
+        add_text(s, x + 18, 198, 242, 22, family, 11, C["muted"], True, "center")
+        hline(s, x + 24, x + 254, 236, C["rule"])
+        add_text(s, x + 18, 254, 242, 58, mechanism, 13, C["ink"], False, "center")
+        add_text(s, x + 18, 346, 242, 64, limit, 12, C["red"], False, "center")
+
+    rect(s, 48, 470, 1184, 104, C["ink"], None, True)
+    add_text(s, 70, 486, 1140, 30,
+             "남은 공백  prior를 넣는 방법은 많다. 그러나 서로 다른 prior가 현재 contract에서 유효한지 검증하고,", 14, C["white"], True, "center")
+    add_text(s, 70, 524, 1140, 30,
+             "근거가 없을 때 같은 절차로 거절·fallback하는 범용 실행 규칙은 별개의 문제다.", 14, C["white"], True, "center")
+    add_text(s, 48, 604, 1184, 32,
+             "근거  Xu et al., ICLR 2021 · Runje & Shankaranarayana, ICML 2023 · Raissi et al., JCP 2019 · Pfister & Bühlmann, 2024",
+             10, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
     # 4 Research route — full diagram
