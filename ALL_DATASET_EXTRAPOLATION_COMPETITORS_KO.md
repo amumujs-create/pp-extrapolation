@@ -1,12 +1,22 @@
-# 전체 데이터셋 외삽 경쟁모델 비교
+# PP-X 전체 데이터셋 외삽 경쟁모델 비교
+
+> **Canonical paper pointer:** 이 문서는 기존 split에서 누적된
+> strongest same-split mixed-comparator 감사다. 논문 메인은 PP-X이며,
+> uniformly tuned 30-candidate 결과는
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`를 우선한다. mixed-comparator
+> 9/9, p=0.00390625와 equal-budget 8/9, p=0.0391을 혼합하지 않는다. 아래
+> `PP`·BQ-PP 라벨과 결과 경로는 역사적 실험명을 보존한다.
 
 > 데이터셋별 convex-hull 밖 비율, 표준화 외삽 거리, 전체 특징 최근접 거리, target 범위 이탈률은 `HULL_EXTRAPOLATION_QUANTIFICATION_KO.md`에 분리해 정리했다.
 
-PP 연구의 12개 평가 설정 전부에 V-REx, GroupDRO, train-only 방향의 Jacobian monotone NN, linear-tail+RFF-RBF를 실행했다. 기존 PP의 고정 split을 사용하고, validation으로만 선택한 seed 42--46 ensemble pooled R²다.
+PP-X 연구의 12개 역사적 평가 설정에 V-REx, GroupDRO, train-only 방향의
+Jacobian monotone NN, linear-tail+RFF-RBF를 실행했다. 기존 고정 split과
+역사적 model label을 유지하고, validation으로만 선택한 seed 42--46 ensemble
+pooled R²를 보고한다.
 
 ## 양의 pooled R²를 달성한 설정
 
-| 데이터셋 / 외삽 설정 | 개선 PP | V-REx | GroupDRO | Monotone NN | Linear-tail RBF | Engression | Linear-mean GP | 승자 |
+| 데이터셋 / 외삽 설정 | PP-X paper-selected route | V-REx | GroupDRO | Monotone NN | Linear-tail RBF | Engression | Linear-mean GP | 승자 |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
 | HUST protocol-tail | **0.958** | 0.809 | 0.934 | 0.822 | 0.710 | 0.878 | -0.320 | PP |
 | Virkler crack-tail | **0.888** | 0.583 | 0.554 | 0.565 | 0.805 | 0.552 | 0.539 | PP |
@@ -19,7 +29,12 @@ PP 연구의 12개 평가 설정 전부에 V-REx, GroupDRO, train-only 방향의
 | MICH unseen-cell tail | **0.751** | -0.750 | -0.750 | -0.743 | -2.729 | -1.580 | -2.247† | dual-scale PP |
 | NASA milling material transfer | **0.341** | −0.693 | -0.691 | −0.694 | −5.681 | 미실행 | 미실행 | inspection-calibrated boundary-quotient PP† |
 
-10개 양의-R² 설정 모두에서 개선 PP가 현재까지 관측된 경쟁모델 최고치보다 높다. Engression과의 차이는 N-CMAPSS에서 0.005로 작으므로 동률권으로 표현하고 paired seed/unit bootstrap을 추가해야 한다. 다만 이는 post-hoc 개발 결과이며, 독립 cohort의 사전 고정 결과로 보편 우월성을 입증한 것은 아니다. MICH의 V-REx·GroupDRO·Monotone·LinRBF는 `extrapolation_competitors_all_v1`의 동일 202행 split이고, Engression은 `final_engression_extension_v1`, GP는 full-train SVGP(`final_svgp_extension_v1`, †750행 exact GP가 아님)다. TabPFN은 같은 split에서 local v3 CPU, seeds 42–46, 1,000행 cap으로 실행했고 ensemble R²는 −1.860이다(`final_tabpfn_mich_extension_v1`). 별도 matched ablation의 direct NN ensemble은 0.684다.
+앞 9개 설정이 PP-X retrospective paper-main portfolio다. Milling은 post-test
+limitation/development 행이며 main 승수에 넣지 않는다. 이 표의 comparator는
+누적 실험 중 strongest same-split 값이라 equal-budget audit가 아니다.
+N-CMAPSS 차이는 0.005로 작아 동률권으로 표현한다. 독립 cohort의 사전 고정
+predictive superiority를 입증한 결과도 아니다. MICH의 기존 model/result
+라벨과 경로는 재현성을 위해 그대로 둔다.
 
 † Milling은 공식 고장경계 `VB=0.50`을 유지하고 validation MAE로 선택한 희소 inspection margin `+0.03`을 더해 `(0.50+offset-health)/causal_rate`를 계산했다. 학습에 없던 material-2에서 NN residual을 label-free gate로 차단했다. 이미 본 test를 이용한 개발 수치로 분류한다.
 

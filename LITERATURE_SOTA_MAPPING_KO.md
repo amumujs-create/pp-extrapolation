@@ -1,8 +1,17 @@
-# 데이터셋별 문헌 SOTA와 최종 PP 비교 범위
+# 데이터셋별 문헌 SOTA와 PP-X 비교 범위
+
+> **Canonical paper pointer:** paper-level 주체는 PP-X다. 최신 동일 후보예산
+> 결과는 `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`, 주장 경계는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다. 문헌의 서로 다른
+> split·입력·지표 수치를 PP-X의 pooled R²와 직접 비교해 universal SOTA를
+> 주장하지 않는다.
 
 ## 원칙
 
-문헌의 최고 숫자를 최종 PP pooled R²와 바로 비교하지 않는다. 현재 PP 평가는 unit/cell 분리와 health-tail 또는 operating-condition hull 밖을 강제한 strict extrapolation protocol이다. 문헌은 대체로 다른 train/test unit, 다른 관측 시점, 원시 신호 입력, RMSE·MAE·NASA score를 사용한다. 이 문서는 각 데이터셋에서 논문에 반드시 인용·재실행할 **대표 SOTA 계열**과 현재 직접 비교 가능성을 정리한다.
+문헌의 최고 숫자를 PP-X pooled R²와 바로 비교하지 않는다. 현재 PP-X 평가는
+unit/cell 분리와 health-tail 또는 operating-condition hull 밖을 강제한 strict
+extrapolation protocol이다. 문헌은 대체로 다른 train/test unit, 다른 관측 시점,
+원시 신호 입력, RMSE·MAE·NASA score를 사용한다.
 
 | PP 데이터셋 | 문헌의 대표 benchmark / 강한 모델 계열 | 문헌 지표·분할 | PP와 수치 직접 비교 | 논문에서 할 일 |
 |---|---|---|---|---|
@@ -16,9 +25,12 @@
 | FEMTO/PRONOSTIA | CNN/LSTM/Transformer 및 transfer prognostics | bearing별 prediction error·RMSE | 불가 | 현재 endpoint-only protocol은 식별 불가 반례로 유지; raw history protocol을 별도 재정의 |
 | NASA milling | wear estimation CNN/LSTM/TCN, cutting-condition-aware CNN | VB tool-wear, fixed machining-case split | 불가 | PP의 material-transfer RUL split과 분리하고, standard VB wear benchmark를 별도 수행 |
 
-## 현재 최종 PP와의 내부 직접 비교
+## 현재 PP-X와의 내부 직접 비교
 
-현재 final table에서는 Ridge, MLP/ResNet, boosting, FT/sequence Transformer, V-REx, GroupDRO, monotone NN, linear-tail RBF, Engression, GP, 그리고 가능한 설정의 TabPFN을 동일 strict test에서 비교한다. dual-scale PP로 MICH를 복구한 뒤 양의 R² 9개 설정에서는 현재 실행된 최고 비-PP 모델보다 최종 PP가 높다. 이는 **우리 프로토콜 안의 비교 결론**이고, 문헌 SOTA를 이겼다는 뜻은 아니다.
+Strongest same-split mixed-comparator portfolio에서는 PP-X가 9/9였고, 모든
+baseline을 30 candidates로 맞춘 uniformly tuned equal-budget audit에서는
+8/9였다. 이는 서로 다른 retrospective evidence이며 **우리 프로토콜 안의 비교
+결론**일 뿐 문헌 SOTA를 이겼다는 뜻은 아니다.
 
 ## 문헌 근거와 인용 후보
 
@@ -30,6 +42,10 @@
 6. XJTU-SY의 enhanced Transformer 계열은 raw two-axis vibration으로 RUL을 예측한다. https://pmc.ncbi.nlm.nih.gov/articles/PMC11481647/
 7. NASA milling은 원래 flank wear VB를 목표로 하는 tool-wear benchmark다. https://catalog.data.gov/dataset/milling-wear
 
-## PP 논문의 올바른 비교 문장
+## PP-X 논문의 올바른 비교 문장
 
-“최종 PP는 본 연구가 정의한 strict extrapolation protocol에서 강한 tabular·sequence·OOD 경쟁모델보다 높은 pooled R²를 보였다. 기존 문헌 SOTA는 관측 시점, 입력, unit split, 평가 지표가 달라 직접 수치 대조하지 않았으며, 대표 문헌 모델은 동일 protocol 재실행 대상으로 제시한다.”
+“PP-X는 본 연구가 정의한 strict extrapolation protocol의 retrospective
+equal-budget audit에서 9개 중 8개 설정에서 최강 30-candidate baseline보다 높은
+pooled R²를 보였다. 기존 문헌 SOTA는 관측 시점, 입력, unit split, 평가 지표가
+달라 직접 수치 대조하지 않았으며, 독립 prospective predictive superiority는
+아직 확보되지 않았다.”

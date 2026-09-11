@@ -1,8 +1,20 @@
-# PP 논문: 정보 한계와 주장 경계
+# PP-X 논문: 정보 한계와 주장 경계
+
+> **Canonical paper 기준:** 논문 메인은 PP-X, 즉
+> validation-approved prior-residual framework for contract-conditioned
+> extrapolation이다. 이 문서와 과거 결과의 `PP`·`SAAR`는 legacy backbone 또는
+> 역사적 실험 alias이며 PP-X 전체와 동의어가 아니다. 동결 Algorithm 1은
+> `PPX_FINAL_PAPER_MODEL_KO.md`와
+> `protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`를 따른다. CCMR v2.2는
+> trajectory-domain risk-certified executor evidence이지 paper main이 아니다.
 
 ## 무엇을 주장하는가
 
-PP는 관측 시점까지의 인과적 이력에서 strict out-of-support RUL을 추정하는 구조다. 아핀 tail과 제한된 비선형 residual을 분리해, 학습 support 밖에서 residual의 과도한 연장을 줄이는 것이 목적이다. 이 논문은 모든 열화 도메인에서 우월하다고 주장하지 않는다.
+PP-X는 관측 시점까지의 인과적 이력과 outcome-free typed contract를 사용해
+strict out-of-support RUL route를 정하고, validation physical-unit evidence가
+승인한 prior-residual executor만 실행하는 구조다. legacy PP의 affine tail과
+제한된 비선형 residual은 그 backbone 중 하나다. 이 논문은 모든 열화 도메인에서
+우월하거나 universal SOTA라고 주장하지 않는다.
 
 ## 관측 정보가 만드는 이론적 한계
 
@@ -12,7 +24,11 @@ PP는 관측 시점까지의 인과적 이력에서 strict out-of-support RUL을
 \mathbb{E}\{(Y_t-f(H_t))^2\}\geq \mathbb{E}[\mathrm{Var}(Y_t\mid H_t)].
 \]
 
-특히 서로 다른 unit이 거의 같은 prefix `H_t`를 보이지만 이후 knee, 부하, 또는 lifetime scale `Z`가 달라진다면, prefix만으로는 두 RUL을 구별할 수 없다. PP의 support-aware residual 제어는 **보이지 않는 `Z`를 복원하는 방법이 아니다**. 이 식은 음수 R²가 특정 신경망의 무능만을 뜻하지 않는 이유와, 새 구조를 무한히 추가해도 해소되지 않는 조건부 모호성의 원인을 설명한다.
+특히 서로 다른 unit이 거의 같은 prefix `H_t`를 보이지만 이후 knee, 부하, 또는
+lifetime scale `Z`가 달라진다면, prefix만으로는 두 RUL을 구별할 수 없다.
+PP-X executor의 support-aware residual 제어는 **보이지 않는 `Z`를 복원하는
+방법이 아니다**. 이 식은 음수 R²가 특정 신경망의 무능만을 뜻하지 않는 이유와,
+새 구조를 무한히 추가해도 해소되지 않는 조건부 모호성의 원인을 설명한다.
 
 이는 불가능성의 보편적 증명은 아니다. 더 긴 raw-signal history, 운전조건·제조 메타데이터, 더 많은 run-to-failure unit, 또는 사전에 알려진 물리적 제약이 제공되면 `H_t`가 풍부해지고 위 조건부 분산은 줄 수 있다. 다만 그런 정보는 현재 PP 입력에 없으므로 성능표에 사후적으로 추가하면 PP의 일반 외삽 주장과는 별개 실험으로 취급한다.
 
@@ -31,14 +47,39 @@ PP는 관측 시점까지의 인과적 이력에서 strict out-of-support RUL을
 
 따라서 FEMTO는 “PP가 실패했다”가 아니라 “현재의 causal feature/표본 설계로 PP 우월성을 판정할 수 없다”로 보고한다. 최종 비교에는 causal raw waveform loader, unit-disjoint 다점 tail, 사전 고정한 train-only normalization, 그리고 충분한 independent bearing 수가 필요하다.
 
-## 사전 gate와 PP 예측기의 구분
+## 사전 gate와 PP-X 예측기의 구분
 
-12-domain descriptor 기반 LODO gate는 balanced accuracy 0.100, permutation p=0.945로 실패했다. 따라서 현 논문은 보편적인 pre-outcome selector를 주장하지 않는다. HNEI locked-split에서 PP 자체는 pooled R² 0.994 대 plain MLP 0.961이었지만, 첫 outcome 확인 뒤 normalization repair가 있었고 certificate는 PP를 승인하지 않았다. 이는 개발적 외부 성능 증거이며 prospective gate 성공이 아니다.
+12-domain descriptor 기반 LODO gate는 balanced accuracy 0.100, permutation
+p=0.945로 실패했다. 따라서 현 논문은 보편적인 pre-outcome selector를 주장하지
+않는다. HNEI locked-split의 legacy PP backbone은 pooled R² 0.994 대 plain MLP
+0.961이었지만, 첫 outcome 확인 뒤 normalization repair가 있었고 certificate는
+PP를 승인하지 않았다. 이는 개발적 외부 성능 증거이며 prospective gate 성공이
+아니다.
+
+## DS03 prospective 증거와 미확보 항목
+
+N-CMAPSS DS03에서 동결 PP-X는 basic/multiscale prior를 거절하고 test-best
+PP-X route인 direct fallback을 선택했다. 따라서 **route selection은 PASS**다.
+그러나 PP-X fallback pooled R²는 **0.8818**, Engression은 **0.9013**이므로
+**prospective predictive superiority는 FAIL**이다. DS03는 DS02와 같은
+N-CMAPSS 계열이며, PP-X가 최강 비교모델보다 우월하다는 독립 prospective
+predictive superiority는 아직 확보되지 않았다.
+
+## Algorithm 1에서 제외된 후보
+
+CRT와 GCIE는 개발 실험에서 승격 기준을 충족하지 못해 기각됐다. 두 후보는
+현재 PP-X Algorithm 1에 포함하지 않으며, 재현을 위해
+`PPX_CRT_REJECTED_EXPERIMENT_KO.md`와
+`PPX_GCIE_REJECTED_EXPERIMENT_KO.md`에 역사적 결과를 보존한다.
 
 ## 논문에 쓰지 말아야 할 문장
 
 - “사전 gate가 새로운 도메인에서 검증되었다.”
 - “음수 R² 도메인은 어떠한 모델도 해결할 수 없다.”
-- “모든 PHM/RUL 도메인에 PP가 우월하다.”
+- “모든 PHM/RUL/OOD 도메인에서 PP-X가 보편적 SOTA다.”
+- “DS03가 PP-X의 독립 prospective predictive superiority를 입증했다.”
+- “CRT 또는 GCIE가 PP-X Algorithm 1의 구성요소다.”
 
-대신 PP가 유리했던 support-shift 조건, 실패한 조건, 그리고 관측정보를 늘려야 하는 조건을 각각 표와 함께 보고한다.
+대신 PP-X가 유리했던 support-shift 조건, 실패한 조건, route-selection 성공과
+predictive-superiority 실패, 그리고 관측정보를 늘려야 하는 조건을 각각 표와
+함께 보고한다.

@@ -1,37 +1,86 @@
-# PP 논문 그림 구성 가이드
+# PP-X 논문 그림 구성 가이드
 
-모든 그림은 `figures/paper/`에 벡터 PDF와 600 dpi PNG로 저장한다. 수치는 현재 저장된 최종 PP 실험을 사용한다. 현재 결과는 여러 차례의 모델 개발에 사용된 데이터셋을 포함하므로, 논문에서는 **retrospective development benchmark**로 명시하고 독립 봉인 코호트 결과와 구분해야 한다.
+> **Canonical paper 기준:** 논문 메인은 PP-X다. 수치와 주장 경계는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`,
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`,
+> `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`를 우선한다. 아래의
+> `final_pp`, `modular_pp`, BQ-PP, SAAR가 들어간 그림 파일명은 재현성을 위해
+> 유지하는 역사적 artifact 이름이며 캡션의 paper-level 주체는 PP-X로 쓴다.
+
+모든 그림은 `figures/paper/`에 벡터 PDF와 600 dpi PNG로 저장한다. 현재 결과는
+여러 차례의 모델 개발에 사용된 데이터셋을 포함하므로, 논문에서는
+**retrospective development benchmark**로 명시하고 prospective DS03
+route-selection 결과 및 아직 확보되지 않은 독립 prospective predictive
+superiority와 구분해야 한다.
+
+## Canonical figure source 우선순위
+
+1. **동일예산 주 비교:** `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`
+   (30-candidate baseline, PP-X 8/9, p=0.0391)
+2. **retrospective mechanism/paired 효과:** `JOURNAL_EVIDENCE_COMPLETE_KO.md`
+   및 `results/final_modular_pp_evidence_v1/` (역사적 경로; mixed-comparator
+   9/9, p=0.00390625)
+3. **prospective route 감사:** `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`
+   (route selection PASS; PP-X fallback 0.8818, Engression 0.9013,
+   predictive superiority FAIL)
+4. 그 밖의 개발 단계 그림은 mechanism, ablation 또는 limitation으로만 사용한다.
+
+1번과 2번은 서로 다른 evidence이므로 한 그림의 단일 9-dataset 승패 통계로
+합치지 않는다.
 
 ## 이번 통합 감사에서 추가된 제출 우선 그림
 
-아래 세 그림은 PNG 600 dpi와 vector PDF로 함께 생성됐으며 기존 개발 단계 그림보다 우선 사용한다.
+아래 세 경로는 역사적 생성 스크립트의 출력 대상이다. 현재 checkout에는 해당
+그림 파일이 추적돼 있지 않으므로 “생성 완료”로 간주하지 말고, 제출 전에 원시
+JSON에서 PNG 600 dpi와 vector PDF를 다시 생성·검수한다. 현재 추적된 canonical
+figure artifact는 `figures/paper/ppx_final_ablation/manifest.json`이다.
 
-1. `figures/final_modular_pp_evidence_v1/fig_F1_final_pp_vs_strongest`: 9개 양의 외삽 설정에서 최종 PP와 가장 강한 동일-split 비교 결과.
-2. `figures/final_modular_pp_evidence_v1/fig_F2_final_pp_unit_forest`: 저장 예측이 행 단위로 일치하는 77개 물리 unit의 log-RMSE ratio와 bootstrap CI.
-3. `figures/final_modular_pp_evidence_v1/fig_F3_final_pp_seed_stability`: 동일 5 seeds에서 최종 PP와 저장 비교모델의 재학습 안정성.
+1. `figures/final_modular_pp_evidence_v1/fig_F1_final_pp_vs_strongest`:
+   9개 retrospective 설정에서 PP-X paper-selected route와 가장 강한
+   same-split mixed comparator 비교.
+2. `figures/final_modular_pp_evidence_v1/fig_F2_final_pp_unit_forest`:
+   저장 예측이 행 단위로 일치하는 77개 물리 unit의 PP-X log-RMSE ratio와
+   bootstrap CI.
+3. `figures/final_modular_pp_evidence_v1/fig_F3_final_pp_seed_stability`:
+   동일 5 seeds에서 PP-X route와 저장 비교모델의 재학습 안정성.
 
-`figures/journal_evidence_v1/`의 공통백본 그림은 최종 PP 성능이 아니라 modular prior routing의 필요성을 보이는 mechanism/negative ablation으로 배치한다.
+`figures/journal_evidence_v1/`의 공통백본 그림은 PP-X paper-selected route
+성능이 아니라 modular prior routing의 필요성을 보이는 historical
+mechanism/negative ablation으로 배치한다.
 
 ## 본문 권장 그림
 
-### Figure 1. 전체 strict-extrapolation 성능
+### Figure 1. PP-X strict-extrapolation 성능
 
 - 파일: `fig1_final_benchmark.pdf`
-- 목적: 12개 데이터셋에서 최종 PP와 각 데이터셋의 가장 강한 matched comparator를 함께 제시한다.
-- 캡션 초안: **Final modular PP performance under the fixed strict-extrapolation protocols.** Points report pooled prediction-ensemble \(R^2\). The comparator is the strongest model evaluated under the same split and metric for each dataset. Negative results are retained to expose failure regimes rather than filtered from the benchmark.
-- 주의: NASA milling의 큰 음수 때문에 양의 성능 구간이 압축된다. 정확한 값은 본문 표와 함께 제시한다.
+- 목적: 9개 paper-main retrospective setting에서 PP-X와 uniformly tuned
+  30-candidate 최강 baseline을 함께 제시한다.
+- 캡션 초안: **PP-X performance under fixed strict-extrapolation protocols
+  and uniform baseline tuning budgets.** Points report pooled
+  prediction-ensemble \(R^2\). Each baseline family receives 30 validation
+  candidates and five refit seeds; PP-X exceeds the strongest baseline in
+  eight of nine retrospective settings.
+- 주의: strongest same-split mixed-comparator 9/9 그림은 별도 보조 패널로 두고,
+  equal-budget 8/9와 같은 통계처럼 결합하지 않는다. XJTU·FEMTO·NASA milling은
+  limitation/development 표로 분리한다.
 
-### Figure 2. PP 구조와 정보 흐름
+### Figure 2. PP-X 구조와 정보 흐름
 
 - 파일: `fig2_model_overview.pdf`
 - 목적: frozen affine tail, neural residual, support-adaptive dual-scale gate, boundary quotient, validation-evidence executor의 역할을 한 장에 설명한다.
-- 캡션 초안: **Architecture of modular PP.** A stable affine tail provides the extrapolative backbone, while a bounded neural residual represents deviations supported by observed history. Support distance adjusts residual capacity, the boundary quotient enforces the end-of-life boundary when available, and validation-only evidence activates optional history, decay, and regime-transport executors.
+- 캡션 초안: **Architecture of PP-X.** An outcome-free typed contract restricts
+  admissible priors, a stable prior path and nonlinear residual form the common
+  core, and physical-unit validation evidence approves optional executors.
+  Unsupported routes revert to a prespecified fallback.
 
 ### Figure 3. 구조적 matched ablation
 
 - 파일: `fig3_bq_matched_ablation.pdf`
-- 목적: 동일 데이터와 평가 조건에서 여섯 구조를 비교해 PP 구성의 필요성을 보인다.
-- 캡션 초안: **Matched structural ablation of the boundary-quotient PP executor.** Bars are prediction-ensemble pooled \(R^2\) on Sunwoda, RWTH, and MICH. The comparison separates the effects of a neural residual, hard boundary construction, frozen affine extrapolator, and bounded correction.
+- 목적: 동일 데이터와 평가 조건에서 여섯 구조를 비교해 PP-X prior-residual
+  core와 조건부 executor의 필요성을 보인다.
+- 캡션 초안: **Matched structural ablation of the PP-X boundary-quotient
+  executor.** Bars are prediction-ensemble pooled \(R^2\) on Sunwoda, RWTH,
+  and MICH. Historical BQ-PP arm labels are retained to match artifacts.
 
 ### Figure 5. support decay × regime transport
 
@@ -43,7 +92,10 @@
 
 - 파일: `fig6_matr_seed_stability.pdf`
 - 목적: 단일 최고 seed 대신 5회 재학습 분포를 공개한다.
-- 캡션 초안: **Retraining stability under the exact MATR batch-2 split.** Each point is one random seed and the horizontal segment is the seed mean. PP is compared with V-REx, TabPFN, CPGRU, and CPTransformer under the same evaluation split.
+- 캡션 초안: **Retraining stability of the PP-X paper-selected route under
+  the exact MATR batch-2 split.** Each point is one random seed and the
+  horizontal segment is the seed mean. Historical PP labels in source files
+  are retained for reproducibility.
 
 ### Figure 7. convex-hull 외삽 강도
 
@@ -109,6 +161,25 @@
 - 목적: HNEI locked 성공 결과는 그대로 두고, NASA/UCF와 CALCE에서 validation-selected safe-continuation PP가 동일 조건 NN을 얼마나 개선했는지 보인다.
 - 주의: NASA/UCF와 CALCE test는 구조 개발 전에 이미 확인됐으므로 development evidence로 표기한다. NASA/UCF의 개선 PP R²도 여전히 음수다.
 
+### Figure 18 또는 본문 표. 동일 후보예산 감사
+
+- 권장 source: `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`,
+  `results/full_equal_candidate_budget_summary_v1/results.json`
+- 목적: 9개 setting 각각에서 PP-X와 30-candidate 최강 baseline의 pooled
+  \(R^2\) 차이를 표시한다.
+- 필수 표기: **8/9, 양측 p=0.0391**, Virkler −0.002, NASA 사실상 동률.
+- 금지: mixed-comparator 9/9, p=0.00390625를 이 패널의 통계로 표기.
+
+### Figure 19 또는 본문 표. DS03 prospective route 감사
+
+- 권장 source: `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`
+- 목적: 동결 PP-X가 basic/multiscale prior를 거절하고 direct fallback을
+  선택한 결정을 정확도 비교와 함께 제시한다.
+- 필수 표기: route selection **PASS**; PP-X fallback \(R^2=0.8818\);
+  Engression \(R^2=0.9013\); predictive superiority **FAIL**.
+- 해석: 같은 N-CMAPSS 계열의 prospective route-selection evidence이며,
+  독립 prospective predictive superiority가 아니다.
+
 ## 그림과 근거 파일 연결
 
 | 그림 | 주요 근거 |
@@ -124,15 +195,19 @@
 | Fig. 12–13 | `results/cross_domain_mechanism_v1/results.json`, 외부 3개 `results.json` |
 | Fig. 14–16 | `results/nasa_alt_external_locked_v1/`, `results/calce_external_locked_v1/`, `results/hnei_external_locked_v1/` |
 | Fig. 17 | `results/external_failure_pp_recovery_v1/safe_final_results.json` |
+| Fig. 18 | `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`, `results/full_equal_candidate_budget_summary_v1/results.json` |
+| Fig. 19 | `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md` |
 
 ## 원고 배치안
 
 1. Introduction 마지막: Figure 2로 전체 아이디어를 제시한다.
 2. Experimental setup: Figure 7로 단순 미래예측과 hull 외삽의 차이를 정량화한다.
-3. Main results: Figure 1과 정확한 수치 표를 함께 둔다.
+3. Main results: equal-budget Figure 1/18과 정확한 수치 표를 함께 둔다.
 4. Ablation: Figure 9 또는 Figure 3+5를 둔다.
 5. Robustness: Figure 6을 둔다.
-6. Supplement: Figure 4와 8, 전체 seed 표, unit-level 통계를 둔다.
+6. Prospective audit: Figure 19 또는 작은 본문 표로 PASS/FAIL을 함께 둔다.
+7. Supplement: Figure 4와 8, mixed-comparator 9/9, 전체 seed 표,
+   unit-level 통계를 둔다.
 
 그래프를 다시 만들 때는 저장소 루트에서 다음을 실행한다.
 

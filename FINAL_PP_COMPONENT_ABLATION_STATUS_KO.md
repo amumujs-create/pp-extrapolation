@@ -1,8 +1,17 @@
-# 최종 PP 구성요소 ablation 현황과 필수 실험
+# PP-X 구성요소 ablation 현황과 필수 실험
+
+> **Canonical paper pointer:** 논문 주체는 PP-X다. 동결 Algorithm 1은
+> `PPX_FINAL_PAPER_MODEL_KO.md`, 최신 통계·주장 경계는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다. 아래 BQ-PP,
+> final PP와 결과 경로는 당시 arm을 식별하는 역사적 라벨이며 소급 개명하지
+> 않는다.
 
 ## 결론
 
-최종 PP는 단일 고정 구조가 아니라 입력에서 확인되는 prior와 validation evidence에 따라 모듈을 승인하는 구조다. 따라서 모든 데이터셋에 모든 모듈을 억지로 적용하는 full factorial보다, **공통 backbone ablation + prior별 executor ablation + evidence gate ablation**으로 나누는 것이 논문 주장과 맞다.
+PP-X는 단일 고정 구조가 아니라 typed contract와 validation evidence에 따라
+executor를 승인하는 구조다. 따라서 모든 데이터셋에 모든 모듈을 억지로 적용하는
+full factorial보다, **공통 backbone ablation + prior별 executor ablation +
+evidence gate ablation**으로 나누는 것이 논문 주장과 맞다.
 
 대표 prior executor에 대한 matched ablation과 MATRb2 support-decay×transport 2×2 실험을 완료했다. 상세 결과는 `FINAL_PP_COMPONENT_ABLATION_RESULTS_KO.md`에 있다. 새 untouched cohort 확증은 아직 필요하다.
 
@@ -64,4 +73,7 @@ Prior가 정의되지 않는 데이터에 boundary quotient를 켜는 비교는 
 
 동일 조건으로 다시 집계한 실제 수치와 해석은 `FINAL_PP_COMPONENT_ABLATION_RESULTS_KO.md`에 정리했다.
 
-논문 주장은 “모든 부품이 모든 도메인에서 항상 도움된다”가 아니다. **사용 가능한 prior에 맞는 executor를 구성하고, validation evidence가 부족하면 그 모듈을 거부한다**는 modular PP 주장을 ablation으로 입증해야 한다.
+논문 주장은 “모든 부품이 모든 도메인에서 항상 도움된다”가 아니다.
+**outcome-free contract가 허용한 prior에 맞는 executor를 구성하고, validation
+evidence가 부족하면 거부 또는 fallback한다**는 PP-X 주장을 ablation으로
+검증한다.

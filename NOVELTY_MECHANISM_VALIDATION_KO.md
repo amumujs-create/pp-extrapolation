@@ -1,10 +1,18 @@
-# PP 승패 메커니즘·게이트·불확실성·통계 검증 감사
+# PP-X 승패 메커니즘·게이트·불확실성·통계 검증 감사
 
-> **상태 갱신:** 아래 “conformal empirical coverage 미검증” 평가는 실험 전 기록이다. 이후 support-scaled 90% block-conformal coverage를 12개 기존 도메인과 외부 cohort에 실행했다. 최신 해석과 수치는 `JOURNAL_EVIDENCE_COMPLETE_KO.md` 6절 및 `CROSS_DOMAIN_MECHANISM_AND_EXTERNAL_RESULTS_KO.md`를 우선한다.
+> **Canonical paper pointer:** 아래 내용은 legacy 공통 PP backbone과 초기 gate의
+> 역사적 감사다. 현재 논문 메인은 PP-X이며 동결 Algorithm 1과 최신 판정은
+> `PPX_FINAL_PAPER_MODEL_KO.md`,
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다. 이후
+> support-scaled 90% block-conformal coverage가 실행됐지만 독립 prospective
+> predictive superiority는 아직 확보되지 않았다.
 
 ## 판정
 
-제안된 비판은 대체로 타당하다. 현재 저장소는 다중 데이터셋 성능과 일부 구조 ablation은 강하지만, “어떤 관측 가능한 조건에서 PP가 plain MLP보다 유리한가”를 하나의 사전 검증 가능한 법칙으로 확정하지 못했다.
+현재 저장소는 다중 데이터셋 성능과 일부 구조 ablation은 강하지만, “어떤
+관측 가능한 조건에서 legacy PP backbone이 plain MLP보다 유리한가”를 하나의
+보편적 사전 법칙으로 확정하지 못했다. 이 실패가 PP-X에서 typed contract와
+validation-approved executor/fallback을 분리한 근거다.
 
 | 요구사항 | 현재 판정 | 실제 근거 |
 |---|---|---|
@@ -18,13 +26,14 @@
 “NASA·Virkler 승, HUST·XJTU 패”는 하나의 모델 버전을 가리킬 때만 맞다.
 
 - 동일 입력·예산의 **기본 affine-tail PP 대 plain MLP**에서는 HUST가 패배하고 Virkler·NASA가 승리한다.
-- 최종 modular PP는 HUST에서 validation-only regime transport를 추가해 pooled ensemble \(R^2=0.958\)까지 개선됐다.
+- PP-X의 paper-selected HUST route는 validation-only regime transport를 추가해 pooled ensemble \(R^2=0.958\)까지 개선됐다.
 - XJTU는 PP가 일부 비교모델보다 상대적으로 높아도 \(R^2=-1.229\)이므로 절대 실패다.
 
 따라서 설명할 outcome은 둘로 나눠야 한다.
 
 1. 공통 backbone의 이득: \(\Delta\mathrm{RMSE}=\mathrm{RMSE}_{MLP}-\mathrm{RMSE}_{base\ PP}\)
-2. 최종 시스템의 성공: final PP의 pooled \(R^2>0\) 및 strongest comparator 대비 regret
+2. 최종 시스템의 성공: PP-X paper-selected route의 pooled \(R^2>0\) 및
+   strongest comparator 대비 regret
 
 두 outcome을 섞으면 HUST처럼 backbone은 지지만 적절한 executor가 살리는 경우를 설명할 수 없다.
 

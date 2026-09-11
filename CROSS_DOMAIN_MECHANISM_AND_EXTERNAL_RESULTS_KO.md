@@ -1,4 +1,10 @@
-# PP 메커니즘·불확실성·외부 코호트 최종 결과
+# PP-X 메커니즘·불확실성·외부 코호트 결과
+
+> **Canonical paper pointer:** 논문 메인은 PP-X다. 아래 12-domain 공통
+> affine-tail `PP backbone`과 외부 코호트 수치는 역사적 mechanism/development
+> evidence이며 PP-X paper-selected route 전체와 같지 않다. 최신 paper 주장과
+> DS03 prospective 판정은 `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다.
+> 독립 prospective predictive superiority는 아직 확보되지 않았다.
 
 ## 무엇을 새로 완료했나
 
@@ -25,7 +31,9 @@
 | NASA battery | 0.272 | **0.495** | +0.223 | 예 |
 | N-CMAPSS | **0.813** | 0.808 | −0.005 | 예, 사실상 동률 |
 
-이 표는 최종 modular PP가 아니라 **공통 backbone의 효용**을 분리한 ablation이다. 최종 모델에서 HUST transport, BQ/dual-scale, multiscale executor가 이 값을 추가로 개선한다.
+이 표는 PP-X paper-selected route가 아니라 **legacy 공통 PP backbone의 효용**을
+분리한 ablation이다. PP-X에서는 typed contract와 validation approval를 거쳐
+HUST transport, BQ/dual-scale, multiscale executor가 선택적으로 추가된다.
 
 ## 요청한 네 변수는 승패를 설명했는가
 
@@ -85,7 +93,8 @@ HNEI locked 결과는 건드리지 않고 NASA/UCF와 CALCE에 safe-continuation
 
 ## 논문 노벨티에 반영할 이론
 
-현재 결과가 지지하는 가장 강한 구조는 `certificate → executor → prediction`의 3단계다.
+현재 결과가 PP-X에 대해 지지하는 구조는
+`typed contract → validation approval → executor/fallback → prediction`이다.
 
 1. Geometric certificate: 실제 train-support 밖의 degradation-range extrapolation인지 확인한다.
 2. Law-sharing certificate: train unit 간 열화법칙 이질성과 calibration unit 수가 허용 범위인지 확인한다.

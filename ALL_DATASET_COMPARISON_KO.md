@@ -1,10 +1,15 @@
-# 전체 데이터셋 비교
+# PP-X 연구 전체 데이터셋 역사적 비교
 
-> **발표·논문용 최종 모델 표:** `FINAL_PP_BENCHMARK_TABLE_KO.md`를 사용한다. 아래 표에는 초기 PP, 봉인 confirmatory PP, 중간 지원 gate 결과가 함께 남아 있어 최종 PP 성능표로 인용하면 안 된다.
+> **Canonical paper pointer:** 논문 메인은 PP-X다. 발표·논문용 route 표는
+> `FINAL_PP_BENCHMARK_TABLE_KO.md`, 최신 equal-budget 수치는
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`, 주장 경계는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 사용한다. 아래 표에는 초기
+> legacy PP, 봉인 confirmatory PP, 중간 support gate 결과가 함께 남아 있어
+> PP-X 최종 성능표로 인용하면 안 된다.
 
 > 외삽/OOD 특화 경쟁군을 12개 설정 전부에 추가한 최신 표는 `ALL_DATASET_EXTRAPOLATION_COMPETITORS_KO.md`에 있다.
 
-## 원래 latent PP와 FT-Transformer의 직접 비교
+## 역사적 latent PP와 FT-Transformer의 직접 비교
 
 동일 데이터·분할에서 각 seed마다 9개 validation 후보를 선택하고, 최대 300 epoch 및 patience 70으로 학습했다. PP와 FT의 후보 수와 선택 기준은 같지만 탐색 축과 연산량은 동일하지 않다. 아래 주 지표는 5개 seed 예측을 평균한 pooled R²다.
 
@@ -53,7 +58,7 @@ MATRb2의 완전한 동일 seed 비교는 다음과 같다. `평균±SD`는 개�
 
 PP는 같은 seed의 네 경쟁모델 비교에서 모두 5승 0패였다. seed별 값과 paired 검정은 `MATR_BATCH2_FIVE_SEED_COMPARISON_KO.md`에 있다.
 
-## 현재 결론
+## 현재 PP-X 문서에서의 해석
 
 FT는 MATR2019의 초기 비교에서는 PP보다 높았지만 HUST에서는 크게 낮고, Virkler에서는 seed에 따라 붕괴한다. 이후 validation-only calibration을 포함한 최종 PP는 MATR2019에서도 0.466으로 개선됐다. 반대로 PP도 MICH·XJTU·FEMTO·Milling에서 실패하므로 보편적 우월성을 주장할 수 없다.
 
@@ -66,7 +71,10 @@ MATR2019의 Transformer 패배를 해결하기 위해 temporal latent PP, GRU re
 PP가 +0.088 높았다. 이 수치는 MATR test 확인 후의 개발 결과이며 기존 confirmatory
 0.257을 대체하지 않는다.
 
-논문에서 가장 방어 가능한 주장은 PP가 prior가 맞는 tail 외삽에서 성능과 안정성을 제공하고, applicability 조건이 맞지 않으면 plain NN 또는 abstention으로 전환한다는 것이다. 강한 모델 비교를 완성하려면 두 번째 표의 핵심 split에 FT를 같은 사전 고정 예산으로 추가해야 한다.
+현재 방어 가능한 주장은 PP-X가 outcome-free contract로 후보를 제한하고
+validation evidence가 승인한 prior-residual executor만 사용하며, 근거가
+부족하면 fallback/abstention한다는 것이다. 동일 후보예산 비교와 DS03 실패를
+함께 보고하며 universal SOTA를 주장하지 않는다.
 
 공통 residual-gain 개선을 13개 설정에서 감사한 결과, validation MSE가 2% 이상 좋아지고 validation unit의 80% 이상에서 이길 때만 모듈을 승인하는 group-robust 규칙은 RWTH를 0.507→0.551, XJTU를 -1.308→-1.229로 개선하고 나머지 base PP를 보존했다. N-CMAPSS causal multiscale 모듈은 ensemble 0.934→0.937로 개선했다. 관측한 설정에서는 3개 개선·10개 동일·0개 악화였지만, 이 규칙은 사후 개발 결과이므로 새로운 untouched cohort 검증이 필요하다.
 

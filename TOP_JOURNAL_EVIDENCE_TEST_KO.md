@@ -1,6 +1,12 @@
-# PP 상위저널 증거 게이트 테스트
+# PP-X 상위저널 증거 게이트 역사적 테스트
 
-> **상태 갱신:** 이 문서는 당시 8-domain 감사 기록이다. 이후 final modular PP 9개 양의 설정, 77개 물리 unit paired 분석, 다차원 hull 민감도, validation-route 감사가 추가됐다. 제출 판단과 최신 수치는 `JOURNAL_EVIDENCE_COMPLETE_KO.md` 및 `results/final_modular_pp_evidence_v1/results.json`을 우선한다.
+> **Canonical paper pointer:** 이 문서는 당시 8-domain legacy PP 감사 기록이다.
+> 현재 논문 메인은 PP-X다. 제출 판단과 최신 수치는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`,
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`,
+> `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`를 우선한다. 현재 증거는
+> mixed-comparator retrospective 9/9와 equal-budget retrospective 8/9를
+> 구분하며, DS03 route selection은 PASS지만 predictive superiority는 FAIL이다.
 
 ## 종합 판정
 

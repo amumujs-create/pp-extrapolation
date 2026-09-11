@@ -1,8 +1,19 @@
-# Engression 및 linear-mean GP 외삽 비교
+# PP-X 관련 Engression 및 linear-mean GP 역사적 외삽 비교
+
+> **Canonical paper pointer:** 이 문서는 legacy PP 개발 당시의 8-setting
+> Engression/GP 비교와 그 artifact를 보존한다. 현재 PP-X paper-main
+> equal-budget 비교는 `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`가 기준이며,
+> 그 결과는 8/9, p=0.0391이다. strongest same-split mixed-comparator 9/9와
+> 이 역사적 8/8 분석을 현재의 동일 evidence처럼 섞지 않는다. DS03에서는
+> PP-X fallback 0.8818보다 Engression 0.9013이 높아 prospective predictive
+> superiority가 실패했다.
 
 ## 결론
 
-동일한 고정 split과 pooled R²에서 개선 PP는 양의 성능을 낸 8개 평가 설정 모두 Engression과 linear-mean GP보다 높았다. 가장 좁은 차이는 N-CMAPSS의 PP 0.937 대 Engression 0.932다. 이 차이는 단독 점추정만으로 우월하다고 주장하기에는 작으므로 논문에서는 동률권으로 보고 unit/seed paired uncertainty를 제시한다.
+동일한 고정 split과 pooled R²에서 당시 개선 PP route는 양의 성능을 낸 8개
+평가 설정 모두 Engression과 linear-mean GP보다 높았다. 이는 retrospective
+historical audit이며 현재 PP-X의 universal 또는 prospective 우월성 주장이
+아니다. 가장 좁은 차이는 N-CMAPSS의 0.937 대 Engression 0.932다.
 
 | 데이터셋 | test hull-out | median hull 거리 | 개선 PP | 기존 최강 경쟁모델 | Engression | Linear-mean GP | PP−Engression |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -29,7 +40,11 @@ Linear-mean GP는 `DotProduct + Constant×RBF + WhiteKernel` 구조에서 RBF �
 
 Engression은 N-CMAPSS에서 PP와 사실상 동률이고 HUST에서도 강하다. 이는 분포 회귀가 짧은 hull 경계 외삽과 비교적 매끄러운 degradation coordinate에서 유효하다는 근거다. 반면 가장 먼 health-tail인 MATR2019에서 음의 R²가 되어, 분포 학습 자체가 안정적인 먼 꼬리 기울기를 보장하지는 않았다. PP는 affine/regime tail과 제한된 neural residual을 결합하기 때문에 이 설정에서 차이가 가장 컸다.
 
-PP의 8/8 최고점은 현재 데이터를 보며 구조를 개발한 결과다. 8개 데이터셋·68개 유효 물리 unit을 사용한 추가 계층 bootstrap에서는 PP의 동일 가중 상대 RMSE가 Engression보다 24.0% 낮았고 95% CI는 5.5--40.9% 개선이었다. 상세 분석은 `PAIRED_PP_ENGRESSION_ANALYSIS_KO.md`에 있다. 최종 논문 주장은 “모든 외삽에서 보편적으로 우월”이 아니라 “validation/test 외삽 ray가 호환되고 tail 구조 증거가 있는 degradation-range extrapolation에서 강하다”로 제한한다. 새 untouched cohort와 사전 고정 선택 규칙은 여전히 확증 실험으로 남는다.
+당시 PP의 8/8 최고점은 데이터를 보며 구조를 개발한 결과다. 8개
+데이터셋·68개 유효 물리 unit의 계층 bootstrap은
+`PAIRED_PP_ENGRESSION_ANALYSIS_KO.md`에 역사적 secondary analysis로
+보존한다. 현재 PP-X 결론에서는 DS03 predictive-superiority 실패와 독립
+prospective superiority 미확보를 함께 공개한다.
 
 Progression은 논문 자체는 직접적인 회귀 외삽 경쟁군이지만, 이번 저장소에서 검증 가능한 공식 실행 구현을 확인하지 못했다. 논문 수식만 보고 임의 재구현한 수치를 공식 baseline처럼 넣으면 비교 재현성이 약해지므로 결과표에 숫자를 만들지 않았다. 저자 코드가 확보되면 동일 split·validation-only protocol로 추가한다.
 

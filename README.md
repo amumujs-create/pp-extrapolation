@@ -270,3 +270,31 @@ training plus a single internal affine/residual gate restores pooled PP R² to
 0.591 and beats the matched MLP on all three configurations. This is development
 evidence, not a retroactive untouched success. Subsequent compact-cohort screens
 are indexed in [`SMALL_EXTERNAL_COHORT_AUDIT_KO.md`](SMALL_EXTERNAL_COHORT_AUDIT_KO.md).
+
+## Paper PP-X versus legacy base PP API
+
+The paper-level method is **PP-X**, a validation-approved prior-residual
+framework for contract-conditioned extrapolation. Its canonical definition,
+frozen Algorithm 1, evidence package, equal-budget audit, and prospective DS03
+result are:
+
+- [`PPX_FINAL_PAPER_MODEL_KO.md`](PPX_FINAL_PAPER_MODEL_KO.md)
+- [`protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`](protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md)
+- [`PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`](PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md)
+- [`FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`](FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md)
+- [`NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`](NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md)
+
+The `fit_pp`, `predict`, `pp-run`, PP, BQ-PP, SAAR, `final_modular_pp`, and
+similarly named result paths above are retained as the **legacy base API or
+historical experiment labels** for reproducibility. They must not be treated as
+synonyms for the full PP-X paper framework or renamed retroactively. CCMR v2.2
+is a trajectory-domain risk-certified executor used as mechanism evidence, not
+the paper-level model. CRT and GCIE were rejected and are not part of Algorithm
+1.
+
+The two retrospective summaries are also distinct: strongest same-split
+mixed-comparator evidence is 9/9 (`p=0.00390625`), while the uniformly tuned
+30-candidate equal-budget audit is 8/9 (`p=0.0391`). On prospective DS03, PP-X
+selected the correct internal fallback route (`R²=0.8818`) but Engression was
+more accurate (`R²=0.9013`); independent prospective predictive superiority
+remains unestablished.

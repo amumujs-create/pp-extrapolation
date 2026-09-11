@@ -1,4 +1,11 @@
-# 최종 PP 구성요소 ablation 결과
+# PP-X 구성요소 ablation 결과
+
+> **Canonical paper pointer:** 이 문서는 PP-X의 retrospective
+> core/executor mechanism evidence다. 동결 Algorithm 1과 최신 유의성 판정은
+> `PPX_FINAL_PAPER_MODEL_KO.md`,
+> `results/ppx_final_ablation_statistics_v1/REPORT_KO.md`,
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다. BQ-PP와 final PP는
+> 기존 실험 arm의 역사적 라벨로 보존한다.
 
 ## 실험 조건
 
@@ -6,9 +13,11 @@ Boundary-Quotient PP가 적용되는 Sunwoda·RWTH·MICH를 대상으로 동일 
 
 ## 논문 본문용 최종 기능별 ablation
 
-아래 표가 최종 PP의 각 기능이 실제로 무엇을 개선하는지 보여주는 주 ablation 표다. `ΔR²`는 해당 기능을 켠 모델의 prediction-ensemble pooled R²에서 matched 제거 arm의 값을 뺀 것이다.
+아래 표는 PP-X의 contract-admissible executor 기능이 무엇을 개선했는지 보여주는
+retrospective ablation 표다. `ΔR²`는 해당 기능을 켠 모델의
+prediction-ensemble pooled R²에서 matched 제거 arm의 값을 뺀 것이다.
 
-| 최종 PP 기능 | 대표 데이터셋 | 제거 arm → 기능 포함 arm | ΔR² | 확인된 역할 |
+| PP-X executor 기능 | 대표 데이터셋 | 제거 arm → 기능 포함 arm | ΔR² | 확인된 역할 |
 |---|---|---|---:|---|
 | Nonlinear residual | Sunwoda | affine quotient 0.281 → bounded BQ 0.939 | **+0.658** | affine tail만으로 설명되지 않는 곡률 학습 |
 | Nonlinear residual | RWTH | affine quotient 0.659 → bounded BQ 0.878 | **+0.219** | cohort별 nonlinear deviation 학습 |
@@ -75,7 +84,10 @@ Full rate history는 Sunwoda·RWTH에 필수지만 MICH에서는 단순 margin h
 
 방어 가능한 주장은 다음과 같다.
 
-> PP의 성능은 affine tail이나 hard boundary 하나에서 나오지 않는다. Frozen affine quotient와 nonlinear residual의 결합이 필요하며, residual bound와 causal rate history의 효용은 extrapolation regime에 따라 달라진다. 따라서 PP는 prior별 executor를 validation evidence로 승인하는 modular architecture로 동작한다.
+> PP-X의 성능은 affine tail이나 hard boundary 하나에서 나오지 않는다.
+> Frozen affine quotient와 nonlinear residual의 결합이 필요하며, residual
+> bound와 causal rate history의 효용은 extrapolation regime에 따라 달라진다.
+> 따라서 PP-X는 contract가 허용한 executor를 validation evidence로 승인한다.
 
 “모든 PP 구성요소가 모든 데이터셋에서 항상 개선한다”는 주장은 결과와 맞지 않는다. MICH는 고정 bound와 full-history route의 반례이며, 이후 support-adaptive dual-scale PP가 이 실패를 0.751까지 복구했다.
 

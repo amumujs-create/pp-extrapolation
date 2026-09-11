@@ -1,8 +1,17 @@
-# 실패 도메인 PP safety-continuation 개발 감사
+# PP-X 실패 도메인 safety-continuation 개발 감사
+
+> **Canonical paper pointer:** 이 문서는 XJTU·FEMTO·NASA milling의
+> post-test limitation/development evidence다. 논문 메인은 PP-X이며, 아래
+> `PP`, affine PP, safety PP는 당시 실험 arm의 역사적 라벨이다. 세 설정은
+> PP-X main superiority portfolio에 포함하지 않는다. 최신 주장 경계는
+> `PP_INFORMATION_LIMITS_AND_CLAIMS_KO.md`를 우선한다.
 
 ## 목적과 증거 구분
 
-새 cohort는 열지 않았다. 이미 결과를 본 XJTU, FEMTO, NASA milling 세 설정만 사용해 PP가 잘못된 prior를 받았을 때 망가지는 문제를 개발 단계에서 점검했다. 따라서 아래 수치는 **post-test development**이며 외부 확증 결과가 아니다.
+새 cohort는 열지 않았다. 이미 결과를 본 XJTU, FEMTO, NASA milling 세 설정만
+사용해 legacy PP backbone이 잘못된 prior를 받았을 때 망가지는 문제를 개발
+단계에서 점검했다. 따라서 아래 수치는 **post-test development**이며 PP-X의
+외부 확증 결과가 아니다.
 
 핵심 구조는 하나의 PP 네트워크 안에 affine 경로와 direct neural 경로를 두고
 
@@ -36,15 +45,19 @@ NASA milling은 prior 자체가 부정확할 때 affine 경로를 강제로 유�
 
 후속 domain-prior 감사에서는 데이터 프로토콜에 이미 고정된 마모 고장경계 `VB=0.50`을 모델 구조에 반영했다. 희소한 inspection이 경계 사이를 건너뛰는 현상은 validation MAE로 선택한 `+0.03` margin으로 보정했다. `RUL=(0.50+offset-health)/causal_rate + gate*NN residual`에서 material-2가 train material-1에 없다는 인증으로 test residual gate를 0으로 둔다. 그 결과 validation R2 0.638, test R2 **0.341**로 tuned NN -0.476과 GroupDRO -0.691을 넘었다. 이는 새 외부 확증이 아니라 이미 관측된 test에서의 개발 결과다.
 
-## 최종 모델 정책
+## PP-X limitation 정책
 
-1. 기존 양의 R2 9개 설정의 최종 PP와 결과는 변경하지 않는다.
+1. 기존 9개 retrospective setting의 PP-X paper-selected route와 결과는
+   변경하지 않는다.
 2. 여러 validation unit에서 prior gain이 반복되면 기존 affine/residual 또는 domain-specific PP route를 사용한다.
 3. prior gain이 없으면 safety-continuation의 `tau=0` direct-NN 부분공간으로 수축한다.
 4. validation/test transport ray가 반대이거나 test가 unit당 endpoint 하나뿐이고 lifetime-scale 근거가 없으면 점 예측 성능표의 승인 설정에서 제외한다.
 
 이 정책을 `certify_extrapolation` API에 코드로 고정했다. 기존 validation skill·baseline gain·seed stability에 더해 validation group 수, source의 unit당 관측 수, transport 방향 호환성을 선택적으로 검사한다. 세 값은 split metadata와 source input으로만 계산하며 source label을 사용하지 않는다.
 
-따라서 논문 주장은 “PP가 모든 데이터셋에서 항상 이긴다”가 아니다. 방어 가능한 주장은 **적용 가능한 9개 설정에서는 관측된 경쟁모델 최고값을 유지하고, prior가 실패한 설정에서는 한 네트워크 안의 NN 안전 경로 또는 사전 거절로 catastrophic negative transfer를 제한한다**는 것이다.
+따라서 논문 주장은 “PP-X가 모든 데이터셋에서 항상 이긴다”가 아니다. 이
+감사는 prior가 실패한 setting에서 direct-NN 안전 경로 또는 사전 거절이
+catastrophic negative transfer를 제한할 수 있다는 retrospective mechanism
+evidence만 제공한다.
 
 재현 코드는 `experiments/failed_domain_safety_continuation.py`, 원시 결과는 `results/failed_domain_safety_continuation_v1/results.json`에 있다.

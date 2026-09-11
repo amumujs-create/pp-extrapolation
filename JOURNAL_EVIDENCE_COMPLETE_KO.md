@@ -1,12 +1,33 @@
-# PP 저널 제출용 통합 근거 패키지
+# PP-X 저널 제출용 통합 근거 패키지
+
+작성자: 박진서
+논문 메인: **PP-X — validation-approved prior-residual framework for
+contract-conditioned extrapolation**
+
+> 이 문서의 `PP`, `final_modular_pp`, BQ-PP 등 기존 파일명·결과 경로·실험
+> 라벨은 재현성을 위한 역사적 artifact 이름이다. 현재 paper-level 이름은
+> PP-X이며, legacy PP/SAAR backbone 및 CCMR v2.2 executor와 동의어가 아니다.
+> 동결 Algorithm 1과 최신 주장 경계는 `PPX_FINAL_PAPER_MODEL_KO.md`,
+> `protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`,
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다.
 
 ## 1. 논문의 중심 결과
 
-PP를 하나의 고정 회귀식으로 모든 데이터에 강제하지 않고, 관측 가능한 prior의 종류에 따라 executor를 선택하는 **modular prior-preserving predictor**로 정의한다. 최종 PP는 공통적으로 `안정적인 저복잡도 tail 경로 + NN residual`을 사용하며, 데이터에서 확인 가능한 prior에 따라 boundary quotient, causal multiscale history, support decay, regime transport를 붙인다.
+PP-X는 하나의 고정 회귀식을 모든 데이터에 강제하지 않고, outcome-free typed
+contract가 허용한 후보 중 validation physical-unit evidence로 executor를 승인하는
+**contract-conditioned prior-residual framework**다. 승인된 prior 경로는
+`안정적인 저복잡도 tail 경로 + NN residual`을 공통 core로 사용하며, 데이터에서
+확인 가능한 prior에 따라 boundary quotient, causal multiscale history, support
+decay, regime transport를 선택적으로 붙인다. 증거가 부족하면 사전 지정 fallback으로
+후퇴한다.
 
-현재 양의 pooled R²를 확보한 9개 외삽 설정에서 최종 modular PP는 같은 split으로 실행해 확보한 가장 강한 비교 결과를 모두 넘었다.
+현재 양의 pooled R²를 확보한 9개 retrospective development 외삽 설정에서
+paper-selected PP-X route는 같은 split으로 확보한 가장 강한 비교 결과를 모두
+넘었다. 이 표는 데이터셋마다 comparator의 탐색 이력이 다른
+**strongest same-split mixed-comparator portfolio**이며, 아래의 uniformly tuned
+equal-budget 8/9 결과와 다른 증거다.
 
-| 데이터셋 / 외삽 설정 | 최종 PP pooled R² | 가장 강한 동일 split 비교 | 비교 R² | ΔR² |
+| 데이터셋 / 외삽 설정 | PP-X paper-selected route pooled R² | 가장 강한 동일 split 비교 | 비교 R² | ΔR² |
 |---|---:|---|---:|---:|
 | HUST unseen-cell late tail | **0.958** | GroupDRO | 0.934 | +0.024 |
 | Virkler unseen-specimen crack tail | **0.888** | linear-tail RBF | 0.805 | +0.083 |
@@ -18,18 +39,26 @@ PP를 하나의 고정 회귀식으로 모든 데이터에 강제하지 않고, 
 | MATR batch 2 strict tail | **0.862** | V-REx | 0.850 | +0.012 |
 | N-CMAPSS unseen-engine × high-TRA | **0.937** | Engression | 0.932 | +0.005 |
 
-MATR batch 2의 과거 CPGRU 0.912는 train 11,553행 결과이고, 최종 PP는 최저 경계 행을 제외한 11,552행을 사용했다. 정확히 11,552행으로 맞춘 CPGRU ensemble은 0.537이다. 따라서 0.912는 protocol-sensitivity 결과이며 위 직접 비교에는 사용하지 않는다.
+MATR batch 2의 과거 CPGRU 0.912는 train 11,553행 결과이고, PP-X
+paper-selected route는 최저 경계 행을 제외한 11,552행을 사용했다. 정확히
+11,552행으로 맞춘 CPGRU ensemble은 0.537이다. 따라서 0.912는
+protocol-sensitivity 결과이며 위 직접 비교에는 사용하지 않는다.
 
 ## 2. 물리 unit 단위 통계 근거
 
-최종 PP의 저장된 5-seed 예측과 행·target·unit 순서가 정확히 같은 경쟁모델 예측만 사용해 다시 계산했다. 비교 효과는 각 물리 unit에서 다음의 대칭형 log-RMSE ratio로 정의했다.
+PP-X paper-selected route의 저장된 5-seed 예측과 행·target·unit 순서가 정확히
+같은 경쟁모델 예측만 사용해 다시 계산했다. 비교 효과는 각 물리 unit에서 다음의
+대칭형 log-RMSE ratio로 정의했다.
 
 \[
 e_u = \log\frac{\operatorname{RMSE}_{u,\,comparison}}
-                    {\operatorname{RMSE}_{u,\,PP}}
+                    {\operatorname{RMSE}_{u,\,PP\text{-}X}}
 \]
 
-양수이면 PP의 RMSE가 작다. 상대 RMSE 감소율 `1-RMSE_PP/RMSE_comparison`은 비교모델 RMSE가 매우 작은 Virkler 일부 시편에서 음의 값이 무한히 커질 수 있으므로, 추론의 주 효과크기는 log ratio로 사용한다.
+양수이면 PP-X의 RMSE가 작다. 상대 RMSE 감소율
+`1-RMSE_PPX/RMSE_comparison`은 비교모델 RMSE가 매우 작은 Virkler 일부
+시편에서 음의 값이 무한히 커질 수 있으므로, 추론의 주 효과크기는 log ratio로
+사용한다.
 
 - 9개 데이터셋 모두 prediction-ensemble pooled R² 우세
 - 데이터셋 승패 exact sign test: **p = 0.00390625**
@@ -38,7 +67,7 @@ e_u = \log\frac{\operatorname{RMSE}_{u,\,comparison}}
 - 데이터셋과 unit을 함께 재표집한 hierarchical bootstrap 95% CI: **[0.172, 0.665]**
 - 기하평균 RMSE 감소: **33.8%**, 95% CI 환산 시 **15.8%–48.6%**
 
-| 데이터셋 | PP seed R² 평균±SD | 저장 예측 비교모델 평균±SD | PP 승리 unit | mean log-RMSE ratio | unit bootstrap 95% CI | BH q |
+| 데이터셋 | PP-X seed R² 평균±SD | 저장 예측 비교모델 평균±SD | PP-X 승리 unit | mean log-RMSE ratio | unit bootstrap 95% CI | BH q |
 |---|---:|---:|---:|---:|---:|---:|
 | HUST | 0.953±0.013 | 0.591±0.227 | 10/16 | 0.222 | [−0.106, 0.548] | 0.375 |
 | Virkler | 0.857±0.021 | 0.743±0.275 | 8/10 | 0.162 | [−0.681, 0.864] | 0.750 |
@@ -52,9 +81,9 @@ e_u = \log\frac{\operatorname{RMSE}_{u,\,comparison}}
 
 RWTH·MATR-b2·N-CMAPSS의 표 첫 절에 쓴 최강 비교모델은 각각 V-REx 0.645, V-REx 0.850, Engression 0.932다. 이 세 모델은 현재 row-level 예측 파일이 없으므로 unit paired 검정에는 저장 예측이 있는 direct NN 0.633, GroupDRO 0.691, monotone NN 0.855를 사용했다. 최강 비교와의 성능 차이는 pooled R²로만 보고하며 두 종류의 증거를 섞지 않는다.
 
-## 3. 구성요소가 필요한 이유
+## 3. PP-X 구성요소가 필요한 이유
 
-최종 PP 성능은 하나의 prior나 하나의 후처리에서 나온 결과가 아니다.
+PP-X 성능은 하나의 prior나 하나의 후처리에서 나온 결과가 아니다.
 
 | 구성요소 | matched 제거 결과 → 포함 결과 | ΔR² | 해석 |
 |---|---:|---:|---|
@@ -68,11 +97,19 @@ RWTH·MATR-b2·N-CMAPSS의 표 첫 절에 쓴 최강 비교모델은 각각 V-RE
 | validation causal route | NASA short-only 0.572 → selected 0.584 | +0.012 | 유효 history scale 선택 |
 | validation multiscale route | N-CMAPSS basic 0.928 → selected 0.937 | +0.009 | 운전조건과 열화 시간척도 선택 |
 
-고정 residual bound와 full rate history는 모든 곳에서 이롭지 않다. MICH에서 unbounded residual은 0.759로 fixed-bound 0.468보다 높고, margin-history-only는 0.715로 기존 full-history 0.468보다 높다. 최종 dual-scale PP는 이 반례를 이용해 local bound와 broad bound를 support 이질성에 따라 전환하여 MICH를 0.751로 복구했다. 이 결과가 modular design의 직접적인 필요성을 뒷받침한다.
+고정 residual bound와 full rate history는 모든 곳에서 이롭지 않다. MICH에서
+unbounded residual은 0.759로 fixed-bound 0.468보다 높고,
+margin-history-only는 0.715로 기존 full-history 0.468보다 높다. 역사적
+dual-scale PP executor는 이 반례를 이용해 local bound와 broad bound를 support
+이질성에 따라 전환하여 MICH를 0.751로 복구했다. 이 결과가 PP-X의
+contract-conditioned modular design을 뒷받침한다.
 
 ## 4. 공통 백본 실험의 올바른 위치
 
-모든 데이터셋에 같은 PP 백본을 강제한 matched 실험에서는 PP가 plain MLP를 12개 중 6개에서만 이겼다. 이 결과는 최종 PP 성능표가 아니며, prior contract 없이 하나의 구조를 강제하면 실패한다는 negative ablation이다.
+모든 데이터셋에 같은 legacy PP 백본을 강제한 matched 실험에서는 PP가 plain
+MLP를 12개 중 6개에서만 이겼다. 이 결과는 PP-X 최종 성능표가 아니며, typed
+prior contract 없이 하나의 구조를 강제하면 실패한다는 historical negative
+ablation이다.
 
 validation에서 PP/MLP를 선택하는 단순 route도 12개 중 7개만 맞고 false accept 4개가 발생했다. Milling은 validation 상대 RMSE가 51.1% 개선됐지만 test에서는 PP 상대 효과가 −6.21이었다. 따라서 작은 validation 점수 하나가 아니라 `prior role → mechanism coverage → executor` 순서가 필요하다.
 
@@ -82,7 +119,7 @@ Milling은 추가 원인 분석에서 공식 고장경계 `VB=0.50`이 있음에
 
 논문의 비교 구조는 다음과 같이 쓴다.
 
-1. **주 결과:** final modular PP와 강한 동일-split 비교모델
+1. **주 결과:** PP-X paper-selected route와 강한 동일-split 비교모델
 2. **matched architecture ablation:** 공통 PP backbone 대 plain MLP
 3. **module ablation:** prior별 executor의 on/off 및 상호작용
 4. **scope failures:** XJTU, FEMTO, milling과 외부 negative cohort
@@ -102,7 +139,10 @@ Hull은 test가 학습 support 밖에 있는지 정의하는 데 유효하지만
 
 ## 6. 불확실성과 coverage
 
-기존 support-scaled 90% block-conformal 감사에서는 외부 NASA/UCF 0.857, CALCE 0.927, HNEI 0.394의 empirical coverage를 얻었다. CALCE는 평균 폭이 약 416 cycles로 지나치게 넓었고 HNEI는 coverage가 무너졌다. 따라서 현재 결과로 “PP가 언제 틀릴지 완전히 안다”고 주장하지 않는다.
+기존 support-scaled 90% block-conformal 감사에서는 외부 NASA/UCF 0.857,
+CALCE 0.927, HNEI 0.394의 empirical coverage를 얻었다. CALCE는 평균 폭이
+약 416 cycles로 지나치게 넓었고 HNEI는 coverage가 무너졌다. 따라서 현재
+결과로 “PP-X가 언제 틀릴지 완전히 안다”고 주장하지 않는다.
 
 방어 가능한 주장은 다음과 같다.
 
@@ -110,15 +150,18 @@ Hull은 test가 학습 support 밖에 있는지 정의하는 데 유효하지만
 
 OOF disagreement target으로 학습한 uncertainty head와 risk–coverage 결과는 point uncertainty의 근거로 사용하고, finite-sample prediction interval 보장은 별도로 구분한다.
 
-## 7. 논문 novelty
+## 7. PP-X 논문 novelty
 
-PP의 novelty는 “물리식과 NN을 결합했다”는 일반적 PINN 주장에 두지 않는다. 논문에서 강하게 방어할 수 있는 차별점은 다음 세 가지의 결합이다.
+PP-X의 novelty는 “물리식과 NN을 결합했다”는 일반적 PINN 주장에 두지 않는다.
+논문에서 강하게 방어할 수 있는 차별점은 다음 세 가지의 결합이다.
 
 1. **Typed prior contract:** boundary, monotone tail, causal history, support, regime transport처럼 관측 가능한 prior의 역할을 명시한다.
 2. **Prior-preserving residual executor:** 안정적 tail 경로를 동결하고 NN이 bounded 또는 support-adaptive residual만 학습하게 하여 외삽에서 prior를 덮어쓰지 못하게 한다.
 3. **Evidence-gated modularity:** optional module은 validation physical-unit evidence를 만족할 때만 승인하고, 맞지 않는 prior를 모든 도메인에 강제하지 않는다.
 
-이 구조는 PAE와 역할이 다르다. PP 논문은 prior가 주어졌을 때 이를 보존하며 예측하는 executor를 다룬다. 후속 PAE는 어떤 prior contract를 컴파일하고 선택할지를 다룬다. 박사논문에서는 `PAE compiler → PP executor → applicability/uncertainty certificate`의 하나의 프레임워크로 연결할 수 있다.
+PP-X는 typed contract, prior-residual core, validation approval와 fallback을
+논문 기여로 다룬다. 후속 PAE가 있다면 PP-X의 구조를 재주장하지 않고 더 넓은
+prior 후보 생성·컴파일 문제를 다뤄야 한다.
 
 ## 8. 제출 수준과 주장 범위
 
@@ -132,16 +175,26 @@ PP의 novelty는 “물리식과 NN을 결합했다”는 일반적 PINN 주장�
 - 1D/2D/3D hull 민감도 및 support-distance 분석
 - 불확실성, coverage, 계산비용, 실패 데이터셋의 범위 분석
 
-추가로 9개 setting의 8개 baseline을 모두 30 validation candidate와 5 refit
-seed로 재학습했다. PP-X는 최강 동일예산 비교군보다 8/9 setting에서 pooled R²가
-높았고 dataset sign test는 양측 p=0.0391이었다. 미개봉 N-CMAPSS DS03에서는
+### 서로 분리해 보고할 두 retrospective benchmark
+
+1. 위 9/9, p=0.00390625는 개발 과정에서 확보된 **strongest same-split
+   mixed-comparator portfolio**다.
+2. 별도 8/9, p=0.0391은 8개 baseline을 각각 30 validation candidate와
+   5 refit seed로 재학습한 **uniformly tuned equal-budget audit**다.
+
+둘은 comparator 구성과 탐색 예산 정의가 다르므로 한 개의 9-setting 우월성
+검정처럼 합치지 않는다. equal-budget 원표는
+`FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`를 기준으로 한다.
+
+미개봉 N-CMAPSS DS03에서는
 동결 gate가 basic/multiscale prior를 거절하고 실제 test-best PP-X route인 direct
-fallback을 선택했다. 다만 Engression R² 0.901이 선택 PP-X 0.882보다 높아
+fallback을 선택했다. 다만 Engression R² 0.9013이 선택 PP-X fallback
+0.8818보다 높아
 prospective predictive superiority는 통과하지 못했다. 현재 논문의 주장은 다음
 문장으로 제한하는 것이 성능과 정직성을 함께 살린다.
 
 > Across nine concept-aligned extrapolation settings, the development-final
-> modular PP improved pooled R² over the strongest evaluated same-split
+> PP-X improved pooled R² over the strongest evaluated same-split
 > comparator in every setting and exceeded the strongest uniformly tuned
 > 30-candidate baseline in eight of nine settings. Across 77 row-aligned
 > physical units, its equal-dataset geometric mean RMSE reduction was 33.8%
@@ -151,19 +204,19 @@ prospective predictive superiority는 통과하지 못했다. 현재 논문의 �
 
 ## 9. 관련 방법과의 구분
 
-- Balestriero et al.은 고차원 표현에서 test point가 training convex hull 밖에 놓이는 현상을 분석한다. PP는 hull 밖 여부를 새로 발명했다고 주장하지 않고, 이 geometry를 executor의 support 정보로 사용한다: [Learning in High Dimension Always Amounts to Extrapolation](https://arxiv.org/abs/2110.09485).
+- Balestriero et al.은 고차원 표현에서 test point가 training convex hull 밖에 놓이는 현상을 분석한다. PP-X는 hull 밖 여부를 새로 발명했다고 주장하지 않고, 이 geometry를 executor의 support 정보로 사용한다: [Learning in High Dimension Always Amounts to Extrapolation](https://arxiv.org/abs/2110.09485).
 - Bonnasse-Gahot은 convex-hull membership만으로 neural-network 일반화를 설명하기 어렵고 proximity가 더 직접적일 수 있음을 보인다. 본 연구의 1D/2D/3D hull 및 kNN 감사 결과와 일치한다: [Interpolation, extrapolation, and local generalization in common neural networks](https://arxiv.org/abs/2207.08648).
-- Webb et al.은 convex domain에서 벗어난 정도를 연속적으로 다루는 representation을 연구한다. PP의 support-distance decay와 관련되지만 PP는 stable tail path와 bounded residual을 직접 구성한다는 점에서 다르다: [Learning Representations that Support Extrapolation](https://proceedings.mlr.press/v119/webb20a.html).
-- Risk Extrapolation은 여러 training domain의 risk로부터 domain-level extrapolation을 다룬다. PP는 개별 시계열 상태의 tail geometry와 prior-preserving prediction path를 다룬다는 차이가 있다: [Out-of-Distribution Generalization via Risk Extrapolation](https://proceedings.mlr.press/v139/krueger21a.html).
+- Webb et al.은 convex domain에서 벗어난 정도를 연속적으로 다루는 representation을 연구한다. PP-X의 support-distance decay executor와 관련되지만 PP-X는 stable prior path와 residual 제약을 직접 구성한다는 점에서 다르다: [Learning Representations that Support Extrapolation](https://proceedings.mlr.press/v119/webb20a.html).
+- Risk Extrapolation은 여러 training domain의 risk로부터 domain-level extrapolation을 다룬다. PP-X는 개별 시계열 상태의 tail geometry와 contract-conditioned prior-residual execution을 다룬다는 차이가 있다: [Out-of-Distribution Generalization via Risk Extrapolation](https://proceedings.mlr.press/v139/krueger21a.html).
 
 따라서 단일 구성요소인 hull, residual network, affine tail, validation selection 각각은 기존 개념과 겹칠 수 있다. 논문의 모델링 novelty는 이들을 나열하는 데 있지 않고, **typed prior contract를 안정적 tail path와 NN residual의 구조적 제약으로 컴파일하고, support와 validation evidence에 따라 prior별 executor를 승인하는 전체 설계**에 둔다.
 
 ## 10. 재현 산출물
 
-- 최종 통계 실행: `experiments/final_modular_pp_evidence.py`
-- 원시 통계: `results/final_modular_pp_evidence_v1/results.json`
+- 최종 통계 실행: `experiments/final_modular_pp_evidence.py` *(역사적 파일명)*
+- 원시 통계: `results/final_modular_pp_evidence_v1/results.json` *(역사적 경로)*
 - 물리 unit 표: `results/final_modular_pp_evidence_v1/unit_effects.csv`
-- 최종 성능·forest·seed 그림: `figures/final_modular_pp_evidence_v1/`
+- 최종 성능·forest·seed 그림: `figures/final_modular_pp_evidence_v1/` *(역사적 경로)*
 - Hull 감사: `experiments/journal_support_geometry_audit.py`
 - Validation route 감사: `experiments/journal_validation_route_audit.py`
 - 공통백본 통계: `experiments/journal_statistical_evidence.py`

@@ -1,25 +1,41 @@
-# 최종 PP 기준 통합 경쟁모델 표
+# PP-X paper-selected route 통합 경쟁모델 표
 
-이 표가 PP 발표와 논문 초안에서 사용할 **현재 최종 개발 모델** 기준 표다. 모든 값은 각 데이터셋의 고정 strict extrapolation test에서 계산한 pooled R²다. `최종 PP`는 validation으로 선택한 구조·학습 설정·승인된 PP 내부 모듈을 반영한다. 따라서 이전의 기본 PP, support-PP, 봉인 confirmatory PP 수치와 섞어 비교하지 않는다.
+> **Canonical paper 기준:** 논문 메인은 PP-X다. 9개 retrospective
+> paper-main setting의 최신 equal-budget 비교는
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`, 전체 주장 경계는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다. 이 파일명과 아래
+> legacy PP/BQ-PP 라벨은 재현성을 위해 유지한다.
 
-| 데이터셋 / 외삽 설정 | 최종 PP | 현재 최고 비-PP 경쟁모델 | TabPFN v3 | PP 판정 |
+이 표는 PP-X가 validation으로 선택한 구조·학습 설정·승인 executor를 반영한
+paper-selected route를 정리한다. 이전 기본 PP, support-PP, 봉인 confirmatory PP
+수치와 섞지 않는다.
+
+| 데이터셋 / 외삽 설정 | PP-X paper-selected route | strongest same-split comparator | TabPFN v3 | 근거 층 / 판정 |
 |---|---:|---:|---:|---|
 | HUST protocol-tail | **0.958** | GroupDRO 0.934 | 0.218 | 우세 |
 | Virkler crack-tail | **0.888** | linear-tail RBF 0.805 | 0.621 | 우세 |
 | NASA battery LOO-tail | **0.584** | linear-tail RBF 0.550 | −0.691 | 우세 |
-| Sunwoda unseen-cell tail | **0.939** | linear-tail RBF 0.838 | −0.886 | validation-approved bounded BQ-PP 우세 |
-| RWTH unseen-cell tail | **0.878** | V-REx 0.645 | −2.174 | validation-approved bounded BQ-PP 우세 |
+| Sunwoda unseen-cell tail | **0.939** | linear-tail RBF 0.838 | −0.886 | retrospective PP-X bounded BQ executor 우세 |
+| RWTH unseen-cell tail | **0.878** | V-REx 0.645 | −2.174 | retrospective PP-X bounded BQ executor 우세 |
 | MATR2019 strict health-tail | **0.466** | 같은 validation calibrator를 적용한 FT-Transformer 0.377 | 미실행 | 우세 |
-| MATR batch 2 strict tail | **0.862** | V-REx 0.850 | 0.618† | 우세 |
-| N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | 동률권에 가까운 우세 |
-| MICH unseen-cell tail | **0.751** | direct NN 0.684 | −1.860 | 개선 dual-scale PP 우세 |
-| XJTU condition transfer | **0.257** | linear-tail RBF −1.418 | 미실행 | progress-temporal PP + validation opposite-ray scale transport; post-test 개발 성공§ |
-| FEMTO endpoint transfer | **0.075*** | 교정 causal GRU −0.248 | 미실행 | prior abstention → waveform neural safety; ensemble만 양수 |
-| NASA milling material transfer | **0.341** | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | inspection-calibrated boundary-quotient PP 우세‡ |
+| MATR batch 2 strict tail | **0.862** | V-REx 0.850 | 0.618† | retrospective PP-X route 우세 |
+| N-CMAPSS hard TRA extrapolation | **0.937** | Engression 0.932 | 0.934 | retrospective, 동률권에 가까운 우세 |
+| MICH unseen-cell tail | **0.751** | direct NN 0.684 | −1.860 | retrospective PP-X dual-scale executor 우세 |
+| XJTU condition transfer | **0.257** | linear-tail RBF −1.418 | 미실행 | limitation; legacy progress-temporal PP post-test 개발§ |
+| FEMTO endpoint transfer | **0.075*** | 교정 causal GRU −0.248 | 미실행 | limitation; PP-X abstention/neural safety, ensemble만 양수 |
+| NASA milling material transfer | **0.341** | tuned direct NN −0.476 (GroupDRO −0.691) | 미실행 | limitation; boundary-quotient post-test 개발‡ |
 
 ## 이 표를 읽는 방법
 
-- **양의 R² 12개 설정**은 final selected PP-X route에서 확보됐다. 단, FEMTO의 .075는 다섯 예측의 ensemble만 양수이고 개별 seed는 모두 음수이므로 강건한 성공이나 경쟁모델 우세에 포함하지 않는다. XJTU의 0.257은 이미 관측된 test에서 구조를 개발한 결과라 독립 확증 성공에는 포함하지 않는다. N-CMAPSS의 PP 0.937 대 Engression 0.932 차이는 작으므로 엄밀한 우월성보다 동률권에 가까운 우세로 쓴다.
+- 표의 앞 9개 설정만 PP-X retrospective paper-main portfolio다.
+  strongest same-split mixed comparator 대비 9/9, p=0.00390625이며,
+  uniformly tuned 30-candidate comparator 대비 결과는 별도로 8/9,
+  p=0.0391이다. 두 evidence를 혼합하지 않는다.
+- XJTU·FEMTO·NASA milling은 limitation/development 행이며 main superiority
+  승수에 포함하지 않는다. FEMTO의 .075는 다섯 예측의 ensemble만 양수이고
+  개별 seed는 모두 음수다. XJTU와 milling은 이미 관측된 test에서 개발됐다.
+- N-CMAPSS의 PP-X 0.937 대 Engression 0.932 차이는 작으므로 엄밀한
+  우월성보다 동률권에 가까운 우세로 쓴다.
 - MICH는 support-adaptive dual-scale boundary executor로 0.751까지 복구됐다. Sunwoda·RWTH는 dual-scale을 전역으로 쓰지 않고 fixed bounded executor를 사용한다. Milling은 공식 고장경계 `VB=0.50`을 사용한 quotient prior로 양의 R2를 회복했다.
 
 > **2026-09-09 FEMTO 정정:** 과거 −0.571 경로는 6열 CSV에서 실제 진동 열 4/5가 아니라 시간 metadata 열 0/1을 사용했다. 해당 값과 같은 입력에서 나온 비교값은 최종 성능 근거에서 철회한다. 교정 이후 PP-X는 source evidence로 physical prior를 거절하고 waveform neural safety로 간다. `*.075`는 ensemble R²이며 individual seed 안정성은 해결되지 않았다.
@@ -46,6 +62,14 @@ MATRb2 temporal PP 후보는 단일 seed에서 0.914를 기록했지만 5-seed �
 ## 이전 MATR batch 2 수치와의 관계
 
 MATR batch 2의 `0.471`(기본 PP) 및 `0.523`(support-PP)은 test 공개 전에 동결한 봉인 confirmatory 실험 결과다. 이후 validation-only selection으로 PP 구조·optimizer·state/rate transport를 개발한 최종 PP는 `0.862`이다. 따라서 **최종 모델 성능 표에는 0.862**를 쓴다. 독립 확증 문단에서는 봉인 결과 0.523을 별도로 보고하며, 0.862를 새 cohort 확인 결과처럼 쓰지 않는다.
+
+## Prospective DS03는 별도 보고
+
+N-CMAPSS DS03는 위 retrospective 표의 열세 번째 행처럼 합치지 않는다. 동결
+PP-X는 direct fallback을 선택해 route selection은 PASS였지만, pooled R²는
+PP-X fallback **0.8818**, Engression **0.9013**으로 predictive superiority는
+FAIL이었다. 이는 같은 N-CMAPSS 계열의 prospective route-selection evidence이며,
+독립 prospective predictive superiority는 아직 확보되지 않았다.
 
 ## 근거 문서
 

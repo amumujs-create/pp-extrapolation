@@ -1,18 +1,23 @@
-# PP 공부용 부록 색인
+# PP-X 공부용 부록 색인
 
 발표 고정본(단일): `pp_pae_total/output/PP_Research_Detailed_v2.pptx`  
-갱신: 2026-09 — SAAR 주결과 유지, Zn/교차도메인·주장 경계 슬라이드 추가  
+갱신: 2026-09 — 논문 메인을 PP-X로 통일; SAAR는 historical alias로 유지
 ※ `ppt/pp/` · `pp-extrapolation/slides/`에 PPTX 복사본을 두지 않음
 
 ## 명칭
 
-- **SAAR** = Support-Aware Affine–Residual Network = **논문 주 PP** (adaptive dual-scale)
+- **PP-X** = 논문 메인: validation-approved prior-residual framework for
+  contract-conditioned extrapolation
+- **SAAR** = Support-Aware Affine–Residual Network: legacy PP/adaptive
+  dual-scale backbone의 historical alias
+- **CCMR v2.2** = trajectory-domain risk-certified executor evidence,
+  paper main 아님
 - 상세: `ppt/pp/SAAR_NAMING.md` · `pp-extrapolation/SAAR_NAMING_KO.md`
 
 ## 권장 공부 순서
 
 1. `ppt/외삽자료/extrapolation-papers/외삽_문헌조사_통합.pptx`
-2. PPT 본문 A–B (문제·SAAR 식)
+2. PPT 본문 A–B (문제·PP-X 구조; SAAR 식은 historical backbone)
 3. PPT 본문 C: 3배터리 주표 → **최신 업데이트 / Zn / 교차도메인 / 점수 원인**
 4. PPT 본문 D: 저널 타깃 · PAE 경계 · 요약
 5. 아래 md 원문
@@ -24,7 +29,7 @@
 | PP 연구 바운더리 | unit-disjoint out-of-support RUL / equation-free |
 | 외삽 범위 규칙 | 계약→unit분리→hull-out→val-only |
 | 조건 적합도 | 6항 검사 · Pass/Weak/Fail |
-| 최신 업데이트 | SAAR 유지 · Zn 확장 · 교차 한계 · PAE 비겹침 |
+| 최신 업데이트 | PP-X 메인 · SAAR historical alias · 교차 한계 |
 | Zn-ion 경로 | BQ 실패 → RBF-regime → shrinkage/refit (개발) |
 | 교차 도메인 | XJTU 0.257 개발 · FEMTO 판정 보류 · Milling 감사 |
 
@@ -32,7 +37,8 @@
 
 | 주제 | 파일 |
 |---|---|
-| 주결과 SAAR | `UNIFIED_DUAL_SCALE_PP_IMPROVEMENT_KO.md` |
+| PP-X 주결과·주장 경계 | `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md` |
+| legacy SAAR mechanism 결과 | `UNIFIED_DUAL_SCALE_PP_IMPROVEMENT_KO.md` |
 | 정보·주장 한계 | `PP_INFORMATION_LIMITS_AND_CLAIMS_KO.md` |
 | Zn 경로·진단 | `ZNION_*`, `PP_NEXT_MODEL_HANDOFF_DIAGNOSIS_KO.md` |
 | 전체 개선 인계 | `PP_TOTAL_IMPROVEMENT_HANDOFF_KO.md` |

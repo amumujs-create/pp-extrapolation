@@ -1,8 +1,18 @@
-# PP 대 Engression 통계 분석
+# Legacy PP 대 Engression retrospective 통계 분석
+
+> **Canonical paper pointer:** 이 문서는 8-dataset 역사적 paired 분석이다.
+> 현재 논문 주체는 PP-X이며, 최신 9-setting equal-budget 결과는
+> `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`, prospective DS03 결과는
+> `NC_MAPSS_DS03_PPX_PROSPECTIVE_RESULTS_KO.md`를 우선한다. 이 8/8 분석을
+> strongest same-split 9/9 또는 equal-budget 8/9와 결합해 하나의 검정으로
+> 보고하지 않는다.
 
 ## 판정
 
-PP는 pooled R²에서 8개 데이터셋 모두 Engression보다 높지만, N-CMAPSS와 NASA 각각의 개체 수준 분석에서는 유의한 우월성을 확정할 수 없다. 따라서 논문에는 전체 방향 일관성과 데이터셋 내부 불확실성을 따로 보고해야 한다.
+당시 PP route는 pooled R²에서 8개 데이터셋 모두 Engression보다 높았지만,
+N-CMAPSS와 NASA 각각의 개체 수준 분석에서는 유의한 우월성을 확정할 수 없다.
+이는 retrospective secondary evidence이며 PP-X의 prospective predictive
+superiority를 확립하지 않는다.
 
 ## 8개 도메인 계층 bootstrap
 
@@ -57,12 +67,14 @@ PP는 평가점이 충분한 엔진 11과 15에서 모두 이겼다. 엔진 14�
 
 8개 데이터셋에서 median hull distance와 `PP R² − Engression R²`의 Spearman 상관은 ρ=0.667, 양측 p=0.071이다. 먼 외삽에서 PP의 affine/regime tail이 더 유리하다는 가설과 방향은 맞지만, 표본 8개이고 MATR2019의 큰 차이에 영향을 받는 탐색적 결과다. 논문의 메커니즘 근거로 사용하려면 각 데이터셋 안에서 distance shell별 paired error를 계산하고 새 cohort에서 같은 기울기를 확인해야 한다.
 
-## 논문에서 사용할 수 있는 주장
+## 현재 PP-X 논문에서의 사용 범위
 
-- 사용할 수 있음: PP가 고정된 pooled R²에서 8개 평가 설정 모두 Engression보다 높은 점수를 냈다.
+- 역사적 secondary analysis로 사용: 당시 PP가 고정된 pooled R²에서 8개
+  평가 설정 모두 Engression보다 높은 점수를 냈다.
 - 사용할 수 있음: Engression 대비 이득은 외삽 거리가 멀수록 커지는 경향을 보였다.
 - 제한해서 사용: N-CMAPSS와 NASA에서는 점추정상 PP가 높았지만 개체 수준 신뢰구간은 0을 포함했다.
-- 아직 사용할 수 없음: PP가 Engression보다 통계적으로 유의하게 보편 우월하다.
+- 아직 사용할 수 없음: PP-X가 Engression보다 통계적으로 유의하게 보편
+  또는 prospective 우월하다.
 
 확증 실험은 새 데이터의 split·모델·튜닝 예산·pooled R²·unit bootstrap을 미리 고정해야 한다. 최소한 NASA형 독립 배터리 수와 N-CMAPSS형 test engine 수를 늘려야 한다. 현재 자료에서는 seed 수를 늘리는 것보다 물리적 개체 수를 늘리는 편이 더 중요하다.
 

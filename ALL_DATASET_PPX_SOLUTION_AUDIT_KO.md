@@ -4,19 +4,29 @@
 감사 범위: 로컬 `data/` 36개 cohort, legacy benchmark 8개, 실험 스크립트
 234개, 결과 JSON 242개, protocol 38개
 
+> **논문 상태 배너:** 현재 동결된 paper Algorithm 1은
+> `protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`의 PP-X다. 이 문서가
+> 제안한 CRPE는 전체 데이터 자산을 바탕으로 한 **후속 연구 후보**이며 paper
+> main이나 동결 Algorithm 1이 아니다. CRT와 GCIE는 승격 기각되어 Algorithm 1에
+> 포함되지 않는다. CCMR v2.2는 trajectory-domain risk-certified executor
+> evidence일 뿐 paper main이 아니다. 최신 주장과 수치는
+> `PPX_TOP_JOURNAL_VALIDATION_PACKAGE_KO.md`를 우선한다.
+
 ## 결론
 
-현재 문제는 PP prior 자체가 약해서가 아니라, 서로 다른 데이터 생성 구조에
-동일한 PP-X core와 하나의 validation gate를 적용한 데 있다. 전체 증거가
-지지하는 해법은 더 복잡한 단일 gate가 아니라 다음의
-**Contract-Conditioned Risk-Budgeted Prior Experts(CRPE)** 구조다.
+현재 논문 결론은 frozen PP-X의 typed contract → admissible prior-residual
+executor → validation approval → fallback 순서다. 전체 데이터 감사는 서로
+다른 생성 구조에 동일한 core와 하나의 validation gate를 적용하면 실패한다는
+배경을 제공한다. 아래 **Contract-Conditioned Risk-Budgeted Prior
+Experts(CRPE)**는 이 한계를 더 확장해 다룰 후속 후보이지, 현재 paper-level
+결론이나 성능 주체가 아니다.
 
 1. 데이터 계약으로 expert family를 먼저 고른다.
 2. 각 family 안에서 강한 no-prior baseline을 anchor로 둔다.
 3. prior residual만 연속적으로 허용한다.
 4. raw physical-unit CVaR hard cap을 통과하지 못하면 baseline을 정확히 복원한다.
 
-이 구조는 아직 신규 미개봉 cohort에서 확증되지 않은 설계안이다.
+CRPE는 아직 신규 미개봉 cohort에서 확증되지 않은 설계안이다.
 
 ## 전체 데이터가 보여 준 사실
 
@@ -36,7 +46,7 @@ PP unit gain의 dataset-level 연관은 모두 유의하지 않았다
 
 route를 데이터 계약에 맞게 분리한 final modular evidence에서는 9개 dataset,
 77 physical unit에서 ensemble 기준 9/9 승리했고 dataset sign test
-p=.0039, 최종 executor를 데이터셋별로 올바르게 적용한 교정 감사에서
+p=.00390625, 최종 executor를 데이터셋별로 올바르게 적용한 교정 감사에서
 geometric-mean RMSE reduction은 33.8%였다.
 
 단, 이 route들은 서로 다른 retrospective 개발을 거쳐 선택됐으므로 그 숫자를
@@ -68,7 +78,7 @@ hard constraint로 남아야 한다.
 도달 가능했다. target, boundary age, residual bound의 단위가 맞지 않으면
 어떤 gate도 개선할 수 없다.
 
-## 제안 모형: CRPE
+## 후속 연구 후보: CRPE
 
 \[
 \hat y(x)=B_c(x)+\alpha_c(x)\{P_c(x)-B_c(x)\}
@@ -165,7 +175,7 @@ condition-shift 강건성 확증에는 실패했으며, 다음 버전에는 과�
 완료된 동일-horizon shadow forecast 이득 기반 causal backtest gate가
 필요하다.
 
-## 왜 이 구조가 현재 RBPR보다 낫나
+## CRPE 후속 가설이 현재 RBPR보다 나을 수 있는 이유
 
 현재 RBPR는 Stanford·ISU의 같은 direct residual family 안에서 prior 양만
 조절한다. CRPE는 prior의 종류 자체가 데이터 계약과 맞지 않을 때 alpha를
@@ -175,7 +185,7 @@ condition-shift 강건성 확증에는 실패했으며, 다음 버전에는 과�
 “어떤 물리적 continuation law가 맞는가”는 알려 주지 않는다. 전체 dataset의
 성공 패턴은 후자가 더 중요하다는 증거다.
 
-## 구현·검증 순서
+## CRPE 후속 구현·검증 순서
 
 1. 모든 target과 correction을 dimensionless scale로 통일
 2. 네 contract를 코드 enum과 필수 입력 schema로 고정
@@ -191,12 +201,16 @@ condition-shift 강건성 확증에는 실패했으며, 다음 버전에는 과�
 - 최소 두 family에서 독립 cohort 개선
 - fallback max absolute replay error 0
 
-## 당장 유지할 것
+## 현재 논문에서 유지할 것
 
+- frozen PP-X Algorithm 1과 paper-selected route를 최우선 기준으로 유지
+- CRT·GCIE는 기각 결과로만 보존하고 Algorithm 1에 추가하지 않음
+- CCMR v2.2는 trajectory-domain mechanism/safety evidence로만 사용
 - Stanford·ISU direct continuation: Auto-Regime Weak-Prior v1.4를 차기
   개발 후보, Stability-First v1.3을 공통 fallback 안전층으로 유지
 - hierarchical RBPR와 crossfit monotone RBPR: 실패 ablation으로 유지
-- final modular route 결과: CRPE expert 초기값으로 사용
+- historical final modular PP route 결과: PP-X의 retrospective mechanism
+  evidence로 유지하고, 별도의 CRPE 연구에서는 expert 초기값 후보로만 사용
 - 신규 확증 전에는 기존 test를 보고 threshold, shrinkage, family rule을 바꾸지 않음
 
 ## 핵심 근거
