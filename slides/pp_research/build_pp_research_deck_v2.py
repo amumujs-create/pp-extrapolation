@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 36
+    TOTAL = 37
 
     def p():
         nonlocal n
@@ -309,7 +309,34 @@ def build():
              11, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
-    # 5 Research route — full diagram
+    # 5 Why the contribution matters
+    s = blank(prs)
+    head(s, "그래서 PP-X로 무엇을 할 수 있는가",
+         "외삽 가정을 논문 속 아이디어가 아니라, 새로운 cohort에 적용할 수 있는 승인·거절 결정으로 바꾼다.")
+    add_text(s, 48, 82, 1184, 36,
+             "현장 문제  학습 범위를 벗어난 배터리·설비·재료에서는 ‘어떤 prior를 믿고 얼마나 수정할지’를 test 정답 없이 결정해야 한다.",
+             15, C["ink"], True)
+
+    uses = [
+        (48, "새 cohort 수명 예측", "새 충전조건·운전조건·재료에서\n경계·추세·열화 prior가 유효한지\nsource/validation evidence로 먼저 판정", "무조건 적용한 prior가\n말기 RUL을 망치는 위험 감소", C["soft_blue"], C["blue"]),
+        (350, "도메인별 지식 재사용", "배터리는 failure boundary,\n균열은 진행 법칙, 엔진은 regime처럼\n서로 다른 지식을 같은 절차로 연결", "새 도메인마다 완전히 다른\n배포 논리를 다시 만들 필요 감소", C["soft"], C["ink"]),
+        (652, "안전한 자동 후퇴", "prior나 executor의 이득 근거가 없으면\n미리 정한 direct·persistence 경로\n또는 abstention으로 전환", "틀린 구조를 억지로 실행하지 않고\n최소한의 예측 경로를 유지", C["soft_orange"], C["orange"]),
+        (954, "감사 가능한 의사결정", "왜 이 prior·bound·history·transport가\n켜졌는지 unit-level evidence와\nfrozen artifact로 추적", "의료·제조·예지보전에서\n사후 튜닝과 선택 편향을 점검", C["soft"], C["ink"]),
+    ]
+    for x, title, action, value, fill, line in uses:
+        rect(s, x, 142, 278, 344, fill, line, True)
+        add_text(s, x + 18, 160, 242, 30, title, 15, line, True, "center")
+        add_text(s, x + 18, 216, 242, 104, action, 12, C["ink"], False, "center")
+        hline(s, x + 24, x + 254, 340, C["rule"])
+        add_text(s, x + 18, 366, 242, 76, value, 12, line, True, "center")
+
+    rect(s, 48, 520, 1184, 82, C["ink"], None, True)
+    add_text(s, 70, 538, 1140, 46,
+             "최종 가치  PP-X는 ‘항상 맞는 보편 모델’이 아니라, 외삽에 필요한 가정을 조건부로 사용하고 근거가 없으면 적용하지 않게 만드는 risk-aware prediction workflow다.",
+             14, C["white"], True, "center")
+    foot(s, p(), TOTAL)
+
+    # 6 Research route — full diagram
     s = blank(prs)
     head(s, "연구 루트", "그래서 후보식이 정당화되는지에 따라 경로를 나눈다")
 
