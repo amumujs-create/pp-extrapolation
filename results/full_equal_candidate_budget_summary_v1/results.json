@@ -1,0 +1,342 @@
+{
+  "protocol": "eight baselines; exactly 30 validation candidates each; search seed 42; selected refit seeds 42--46; frozen PP-X is not counted as equal-budget search",
+  "warning": "The strongest baseline is selected descriptively using test R2. Paired effects against that winner are conservative secondary evidence, not a prespecified test.",
+  "datasets": [
+    {
+      "dataset": "HUST",
+      "ppx_r2": 0.9579589078968902,
+      "baseline_r2": {
+        "plain_mlp": 0.9428846096152368,
+        "ft_transformer": 0.8290953433219206,
+        "vrex": 0.9522727662547287,
+        "groupdro": 0.9554002432923332,
+        "monotone": 0.942775537759896,
+        "engression": 0.8710812615304622,
+        "linear_tail_rbf": 0.8058789881964791,
+        "svgp": 0.8877107250993268
+      },
+      "strongest_equal_budget_baseline": "groupdro",
+      "strongest_equal_budget_r2": 0.9554002432923332,
+      "r2_gap": 0.002558664604557004,
+      "n_units": 16,
+      "units_won": 8,
+      "mean_unit_log_rmse_ratio": 0.08859721265671096,
+      "unit_bootstrap_ci95": [
+        -0.2130751290786831,
+        0.4380386551948404
+      ],
+      "unit_sign_flip_p": 0.633819580078125,
+      "unit_log_rmse_ratios": [
+        1.8770246530096324,
+        -0.44640527368464594,
+        0.9831583771456605,
+        -0.6407936374388008,
+        0.09037497534126498,
+        -0.16539990564638307,
+        0.030603700323434648,
+        0.9962025016906794,
+        0.20176010919379783,
+        -0.19314652965397272,
+        -0.2432899720155068,
+        -0.016012923544209554,
+        0.1652373056559104,
+        -0.6599016933259502,
+        0.13827736850883363,
+        -0.7001336530523692
+      ],
+      "unit_bh_q": 0.9507293701171875
+    },
+    {
+      "dataset": "Virkler",
+      "ppx_r2": 0.8879772363020751,
+      "baseline_r2": {
+        "plain_mlp": 0.7244706728929873,
+        "ft_transformer": 0.8896056451370082,
+        "vrex": 0.6008017506676211,
+        "groupdro": 0.6306206743860514,
+        "monotone": 0.593678009659328,
+        "engression": 0.863183869963102,
+        "linear_tail_rbf": 0.805240661287129,
+        "svgp": 0.3790525855107305
+      },
+      "strongest_equal_budget_baseline": "ft_transformer",
+      "strongest_equal_budget_r2": 0.8896056451370082,
+      "r2_gap": -0.0016284088349330927,
+      "n_units": 10,
+      "units_won": 5,
+      "mean_unit_log_rmse_ratio": -0.06148095221173257,
+      "unit_bootstrap_ci95": [
+        -0.6866676407693997,
+        0.49514262798325925
+      ],
+      "unit_sign_flip_p": 0.85546875,
+      "unit_log_rmse_ratios": [
+        -0.4557345460030241,
+        1.0791666720052453,
+        0.5024684345572072,
+        0.16833568110414698,
+        -0.3131920170542815,
+        -0.047640090211762375,
+        1.0141462915406732,
+        -1.960938882494683,
+        0.8109824554750552,
+        -1.4124035210359027
+      ],
+      "unit_bh_q": 0.984375
+    },
+    {
+      "dataset": "NASA",
+      "ppx_r2": 0.5837508453043845,
+      "baseline_r2": {
+        "plain_mlp": 0.29336321051648573,
+        "ft_transformer": 0.46338595387581605,
+        "vrex": 0.29328844539373977,
+        "groupdro": 0.3031953771078897,
+        "monotone": 0.2713633719532439,
+        "engression": 0.5834962871312614,
+        "linear_tail_rbf": 0.42482297796491275,
+        "svgp": 0.385591250717751
+      },
+      "strongest_equal_budget_baseline": "engression",
+      "strongest_equal_budget_r2": 0.5834962871312614,
+      "r2_gap": 0.00025455817312303175,
+      "n_units": 4,
+      "units_won": 2,
+      "mean_unit_log_rmse_ratio": -0.008269233931397842,
+      "unit_bootstrap_ci95": [
+        -0.2278431532804462,
+        0.16747897835591224
+      ],
+      "unit_sign_flip_p": 0.875,
+      "unit_log_rmse_ratios": [
+        -0.35284323213677943,
+        0.14715708328855348,
+        -0.015191660300636463,
+        0.18780087342327104
+      ],
+      "unit_bh_q": 0.984375
+    },
+    {
+      "dataset": "SUNWODA",
+      "ppx_r2": 0.9394506412142191,
+      "baseline_r2": {
+        "plain_mlp": -2.1396318408245643,
+        "ft_transformer": 0.14899107780934617,
+        "vrex": -2.187610290352838,
+        "groupdro": -2.057106505407978,
+        "monotone": -2.3507467465038347,
+        "engression": 0.5661627570522377,
+        "linear_tail_rbf": 0.8375324191641804,
+        "svgp": -1.7791049428179226
+      },
+      "strongest_equal_budget_baseline": "linear_tail_rbf",
+      "strongest_equal_budget_r2": 0.8375324191641804,
+      "r2_gap": 0.10191822205003864,
+      "n_units": 9,
+      "units_won": 9,
+      "mean_unit_log_rmse_ratio": 0.49805995392449365,
+      "unit_bootstrap_ci95": [
+        0.3681491313649878,
+        0.657365793177406
+      ],
+      "unit_sign_flip_p": 0.00390625,
+      "unit_log_rmse_ratios": [
+        0.3188624414876061,
+        0.34286383591614655,
+        0.39546671464692223,
+        0.4899961622162763,
+        0.38583013723762466,
+        0.9524562177989954,
+        0.32093212700316087,
+        0.8523930984343956,
+        0.4237388505793144
+      ],
+      "unit_bh_q": 0.0234375
+    },
+    {
+      "dataset": "RWTH",
+      "ppx_r2": 0.878381798509073,
+      "baseline_r2": {
+        "plain_mlp": -0.26077741243794317,
+        "ft_transformer": -1.0929454913310392,
+        "vrex": -0.24164920518637922,
+        "groupdro": -0.1406343809145154,
+        "monotone": -0.2633751006572389,
+        "engression": 0.5316401493750526,
+        "linear_tail_rbf": 0.7323986382066139,
+        "svgp": 0.41007137817386075
+      },
+      "strongest_equal_budget_baseline": "linear_tail_rbf",
+      "strongest_equal_budget_r2": 0.7323986382066139,
+      "r2_gap": 0.14598316030245917,
+      "n_units": 8,
+      "units_won": 8,
+      "mean_unit_log_rmse_ratio": 0.40605299117116694,
+      "unit_bootstrap_ci95": [
+        0.2792451132897993,
+        0.52925399096339
+      ],
+      "unit_sign_flip_p": 0.0078125,
+      "unit_log_rmse_ratios": [
+        0.3817557774184133,
+        0.13564975958373993,
+        0.16653564161399875,
+        0.2920659875709573,
+        0.4595836724932869,
+        0.6022993974170993,
+        0.6076661070435506,
+        0.6028675862282891
+      ],
+      "unit_bh_q": 0.0234375
+    },
+    {
+      "dataset": "MICH",
+      "ppx_r2": 0.7512253884216676,
+      "baseline_r2": {
+        "plain_mlp": -0.6897053442898498,
+        "ft_transformer": -2.00952726874356,
+        "vrex": -0.6949385018620269,
+        "groupdro": -0.7492341781110248,
+        "monotone": -0.6858416628695112,
+        "engression": -1.58040817403166,
+        "linear_tail_rbf": -2.6486345328048233,
+        "svgp": -2.2474424681633214
+      },
+      "strongest_equal_budget_baseline": "monotone",
+      "strongest_equal_budget_r2": -0.6858416628695112,
+      "r2_gap": 1.4370670512911787,
+      "n_units": 8,
+      "units_won": 8,
+      "mean_unit_log_rmse_ratio": 1.0535520861595562,
+      "unit_bootstrap_ci95": [
+        0.9017960729966163,
+        1.2828785436922276
+      ],
+      "unit_sign_flip_p": 0.0078125,
+      "unit_log_rmse_ratios": [
+        1.078855409867695,
+        0.9018103156231734,
+        1.0381289273832661,
+        0.8655950119997504,
+        0.8073979318658079,
+        0.9809588060867811,
+        0.9639248786172532,
+        1.791745407832722
+      ],
+      "unit_bh_q": 0.0234375
+    },
+    {
+      "dataset": "MATR2019",
+      "ppx_r2": 0.4656982693191565,
+      "baseline_r2": {
+        "plain_mlp": 0.2339903294164759,
+        "ft_transformer": 0.34229436322799334,
+        "vrex": 0.23428252030949115,
+        "groupdro": -0.5432587309350869,
+        "monotone": 0.23374284929617084,
+        "engression": -1.196092894829564,
+        "linear_tail_rbf": -2.6394841343394275,
+        "svgp": -12.584149768736514
+      },
+      "strongest_equal_budget_baseline": "ft_transformer",
+      "strongest_equal_budget_r2": 0.34229436322799334,
+      "r2_gap": 0.12340390609116314,
+      "n_units": 10,
+      "units_won": 5,
+      "mean_unit_log_rmse_ratio": 0.07461275081237627,
+      "unit_bootstrap_ci95": [
+        -0.11819183992671206,
+        0.271456144643309
+      ],
+      "unit_sign_flip_p": 0.50390625,
+      "unit_log_rmse_ratios": [
+        0.27553491374078964,
+        -0.13706487104209564,
+        -0.4343554109496278,
+        0.6645840503550385,
+        -0.04452923345568029,
+        0.41506335579794096,
+        0.16799499551051533,
+        0.1608053534898455,
+        -0.01607750888756159,
+        -0.30582813643540196
+      ],
+      "unit_bh_q": 0.90703125
+    },
+    {
+      "dataset": "MATR-b2",
+      "ppx_r2": 0.8623913670039096,
+      "baseline_r2": {
+        "plain_mlp": 0.8131559873489578,
+        "ft_transformer": 0.5590161677829093,
+        "vrex": 0.7640922960158576,
+        "groupdro": 0.7751661708236173,
+        "monotone": 0.8127527757445026,
+        "engression": 0.7389438992829154,
+        "linear_tail_rbf": 0.072626156697989,
+        "svgp": -0.9220580788899431
+      },
+      "strongest_equal_budget_baseline": "plain_mlp",
+      "strongest_equal_budget_r2": 0.8131559873489578,
+      "r2_gap": 0.04923537965495184,
+      "n_units": 9,
+      "units_won": 8,
+      "mean_unit_log_rmse_ratio": 1.0229074162790015,
+      "unit_bootstrap_ci95": [
+        0.5577904259707831,
+        1.4348414685520072
+      ],
+      "unit_sign_flip_p": 0.01171875,
+      "unit_log_rmse_ratios": [
+        0.9025292371024526,
+        0.6101769811515434,
+        1.4792422602311972,
+        1.5048874652477169,
+        1.7479600685447783,
+        1.428491877738063,
+        1.6182755779623963,
+        0.266268608568005,
+        -0.35166533003513983
+      ],
+      "unit_bh_q": 0.0263671875
+    },
+    {
+      "dataset": "N-CMAPSS",
+      "ppx_r2": 0.9372705172310921,
+      "baseline_r2": {
+        "plain_mlp": 0.9231338916378382,
+        "ft_transformer": 0.9060274436924595,
+        "vrex": 0.9201171970992224,
+        "groupdro": 0.9221145134481642,
+        "monotone": 0.9296709550637022,
+        "engression": 0.9322798136330336,
+        "linear_tail_rbf": 0.8479861709801149,
+        "svgp": 0.7160335166253745
+      },
+      "strongest_equal_budget_baseline": "engression",
+      "strongest_equal_budget_r2": 0.9322798136330336,
+      "r2_gap": 0.004990703598058532,
+      "n_units": 3,
+      "units_won": 2,
+      "mean_unit_log_rmse_ratio": -0.42901829459140733,
+      "unit_bootstrap_ci95": [
+        -1.3676282452494062,
+        0.04265730919569297
+      ],
+      "unit_sign_flip_p": 1.0,
+      "unit_log_rmse_ratios": [
+        0.04265730919569297,
+        -1.3676282452494062,
+        0.037916052279491276
+      ],
+      "unit_bh_q": 1.0
+    }
+  ],
+  "aggregate": {
+    "ppx_pooled_wins": 8,
+    "datasets": 9,
+    "dataset_sign_test_two_sided": 0.0390625,
+    "total_physical_units": 77,
+    "unit_weighted_mean_log_rmse_ratio": 0.33239335739599013
+  }
+}

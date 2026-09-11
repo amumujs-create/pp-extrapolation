@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 35
+    TOTAL = 37
 
     def p():
         nonlocal n
@@ -871,10 +871,78 @@ def build():
         510,
         1184,
         90,
-        "결론  validation RMSE gate만으로는 오탐 4개다. unit-risk를 넣어도 prior contract를 고정 승인하면 오탐 2개가 남는다.\n따라서 contract가 admissible prior를 먼저 제한하고, validation은 그 안의 executor만 승인해야 한다. prospective 확증은 아직 0건.",
+        "결론  validation RMSE gate만으로는 오탐 4개다. unit-risk를 넣어도 prior contract를 고정 승인하면 오탐 2개가 남는다.\n따라서 contract가 admissible prior를 먼저 제한해야 한다. 이후 DS03 prospective에서 unsupported prior 거절이 실제 test-best PP-X route였다.",
         13,
         C["ink"],
     )
+    foot(s, p(), TOTAL)
+
+    # Fully equal candidate-budget comparison
+    s = blank(prs)
+    head(s, "공정 비교 — 9 settings × 8 baselines", "각 모델 validation 후보 30개  ·  search seed 42  ·  refit seeds 42–46")
+    add_table(
+        s,
+        36,
+        86,
+        1208,
+        380,
+        ["Setting", "PP-X", "최강 30-candidate baseline", "Baseline", "ΔR²"],
+        [
+            ["HUST", "0.958", "GroupDRO", "0.955", "+.003"],
+            ["Virkler", "0.888", "FT-Transformer", "0.890", "−.002"],
+            ["NASA", "0.584", "Engression", "0.583", "+.000"],
+            ["Sunwoda", "0.939", "linear-tail RBF", "0.838", "+.102"],
+            ["RWTH", "0.878", "linear-tail RBF", "0.732", "+.146"],
+            ["MICH", "0.751", "monotone NN", "−0.686", "+1.437"],
+            ["MATR2019", "0.466", "FT-Transformer", "0.342", "+.123"],
+            ["MATR-b2", "0.862", "plain MLP", "0.813", "+.049"],
+            ["N-CMAPSS", "0.937", "Engression", "0.932", "+.005"],
+        ],
+        font_size=10,
+    )
+    rect(s, 36, 496, 1208, 92, C["soft_blue"], C["blue"], True)
+    add_text(s, 52, 512, 1176, 54, "결론  PP-X 8/9 우세  ·  exact dataset sign test p=.0391  ·  3,360 training jobs\n예외  Virkler FT가 +.002  ·  NASA 사실상 동률  ·  PP-X는 typed executor라 하나의 공통 hyperparameter grid로 재개발하지 않음", 13, C["ink"], True, "center")
+    foot(s, p(), TOTAL)
+
+    # First prospective evidence
+    s = blank(prs)
+    head(s, "Prospective — N-CMAPSS DS03", "protocol → raw hash → selection artifact를 test Y 공개 전에 각각 GitHub 동결")
+    add_table(
+        s,
+        42,
+        90,
+        570,
+        260,
+        ["Validation route", "MSE", "판정"],
+        [
+            ["direct fallback", "37.639", "선택"],
+            ["basic prior-residual", "85.774", "거절"],
+            ["multiscale prior-residual", "95.858", "거절"],
+        ],
+        font_size=13,
+    )
+    add_table(
+        s,
+        644,
+        90,
+        590,
+        260,
+        ["Prospective test", "R²", "판정"],
+        [
+            ["Engression 30c", "0.901", "최고"],
+            ["FT-Transformer 30c", "0.899", "2위"],
+            ["PP-X selected fallback", "0.882", "양수·비우월"],
+            ["basic / multiscale PP", "0.832 / 0.869", "선택보다 열세"],
+        ],
+        font_size=12,
+    )
+    rect(s, 42, 392, 570, 160, C["soft_blue"], C["blue"], True)
+    add_text(s, 58, 410, 538, 28, "PASS  미래 route 선택", 15, C["blue"], True, "center")
+    add_text(s, 58, 456, 538, 72, "gate가 prior 두 개를 거절했고\n실제 test-best PP-X route 선택", 13, C["ink"], False, "center")
+    rect(s, 644, 392, 590, 160, C["soft_orange"], C["orange"], True)
+    add_text(s, 660, 410, 558, 28, "FAIL  predictive superiority", 15, C["orange"], True, "center")
+    add_text(s, 660, 456, 558, 72, "Engression 대비 ΔR² −.0195\nunit wins 1/6 · worst ratio 1.989", 13, C["ink"], False, "center")
+    add_text(s, 42, 584, 1192, 34, "정직한 결론  prospective route-selection success, predictive superiority not confirmed  ·  DS03는 within-family 검증", 13, C["muted"], True)
     foot(s, p(), TOTAL)
 
     # 10 Failures — tables only

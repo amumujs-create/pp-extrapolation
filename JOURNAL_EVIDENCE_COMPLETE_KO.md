@@ -132,9 +132,22 @@ PP의 novelty는 “물리식과 NN을 결합했다”는 일반적 PINN 주장�
 - 1D/2D/3D hull 민감도 및 support-distance 분석
 - 불확실성, coverage, 계산비용, 실패 데이터셋의 범위 분석
 
-이 정도면 RESS, MSSP, EAAI, ESWA 계열의 방법론 논문으로 제출 가능한 근거가 있다. 더 높은 보편 일반화 주장은 최종 model/routing rule을 고정한 뒤 새로운 성공 cohort에서 한 번 검증해야 한다. 현재 논문의 주장은 다음 문장으로 제한하는 것이 성능과 정직성을 함께 살린다.
+추가로 9개 setting의 8개 baseline을 모두 30 validation candidate와 5 refit
+seed로 재학습했다. PP-X는 최강 동일예산 비교군보다 8/9 setting에서 pooled R²가
+높았고 dataset sign test는 양측 p=0.0391이었다. 미개봉 N-CMAPSS DS03에서는
+동결 gate가 basic/multiscale prior를 거절하고 실제 test-best PP-X route인 direct
+fallback을 선택했다. 다만 Engression R² 0.901이 선택 PP-X 0.882보다 높아
+prospective predictive superiority는 통과하지 못했다. 현재 논문의 주장은 다음
+문장으로 제한하는 것이 성능과 정직성을 함께 살린다.
 
-> Across nine concept-aligned extrapolation settings, the development-final modular PP improved pooled R² over the strongest evaluated same-split comparator in every setting. Across 77 row-aligned physical units, its equal-dataset geometric mean RMSE reduction was 33.8% (hierarchical 95% CI 15.8%–48.6%). The common-backbone and failure-cohort audits show that the gain depends on matching an observable prior contract to its executor rather than applying one universal architecture.
+> Across nine concept-aligned extrapolation settings, the development-final
+> modular PP improved pooled R² over the strongest evaluated same-split
+> comparator in every setting and exceeded the strongest uniformly tuned
+> 30-candidate baseline in eight of nine settings. Across 77 row-aligned
+> physical units, its equal-dataset geometric mean RMSE reduction was 33.8%
+> (hierarchical 95% CI 15.8%–48.6%). A preregistered N-CMAPSS DS03 replay
+> prospectively selected the test-best PP-X route by rejecting unsupported
+> priors, although Engression retained higher predictive accuracy.
 
 ## 9. 관련 방법과의 구분
 

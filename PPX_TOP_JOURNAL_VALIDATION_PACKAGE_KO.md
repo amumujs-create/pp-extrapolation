@@ -122,23 +122,31 @@ MICH raw-cycle에서는 29–32 validation candidates와 seeds 42–46의
 V-REx, GroupDRO, monotone NN, Engression, full-train SVGP 비교가 완료됐다.
 Milling은 validation group이 하나뿐이므로 stable ranking 근거에서 제외한다.
 
-전체 9개 setting을 하나의 30-candidate budget으로 다시 학습한 결과는 아직
-없다. 그러므로 “모든 baseline과 완전히 동일한 탐색 예산”이라고 주장하지 않는다.
+전체 9개 setting에서 plain MLP, FT-Transformer, V-REx, GroupDRO, monotone NN,
+Engression, linear-tail RBF, full-train SVGP를 각각 정확히 30 validation candidate와
+5 refit seed로 재학습했다. PP-X는 typed contract에 따라 후보 executor 종류가
+달라지는 frozen framework이므로 하나의 공통 30-hyperparameter grid로 재개발하지
+않았다. PP-X는 최강 동일예산 비교군에 8/9 pooled R² 우세였고 dataset sign test
+양측 p=0.0391이었다. 상세는 `FULL_EQUAL_CANDIDATE_BUDGET_RESULTS_KO.md`에 있다.
 
 ## 8. Prospective 감사
 
-현재 저장소에 PP-X Paper Method v1을 검증할 **실행 가능한 미개봉 cohort는
-0개**다.
+N-CMAPSS DS03의 test engine 6개를 미개봉 prospective cohort로 실행했다.
+프로토콜, 원본 hash, selection artifact를 각각 test outcome 공개 전에 GitHub에
+커밋했다. train-only prior evidence와 validation 결과가 prior-residual 후보를
+지지하지 않아 frozen PP-X는 direct fallback을 선택했다.
 
-- Alloy/MultiStage 및 sealed registry cohort: 이미 개봉
-- Na-ion, XJTU, FEMTO, axial fan, Misata, MATWI 등: 이미 평가
-- Oxford, SNL, Tongji, CALB, MEMSS 등: endpoint/eligibility를 열었거나 infeasible
-- Perovskite: outcome 미개봉이지만 로컬 데이터·runner가 없고 기존 CCMR
-  phenotype 계약이라 PP-X v1 confirmatory cohort로 바로 사용할 수 없음
+- selected fallback prospective R²: 0.882
+- basic PP R²: 0.832
+- multiscale PP R²: 0.869
+- strongest 30-candidate comparator: Engression 0.901
+- route-selection success: PASS
+- predictive-superiority success: FAIL
 
-따라서 prospective 결과를 만들었다고 보고하지 않는다. 다음 신규 cohort는
-데이터 다운로드/endpoint 개봉 전에 현재 동결 프로토콜에 cohort ID, split,
-adapter와 baseline budget을 추가 커밋해야 한다.
+즉 미개봉 cohort에서 gate가 실제 최선 PP-X route를 골랐다는 미래 선택정책
+증거는 확보했지만, 최강 모델보다 정확하다는 prospective 주장은 확보하지 못했다.
+DS03는 DS02와 같은 N-CMAPSS 계열이므로 완전히 독립적인 실제 도메인 확증으로
+과장하지 않는다.
 
 ## 9. 리뷰어 공격과 답변
 
@@ -151,8 +159,8 @@ adapter와 baseline budget을 추가 커밋해야 한다.
 | 다중검정은 했나 | BH 보정; 2/9만 competitor paired q<0.05 공개 | 통과 |
 | 표와 paired comparator가 다른가 | strongest pooled와 row-aligned paired 열 분리 | 통과 |
 | 최종 route 통계가 맞나 | Sunwoda/RWTH routing 버그 수정 후 재집계 | 통과 |
-| 모든 모델 예산이 같은가 | MICH 확장 완료, 전체 9-setting equal-budget은 미완료 | 미완료 |
-| prospective confirmation이 있나 | 없음으로 명시 | 미완료 |
+| 모든 모델 예산이 같은가 | 9 setting × 8 baseline × 30 candidate × 5 refit 완료 | baseline 비교 통과 |
+| prospective confirmation이 있나 | DS03에서 route 선택 성공, Engression 우월 | 부분 |
 | 하나의 실행 알고리즘인가 | frozen selector API·protocol·tests 구현 | selection 층 통과 |
 
 ## 10. 논문에서 사용할 결론
@@ -162,17 +170,13 @@ adapter와 baseline budget을 추가 커밋해야 한다.
 > restricts admissible priors, group-disjoint validation approves one
 > prior-residual executor, and unsupported routes revert to a prespecified
 > fallback. Retrospective mechanism evidence across nine settings supports
-> the core and conditional executors, while prospective validity remains an
-> explicit open requirement.
+> the core and conditional executors. A preregistered DS03 replay prospectively
+> confirmed the fallback decision, but not predictive superiority over Engression.
 
 ## 11. 제출 판단
 
-현재 패키지는 강한 **retrospective methodology paper**로 정리할 수 있다.
-그러나 최상위 저널에서 prospective generalization을 주장하려면 다음 두 항목이
-추가로 필요하다.
-
-1. 새로운 미개봉 cohort 1–2개
-2. 가능하면 9개 main setting 전체의 equal-candidate-budget 재실행
-
-이 둘이 없으면 제목·초록에서 “validated across unseen domains”보다
-“retrospective multi-domain evidence”라고 정확히 제한한다.
+현재 패키지는 retrospective multi-domain evidence, 완전 동일 후보예산 baseline,
+그리고 prospective route-selection evidence를 함께 갖는다. 다만 prospective
+predictive superiority는 실패했으므로 “unseen cohort에서 최고 정확도”라고 쓰지
+않는다. 최상위 저널에서 외부 일반화를 강화하려면 N-CMAPSS와 독립적인 실제
+cohort 하나가 더 필요하다.
