@@ -56,12 +56,14 @@ class CTBFNet(nn.Module):
         self.weak_rate_prior = bool(weak_rate_prior)
         self.residual_bound = float(residual_bound)
         self.rate_floor = float(rate_floor)
-        if not rate_indices:
-            raise ValueError("at least one rate index is required")
+        if weak_rate_prior and not rate_indices:
+            raise ValueError("weak-rate prior requires a rate index")
         if rate_aggregation not in {"first", "median"}:
             raise ValueError("rate_aggregation must be first or median")
         self.rate_indices = tuple(int(value) for value in rate_indices)
-        if min(self.rate_indices) < 0 or max(self.rate_indices) >= dimension:
+        if self.rate_indices and (
+            min(self.rate_indices) < 0 or max(self.rate_indices) >= dimension
+        ):
             raise ValueError("rate index is outside the feature dimension")
         self.rate_aggregation = rate_aggregation
         self.register_buffer("center", torch.as_tensor(center, dtype=torch.float32))
@@ -135,6 +137,7 @@ def fit_ctbf(
     residual_bound: float = 1.0,
     rate_indices: tuple[int, ...] = (1,),
     rate_aggregation: str = "first",
+    velocity_supervision_weight: float = 0.05,
     learning_rate: float = 1e-3,
     weight_decay: float = 0.1,
     max_epochs: int = 350,
@@ -148,9 +151,15 @@ def fit_ctbf(
     center = tx.mean(axis=0)
     scale = tx.std(axis=0)
     scale[scale < 1e-8] = 1.0
-    observed_rates = -tx[:, np.asarray(rate_indices)]
-    if observed_rates.ndim == 1:
-        observed_rates = observed_rates[:, None]
+    if weak_rate_prior and not rate_indices:
+        raise ValueError("weak-rate prior requires rate_indices")
+    if velocity_supervision_weight > 0 and not rate_indices:
+        raise ValueError("velocity supervision requires rate_indices")
+    observed_rates = (
+        -tx[:, np.asarray(rate_indices)]
+        if rate_indices
+        else np.empty((len(tx), 0), dtype=np.float32)
+    )
     positive_rates = observed_rates[observed_rates > 1e-8]
     rate_floor = (
         float(np.quantile(positive_rates, 0.10))
@@ -200,22 +209,23 @@ def fit_ctbf(
 
             # A weak local constraint anchors velocity where a negative
             # transition was observed; RUL supervision remains primary.
-            rates = torch.stack(
-                [-x_train[index, value] for value in model.rate_indices], dim=1
-            )
-            rates = torch.clamp(rates, min=model.rate_floor)
-            if model.rate_aggregation == "median":
-                rate = torch.median(rates, dim=1).values
-            else:
-                rate = rates[:, 0]
-            valid = rate > model.rate_floor
-            if torch.any(valid):
-                predicted_rate = model.local_velocity(x_train[index][valid])
-                rate_loss = torch.nn.functional.smooth_l1_loss(
-                    torch.log(predicted_rate),
-                    torch.log(rate[valid]),
+            if velocity_supervision_weight > 0:
+                rates = torch.stack(
+                    [-x_train[index, value] for value in model.rate_indices], dim=1
                 )
-                loss = loss + 0.05 * rate_loss
+                rates = torch.clamp(rates, min=model.rate_floor)
+                if model.rate_aggregation == "median":
+                    rate = torch.median(rates, dim=1).values
+                else:
+                    rate = rates[:, 0]
+                valid = rate > model.rate_floor
+                if torch.any(valid):
+                    predicted_rate = model.local_velocity(x_train[index][valid])
+                    rate_loss = torch.nn.functional.smooth_l1_loss(
+                        torch.log(predicted_rate),
+                        torch.log(rate[valid]),
+                    )
+                    loss = loss + velocity_supervision_weight * rate_loss
 
             optimizer.zero_grad()
             loss.backward()
@@ -246,6 +256,7 @@ def fit_ctbf(
             "residual_bound": float(residual_bound),
             "rate_indices": list(rate_indices),
             "rate_aggregation": rate_aggregation,
+            "velocity_supervision_weight": float(velocity_supervision_weight),
             "rate_floor": float(model.rate_floor),
             "selected_epoch": int(best_epoch),
             "validation_rmse": float(best),
