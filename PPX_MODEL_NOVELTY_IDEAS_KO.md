@@ -326,6 +326,15 @@ fallback-relative risk certificate를 출력하기 때문이다.
 - 기존 Algorithm 1 임계 규칙과 비교
 - leave-one-domain-out 일반화
 
+### 2026-09-12 1차 실험 판정
+
+거리, support 이탈률, 5-seed disagreement, prior correction 크기를 입력으로
+사용한 ridge regret-bound head를 12-domain leave-one-domain-out으로 평가했다.
+95% inner-LODO residual upper bound가 모든 held-out domain에서 양수였고
+binary/continuous authority가 모두 0이 됐다. 즉 cross-domain feature로
+unit regret를 예측하는 현재 구조는 기각한다. 상세 결과는
+`FALSIFICATION_AUTHORITY_HEAD_RESULTS_KO.md`에 기록한다.
+
 ---
 
 ## 8. Invariant residual decomposition
