@@ -6,6 +6,7 @@ No boxed diagram images. Journal-style plots from numbers only.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from pptx import Presentation
@@ -201,7 +202,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 39
+    TOTAL = 40
 
     def p():
         nonlocal n
@@ -223,10 +224,10 @@ def build():
     logo = ASSETS / "sps_lab_logo.png"
     if logo.exists():
         s.shapes.add_picture(str(logo), px(860), px(58), px(320), px(64))
-    add_text(s, 80, 220, 1120, 40, "Prior-Adaptive Extrapolation", 28, C["ink"], True, "center")
-    add_text(s, 80, 268, 1120, 36, "for Robust Prediction Beyond Observed Support", 20, C["ink"], True, "center")
+    add_text(s, 80, 220, 1120, 40, "PP-X", 30, C["ink"], True, "center")
+    add_text(s, 80, 268, 1120, 36, "Validation-Approved Prior-Residual Extrapolation", 20, C["ink"], True, "center")
     add_text(s, 80, 330, 1120, 28, "관측된 support 밖에서의 강건 예측", 15, C["muted"], False, "center")
-    add_text(s, 80, 390, 1120, 28, "논문 메인 모델  ·  PP-X", 16, C["blue"], True, "center")
+    add_text(s, 80, 390, 1120, 28, "전체 연구 지도  ·  Prior-Adaptive Extrapolation", 16, C["blue"], True, "center")
     add_text(s, 80, 470, 1120, 24, "Smart Production Systems Lab.  ·  박사과정 박진서", 14, C["ink"], False, "center")
     add_text(s, 80, 520, 1120, 22, "2026.09.11", 13, C["muted"], False, "center")
     p()
@@ -412,7 +413,8 @@ def build():
 
     # 7 Research route — full diagram
     s = blank(prs)
-    head(s, "연구 루트", "그래서 후보식이 정당화되는지에 따라 경로를 나눈다")
+    head(s, "연구 루트 — 식의 근거에 따라 두 경로로 간다",
+         "식이 없거나 약한 prior만 있으면 PP-X, 적용 가능한 식이 정당화되면 PAE로 확장한다.")
 
     chips = [("관측", 200), ("경계", 510), ("도메인 지식", 820)]
     for label, x in chips:
@@ -439,7 +441,7 @@ def build():
     badge = rect(s, 456, 286, 130, 24, C["blue"], None, True)
     fill_shape_text(badge, "이번 발표", 10, C["white"], True)
     add_text(s, 98, 284, 340, 32, "PP-X", 24, C["blue"], True)
-    add_text(s, 98, 322, 480, 20, "equation-free", 12, C["muted"])
+    add_text(s, 98, 322, 480, 20, "equation-unavailable · weak-prior route", 12, C["muted"])
     add_text(s, 98, 352, 490, 22, "prior-residual core", 15, C["ink"])
     add_text(s, 98, 384, 490, 22, "+ evidence-selected executor", 15, C["ink"])
     add_text(s, 98, 426, 490, 22, "논문 동결 정의  ·  Algorithm 1", 14, C["blue"], True)
@@ -449,7 +451,7 @@ def build():
     nxt = rect(s, 1056, 286, 130, 24, C["orange"], None, True)
     fill_shape_text(nxt, "다음 논문", 10, C["white"], True)
     add_text(s, 698, 284, 340, 32, "PAE", 24, C["orange"], True)
-    add_text(s, 698, 322, 480, 20, "equation-aware", 12, C["muted"])
+    add_text(s, 698, 322, 480, 20, "validated-equation route", 12, C["muted"])
     add_text(s, 698, 352, 490, 22, "허용된 식 + 제한 NN", 15, C["ink"])
     add_text(s, 698, 384, 490, 22, "이득 없으면 PP-X로 되돌림", 15, C["ink"])
     add_text(s, 698, 426, 490, 22, "LLM · 온톨로지 · source gate", 14, C["orange"], True)
@@ -1464,6 +1466,69 @@ def build():
     )
     add_text(s, 20, 618, 1240, 28, "같은 셀을 시간만 잘라 뒤를 맞추지 않는다.  시험 셀의 미래·최종 수명은 X에 넣지 않는다.", 12, C["muted"])
     foot(s, p(), TOTAL)
+
+    # Selective Regression comparison; generated here, placed with results below.
+    s = blank(prs)
+    head(s, "동일 coverage — 검정 기반 Selective Regression",
+         "Noskov–Fishkov–Panov Algorithm 1 재현  ·  Gaussian NW + variance/density acceptance test")
+    add_text(s, 48, 86, 1184, 30,
+             "질문  support 안의 안전한 점만 고르는 방법이 strict extrapolation에서도 예측 범위와 정확도를 함께 유지하는가?",
+             14, C["ink"], True)
+    add_table(
+        s,
+        48,
+        134,
+        720,
+        326,
+        ["목표", "실제 평균 coverage", "PP-X nRMSE", "Selective NW", "승리"],
+        [
+            ["25%", "5.8%", "0.272", "1.279", "5/5"],
+            ["50%", "8.7%", "0.296", "1.275", "5/5"],
+            ["75%", "11.5%", "0.303", "1.274", "5/5"],
+            ["90%", "13.2%", "0.305", "1.266", "5/5"],
+        ],
+        font_size=13,
+    )
+    rect(s, 800, 134, 432, 144, C["soft_orange"], C["orange"], True)
+    add_text(s, 822, 154, 388, 30, "Coverage 결과", 16, C["orange"], True, "center")
+    add_text(s, 824, 198, 384, 58,
+             "4/9 setting은 전부 거절\nN-CMAPSS만 100% admissible",
+             14, C["ink"], True, "center")
+    rect(s, 800, 302, 432, 158, C["soft_blue"], C["blue"], True)
+    add_text(s, 822, 322, 388, 30, "동일 행 수에서", 16, C["blue"], True, "center")
+    add_text(s, 824, 366, 384, 72,
+             "PP-X가 비교 가능한 5/5에서 우세\n양측 exact p=.0625\n(n=5의 최소 양측 p)",
+             13, C["ink"], True, "center")
+    rect(s, 48, 500, 1184, 86, C["ink"], None, True)
+    add_text(s, 70, 514, 1140, 58,
+             "의미  Selective Regression은 support가 희박하면 예측을 버린다. PP-X는 지지된 prior-residual 경로로 외삽 coverage를 유지하면서, 같은 coverage에서도 accepted risk를 낮췄다.",
+             14, C["white"], True, "center")
+    add_text(s, 48, 610, 1184, 26,
+             "9개 메인 setting · 동일 split · test label은 최종 risk 계산에만 사용",
+             10, C["muted"], False, "center")
+    foot(s, p(), TOTAL)
+
+    # Narrative order:
+    # survey -> gap/research map -> current PP-X contribution -> structure ->
+    # protocol -> evidence. Failure analysis follows the main evidence.
+    order = [
+        1, 2, 3, 8, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23, 24, 6, 40, 25, 7, 26, 27, 28, 29, 30, 31, 32,
+        33, 34, 35, 36, 37, 38, 39,
+    ]
+    slide_ids = list(prs.slides._sldIdLst)
+    for slide_id in slide_ids:
+        prs.slides._sldIdLst.remove(slide_id)
+    for index in order:
+        prs.slides._sldIdLst.append(slide_ids[index - 1])
+    for index, slide in enumerate(prs.slides, 1):
+        for shape in slide.shapes:
+            if not hasattr(shape, "text_frame"):
+                continue
+            for paragraph in shape.text_frame.paragraphs:
+                for run in paragraph.runs:
+                    if re.fullmatch(r"\d+/\d+", run.text.strip()):
+                        run.text = f"{index}/{TOTAL}"
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     try:

@@ -1,0 +1,1164 @@
+{
+  "protocol": "protocols/SELECTIVE_REGRESSION_EQUAL_COVERAGE_PROTOCOL.md",
+  "paper": "Noskov, Fishkov, Panov, Selective Nonparametric Regression via Testing, Algorithm 1",
+  "beta": 0.1,
+  "coverages": [
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "datasets": [
+    {
+      "dataset": "HUST",
+      "n_train": 11250,
+      "n_validation": 2560,
+      "n_test": 7775,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.014531890706581764,
+          "validation_mse": 63343.94047348887
+        },
+        {
+          "h": 0.029063781413163528,
+          "validation_mse": 44585.068623531464
+        },
+        {
+          "h": 0.058127562826327056,
+          "validation_mse": 38061.48595862002
+        },
+        {
+          "h": 0.11625512565265411,
+          "validation_mse": 93036.7476516939
+        }
+      ],
+      "selected_bandwidth": 0.058127562826327056,
+      "algorithm1_density_admissible_coverage": 0.0015434083601286173,
+      "coverage": {
+        "0.25": {
+          "target_rows": 1943,
+          "achieved_rows": 12,
+          "achieved_coverage": 0.0015434083601286173,
+          "selective_nw": {
+            "n": 12,
+            "normalized_rmse": 1.2427248647792246,
+            "unit_macro_normalized_rmse": 1.006963545298182,
+            "unit_coverage": 0.1875
+          },
+          "ppx_seed_score": {
+            "n": 12,
+            "normalized_rmse": 0.041734138220089034,
+            "unit_macro_normalized_rmse": 0.04173413822008904,
+            "unit_coverage": 0.0625
+          },
+          "ppx_algorithm1_score": {
+            "n": 12,
+            "normalized_rmse": 0.12894692498617424,
+            "unit_macro_normalized_rmse": 0.18804713315771207,
+            "unit_coverage": 0.1875
+          }
+        },
+        "0.5": {
+          "target_rows": 3887,
+          "achieved_rows": 12,
+          "achieved_coverage": 0.0015434083601286173,
+          "selective_nw": {
+            "n": 12,
+            "normalized_rmse": 1.2427248647792246,
+            "unit_macro_normalized_rmse": 1.006963545298182,
+            "unit_coverage": 0.1875
+          },
+          "ppx_seed_score": {
+            "n": 12,
+            "normalized_rmse": 0.041734138220089034,
+            "unit_macro_normalized_rmse": 0.04173413822008904,
+            "unit_coverage": 0.0625
+          },
+          "ppx_algorithm1_score": {
+            "n": 12,
+            "normalized_rmse": 0.12894692498617424,
+            "unit_macro_normalized_rmse": 0.18804713315771207,
+            "unit_coverage": 0.1875
+          }
+        },
+        "0.75": {
+          "target_rows": 5831,
+          "achieved_rows": 12,
+          "achieved_coverage": 0.0015434083601286173,
+          "selective_nw": {
+            "n": 12,
+            "normalized_rmse": 1.2427248647792246,
+            "unit_macro_normalized_rmse": 1.006963545298182,
+            "unit_coverage": 0.1875
+          },
+          "ppx_seed_score": {
+            "n": 12,
+            "normalized_rmse": 0.041734138220089034,
+            "unit_macro_normalized_rmse": 0.04173413822008904,
+            "unit_coverage": 0.0625
+          },
+          "ppx_algorithm1_score": {
+            "n": 12,
+            "normalized_rmse": 0.12894692498617424,
+            "unit_macro_normalized_rmse": 0.18804713315771207,
+            "unit_coverage": 0.1875
+          }
+        },
+        "0.9": {
+          "target_rows": 6997,
+          "achieved_rows": 12,
+          "achieved_coverage": 0.0015434083601286173,
+          "selective_nw": {
+            "n": 12,
+            "normalized_rmse": 1.2427248647792246,
+            "unit_macro_normalized_rmse": 1.006963545298182,
+            "unit_coverage": 0.1875
+          },
+          "ppx_seed_score": {
+            "n": 12,
+            "normalized_rmse": 0.041734138220089034,
+            "unit_macro_normalized_rmse": 0.04173413822008904,
+            "unit_coverage": 0.0625
+          },
+          "ppx_algorithm1_score": {
+            "n": 12,
+            "normalized_rmse": 0.12894692498617424,
+            "unit_macro_normalized_rmse": 0.18804713315771207,
+            "unit_coverage": 0.1875
+          }
+        }
+      }
+    },
+    {
+      "dataset": "Virkler",
+      "n_train": 240,
+      "n_validation": 20,
+      "n_test": 20,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.013810518495058877,
+          "validation_mse": 102.8961076646578
+        },
+        {
+          "h": 0.027621036990117753,
+          "validation_mse": 102.8961076646578
+        },
+        {
+          "h": 0.055242073980235507,
+          "validation_mse": 103.61875368900826
+        },
+        {
+          "h": 0.11048414796047101,
+          "validation_mse": 110.20563839427533
+        }
+      ],
+      "selected_bandwidth": 0.013810518495058877,
+      "algorithm1_density_admissible_coverage": 0.0,
+      "coverage": {
+        "0.25": {
+          "target_rows": 5,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.5": {
+          "target_rows": 10,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.75": {
+          "target_rows": 15,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.9": {
+          "target_rows": 18,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        }
+      }
+    },
+    {
+      "dataset": "NASA",
+      "n_train": 488,
+      "n_validation": 254,
+      "n_test": 255,
+      "pca_dimension": 1,
+      "bandwidth_search": [
+        {
+          "h": 0.5,
+          "validation_mse": 1689.704369198312
+        },
+        {
+          "h": 1.0,
+          "validation_mse": 1733.1386226003392
+        },
+        {
+          "h": 2.0,
+          "validation_mse": 2545.1205437888557
+        },
+        {
+          "h": 4.0,
+          "validation_mse": 3809.106594779163
+        }
+      ],
+      "selected_bandwidth": 0.5,
+      "algorithm1_density_admissible_coverage": 0.2549019607843137,
+      "coverage": {
+        "0.25": {
+          "target_rows": 63,
+          "achieved_rows": 63,
+          "achieved_coverage": 0.24705882352941178,
+          "selective_nw": {
+            "n": 63,
+            "normalized_rmse": 0.8139374873668347,
+            "unit_macro_normalized_rmse": 0.8095233148865351,
+            "unit_coverage": 1.0
+          },
+          "ppx_seed_score": {
+            "n": 63,
+            "normalized_rmse": 0.36263142585314856,
+            "unit_macro_normalized_rmse": 0.45517838687674717,
+            "unit_coverage": 0.5
+          },
+          "ppx_algorithm1_score": {
+            "n": 63,
+            "normalized_rmse": 0.9886750884798494,
+            "unit_macro_normalized_rmse": 0.7068208274818284,
+            "unit_coverage": 1.0
+          }
+        },
+        "0.5": {
+          "target_rows": 127,
+          "achieved_rows": 65,
+          "achieved_coverage": 0.2549019607843137,
+          "selective_nw": {
+            "n": 65,
+            "normalized_rmse": 0.8013833923822982,
+            "unit_macro_normalized_rmse": 0.8038010228608465,
+            "unit_coverage": 1.0
+          },
+          "ppx_seed_score": {
+            "n": 65,
+            "normalized_rmse": 0.4091113632652483,
+            "unit_macro_normalized_rmse": 0.8137924402589679,
+            "unit_coverage": 0.75
+          },
+          "ppx_algorithm1_score": {
+            "n": 65,
+            "normalized_rmse": 0.994147597717726,
+            "unit_macro_normalized_rmse": 0.701296146224937,
+            "unit_coverage": 1.0
+          }
+        },
+        "0.75": {
+          "target_rows": 191,
+          "achieved_rows": 65,
+          "achieved_coverage": 0.2549019607843137,
+          "selective_nw": {
+            "n": 65,
+            "normalized_rmse": 0.8013833923822982,
+            "unit_macro_normalized_rmse": 0.8038010228608465,
+            "unit_coverage": 1.0
+          },
+          "ppx_seed_score": {
+            "n": 65,
+            "normalized_rmse": 0.4091113632652483,
+            "unit_macro_normalized_rmse": 0.8137924402589679,
+            "unit_coverage": 0.75
+          },
+          "ppx_algorithm1_score": {
+            "n": 65,
+            "normalized_rmse": 0.994147597717726,
+            "unit_macro_normalized_rmse": 0.701296146224937,
+            "unit_coverage": 1.0
+          }
+        },
+        "0.9": {
+          "target_rows": 229,
+          "achieved_rows": 65,
+          "achieved_coverage": 0.2549019607843137,
+          "selective_nw": {
+            "n": 65,
+            "normalized_rmse": 0.8013833923822982,
+            "unit_macro_normalized_rmse": 0.8038010228608465,
+            "unit_coverage": 1.0
+          },
+          "ppx_seed_score": {
+            "n": 65,
+            "normalized_rmse": 0.4091113632652483,
+            "unit_macro_normalized_rmse": 0.8137924402589679,
+            "unit_coverage": 0.75
+          },
+          "ppx_algorithm1_score": {
+            "n": 65,
+            "normalized_rmse": 0.994147597717726,
+            "unit_macro_normalized_rmse": 0.701296146224937,
+            "unit_coverage": 1.0
+          }
+        }
+      }
+    },
+    {
+      "dataset": "SUNWODA",
+      "n_train": 1312,
+      "n_validation": 141,
+      "n_test": 1468,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.032168957141726434,
+          "validation_mse": 77286.42186838796
+        },
+        {
+          "h": 0.06433791428345287,
+          "validation_mse": 4732.900261073806
+        },
+        {
+          "h": 0.12867582856690574,
+          "validation_mse": 3044.030005977203
+        },
+        {
+          "h": 0.2573516571338115,
+          "validation_mse": 3346.6753472311184
+        }
+      ],
+      "selected_bandwidth": 0.12867582856690574,
+      "algorithm1_density_admissible_coverage": 0.0,
+      "coverage": {
+        "0.25": {
+          "target_rows": 367,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.5": {
+          "target_rows": 734,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.75": {
+          "target_rows": 1101,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.9": {
+          "target_rows": 1321,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        }
+      }
+    },
+    {
+      "dataset": "RWTH",
+      "n_train": 2295,
+      "n_validation": 231,
+      "n_test": 1859,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.04531626335874714,
+          "validation_mse": 31426.64953624152
+        },
+        {
+          "h": 0.09063252671749428,
+          "validation_mse": 26115.889094554786
+        },
+        {
+          "h": 0.18126505343498855,
+          "validation_mse": 26231.424546417933
+        },
+        {
+          "h": 0.3625301068699771,
+          "validation_mse": 26366.308051486994
+        }
+      ],
+      "selected_bandwidth": 0.09063252671749428,
+      "algorithm1_density_admissible_coverage": 0.0,
+      "coverage": {
+        "0.25": {
+          "target_rows": 464,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.5": {
+          "target_rows": 929,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.75": {
+          "target_rows": 1394,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.9": {
+          "target_rows": 1673,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        }
+      }
+    },
+    {
+      "dataset": "MATR2019",
+      "n_train": 17003,
+      "n_validation": 1306,
+      "n_test": 2235,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.029711979178501456,
+          "validation_mse": 8647.998683101414
+        },
+        {
+          "h": 0.05942395835700291,
+          "validation_mse": 7023.090872815374
+        },
+        {
+          "h": 0.11884791671400582,
+          "validation_mse": 4991.957875778324
+        },
+        {
+          "h": 0.23769583342801165,
+          "validation_mse": 3127.036928514954
+        }
+      ],
+      "selected_bandwidth": 0.23769583342801165,
+      "algorithm1_density_admissible_coverage": 0.01923937360178971,
+      "coverage": {
+        "0.25": {
+          "target_rows": 558,
+          "achieved_rows": 43,
+          "achieved_coverage": 0.01923937360178971,
+          "selective_nw": {
+            "n": 43,
+            "normalized_rmse": 0.90255563497246,
+            "unit_macro_normalized_rmse": 0.7623984976334994,
+            "unit_coverage": 0.8
+          },
+          "ppx_seed_score": {
+            "n": 43,
+            "normalized_rmse": 0.7284985570971139,
+            "unit_macro_normalized_rmse": 0.7727334013816168,
+            "unit_coverage": 0.7
+          },
+          "ppx_algorithm1_score": {
+            "n": 43,
+            "normalized_rmse": 0.7471237549831768,
+            "unit_macro_normalized_rmse": 0.7336178265837703,
+            "unit_coverage": 0.8
+          }
+        },
+        "0.5": {
+          "target_rows": 1117,
+          "achieved_rows": 43,
+          "achieved_coverage": 0.01923937360178971,
+          "selective_nw": {
+            "n": 43,
+            "normalized_rmse": 0.90255563497246,
+            "unit_macro_normalized_rmse": 0.7623984976334994,
+            "unit_coverage": 0.8
+          },
+          "ppx_seed_score": {
+            "n": 43,
+            "normalized_rmse": 0.7284985570971139,
+            "unit_macro_normalized_rmse": 0.7727334013816168,
+            "unit_coverage": 0.7
+          },
+          "ppx_algorithm1_score": {
+            "n": 43,
+            "normalized_rmse": 0.7471237549831768,
+            "unit_macro_normalized_rmse": 0.7336178265837703,
+            "unit_coverage": 0.8
+          }
+        },
+        "0.75": {
+          "target_rows": 1676,
+          "achieved_rows": 43,
+          "achieved_coverage": 0.01923937360178971,
+          "selective_nw": {
+            "n": 43,
+            "normalized_rmse": 0.90255563497246,
+            "unit_macro_normalized_rmse": 0.7623984976334994,
+            "unit_coverage": 0.8
+          },
+          "ppx_seed_score": {
+            "n": 43,
+            "normalized_rmse": 0.7284985570971139,
+            "unit_macro_normalized_rmse": 0.7727334013816168,
+            "unit_coverage": 0.7
+          },
+          "ppx_algorithm1_score": {
+            "n": 43,
+            "normalized_rmse": 0.7471237549831768,
+            "unit_macro_normalized_rmse": 0.7336178265837703,
+            "unit_coverage": 0.8
+          }
+        },
+        "0.9": {
+          "target_rows": 2011,
+          "achieved_rows": 43,
+          "achieved_coverage": 0.01923937360178971,
+          "selective_nw": {
+            "n": 43,
+            "normalized_rmse": 0.90255563497246,
+            "unit_macro_normalized_rmse": 0.7623984976334994,
+            "unit_coverage": 0.8
+          },
+          "ppx_seed_score": {
+            "n": 43,
+            "normalized_rmse": 0.7284985570971139,
+            "unit_macro_normalized_rmse": 0.7727334013816168,
+            "unit_coverage": 0.7
+          },
+          "ppx_algorithm1_score": {
+            "n": 43,
+            "normalized_rmse": 0.7471237549831768,
+            "unit_macro_normalized_rmse": 0.7336178265837703,
+            "unit_coverage": 0.8
+          }
+        }
+      }
+    },
+    {
+      "dataset": "MATR-b2",
+      "n_train": 11552,
+      "n_validation": 673,
+      "n_test": 733,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.00916322462975347,
+          "validation_mse": 1647.9552927989862
+        },
+        {
+          "h": 0.01832644925950694,
+          "validation_mse": 1339.711958527212
+        },
+        {
+          "h": 0.03665289851901388,
+          "validation_mse": 922.8262098334611
+        },
+        {
+          "h": 0.07330579703802775,
+          "validation_mse": 531.4582650736713
+        }
+      ],
+      "selected_bandwidth": 0.07330579703802775,
+      "algorithm1_density_admissible_coverage": 0.01227830832196453,
+      "coverage": {
+        "0.25": {
+          "target_rows": 183,
+          "achieved_rows": 9,
+          "achieved_coverage": 0.01227830832196453,
+          "selective_nw": {
+            "n": 9,
+            "normalized_rmse": 2.368837032011068,
+            "unit_macro_normalized_rmse": 0.9182273346054006,
+            "unit_coverage": 0.3333333333333333
+          },
+          "ppx_seed_score": {
+            "n": 9,
+            "normalized_rmse": 0.09326255997258859,
+            "unit_macro_normalized_rmse": 0.08472269467631342,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 9,
+            "normalized_rmse": 1.3585972706843266,
+            "unit_macro_normalized_rmse": 0.68185275451312,
+            "unit_coverage": 0.3333333333333333
+          }
+        },
+        "0.5": {
+          "target_rows": 366,
+          "achieved_rows": 9,
+          "achieved_coverage": 0.01227830832196453,
+          "selective_nw": {
+            "n": 9,
+            "normalized_rmse": 2.368837032011068,
+            "unit_macro_normalized_rmse": 0.9182273346054006,
+            "unit_coverage": 0.3333333333333333
+          },
+          "ppx_seed_score": {
+            "n": 9,
+            "normalized_rmse": 0.09326255997258859,
+            "unit_macro_normalized_rmse": 0.08472269467631342,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 9,
+            "normalized_rmse": 1.3585972706843266,
+            "unit_macro_normalized_rmse": 0.68185275451312,
+            "unit_coverage": 0.3333333333333333
+          }
+        },
+        "0.75": {
+          "target_rows": 549,
+          "achieved_rows": 9,
+          "achieved_coverage": 0.01227830832196453,
+          "selective_nw": {
+            "n": 9,
+            "normalized_rmse": 2.368837032011068,
+            "unit_macro_normalized_rmse": 0.9182273346054006,
+            "unit_coverage": 0.3333333333333333
+          },
+          "ppx_seed_score": {
+            "n": 9,
+            "normalized_rmse": 0.09326255997258859,
+            "unit_macro_normalized_rmse": 0.08472269467631342,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 9,
+            "normalized_rmse": 1.3585972706843266,
+            "unit_macro_normalized_rmse": 0.68185275451312,
+            "unit_coverage": 0.3333333333333333
+          }
+        },
+        "0.9": {
+          "target_rows": 659,
+          "achieved_rows": 9,
+          "achieved_coverage": 0.01227830832196453,
+          "selective_nw": {
+            "n": 9,
+            "normalized_rmse": 2.368837032011068,
+            "unit_macro_normalized_rmse": 0.9182273346054006,
+            "unit_coverage": 0.3333333333333333
+          },
+          "ppx_seed_score": {
+            "n": 9,
+            "normalized_rmse": 0.09326255997258859,
+            "unit_macro_normalized_rmse": 0.08472269467631342,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 9,
+            "normalized_rmse": 1.3585972706843266,
+            "unit_macro_normalized_rmse": 0.68185275451312,
+            "unit_coverage": 0.3333333333333333
+          }
+        }
+      }
+    },
+    {
+      "dataset": "N-CMAPSS",
+      "n_train": 5239,
+      "n_validation": 1810,
+      "n_test": 159,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.12815869194424476,
+          "validation_mse": 871.7304835417231
+        },
+        {
+          "h": 0.2563173838884895,
+          "validation_mse": 636.8581229842729
+        },
+        {
+          "h": 0.512634767776979,
+          "validation_mse": 534.4611759332873
+        },
+        {
+          "h": 1.025269535553958,
+          "validation_mse": 523.7603262712405
+        }
+      ],
+      "selected_bandwidth": 1.025269535553958,
+      "algorithm1_density_admissible_coverage": 1.0,
+      "coverage": {
+        "0.25": {
+          "target_rows": 39,
+          "achieved_rows": 39,
+          "achieved_coverage": 0.24528301886792453,
+          "selective_nw": {
+            "n": 39,
+            "normalized_rmse": 1.0658419109875372,
+            "unit_macro_normalized_rmse": 0.9841598397383775,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_seed_score": {
+            "n": 39,
+            "normalized_rmse": 0.13203015958406472,
+            "unit_macro_normalized_rmse": 0.14387452360604455,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 39,
+            "normalized_rmse": 0.27126482535932805,
+            "unit_macro_normalized_rmse": 0.2775985328780951,
+            "unit_coverage": 0.6666666666666666
+          }
+        },
+        "0.5": {
+          "target_rows": 79,
+          "achieved_rows": 79,
+          "achieved_coverage": 0.4968553459119497,
+          "selective_nw": {
+            "n": 79,
+            "normalized_rmse": 1.0615196113422047,
+            "unit_macro_normalized_rmse": 0.9817320228932196,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_seed_score": {
+            "n": 79,
+            "normalized_rmse": 0.2074768790748117,
+            "unit_macro_normalized_rmse": 0.19630805507843718,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 79,
+            "normalized_rmse": 0.26755670310437085,
+            "unit_macro_normalized_rmse": 0.2701222179671974,
+            "unit_coverage": 0.6666666666666666
+          }
+        },
+        "0.75": {
+          "target_rows": 119,
+          "achieved_rows": 119,
+          "achieved_coverage": 0.7484276729559748,
+          "selective_nw": {
+            "n": 119,
+            "normalized_rmse": 1.0539333801558086,
+            "unit_macro_normalized_rmse": 0.9898953703818554,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_seed_score": {
+            "n": 119,
+            "normalized_rmse": 0.24132659015836316,
+            "unit_macro_normalized_rmse": 0.24249578858703513,
+            "unit_coverage": 0.6666666666666666
+          },
+          "ppx_algorithm1_score": {
+            "n": 119,
+            "normalized_rmse": 0.26430653081264827,
+            "unit_macro_normalized_rmse": 0.26238632198804834,
+            "unit_coverage": 0.6666666666666666
+          }
+        },
+        "0.9": {
+          "target_rows": 143,
+          "achieved_rows": 143,
+          "achieved_coverage": 0.89937106918239,
+          "selective_nw": {
+            "n": 143,
+            "normalized_rmse": 1.0127704333406153,
+            "unit_macro_normalized_rmse": 0.776348244117861,
+            "unit_coverage": 1.0
+          },
+          "ppx_seed_score": {
+            "n": 143,
+            "normalized_rmse": 0.2529876832052078,
+            "unit_macro_normalized_rmse": 0.24996389558689028,
+            "unit_coverage": 1.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 143,
+            "normalized_rmse": 0.25612159907997023,
+            "unit_macro_normalized_rmse": 0.2520194332544383,
+            "unit_coverage": 1.0
+          }
+        }
+      }
+    },
+    {
+      "dataset": "MICH",
+      "n_train": 1439,
+      "n_validation": 259,
+      "n_test": 202,
+      "pca_dimension": 3,
+      "bandwidth_search": [
+        {
+          "h": 0.03419825885052462,
+          "validation_mse": 3971.588193987361
+        },
+        {
+          "h": 0.06839651770104924,
+          "validation_mse": 2464.2329509702936
+        },
+        {
+          "h": 0.13679303540209847,
+          "validation_mse": 1447.0173982527485
+        },
+        {
+          "h": 0.27358607080419695,
+          "validation_mse": 1399.9821874099666
+        }
+      ],
+      "selected_bandwidth": 0.27358607080419695,
+      "algorithm1_density_admissible_coverage": 0.0,
+      "coverage": {
+        "0.25": {
+          "target_rows": 50,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.5": {
+          "target_rows": 101,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.75": {
+          "target_rows": 151,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        },
+        "0.9": {
+          "target_rows": 181,
+          "achieved_rows": 0,
+          "achieved_coverage": 0.0,
+          "selective_nw": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_seed_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          },
+          "ppx_algorithm1_score": {
+            "n": 0,
+            "normalized_rmse": null,
+            "unit_macro_normalized_rmse": null,
+            "unit_coverage": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "0.25": {
+      "usable_datasets": 5,
+      "mean_achieved_coverage": 0.058378103631246576,
+      "ppx_macro_normalized_rmse": 0.27163136814540095,
+      "selective_nw_macro_normalized_rmse": 1.278779386023425,
+      "ppx_dataset_wins": 5,
+      "paired_exact_sign_flip_p": 0.0625,
+      "normalized_rmse_difference_selective_minus_ppx": [
+        1.2009907265591355,
+        0.45130606151368613,
+        0.1740570778753462,
+        2.2755744720384796,
+        0.9338117514034725
+      ]
+    },
+    "0.5": {
+      "usable_datasets": 5,
+      "mean_achieved_coverage": 0.08720204410890514,
+      "ppx_macro_normalized_rmse": 0.29601669952597026,
+      "selective_nw_macro_normalized_rmse": 1.2754041070974511,
+      "ppx_dataset_wins": 5,
+      "paired_exact_sign_flip_p": 0.0625,
+      "normalized_rmse_difference_selective_minus_ppx": [
+        1.2009907265591355,
+        0.3922720291170499,
+        0.1740570778753462,
+        2.2755744720384796,
+        0.854042732267393
+      ]
+    },
+    "0.75": {
+      "usable_datasets": 5,
+      "mean_achieved_coverage": 0.1151545248915746,
+      "ppx_macro_normalized_rmse": 0.3027866417426806,
+      "selective_nw_macro_normalized_rmse": 1.2738868608601719,
+      "ppx_dataset_wins": 5,
+      "paired_exact_sign_flip_p": 0.0625,
+      "normalized_rmse_difference_selective_minus_ppx": [
+        1.2009907265591355,
+        0.3922720291170499,
+        0.1740570778753462,
+        2.2755744720384796,
+        0.8126067899974454
+      ]
+    },
+    "0.9": {
+      "usable_datasets": 5,
+      "mean_achieved_coverage": 0.13192601336117626,
+      "ppx_macro_normalized_rmse": 0.3051188603520495,
+      "selective_nw_macro_normalized_rmse": 1.2656542714971333,
+      "ppx_dataset_wins": 5,
+      "paired_exact_sign_flip_p": 0.0625,
+      "normalized_rmse_difference_selective_minus_ppx": [
+        1.2009907265591355,
+        0.3922720291170499,
+        0.1740570778753462,
+        2.2755744720384796,
+        0.7597827501354075
+      ]
+    }
+  }
+}
