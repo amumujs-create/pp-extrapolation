@@ -201,7 +201,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 38
+    TOTAL = 36
 
     def p():
         nonlocal n
@@ -252,8 +252,8 @@ def build():
 
     # 3 Prior work — what existing extrapolation methods assume
     s = blank(prs)
-    head(s, "사전 조사 — 외삽 성능은 결국 ‘밖에서도 유지될 가정’에 달려 있다",
-         "대표 방법은 서로 다른 prior를 구조·손실·분포 가정으로 넣는다. 문제는 그 prior의 적용 자격이다.")
+    head(s, "사전 조사 — 회귀 외삽은 추가 가정 없이는 식별되지 않는다",
+         "대표 방법은 서로 다른 구조·분포 가정을 둔다. PP-X만 prior를 쓰는 것은 아니다.")
 
     add_text(s, 48, 88, 1184, 34,
              "조사 결론  범용 회귀기가 데이터만으로 support 밖 함수를 정해 주지는 않는다.", 16, C["ink"], True)
@@ -262,7 +262,7 @@ def build():
         (48, "제약 없는 NN", "ReLU 네트워크", "마지막 선형 조각을\n밖으로 연장", "가정이 암묵적이라\ntail 형태를 통제하기 어렵다", C["soft"], C["ink"]),
         (350, "형상 제약", "CMNN · monotone NN", "증가/감소 방향을\n구조로 강제", "단조 방향이 맞다는\n도메인 prior가 필요하다", C["soft_blue"], C["blue"]),
         (652, "식·물리 제약", "EQL · PINN · Physics-ML", "함수식·PDE·열화 법칙을\n구조 또는 loss에 반영", "식과 적용 조건이 맞는\n도메인에서 강하다", C["soft_orange"], C["orange"]),
-        (954, "통계적 외삽", "Bounds · UQ · distributional", "smoothness·미분·분포 가정으로\n범위 또는 분포를 추정", "가정이 약하면 band가 넓고\n점예측은 식별되지 않는다", C["soft"], C["ink"]),
+        (954, "통계적 외삽", "Engression · Xtrapolation\n· Progression", "noise 위치·미분 경계·\ntail dependence를 가정", "가정이 약하면 band가 넓고\n점예측은 식별되지 않는다", C["soft"], C["ink"]),
     ]
     for x, title, family, mechanism, limit, fill, line in cards:
         rect(s, x, 142, 278, 300, fill, line, True)
@@ -273,16 +273,40 @@ def build():
         add_text(s, x + 18, 346, 242, 64, limit, 12, C["red"], False, "center")
 
     rect(s, 48, 470, 1184, 104, C["ink"], None, True)
-    add_text(s, 70, 486, 1140, 30,
-             "남은 공백  prior를 넣는 방법은 많다. 그러나 서로 다른 prior가 현재 contract에서 유효한지 검증하고,", 14, C["white"], True, "center")
-    add_text(s, 70, 524, 1140, 30,
-             "근거가 없을 때 같은 절차로 거절·fallback하는 범용 실행 규칙은 별개의 문제다.", 14, C["white"], True, "center")
+    add_text(s, 70, 482, 1140, 28,
+             "직접 인접 연구  EV(2024)·LBO(2025)는 boundary-focused validation을 이미 제안했다.", 13, C["white"], True, "center")
+    add_text(s, 70, 516, 1140, 44,
+             "남은 질문  이질적인 prior를 outcome-free contract로 제한하고, physical-unit 위험으로 executor와 exact fallback을 시험 전에 함께 고정할 수 있는가?", 13, C["white"], True, "center")
     add_text(s, 48, 604, 1184, 32,
-             "근거  Xu et al., ICLR 2021 · Runje & Shankaranarayana, ICML 2023 · Raissi et al., JCP 2019 · Pfister & Bühlmann, 2024",
-             10, C["muted"], False, "center")
+             "Xu 2021 · Runje 2023 · Raissi 2019 · Shen & Meinshausen 2024 · Pfister & Bühlmann 2026 · Yu et al. 2024 · García et al. 2025",
+             9, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
-    # 4 Research route — full diagram
+    # 4 Contributions — position the integration claim before the algorithm
+    s = blank(prs)
+    head(s, "연구 기여 — 새 블록 하나보다 ‘가정을 실행하는 규칙’을 제안한다",
+         "개별 요소의 최초성이 아니라, 외삽 가정의 선언·학습·승인·거절을 하나의 검증 가능한 절차로 결합한다.")
+    contributions = [
+        (48, "C1  Typed contract", "test 결과를 보기 전에\n경계 · unit · causal X ·\n허용 prior · fallback 선언", C["soft_blue"], C["blue"]),
+        (350, "C2  Prior-residual core", "동결된 저복잡도 tail 주변에서\nsource가 지지하는 nonlinear\nresidual만 제한적으로 학습", C["soft"], C["ink"]),
+        (652, "C3  Unit-evidence approval", "group-disjoint validation의\n이득 · unit wins · worst risk로\nexecutor 승인 또는 거절", C["soft_orange"], C["orange"]),
+        (954, "C4  Frozen execution", "승인 route 하나를 test 전에 고정\n근거가 없으면 exact fallback\n성공·실패 결과를 함께 보고", C["soft"], C["ink"]),
+    ]
+    for x, title, body, fill, line in contributions:
+        rect(s, x, 118, 278, 314, fill, line, True)
+        add_text(s, x + 18, 142, 242, 30, title, 15, line, True, "center")
+        hline(s, x + 24, x + 254, 192, C["rule"])
+        add_text(s, x + 18, 224, 242, 138, body, 13, C["ink"], False, "center")
+    rect(s, 48, 470, 1184, 90, C["ink"], None, True)
+    add_text(s, 70, 488, 1140, 52,
+             "주장 경계  prior+residual, validation, abstention은 각각 기존에 있다. PP-X의 novelty는 typed admissibility + bounded residual authority + physical-unit approval + frozen fallback의 결합이다.",
+             14, C["white"], True, "center")
+    add_text(s, 48, 590, 1184, 30,
+             "실증  9개 retrospective setting 중 동일예산 최강 비교모델 대비 8개 우세 · DS03에서는 prior 거절 성공, Engression보다 정확도 우월은 미확증",
+             11, C["muted"], False, "center")
+    foot(s, p(), TOTAL)
+
+    # 5 Research route — full diagram
     s = blank(prs)
     head(s, "연구 루트", "그래서 후보식이 정당화되는지에 따라 경로를 나눈다")
 
@@ -314,7 +338,7 @@ def build():
     add_text(s, 98, 322, 480, 20, "equation-free", 12, C["muted"])
     add_text(s, 98, 352, 490, 22, "prior-residual core", 15, C["ink"])
     add_text(s, 98, 384, 490, 22, "+ evidence-selected executor", 15, C["ink"])
-    add_text(s, 98, 426, 490, 22, "v1.0 core + validation safety gate  ·  v1.1", 14, C["blue"], True)
+    add_text(s, 98, 426, 490, 22, "논문 동결 정의  ·  Algorithm 1", 14, C["blue"], True)
 
     rect(s, 670, 272, 540, 200, C["soft_orange"], C["orange"], True)
     rect(s, 670, 272, 8, 200, C["orange"])
@@ -336,9 +360,9 @@ def build():
     add_text(s, 70, 578, 1140, 24, "오늘은 왼쪽만 간다.  PAE와 Assurance는 지도에만 찍는다.", 13, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
-    # 4 Method — current PP-X v1.1
+    # 6 Method — frozen paper PP-X
     s = blank(prs)
-    head(s, "방법 — PP-X v1.1", "한 네트워크 안에서 prior를 검증하고, 실패하면 exact MLP로 후퇴")
+    head(s, "방법 — 최종 PP-X", "작은 공통 prior-residual core + validation-approved executor + prespecified fallback")
     pic(s, "ppx_core.png", 20, 78, 760, 400)
     add_table(
         s,
@@ -346,11 +370,11 @@ def build():
         86,
         448,
         248,
-        ["단계", "v1.1이 하는 일"],
+        ["단계", "최종 PP-X가 하는 일"],
         [
-            ["(a) prior", "얼린 affine 꼬리 후보. trust>0일 때만 반영"],
-            ["(b) residual", "동일 NN이 nonlinear 보정 r을 학습"],
-            ["(c) 출력", "승인: prior+residual · 거절: trust=0 MLP"],
+            ["(a) contract", "경계·unit·causal X·허용 prior·fallback 선언"],
+            ["(b) core", "동결 affine/quotient tail + bounded nonlinear residual"],
+            ["(c) executor", "bound·history·transport 중 validation이 지지한 것만 실행"],
         ],
         font_size=11,
     )
@@ -360,12 +384,12 @@ def build():
         348,
         448,
         200,
-        ["Safety gate (val만)", "승인 조건"],
+        ["승인 규칙 (val/source만)", "조건"],
         [
-            ["상대 이득", "matched MLP보다 RMSE 2% 이상↓"],
-            ["유닛 증거", "unit-bootstrap 95% CI 하한 > 0"],
-            ["승인", "trust .02/.05/.10/.20/.40 중 하나"],
-            ["거절", "trust=0 · exact matched MLP"],
+            ["Prior admissibility", "source OOF regret·complete groups·regime coverage"],
+            ["Executor gain", "validation RMSE 상대 2% 이상 개선"],
+            ["Unit risk", "unit wins ≥60% · worst ratio ≤1.10"],
+            ["거절", "사전 지정 direct/persistence fallback 또는 abstention"],
         ],
         font_size=11,
     )
@@ -375,12 +399,32 @@ def build():
         488,
         760,
         88,
-        "(a)와 (b)는 별도 모델이 아니라 같은 네트워크의 두 경로다. validation에서 prior가 matched MLP를 명확히 이길 때만 trust를 남긴다.\n"
-        "근거가 약하면 prior를 제거하고 동일 seed·초기화·optimizer의 trust=0 하위모형을 그대로 출력한다.",
+        "모든 데이터셋에서 같은 optional module을 켜지 않는다. 공통점은 prior와 residual의 역할을 분리하고, contract가 허용한 executor만 validation에서 승인한다.\n"
+        "route가 승인되지 않으면 해당 contract에 미리 적은 direct·persistence fallback 또는 abstention으로 간다.",
         12,
         C["ink"],
     )
-    add_text(s, 20, 600, 1210, 22, "test 예측을 보고 혼합하지 않는다.  승인 실패 → exact matched MLP.  test는 frozen forward만.", 12, C["muted"])
+    add_text(s, 20, 600, 1210, 22, "버전 번호 혼동을 피하기 위해 논문과 본 발표에서는 ‘PP-X Algorithm 1’로만 표기한다.", 12, C["muted"], True)
+    foot(s, p(), TOTAL)
+
+    # 7 Frozen paper algorithm
+    s = blank(prs)
+    head(s, "PP-X Algorithm 1", "outcome-free contract → validation approval → frozen execution")
+    stages = [
+        (48, "① Typed contract", "boundary · progression · history\nregime · support\n후보 executor 제한", C["soft_blue"], C["blue"]),
+        (350, "② Prior admissibility", "complete source groups\nOOF regret ≤ 0\nmode stability ≥ .60", C["soft"], C["ink"]),
+        (652, "③ Executor approval", "validation gain ≥ 2%\nunit wins ≥ 60%\nworst ratio ≤ 1.10", C["soft_orange"], C["orange"]),
+        (954, "④ Frozen output", "승인 executor 1개\n또는 prespecified fallback\ntest에서 route 불변", C["soft_blue"], C["blue"]),
+    ]
+    for x, title, body, fill, line in stages:
+        rect(s, x, 130, 278, 280, fill, line, True)
+        add_text(s, x + 16, 146, 246, 28, title, 15, line, True, "center")
+        add_text(s, x + 16, 210, 246, 130, body, 13, C["ink"], False, "center")
+    for x in (326, 628, 930):
+        add_text(s, x, 250, 24, 32, "→", 22, C["muted"], True, "center")
+    rect(s, 48, 450, 1184, 86, C["ink"], None, True)
+    add_text(s, 68, 468, 1144, 48, "논문 메인 = PP-X 선택 알고리즘  ·  CCMR은 trajectory risk-aware executor 사례  ·  12개 과거 route가 하나의 동일 NN이라는 뜻은 아님", 14, C["white"], True, "center")
+    add_text(s, 48, 566, 1184, 48, "동결  protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md  ·  구현  paper_ppx.py  ·  선택 함수는 test outcome 인자를 받지 않음", 12, C["muted"], True)
     foot(s, p(), TOTAL)
 
     # 5 How the evaluation interval is defined
@@ -504,7 +548,7 @@ def build():
 
     # 6 Main results — PP-X portfolio
     s = blank(prs)
-    head(s, "주 결과 — PP-X v1.0", "1D 열화좌표 기준의 엄격한 외삽만.  확증 cohort 아님  ·  PAE 없음")
+    head(s, "주 결과 — 최종 PP-X portfolio", "1D 열화좌표 기준의 엄격한 외삽만.  retrospective development 결과  ·  PAE 없음")
     pic(s, "ppx_portfolio.png", 30, 82, 680, 390)
     add_table(
         s,
@@ -565,95 +609,6 @@ def build():
         12,
         C["ink"],
     )
-    foot(s, p(), TOTAL)
-
-    # v1.1 model explanation — retain all v1.0 ablation slides below.
-    s = blank(prs)
-    head(s, "PP-X v1.1 — 무엇이 달라졌나", "prior를 더 복잡하게 하지 않고, 사용할 권한을 검증한다")
-    add_text(s, 48, 78, 1184, 30, "하나의 네트워크 안에 prior 경로와 exact matched-MLP 하위모형이 함께 있다.", 15, C["ink"], True)
-    rect(s, 48, 134, 340, 330, C["soft_orange"], C["orange"], True)
-    add_text(s, 70, 150, 296, 26, "① 후보 생성", 18, C["orange"], True)
-    add_text(s, 70, 198, 296, 220, "trust > 0\n동결 affine prior\n+ nonlinear residual\n\ntrust = 0\n동일 초기화·optimizer의\nmatched MLP", 15, C["ink"], False, "center")
-    add_text(s, 398, 270, 42, 40, "→", 25, C["muted"], True, "center")
-    rect(s, 446, 134, 340, 330, C["soft_blue"], C["blue"], True)
-    add_text(s, 468, 150, 296, 26, "② validation 승인", 18, C["blue"], True)
-    add_text(s, 468, 198, 296, 220, "MLP 대비 RMSE\n상대 2% 이상 개선\n+\nphysical-unit bootstrap\n95% CI 하한 > 0\n+\nvalidation unit ≥ 3", 14, C["ink"], False, "center")
-    add_text(s, 796, 270, 42, 40, "→", 25, C["muted"], True, "center")
-    rect(s, 844, 134, 388, 330, C["soft"], C["ink"], True)
-    add_text(s, 866, 150, 344, 26, "③ 한 경로만 출력", 18, C["ink"], True)
-    add_text(s, 866, 198, 344, 220, "통과  prior trust 유지\n\n실패  trust = 0\nexact matched MLP\n\n※ test 예측을 보고\n혼합하지 않는다", 15, C["ink"], False, "center")
-    rect(s, 48, 500, 1184, 76, C["ink"], None, True)
-    add_text(s, 70, 517, 1140, 46, "v1.0 = prior executor의 구조를 검증   ·   v1.1 = 그 prior를 새 고호트에서 켜도 되는지 검증", 15, C["white"], True, "center")
-    add_text(s, 48, 590, 1184, 26, "주의  Stanford 결과를 본 뒤 만든 post-test development다. 기존 v1.0 주표와 ablation을 소급 대체하지 않는다.", 12, C["red"], True)
-    foot(s, p(), TOTAL)
-
-    # v1.1 complete trust/architecture ablation
-    s = blank(prs)
-    head(s, "Ablation — PP-X v1.1 trust · architecture", "2고호트 × 6 trust × 4 architecture × 5 seeds = 240 fits")
-    pic(s, "v11_complete_trust.png", 28, 82, 760, 400)
-    add_table(
-        s,
-        808,
-        92,
-        420,
-        350,
-        ["Cohort", "Val-best trust", "Test-best*"],
-        [
-            ["Stanford", "0", ".20"],
-            ["ISU 250mAh", ".02", ".10"],
-            ["Grid", "w 16/32", "lr .0005/.001"],
-            ["Seeds", "42–46", "5/arm"],
-        ],
-        font_size=12,
-        red_cols={2},
-    )
-    add_text(s, 808, 458, 420, 42, "* test-best는 설명용 사후 dose-response이며 선택에 사용하지 않음", 11, C["red"], True)
-    add_text(
-        s,
-        48,
-        510,
-        1184,
-        82,
-        "Stanford  validation은 trust=0을 선호하지만 test dose 최고는 .20(R² .094).  ISU는 validation .02, test dose 최고 .10(R² .557).\n"
-        "결론  trust의 test 최적점은 고호트마다 다르고 validation 최적점과도 다르다. test를 보고 trust를 고르면 누수다.",
-        13,
-        C["ink"],
-    )
-    add_text(s, 48, 606, 1184, 22, "모든 구현 trust×width×learning-rate 조합을 같은 5 seeds로 재학습했다.", 12, C["muted"], True)
-    foot(s, p(), TOTAL)
-
-    # v1.1 gate factorial and seed stability
-    s = blank(prs)
-    head(s, "Ablation — PP-X v1.1 gate 2×2 · seed", "2% margin on/off × unit-bootstrap on/off · exact fallback")
-    pic(s, "v11_complete_gate_seed.png", 28, 82, 760, 390)
-    add_table(
-        s,
-        808,
-        92,
-        420,
-        330,
-        ["Cohort", "Val gain", "Boot 95% CI", "Full gate"],
-        [
-            ["Stanford", "−0.28%", "[−.276,.208]", "reject"],
-            ["ISU 250", "+1.65%", "[−.145,.196]", "reject"],
-            ["Unit wins", "4/8", "32/45", "—"],
-            ["Fallback Δ", "0.0", "0.0", "exact"],
-        ],
-        font_size=10,
-    )
-    add_text(s, 808, 444, 420, 54, "각 gate 단독으로도 두 prior를 거절\nFull gate = matched MLP exact", 13, C["blue"], True)
-    add_text(
-        s,
-        48,
-        510,
-        1184,
-        82,
-        "비용  ISU always-on test R² .555 → full gate .451. 유효한 약한 prior도 놓친다.\n"
-        "Seed  두 고호트 모두 개별 seed 하나는 R²<0. 따라서 ensemble 양수만으로 seed-robust를 주장하지 않는다.",
-        13,
-        C["ink"],
-    )
-    add_text(s, 48, 606, 1184, 22, "기존 v1.0 ablation은 다음 장부터 그대로 유지한다. 이번 두 고호트도 retrospective mechanism evidence다.", 12, C["muted"], True)
     foot(s, p(), TOTAL)
 
     # Ablation — dual-scale is one executor
@@ -856,26 +811,6 @@ def build():
     add_text(s, 48, 598, 1184, 28, "정리  유닛 안에서는 근거가 있다. 데이터 종류가 세 개뿐이라 분야 전체 유의는 말하지 않는다.", 13, C["muted"])
     foot(s, p(), TOTAL)
 
-    # Frozen paper algorithm
-    s = blank(prs)
-    head(s, "PP-X Algorithm 1", "outcome-free contract → validation approval → frozen execution")
-    stages = [
-        (48, "① Typed contract", "boundary · progression · history\nregime · support\n후보 executor 제한", C["soft_blue"], C["blue"]),
-        (350, "② Prior admissibility", "complete source groups\nOOF regret ≤ 0\nmode stability ≥ .60", C["soft"], C["ink"]),
-        (652, "③ Executor approval", "validation gain ≥ 2%\nunit wins ≥ 60%\nworst ratio ≤ 1.10", C["soft_orange"], C["orange"]),
-        (954, "④ Frozen output", "승인 executor 1개\n또는 prespecified fallback\ntest에서 route 불변", C["soft_blue"], C["blue"]),
-    ]
-    for x, title, body, fill, line in stages:
-        rect(s, x, 130, 278, 280, fill, line, True)
-        add_text(s, x + 16, 146, 246, 28, title, 15, line, True, "center")
-        add_text(s, x + 16, 210, 246, 130, body, 13, C["ink"], False, "center")
-    for x in (326, 628, 930):
-        add_text(s, x, 250, 24, 32, "→", 22, C["muted"], True, "center")
-    rect(s, 48, 450, 1184, 86, C["ink"], None, True)
-    add_text(s, 68, 468, 1144, 48, "논문 메인 = PP-X 선택 알고리즘  ·  CCMR은 trajectory risk-aware executor 사례  ·  12개 과거 route가 하나의 동일 NN이라는 뜻은 아님", 14, C["white"], True, "center")
-    add_text(s, 48, 566, 1184, 48, "동결  protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md  ·  구현  paper_ppx.py  ·  선택 함수는 test outcome 인자를 받지 않음", 12, C["muted"], True)
-    foot(s, p(), TOTAL)
-
     # Policy attack audit
     s = blank(prs)
     head(s, "정책 검증 — validation만으로는 부족하다", "12-domain common-backbone retrospective audit  ·  oracle은 비배포 상한")
@@ -1004,7 +939,7 @@ def build():
         220,
         ["Claim", "Detail"],
         [
-            ["Model", "현재 v1.1 safety · 표 수치는 기존 v1.0 portfolio"],
+            ["Model", "최종 PP-X = 공통 core + validation-approved executor"],
             ["Scope", "unit-disjoint · hull-out · val-only"],
             ["Not default", "dual-scale · transport · full history"],
             ["Venue", "분야 Q1–Q2"],
