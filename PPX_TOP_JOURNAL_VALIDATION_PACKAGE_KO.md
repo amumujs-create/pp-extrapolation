@@ -5,6 +5,11 @@
 방법 표현: **A validation-approved prior-residual framework for
 contract-conditioned extrapolation**
 
+> **제출 전 고정 서사·Evidence Registry:**
+> [`PPX_PAPER_NARRATIVE_AND_EVIDENCE_REGISTRY_KO.md`](PPX_PAPER_NARRATIVE_AND_EVIDENCE_REGISTRY_KO.md)
+> Cross-domain stability 별칭:
+> [`PPX_CROSS_DOMAIN_STABILITY_COMPARISON_KO.md`](PPX_CROSS_DOMAIN_STABILITY_COMPARISON_KO.md)
+
 ## 1. 이번에 고정한 것
 
 - 논문 알고리즘과 임계값:
