@@ -202,7 +202,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 40
+    TOTAL = 41
 
     def p():
         nonlocal n
@@ -469,6 +469,40 @@ def build():
     end = rect(s, 220, 518, 840, 44, C["soft"], C["ink"], True)
     fill_shape_text(end, "Assurance    ·    믿기  /  보류  /  거절    →    박사논문에서 두 경로 통합", 14, C["ink"], True)
     add_text(s, 70, 578, 1140, 24, "오늘은 왼쪽만 간다.  PAE와 Assurance는 지도에만 찍는다.", 13, C["muted"], False, "center")
+    foot(s, p(), TOTAL)
+
+    # Weak prior definition — sits after research route in the narrative order
+    s = blank(prs)
+    head(s, "약한 prior란 무엇인가",
+         "완전 물리식이 없어도, 밖을 지탱할 최소한의 구조 가정을 contract로 선언한다.")
+    rect(s, 48, 96, 1184, 78, C["soft_blue"], C["blue"], True)
+    add_text(s, 70, 112, 1140, 48,
+             "정의  약한 prior = 닫힌 형태의 열화식·PDE를 쓰지 않고, 경계·방향·저복잡도 tail·support·인과 이력처럼 관측·선언 가능한 구조만 외삽 경로로 쓰는 가정.",
+             14, C["ink"], True, "center")
+
+    assumptions = [
+        (48, "경계", "고장·임계 상태가\n어디인지 안다", "RUL·균열이 0에\n닿는 지점을 고정"),
+        (350, "방향·단조성", "나빠질수록 남은\n수명은 줄어든다", "뒤집힌 예측을\n구조적으로 막음"),
+        (652, "저복잡도 tail", "affine / quotient로\n밖의 기본 경로를 둠", "NN이 밖을\n마음대로 그리지 않음"),
+        (954, "support·인과", "학습에서 멀수록\n보정을 제한한다", "현재까지의 관측만\n입력으로 사용"),
+    ]
+    for x, title, assumption, intent in assumptions:
+        rect(s, x, 196, 278, 246, C["soft"], C["ink"], True)
+        add_text(s, x + 16, 212, 246, 28, title, 15, C["blue"], True, "center")
+        hline(s, x + 24, x + 254, 254, C["rule"])
+        add_text(s, x + 16, 272, 246, 56, assumption, 13, C["ink"], False, "center")
+        add_text(s, x + 16, 348, 246, 66, intent, 12, C["muted"], False, "center")
+
+    rect(s, 48, 466, 570, 130, C["soft_orange"], C["orange"], True)
+    add_text(s, 68, 484, 530, 28, "설계 의도", 15, C["orange"], True)
+    add_text(s, 68, 524, 530, 52,
+             "식이 틀려도 되는 게 아니라, 식이 없을 때도 외삽 방향을 고정하고 residual이 prior를 덮어쓰지 못하게 한다.",
+             13, C["ink"])
+    rect(s, 662, 466, 570, 130, C["soft"], C["ink"], True)
+    add_text(s, 682, 484, 530, 28, "강한 prior와 다른 점", 15, C["ink"], True)
+    add_text(s, 682, 524, 530, 52,
+             "PAE의 강한 prior는 검증된 식 자체다. PP-X의 약한 prior는 ‘식 없이 쓸 수 있는 최소 구조’이며, 근거가 없으면 거절한다.",
+             13, C["ink"])
     foot(s, p(), TOTAL)
 
     # 6 Method — frozen paper PP-X
@@ -1517,9 +1551,9 @@ def build():
     # survey -> gap/research map -> current PP-X contribution -> structure ->
     # protocol -> evidence. Failure analysis follows the main evidence.
     order = [
-        1, 2, 3, 8, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23, 24, 6, 40, 25, 7, 26, 27, 28, 29, 30, 31, 32,
-        33, 34, 35, 36, 37, 38, 39,
+        1, 2, 3, 8, 9, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23, 24, 25, 6, 41, 26, 7, 27, 28, 29, 30, 31, 32,
+        33, 34, 35, 36, 37, 38, 39, 40,
     ]
     slide_ids = list(prs.slides._sldIdLst)
     for slide_id in slide_ids:
