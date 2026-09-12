@@ -283,30 +283,35 @@ def build():
              9, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
-    # 4 Contributions — position the integration claim before the algorithm
+    # 4 Contributions — journal narrative fixed to three claims
     s = blank(prs)
-    head(s, "연구 기여 — 새 블록 하나보다 ‘가정을 실행하는 규칙’을 제안한다",
-         "개별 요소의 최초성이 아니라, 외삽 가정의 선언·학습·승인·거절을 하나의 검증 가능한 절차로 결합한다.")
+    head(s, "연구 기여 — execution architecture로 고정한다",
+         "PP-X는 universal neural predictor가 아니라, prior의 선언·승인·실행·거절을 검증 가능한 절차로 만든 구조다.")
     contributions = [
-        (48, "C1  Typed contract", "test 결과를 보기 전에\n경계 · unit · causal X ·\n허용 prior · fallback 선언", C["soft_blue"], C["blue"]),
-        (350, "C2  Prior-residual core", "동결된 저복잡도 tail 주변에서\nsource가 지지하는 nonlinear\nresidual만 제한적으로 학습", C["soft"], C["ink"]),
-        (652, "C3  Unit-evidence approval", "group-disjoint validation의\n이득 · unit wins · worst risk로\nexecutor 승인 또는 거절", C["soft_orange"], C["orange"]),
-        (954, "C4  Frozen execution", "승인 route 하나를 test 전에 고정\n근거가 없으면 exact fallback\n성공·실패 결과를 함께 보고", C["soft"], C["ink"]),
+        (48, "C1  Contract-conditioned model",
+         "경계 · history · support · causal\n정보로 허용 prior를 선언하고\nfrozen prior 주변의 bounded\ncausal residual만 학습",
+         C["soft_blue"], C["blue"]),
+        (448, "C2  Validation-approved execution",
+         "bound · dual-scale · transport · history를\n전역으로 켜지 않고\nvalidation이 지지한 executor만 실행\n반례에서는 거절 / fallback",
+         C["soft_orange"], C["orange"]),
+        (848, "C3  Equal-coverage evidence",
+         "unit bootstrap · paired 검정\ncross-domain stability\nSelective Regression 동일 coverage\nprospective DS03까지 함께 검증",
+         C["soft"], C["ink"]),
     ]
     for x, title, body, fill, line in contributions:
-        rect(s, x, 118, 278, 314, fill, line, True)
-        add_text(s, x + 18, 142, 242, 30, title, 15, line, True, "center")
-        hline(s, x + 24, x + 254, 192, C["rule"])
-        add_text(s, x + 18, 224, 242, 138, body, 13, C["ink"], False, "center")
+        rect(s, x, 118, 384, 314, fill, line, True)
+        add_text(s, x + 18, 142, 348, 46, title, 15, line, True, "center")
+        hline(s, x + 28, x + 356, 210, C["rule"])
+        add_text(s, x + 24, 236, 336, 160, body, 14, C["ink"], False, "center")
     rect(s, 48, 458, 1184, 120, C["ink"], None, True)
     add_text(s, 70, 472, 1140, 34,
-             "결합 방식  Contract C → 허용 후보 E(C) 제한 → prior-residual 후보 학습 → unit-risk 제약 아래 validation-best executor 선택 → frozen route / fallback",
+             "포지션  PP-X is a contract-conditioned, validation-approved prior-residual execution architecture, not a universal neural predictor.",
              13, C["white"], True, "center")
     add_text(s, 70, 518, 1140, 42,
-             "차별점  prior+residual·validation·abstention을 나열한 것이 아니라, 앞 단계의 출력이 다음 단계의 허용 입력을 제한하는 하나의 실행 알고리즘으로 만든다.",
+             "주장 범위  평균 SOTA가 아니라, 동일 coverage에서 더 안전한 예측 조건 · 근거 없는 prior 거절 · unrestricted residual·generic selective regression보다 안전한 조건부 실행.",
              13, C["white"], False, "center")
     add_text(s, 48, 602, 1184, 30,
-             "실증  9개 retrospective setting 중 동일예산 최강 비교모델 대비 8개 우세 · DS03에서는 prior 거절 성공, Engression보다 정확도 우월은 미확증",
+             "실증  equal-budget 8/9 · domain MAD Engression p=.0391 · Selective equal-coverage 5/5 · DS03 prior 거절 PASS / 정확도 우월 FAIL",
              11, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
