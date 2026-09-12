@@ -1,0 +1,224 @@
+{
+  "protocol": {
+    "scope": "canonical final PP-X, nine retrospective main settings, five fixed seeds",
+    "primary_unit": "setting; seeds are repeated optimization runs and not independent samples",
+    "methods": [
+      "two-sided exact sign test",
+      "two-sided exhaustive sign-flip test of mean effect",
+      "setting bootstrap CI",
+      "dataset-then-unit hierarchical bootstrap CI"
+    ],
+    "multiplicity": "Holm adjustment across 3 outcomes x 2 prespecified comparators",
+    "interpretation": "Retrospective small-sample inference; not prospective confirmation or proof of prior validity."
+  },
+  "results": {
+    "engression": {
+      "ensemble_r2_difference": {
+        "effect_mean": 0.5504242224550696,
+        "effect_median": 0.12344746772099424,
+        "bootstrap_ci95": [
+          0.1009211558513601,
+          1.124311259718251
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          0.08687764636642803,
+          0.02479336633897311,
+          0.00025455817312303175,
+          0.37328788416198133,
+          0.3467416491340205,
+          2.3316335624533275,
+          1.6617911641487204,
+          0.12344746772099424,
+          0.004990703598058532
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "log_seed_sd_ratio": {
+        "effect_mean": 1.9388274477481222,
+        "effect_median": 2.0480473106705834,
+        "bootstrap_ci95": [
+          1.4196659337858546,
+          2.4483994312108015
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          2.0480473106705834,
+          0.7011843298091218,
+          1.666245180508355,
+          3.108061958823672,
+          2.3798907206315723,
+          2.566438897770142,
+          2.7550693026463082,
+          1.2007637947453809,
+          1.0237455341279633
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "worst_seed_r2_difference": {
+        "effect_mean": 1.3429782815106694,
+        "effect_median": 0.40490303529943483,
+        "bootstrap_ci95": [
+          0.27128828043589687,
+          2.721048054280381
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          0.255502789815623,
+          0.03604109238676545,
+          0.0803476656370894,
+          1.2031723207440312,
+          0.5588766343830738,
+          4.528499015561945,
+          4.989746372233748,
+          0.40490303529943483,
+          0.029715607534315125
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "hierarchical_unit_log_rmse": {
+        "effect": "equal-setting mean log(RMSE comparator / RMSE PP-X); positive favors PP-X",
+        "estimate": 0.48884285292447444,
+        "geometric_mean_rmse_ratio": 0.6133357033331934,
+        "hierarchical_bootstrap_ci95": [
+          0.13417995259905807,
+          0.8094721916278003
+        ],
+        "setting_means": [
+          0.45603780372492175,
+          0.278246773496545,
+          -0.008269238390853452,
+          0.816786364692139,
+          0.6809452274304038,
+          1.2047234810413878,
+          0.4436556810391611,
+          0.9564778778779718,
+          -0.4290182945914074
+        ],
+        "caveat": "Exploratory retrospective CI; settings and related battery cohorts are not guaranteed exchangeable."
+      }
+    },
+    "plain_mlp": {
+      "ensemble_r2_difference": {
+        "effect_mean": 0.7136912074807604,
+        "effect_median": 0.23170793990268057,
+        "bootstrap_ci95": [
+          0.18158596370053587,
+          1.410896958713951
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          0.015074298281653409,
+          0.16350656340908787,
+          0.29038763478789875,
+          3.079082482038783,
+          1.139159210947016,
+          1.4409307327115175,
+          0.23170793990268057,
+          0.04923537965495184,
+          0.014136625593253904
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "log_seed_sd_ratio": {
+        "effect_mean": 2.94586519375127,
+        "effect_median": 3.309556203877949,
+        "bootstrap_ci95": [
+          2.0564302410575244,
+          3.8325608873464834
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          2.214292388636374,
+          3.309556203877949,
+          2.650522604503962,
+          3.585197777386942,
+          5.4852804870032035,
+          3.914347251470935,
+          1.5048068606944067,
+          3.3286978359658566,
+          0.520085334221803
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "worst_seed_r2_difference": {
+        "effect_mean": 3.366368947434588,
+        "effect_median": 1.392962465379096,
+        "bootstrap_ci95": [
+          1.2013803100943343,
+          5.936664826977594
+        ],
+        "sign": {
+          "n": 9,
+          "positive": 9,
+          "negative": 0,
+          "p_two_sided": 0.00390625
+        },
+        "exact_sign_flip_mean_p_two_sided": 0.00390625,
+        "values": [
+          0.31035440907214507,
+          1.392962465379096,
+          0.3729696964344116,
+          3.96895912720907,
+          8.664490927429929,
+          10.52659538766124,
+          1.0206955307713008,
+          4.022545980880035,
+          0.017747002074068652
+        ],
+        "holm_q_across_six_primary_tests": 0.0234375
+      },
+      "hierarchical_unit_log_rmse": {
+        "effect": "equal-setting mean log(RMSE comparator / RMSE PP-X); positive favors PP-X",
+        "estimate": 0.7728065334342763,
+        "geometric_mean_rmse_ratio": 0.46171542844109864,
+        "hierarchical_bootstrap_ci95": [
+          0.37853483705968594,
+          1.2300234041398619
+        ],
+        "setting_means": [
+          0.3108596770714897,
+          0.5201148237246678,
+          0.25670982832779327,
+          2.167910468276929,
+          1.2738553726013466,
+          1.054937539124568,
+          0.15613685908480693,
+          1.0229074301408778,
+          0.1918268025560086
+        ],
+        "caveat": "Exploratory retrospective CI; settings and related battery cohorts are not guaranteed exchangeable."
+      }
+    }
+  }
+}

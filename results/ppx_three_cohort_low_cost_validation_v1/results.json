@@ -1,0 +1,273 @@
+{
+  "protocol": {
+    "status": "retrospective prediction-only low-cost validation",
+    "training": "none",
+    "cohorts": [
+      "Alloy A",
+      "MultiStage RPT",
+      "N-CMAPSS DS03"
+    ],
+    "comparator": "Engression",
+    "caveats": [
+      "All outcomes were already opened before this aggregation.",
+      "Alloy/MultiStage use CCMR trajectory executors; DS03 uses the selected direct fallback.",
+      "This is a PP-X framework stress test, not one identical neural-network checkpoint.",
+      "Only DS03 route selection was prospective; predictive superiority failed there.",
+      "Cohort-level n=3 is too small for a positive generalization claim."
+    ]
+  },
+  "records": [
+    {
+      "cohort": "Alloy A",
+      "route": "CCMR trajectory executor",
+      "rows": 10,
+      "units": 4,
+      "ppx": {
+        "r2": 0.7643328394461539,
+        "rmse": 0.1012512342206459
+      },
+      "engression": {
+        "r2": 0.9913845610664838,
+        "rmse": 0.019359293116028714
+      },
+      "r2_difference": -0.22705172162032983,
+      "units_ppx_better": 0,
+      "mean_unit_log_rmse_effect": -1.6872240146943822,
+      "geometric_rmse_ratio": 5.404457168535828,
+      "exact_unit_sign_p_two_sided": 0.125,
+      "exact_unit_sign_flip_mean_p_two_sided": 0.125,
+      "unit_results": [
+        {
+          "unit": "19",
+          "n": 3,
+          "ppx_rmse": 0.04958691344770152,
+          "engression_rmse": 0.006950184730697716,
+          "log_rmse_effect": -1.9649587179583388
+        },
+        {
+          "unit": "20",
+          "n": 3,
+          "ppx_rmse": 0.046985883829482655,
+          "engression_rmse": 0.012439185725618739,
+          "log_rmse_effect": -1.3289955835154759
+        },
+        {
+          "unit": "5",
+          "n": 2,
+          "ppx_rmse": 0.1571348402636772,
+          "engression_rmse": 0.03391418564047431,
+          "log_rmse_effect": -1.5332709095963408
+        },
+        {
+          "unit": "7",
+          "n": 2,
+          "ppx_rmse": 0.13988531457793527,
+          "engression_rmse": 0.02047392361381029,
+          "log_rmse_effect": -1.9216708477073734
+        }
+      ],
+      "unit_sign_flip_bh_q": 0.25
+    },
+    {
+      "cohort": "MultiStage RPT",
+      "route": "CCMR trajectory executor",
+      "rows": 33,
+      "units": 15,
+      "ppx": {
+        "r2": 0.979397056495107,
+        "rmse": 0.005331990474803474
+      },
+      "engression": {
+        "r2": 0.9794042338434642,
+        "rmse": 0.005331061653963114
+      },
+      "r2_difference": -7.177348357201296e-06,
+      "units_ppx_better": 7,
+      "mean_unit_log_rmse_effect": 0.05463486901884384,
+      "geometric_rmse_ratio": 0.9468308021048853,
+      "exact_unit_sign_p_two_sided": 1.0,
+      "exact_unit_sign_flip_mean_p_two_sided": 0.663818359375,
+      "unit_results": [
+        {
+          "unit": "TP_z02_02",
+          "n": 3,
+          "ppx_rmse": 0.0033976379069997394,
+          "engression_rmse": 0.002933706108164009,
+          "log_rmse_effect": -0.14681394987736512
+        },
+        {
+          "unit": "TP_z02_03",
+          "n": 3,
+          "ppx_rmse": 0.003321473341539126,
+          "engression_rmse": 0.003027917169634096,
+          "log_rmse_effect": -0.09253348166963048
+        },
+        {
+          "unit": "TP_z03_01",
+          "n": 3,
+          "ppx_rmse": 0.006986429051769856,
+          "engression_rmse": 0.005838959246038037,
+          "log_rmse_effect": -0.1794169907768624
+        },
+        {
+          "unit": "TP_z05_02",
+          "n": 2,
+          "ppx_rmse": 0.0013419506591676592,
+          "engression_rmse": 0.0038505379303197945,
+          "log_rmse_effect": 1.0540885894679544
+        },
+        {
+          "unit": "TP_z06_03",
+          "n": 2,
+          "ppx_rmse": 0.006224300711122777,
+          "engression_rmse": 0.0026959552189070777,
+          "log_rmse_effect": -0.8367085177636152
+        },
+        {
+          "unit": "TP_z07_02",
+          "n": 2,
+          "ppx_rmse": 0.002279394775500044,
+          "engression_rmse": 0.003689052738524436,
+          "log_rmse_effect": 0.481459756283341
+        },
+        {
+          "unit": "TP_z08_03",
+          "n": 2,
+          "ppx_rmse": 0.003830202542870643,
+          "engression_rmse": 0.0024273466773554212,
+          "log_rmse_effect": -0.45611892658037945
+        },
+        {
+          "unit": "TP_z12_01",
+          "n": 2,
+          "ppx_rmse": 0.0018781966492439888,
+          "engression_rmse": 0.003645762593888986,
+          "log_rmse_effect": 0.6632534726467166
+        },
+        {
+          "unit": "TP_z13_02",
+          "n": 2,
+          "ppx_rmse": 0.0031352834624255384,
+          "engression_rmse": 0.004070424999531385,
+          "log_rmse_effect": 0.2610278278582379
+        },
+        {
+          "unit": "TP_z14_01",
+          "n": 2,
+          "ppx_rmse": 0.00298922277905701,
+          "engression_rmse": 0.002986215109161264,
+          "log_rmse_effect": -0.0010066777384378515
+        },
+        {
+          "unit": "TP_z15_02",
+          "n": 2,
+          "ppx_rmse": 0.00692747192606912,
+          "engression_rmse": 0.004328765205952381,
+          "log_rmse_effect": -0.4702126157028539
+        },
+        {
+          "unit": "TP_z16_02",
+          "n": 2,
+          "ppx_rmse": 0.004948010780155071,
+          "engression_rmse": 0.00590439271175312,
+          "log_rmse_effect": 0.17671096808716075
+        },
+        {
+          "unit": "TP_z17_03",
+          "n": 2,
+          "ppx_rmse": 0.009606017082448808,
+          "engression_rmse": 0.011369656294460124,
+          "log_rmse_effect": 0.1685583965949962
+        },
+        {
+          "unit": "TP_z24_01",
+          "n": 2,
+          "ppx_rmse": 0.005702832504938628,
+          "engression_rmse": 0.007248036965632808,
+          "log_rmse_effect": 0.23976768674024965
+        },
+        {
+          "unit": "TP_z25_03",
+          "n": 2,
+          "ppx_rmse": 0.009057873884516973,
+          "engression_rmse": 0.008680697821696363,
+          "log_rmse_effect": -0.042532502286854505
+        }
+      ],
+      "unit_sign_flip_bh_q": 0.663818359375
+    },
+    {
+      "cohort": "N-CMAPSS DS03",
+      "route": "prospectively selected direct fallback",
+      "rows": 438,
+      "units": 6,
+      "ppx": {
+        "r2": 0.8818049605625339,
+        "rmse": 7.732161236361878
+      },
+      "engression": {
+        "r2": 0.9013228562831286,
+        "rmse": 7.064957631375723
+      },
+      "r2_difference": -0.019517895720594702,
+      "units_ppx_better": 1,
+      "mean_unit_log_rmse_effect": -0.25042606128635486,
+      "geometric_rmse_ratio": 1.284572606768465,
+      "exact_unit_sign_p_two_sided": 0.21875,
+      "exact_unit_sign_flip_mean_p_two_sided": 0.0625,
+      "unit_results": [
+        {
+          "unit": "10",
+          "n": 66,
+          "ppx_rmse": 4.272077341672556,
+          "engression_rmse": 2.147824596469493,
+          "log_rmse_effect": -0.6876446915050771
+        },
+        {
+          "unit": "11",
+          "n": 59,
+          "ppx_rmse": 8.091871775697015,
+          "engression_rmse": 6.697247102233497,
+          "log_rmse_effect": -0.18916351167006812
+        },
+        {
+          "unit": "12",
+          "n": 93,
+          "ppx_rmse": 10.91344343733467,
+          "engression_rmse": 10.510308273280843,
+          "log_rmse_effect": -0.037638856283206026
+        },
+        {
+          "unit": "13",
+          "n": 77,
+          "ppx_rmse": 8.451957242824186,
+          "engression_rmse": 8.553369520794158,
+          "log_rmse_effect": 0.011927260394991129
+        },
+        {
+          "unit": "14",
+          "n": 76,
+          "ppx_rmse": 5.829245480178432,
+          "engression_rmse": 5.570900814039611,
+          "log_rmse_effect": -0.04533080487497774
+        },
+        {
+          "unit": "15",
+          "n": 67,
+          "ppx_rmse": 5.40730560316441,
+          "engression_rmse": 3.105097652386708,
+          "log_rmse_effect": -0.5547057637797914
+        }
+      ],
+      "unit_sign_flip_bh_q": 0.1875
+    }
+  ],
+  "aggregate": {
+    "cohorts_ppx_higher_r2": 0,
+    "cohorts": 3,
+    "mean_r2_difference": -0.08219226489642724,
+    "cohort_sign_p_two_sided": 0.25,
+    "exact_cohort_sign_flip_mean_p_two_sided": 0.25,
+    "note": "n=3 cannot support a strong cross-cohort superiority or stability inference."
+  }
+}

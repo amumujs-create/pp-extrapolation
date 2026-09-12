@@ -1,0 +1,19 @@
+{
+  "model": "canonical final paper PP-X; not per-test selection of later candidates",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "scope": "nine retrospective main settings",
+  "analysis": "existing predictions only; no training or hyperparameter selection",
+  "source": "final_modular_pp_evidence.build_datasets and 30-candidate baselines",
+  "uncertainty": "descriptive analysis; no new significance claims",
+  "limits": [
+    "Baseline candidate counts are matched; historical PP-X development budgets are not.",
+    "Seed variation is conditional on fixed data and selected hyperparameters.",
+    "Domain R2 dispersion is not physical-unit risk or universal robustness."
+  ]
+}
