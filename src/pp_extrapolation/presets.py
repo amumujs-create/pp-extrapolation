@@ -62,12 +62,34 @@ def safety_continuation_trust_grid() -> tuple[dict, ...]:
     )
 
 
-def robust_generalization_policy_config() -> dict:
-    """Frozen conservative evidence requirements for PP-X v1.1 development."""
+def paper_ppx_approval_thresholds() -> dict:
+    """Return the frozen executor-approval thresholds for paper PP-X.
+
+    These values are applied unchanged on every dataset.  They are not
+    retuned from test labels.  The operational freeze point ``(2%, 60%,
+    1.10)`` was justified once by development-unit OOF robustness over the
+    pre-declared grid in ``protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md``.
+    """
     return {
-        "min_relative_gain": 0.02,
+        "min_relative_improvement": 0.02,
         "min_unit_win_fraction": 0.60,
         "max_worst_unit_rmse_ratio": 1.10,
+        "calibration": "oof_threshold_tuning_once_then_freeze",
+        "protocol": "protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md",
+        "evidence": (
+            "PPX_OOF_THRESHOLD_ROBUSTNESS_RESULTS_KO.md",
+            "PPX_THRESHOLD_SENSITIVITY_RESULTS_KO.md",
+        ),
+    }
+
+
+def robust_generalization_policy_config() -> dict:
+    """Frozen conservative evidence requirements for PP-X v1.1 development."""
+    thr = paper_ppx_approval_thresholds()
+    return {
+        "min_relative_gain": thr["min_relative_improvement"],
+        "min_unit_win_fraction": thr["min_unit_win_fraction"],
+        "max_worst_unit_rmse_ratio": thr["max_worst_unit_rmse_ratio"],
         "confidence": 0.95,
         "bootstrap_replicates": 5000,
         "seed": 20260910,

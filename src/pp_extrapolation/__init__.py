@@ -67,6 +67,22 @@ from .paper_ppx import (
     admissible_executors,
     select_paper_ppx,
 )
+from .coverage_preserving_credal import (
+    CredalConformalPPXFit,
+    CredalConformalPrediction,
+    fit_credal_conformal_ppx,
+    legacy_candidate_interval,
+    predict_credal_conformal_ppx,
+)
+from .cross_domain_consensus import (
+    ConsensusPrediction,
+    ConsensusRepresentation,
+    CrossDomainConsensusHead,
+    consensus_representation,
+    fit_cross_domain_consensus_head,
+    normalized_residual_target,
+    predict_cross_domain_consensus,
+)
 from .regime_router import (
     RegimeRouteDecision,
     select_ccmr_regime_route,
@@ -110,6 +126,7 @@ from .output_calibration import (OutputCalibrator, approve_dual_evidence, approv
 from .presets import (adaptive_shrinkage_policy_config,
                       battery_dual_scale_pp_config,
                       continuous_portfolio_policy_config,
+                      paper_ppx_approval_thresholds,
                       robust_generalization_policy_config,
                       safety_continuation_pp_config,
                       safety_continuation_trust_grid)
@@ -179,6 +196,18 @@ __all__ = [
     "PaperPPXDecision",
     "admissible_executors",
     "select_paper_ppx",
+    "CredalConformalPPXFit",
+    "CredalConformalPrediction",
+    "fit_credal_conformal_ppx",
+    "legacy_candidate_interval",
+    "predict_credal_conformal_ppx",
+    "ConsensusPrediction",
+    "ConsensusRepresentation",
+    "CrossDomainConsensusHead",
+    "consensus_representation",
+    "fit_cross_domain_consensus_head",
+    "normalized_residual_target",
+    "predict_cross_domain_consensus",
     "RegimeRouteDecision",
     "select_ccmr_regime_route",
     "select_ccmr_v19_regime_route",
@@ -229,6 +258,7 @@ __all__ = [
     "battery_dual_scale_pp_config",
     "adaptive_shrinkage_policy_config",
     "continuous_portfolio_policy_config",
+    "paper_ppx_approval_thresholds",
     "robust_generalization_policy_config",
     "safety_continuation_pp_config",
     "safety_continuation_trust_grid",
@@ -265,5 +295,26 @@ from .lifetime_scale import fit_lifetime_scale_pp, predict_lifetime_scale, Lifet
 from .latent_pp import fit_latent_pp, predict_latent, LatentFit
 from .transferability_gate import PriorEvidence, GateDecision, select_ppx_route
 from .executor_policy import ExecutorEvidence, ExecutorDecision, select_residual_executor
+from .trajectory_survival import (
+    TrajectorySurvivalFit,
+    TrajectorySurvivalNet,
+    fit_trajectory_survival,
+    predict_mean_rul,
+    predict_survival,
+)
+from .trajectory_operator import (
+    LatentTrajectoryOperator,
+    MultiHorizonBatch,
+    multi_horizon_loss,
+    semigroup_error,
+)
 
 __all__ += ["PriorEvidence", "GateDecision", "select_ppx_route"]
+__all__ += [
+    "TrajectorySurvivalFit", "TrajectorySurvivalNet", "fit_trajectory_survival",
+    "predict_mean_rul", "predict_survival",
+]
+__all__ += [
+    "LatentTrajectoryOperator", "MultiHorizonBatch", "multi_horizon_loss",
+    "semigroup_error",
+]

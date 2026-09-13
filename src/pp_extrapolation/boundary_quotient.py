@@ -42,7 +42,9 @@ class BoundaryQuotientPPNet(nn.Module):
                  broad_residual_bound: float | None = None,
                  local_saturation_weight: float = 1.0,
                  support_adaptive_saturation: bool = False,
-                 correction_mode: str = "additive"):
+                 correction_mode: str = "additive",
+                 authority_ladder: tuple[float, ...] | None = None,
+                 continuous_authority: bool = False):
         super().__init__()
         if residual_bound is not None and (not np.isfinite(residual_bound) or residual_bound <= 0):
             raise ValueError("residual_bound must be positive finite or None")
@@ -84,6 +86,25 @@ class BoundaryQuotientPPNet(nn.Module):
         if residual_bound is None and extra_residual_bound > 0:
             raise ValueError("adaptive extra residual requires a bounded base residual")
         self.extra_residual_bound = float(extra_residual_bound)
+        if authority_ladder is not None:
+            ladder = tuple(float(v) for v in authority_ladder)
+            if len(ladder) < 2 or any(not np.isfinite(v) or v <= 0 for v in ladder):
+                raise ValueError("authority_ladder must be at least two positive finite scales")
+            if any(ladder[i] >= ladder[i + 1] for i in range(len(ladder) - 1)):
+                raise ValueError("authority_ladder must be strictly increasing")
+            if self.support_gate_feature is None:
+                raise ValueError("authority_ladder requires support_gate_feature")
+            self.authority_ladder = ladder
+        else:
+            self.authority_ladder = None
+        if continuous_authority:
+            if self.residual_bound is None or self.broad_residual_bound is None:
+                raise ValueError("continuous_authority requires residual_bound and broad_residual_bound")
+            if self.support_gate_feature is None:
+                raise ValueError("continuous_authority requires support_gate_feature")
+            if self.authority_ladder is not None:
+                raise ValueError("continuous_authority cannot be combined with authority_ladder")
+        self.continuous_authority = bool(continuous_authority)
         self.affine = nn.Linear(input_dim, 1)
         self.nonlinear = nn.Sequential(
             nn.Linear(input_dim, width), nn.SiLU(),
@@ -123,8 +144,35 @@ class BoundaryQuotientPPNet(nn.Module):
                 bound = bound * (1.0 + self.late_bound_growth * late_position)
                 if torch.is_tensor(bound) and bound.ndim == 1:
                     bound = bound[:, None]
-            if self.broad_residual_bound is None:
+            if self.broad_residual_bound is None and self.authority_ladder is None and not self.continuous_authority:
                 correction = bound * torch.tanh(raw)
+            elif self.continuous_authority:
+                score = value[:, self.support_gate_feature:self.support_gate_feature + 1]
+                gate = torch.sigmoid(
+                    (score - self.support_gate_threshold) / self.support_gate_temperature
+                )
+                authority = self.residual_bound + (
+                    self.broad_residual_bound - self.residual_bound
+                ) * gate
+                correction = authority * torch.tanh(raw / authority)
+            elif self.authority_ladder is not None:
+                score = value[:, self.support_gate_feature:self.support_gate_feature + 1]
+                gate = torch.sigmoid(
+                    (score - self.support_gate_threshold) / self.support_gate_temperature
+                )
+                # Soft assignment over ordered scale centers on [0, 1].
+                centers = torch.linspace(
+                    0.0, 1.0, steps=len(self.authority_ladder), device=value.device
+                )
+                # Temperature-scaled absolute distance → softmax weights.
+                logits = -torch.abs(gate - centers) / self.support_gate_temperature
+                weights = torch.softmax(logits, dim=1)
+                envelopes = []
+                for scale in self.authority_ladder:
+                    scale_t = torch.as_tensor(scale, device=value.device, dtype=value.dtype)
+                    envelopes.append(scale_t * torch.tanh(raw / scale_t))
+                stacked = torch.stack(envelopes, dim=1).squeeze(-1)
+                correction = (weights * stacked).sum(dim=1, keepdim=True)
             else:
                 local = bound * torch.tanh(raw)
                 broad_bound = self.broad_residual_bound
@@ -199,6 +247,8 @@ def fit_boundary_quotient_pp(
     local_saturation_weight: float = 1.0,
     support_adaptive_saturation: bool = False,
     correction_mode: str = "additive",
+    authority_ladder: tuple[float, ...] | None = None,
+    continuous_authority: bool = False,
 ) -> BoundaryQuotientFit:
     _validate(train); _validate(validation)
     center = np.asarray(train["x"], dtype=np.float64).mean(0)
@@ -223,7 +273,7 @@ def fit_boundary_quotient_pp(
                                   support_gate_feature, support_gate_threshold,
                                   support_gate_temperature, broad_residual_bound,
                                   local_saturation_weight, support_adaptive_saturation,
-                                  correction_mode)
+                                  correction_mode, authority_ladder, continuous_authority)
     with torch.no_grad():
         model.affine.weight.copy_(torch.tensor(coefficient)[None, :])
         model.affine.bias.copy_(torch.tensor([bias], dtype=torch.float32))
@@ -333,6 +383,10 @@ def fit_boundary_quotient_pp(
         "local_saturation_weight": float(local_saturation_weight),
         "support_adaptive_saturation": bool(support_adaptive_saturation),
         "correction_mode": correction_mode,
+        "authority_ladder": (
+            None if authority_ladder is None else [float(v) for v in authority_ladder]
+        ),
+        "continuous_authority": bool(continuous_authority),
     })
 
 

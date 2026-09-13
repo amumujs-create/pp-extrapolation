@@ -54,11 +54,13 @@ Candidates that are not admissible under the typed contract are never scored.
      groups per regime are required;
    - source-group OOF prior regret must be nonpositive;
    - latent mode stability, when required, must be at least 0.60.
-2. **Executor approval**
+2. **Executor approval** (uses **frozen** thresholds; not retuned per dataset)
    - compare admissible candidates on identical group-disjoint validation
      folds;
-   - an optional executor must reduce validation loss by at least 2% relative
+   - an optional executor must reduce validation loss by at least **2%** relative
      to the simpler admissible reference;
+   - unit-win fraction at least **60%** and worst-unit RMSE ratio at most
+     **1.10** (physical-unit risk);
    - `dual_scale` additionally requires train-only support heterogeneity
      at least 0.50;
    - ties within numerical tolerance select the simpler executor.
@@ -66,6 +68,26 @@ Candidates that are not admissible under the typed contract are never scored.
    - if prior admissibility fails, use the prespecified fallback;
    - no test input except the individual sample's causal features may alter
      the selected route.
+
+### Threshold origin (tuning once, then freeze)
+
+The triple `(2%, 60%, 1.10)` is **not** re-tuned on each new dataset and is
+**not** chosen by maximizing test accuracy.
+
+It is an operational freeze point selected under
+`protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md`:
+
+1. declare the candidate grid
+   `{1,2,5%} × {50,60,70%} × {1.05,1.10,1.20}`;
+2. score each cell by validation-unit OOF route stability and worst-case
+   policy regret (development units only);
+3. freeze `τ=(2%, 60%, 1.10)` inside the stable region;
+4. on every subsequent dataset, keep `τ` fixed and use that dataset's
+   validation only to approve/reject executors.
+
+Evidence: `PPX_OOF_THRESHOLD_ROBUSTNESS_RESULTS_KO.md`,
+`PPX_THRESHOLD_SENSITIVITY_RESULTS_KO.md`.
+
 
 ## Primary evaluation
 

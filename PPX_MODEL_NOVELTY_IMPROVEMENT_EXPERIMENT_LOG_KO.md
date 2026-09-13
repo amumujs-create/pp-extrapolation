@@ -240,3 +240,106 @@ unit history를 제공하는 데이터에서만 재검토한다.
 - `experiments/ppx_structural_trio_virkler.py`
 - `results/ppx_structural_trio_virkler/results.json`
 
+## 11) FCC-PPX: falsification-calibrated credal conformal 구조
+
+### 11-1) 업데이트
+
+Validation physical-unit regret certificate가 PP를 승인하면 authority set을
+`{1}`로 두고, 기각하면 point는 exact fallback으로 전환하면서 uncertainty
+authority set은 `[0,1]`로 둔다. 최종 interval은 이 authority segment와 기존
+support-scaled conformal radius의 Minkowski sum이다.
+
+기존 PP conformal interval이 새 interval에 항상 포함되므로 같은 표본에서
+coverage가 감소하지 않는 구조다.
+
+### 11-2) 12-domain 결과
+
+- equal-domain coverage: 0.8706 -> 0.9057
+- pooled row coverage: 0.7267 -> 0.7502
+- domain coverage non-inferiority: 12/12
+- strictly improved coverage: 4/12
+- maximum interval inclusion violation: 0.0
+- mean interval width inflation: 16.5%
+- point mean unit log-RMSE improvement: 0.154252
+- point bootstrap 95% CI: [0.000854, 0.426799]
+- point improved/harmed domains: 4/0
+
+### 11-3) 수정 판정
+
+예측구간 coverage 기준은 통과했지만 **메인 모델 승격은 철회한다**. 여기서
+coverage를 interval inclusion으로 해석한 것은 연구 목표와 달랐다. 실제 목표는
+seed/dataset 전반의 안정적인 R²와 높은 pooled 성능이다. FCC-PPX는 그 지표를
+개선하지 않았고 common-backbone SUNWODA에서 기존 PP R² `0.865`를 fallback
+`-0.668`로 바꾸는 false reject를 만들었다. 따라서 uncertainty 보조 실험으로만
+남기며 최종 PP-X 구조 또는 성능 개선 주장에 포함하지 않는다.
+
+최종 PP-X의 올바른 predictive coverage baseline은 9개 dataset ensemble 모두
+양의 R², 45/45 seed-dataset R² 양수, global normalized pooled R² `0.9183`이다.
+후속 모델은 이 세 지표와 최저 dataset/seed R²를 동시에 비열화 없이 개선해야
+승격한다.
+
+관련 자료:
+
+- `FCC_PPX_MODEL_UPDATE_RESULT_KO.md`
+- `protocols/FALSIFICATION_CREDAL_CONFORMAL_PPX_PROTOCOL.md`
+- `experiments/falsification_credal_conformal_ppx.py`
+- `results/falsification_credal_conformal_ppx_v2/results.json`
+
+## 12) CDCR-PPX: cross-domain consensus residual 구조
+
+### 12-1) 목표 수정
+
+Coverage를 여러 seed와 dataset에서 안정적인 양의 R²를 유지하면서 pooled
+성능을 높이는 predictive performance coverage로 정의했다. 최종 PP-X 기준은
+dataset 9/9 양의 R², seed×dataset 45/45 양의 R², global normalized pooled
+R² 0.91834다.
+
+### 12-2) 구조
+
+최종 PP-X 5-seed 출력으로 affine-scale-free consensus feature를 만들고,
+held-out dataset을 제외한 다른 도메인에서 normalized residual head를 학습한다.
+q90 normalized disagreement가 0.12 이상일 때 authority 0.5로 residual을
+적용하고, seed deviation을 corrected ensemble 중심으로 0.5 수축한다.
+
+### 12-3) 결과
+
+- 양의 R² dataset: 9/9 -> 9/9
+- 양의 R² seed×dataset: 45/45 -> 45/45
+- dataset 개선/동률/악화: 6/3/0
+- mean dataset R²: 0.80712 -> 0.81367
+- minimum dataset R²: 0.46570 -> 0.48041
+- global normalized pooled R²: 0.91834 -> 0.92079
+- mean seed R²: 0.78788 -> 0.80886
+- minimum seed R²: 0.29861 -> 0.41658
+- seed R² SD 감소: 9/9 datasets
+- mean dataset R² gain bootstrap 95% CI: [0.00287, 0.01033]
+- equal-budget Engression pooled R² 우세: 9/9 settings
+
+### 12-4) 판정
+
+Retrospective predictive coverage 승격 기준은 모두 통과했다. 다만 ridge,
+authority, disagreement cutoff, shrinkage는 열린 Stage-0 데이터에서 선택됐으므로
+미개봉 cohort frozen replay 전에는 독립 확증으로 표현하지 않는다.
+
+관련 자료:
+
+- `CDCR_PPX_MODEL_UPDATE_RESULT_KO.md`
+- `protocols/CROSS_DOMAIN_CONSENSUS_RESIDUAL_PPX_PROTOCOL.md`
+- `experiments/cross_domain_consensus_residual_ppx.py`
+- `results/cross_domain_consensus_residual_ppx_v1/results.json`
+
+### 12-5) 외부 cohort 수정 판정
+
+Axial-fan 3개 설정, MATWI, Misata의 기존 5-seed 예측에 개발 9-domain head를
+고정 적용했다. 결과는 개선/동률/악화 0/2/3이었다. Axial-fan은
+`-0.375 -> -0.410`, `-1.780 -> -1.960`, `-0.289 -> -0.361`로 모두
+악화했다. MATWI와 Misata는 correction이 꺼져 기존 PP와 동률이었다.
+
+Seed SD는 5/5에서 감소했지만 predictive performance coverage는 개선되지
+않았다. 따라서 CDCR-PPX의 범용 메인 모델 승격을 철회하고 development-only
+결과로 남긴다.
+
+관련 자료:
+
+- `CDCR_PPX_EXTERNAL_COHORT_RESULT_KO.md`
+- `results/cdcr_ppx_external_cohort_replay_v1/results.json`

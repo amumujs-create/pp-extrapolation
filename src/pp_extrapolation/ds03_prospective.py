@@ -192,14 +192,25 @@ def _predict_direct(fit: dict, x: np.ndarray) -> np.ndarray:
         return np.clip(fit["model"](z).numpy() * fit["cap"], 0, fit["cap"])
 
 
-def _unit_evidence(y: np.ndarray, prediction: np.ndarray, fallback: np.ndarray, groups: np.ndarray) -> tuple[float, float]:
+def _unit_evidence(
+    y: np.ndarray, prediction: np.ndarray, fallback: np.ndarray, groups: np.ndarray
+) -> tuple[float, float, float]:
     ratios = []
+    unit_gains = []
     for group in np.unique(groups):
         mask = groups == group
         rmse = math.sqrt(float(np.mean((y[mask] - prediction[mask]) ** 2)))
         base = math.sqrt(float(np.mean((y[mask] - fallback[mask]) ** 2)))
         ratios.append(rmse / max(base, 1e-12))
-    return float(np.mean(np.asarray(ratios) < 1.0)), float(max(ratios))
+        unit_gains.append(base - rmse)
+    ratios = np.asarray(ratios)
+    unit_gains = np.asarray(unit_gains)
+    if len(unit_gains) <= 1:
+        ci_low = float("-inf")
+    else:
+        idx = np.random.default_rng(20260910).integers(0, len(unit_gains), size=(20_000, len(unit_gains)))
+        ci_low = float(np.quantile(unit_gains[idx].mean(axis=1), 0.025))
+    return float(np.mean(ratios < 1.0)), float(ratios.max()), ci_low
 
 
 def _manifest(rows: dict[str, dict], protocol: Path) -> dict:
@@ -294,10 +305,13 @@ def prepare_select(h5_path: Path, protocol: Path, selection_path: Path) -> dict:
     # Every preset preserves identical cycle row order.
     fallback = predictions["direct_fallback"]
     for route in ROUTES:
-        wins, worst = _unit_evidence(yv, predictions[route], fallback, gv)
+        wins, worst, ci_low = _unit_evidence(yv, predictions[route], fallback, gv)
         evidence.append(PPXCandidateEvidence(
             route if route == "direct_fallback" else ("unbounded" if route == "basic" else "dual_scale"),
-            float(np.mean((yv - predictions[route]) ** 2)), wins, worst,
+            float(np.mean((yv - predictions[route]) ** 2)),
+            wins,
+            worst,
+            unit_gain_ci_low=ci_low,
         ))
     prior_evidence, prior_audit = prior_admissibility_from_train(prepared["direct"]["train"])
     decision = select_paper_ppx(

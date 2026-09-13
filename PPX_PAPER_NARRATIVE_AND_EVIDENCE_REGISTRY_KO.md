@@ -76,6 +76,12 @@ Equal-coverage 비교와 8/9 equal-budget 우세가 있어도, 논문 중심은 
 
 residual bound, dual scale, transport, history 같은 executor를 전역적으로 켜지 않고, validation evidence가 해당 shift 기제를 지지할 때만 실행하며 반례에서는 거절/fallback.
 
+승인 임계값 `τ=(2%, 60%, 1.10)`은 데이터셋마다 재튜닝하지 않는다.  
+**Threshold 튜닝 규칙**은 `protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md`에 고정한다:  
+사전 선언 격자에서 development-unit OOF robustness로 안정 영역을 확인한 뒤 τ를 한 번 동결하고, 이후에는 그 데이터셋의 validation으로 executor만 승인한다.  
+(근거: `PPX_OOF_THRESHOLD_ROBUSTNESS_RESULTS_KO.md`)
+
+
 #### C3. Equal-coverage and unit-level evidence
 
 동일 coverage selective regression 비교, unit-based bootstrap/paired analysis, cross-domain stability, failure analysis, prospective evaluation을 통합해 “선택적 예측이라 성능이 좋아 보였다”는 설명을 검증.

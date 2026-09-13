@@ -28,6 +28,17 @@ OUT = ROOT / "results/ppx_paper_policy_audit_v1"
 RNG = np.random.default_rng(20260911)
 
 
+BOOTSTRAP_REPEATS = 20_000
+
+
+def unit_gain_bootstrap_low(unit_gain: np.ndarray, repeats: int = BOOTSTRAP_REPEATS) -> float:
+    unit_gain = np.asarray(unit_gain, float)
+    if len(unit_gain) <= 1:
+        return float("-inf")
+    idx = RNG.integers(0, len(unit_gain), size=(repeats, len(unit_gain)))
+    return float(np.quantile(unit_gain[idx].mean(1), 0.025))
+
+
 def unit_rmse(y, groups, prediction):
     return np.asarray([
         np.sqrt(np.mean((y[groups == unit] - prediction[groups == unit]) ** 2))
@@ -42,6 +53,7 @@ def validation_evidence(saved):
     pp = np.asarray(saved["validation_pp"], float).mean(0)
     direct_unit = unit_rmse(y, groups, direct)
     pp_unit = unit_rmse(y, groups, pp)
+    unit_gain = direct_unit - pp_unit
     return {
         "direct_loss": float(np.mean((y - direct) ** 2)),
         "pp_loss": float(np.mean((y - pp) ** 2)),
@@ -49,6 +61,7 @@ def validation_evidence(saved):
         "worst_unit_ratio": float(np.max(
             pp_unit / np.maximum(direct_unit, 1e-12)
         )),
+        "unit_gain_ci_low": unit_gain_bootstrap_low(unit_gain),
     }
 
 
@@ -132,8 +145,10 @@ def main():
                     validation["pp_loss"],
                     validation["unit_win_fraction"],
                     validation["worst_unit_ratio"],
+                    unit_gain_ci_low=validation.get("unit_gain_ci_low", float("-inf")),
                 ),
             ),
+            min_unit_gain_ci_low=0.0,
         )
         test = test_effect(saved)
         rows.append({

@@ -43,6 +43,7 @@ class PPXCandidateEvidence:
     validation_loss: float
     unit_win_fraction_vs_fallback: float
     worst_unit_rmse_ratio_vs_fallback: float
+    unit_gain_ci_low: float = float("-inf")
 
 
 @dataclass(frozen=True)
@@ -89,6 +90,7 @@ def select_paper_ppx(
     min_relative_improvement: float = 0.02,
     min_unit_win_fraction: float = 0.60,
     max_worst_unit_rmse_ratio: float = 1.10,
+    min_unit_gain_ci_low: float = float("-inf"),
 ) -> PaperPPXDecision:
     """Select one PP-X executor without accepting any test outcome.
 
@@ -96,6 +98,10 @@ def select_paper_ppx(
     group-disjoint source/validation folds. More complex paths are admitted
     only when they beat the fallback by the frozen margin and satisfy unit-risk
     requirements. Numerical ties select the simpler path.
+
+    Default thresholds ``(2%, 60%, 1.10)`` are the frozen operational point from
+    ``protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md`` (OOF tune once → freeze).
+    Callers must not retune them from test labels on a new dataset.
     """
     allowed = admissible_executors(contract)
     by_name = {candidate.executor: candidate for candidate in candidates}
@@ -138,6 +144,7 @@ def select_paper_ppx(
             >= min_unit_win_fraction
             and candidate.worst_unit_rmse_ratio_vs_fallback
             <= max_worst_unit_rmse_ratio
+            and candidate.unit_gain_ci_low >= min_unit_gain_ci_low
         ):
             feasible.append(candidate)
     selected = min(
