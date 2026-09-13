@@ -8,7 +8,7 @@ from reportlab.platypus import PageBreak
 def append_ppt_deck_detail(story, P, table, callout):
     """최신 PP-X_Research_Detailed_v2.pptx(41장)의 슬라이드별 상세 해설."""
     story += [
-        P("PPT 본문 전체 상세 해설 (41장)", "h1"),
+        P("PPT 본문 전체 상세 해설 (42장)", "h1"),
         callout(
             "<b>원본:</b> <font face='AppleGothic'>ppt/PP-X_Research_Detailed_v2.pptx</font><br/>"
             "아래는 발표 슬라이드를 그대로 읽는 것이 아니라, 각 장의 표·결론·주장 경계를 "
@@ -72,17 +72,17 @@ def append_ppt_deck_detail(story, P, table, callout):
         table(
             ["요소", "가정", "설계 의도"],
             [
-                ["경계", "고장·임계 상태가 어디인지 안다", "RUL·균열이 0에 닿는 지점을 고정"],
-                ["방향·단조성", "나빠질수록 남은 수명은 줄어든다", "뒤집힌 예측을 구조적으로 막음"],
-                ["저복잡도 tail", "affine / quotient로 밖의 기본 경로를 둠", "NN이 밖을 마음대로 그리지 않음"],
-                ["support·인과", "학습에서 멀수록 보정을 제한 · 현재까지 관측만 입력", "외삽 보정 권한을 제한"],
+                ["경계", "EOL = 880 mAh", "용량→880이면 RUL→0으로 고정"],
+                ["방향", "용량↓ → RUL↓", "뒤집힌 수명 예측을 막음"],
+                ["저복잡도 tail", "affine / quotient 기본 경로", "밖을 NN이 마음대로 안 그림"],
+                ["support·인과", "train health 1.0~0.8만 봄 · 현재까지 관측만 입력", "외삽 보정 권한을 제한"],
             ],
             [32 * mm, 70 * mm, 72 * mm],
         ),
         P(
-            "설계 의도: 식이 틀려도 되는 게 아니라, 식이 없을 때도 외삽 방향을 고정하고 "
-            "residual이 prior를 덮어쓰지 못하게 한다. PAE의 강한 prior는 검증된 식 자체다. "
-            "PP-X의 약한 prior는 ‘식 없이 쓸 수 있는 최소 구조’이며, 근거가 없으면 거절한다."
+            "약한 prior 예시: 용량이 줄면 남은 수명도 줄고 880 mAh에서 끝난다. "
+            "‘정확히 이 3차함수로 열화한다’까지는 가정하지 않는다. "
+            "PAE의 강한 prior는 검증된 식 자체다. PP-X는 식 없이 쓸 최소 구조만 두고, 근거가 없으면 거절한다."
         ),
         PageBreak(),
 
@@ -117,6 +117,29 @@ def append_ppt_deck_detail(story, P, table, callout):
             "예전 4항(C1 Typed contract / C2 Prior-residual core / C3 Unit-evidence approval / C4 Frozen execution)은 "
             "위 3항으로 압축했다. Typed contract와 prior-residual core는 C1, unit-evidence approval과 frozen "
             "execution은 C2, 동일 coverage·unit 통계·prospective는 C3에 해당한다."
+        ),
+        PageBreak(),
+
+        P("BA-06b. C1을 숫자로 보면", "h1"),
+        table(
+            ["비교", "구조"],
+            [
+                ["일반 NN", "X → NN이 전부 결정 → RUL. 밖에서도 학습 패턴을 마음대로 이어 그릴 수 있다."],
+                [
+                    "PP-X",
+                    "경계·history·support·causal → 약한 Prior(예: ŷ_prior=100) → NN 수정 −20~+20만 허용 → ŷ=108",
+                ],
+            ],
+            [32 * mm, 142 * mm],
+        ),
+        P(
+            "왜 bound가 필요한가: Prior=100인데 residual=−300이면 prior를 둔 의미가 없다. "
+            "실제 식은 ŷ=D[y_prior + b tanh(r/b)] 로, 수정량이 대략 −b~+b에 갇힌다."
+        ),
+        callout(
+            "<b>발표용 한 줄:</b> 외삽 구간에서 신경망이 마음대로 예측하게 하지 않고, "
+            "현재 데이터에서 정당화할 수 있는 기본 추세를 먼저 정한 뒤, 신경망은 그 추세에서 "
+            "제한된 범위만 수정한다."
         ),
         PageBreak(),
 
@@ -234,16 +257,17 @@ def append_ppt_deck_detail(story, P, table, callout):
 
         P("BA-마무리. PPT ↔ 본 PDF 읽는 순서", "h1"),
         table(
-            ["PPT 구간 (41장)", "본 PDF에서 이어서 볼 곳"],
+            ["PPT 구간 (42장)", "본 PDF에서 이어서 볼 곳"],
             [
                 ["1–3 문제·사전조사", "부록 AA–AD 노벨티·서사, 문헌 매핑"],
                 ["4–5 연구 루트·약한 prior", "BA-04~05, PPX_PAPER_NARRATIVE_AND_EVIDENCE_REGISTRY_KO.md"],
-                ["6–7 기여·효용", "BA-06~07, PPX_PAPER_CONTRIBUTIONS_KO.md"],
-                ["8–12 방법·프로토콜", "부록 A–E, Algorithm 1 동결 protocol"],
-                ["13–18 결과·ablation", "부록 F–H, U–Y"],
-                ["19–24 비교·안정성·Selective", "BA-19~24, FULL_EQUAL / DOMAIN_STABILITY / SELECTIVE"],
-                ["25–34 실패·CCMR·경계", "DS03 결과, CCMR mechanism evidence"],
-                ["35–41 다음·PAE·보조", "future program · 데이터셋 장"],
+                ["6–7 기여·C1 숫자 예시", "BA-06~06b, PPX_PAPER_CONTRIBUTIONS_KO.md"],
+                ["8–9 효용·방법", "BA-07~09"],
+                ["10–13 프로토콜", "부록 A–E, Algorithm 1 동결 protocol"],
+                ["14–19 결과·ablation", "부록 F–H, U–Y"],
+                ["20–25 비교·안정성·Selective", "BA-19~24, FULL_EQUAL / DOMAIN_STABILITY / SELECTIVE"],
+                ["26–35 실패·CCMR·경계", "DS03 결과, CCMR mechanism evidence"],
+                ["36–42 다음·PAE·보조", "future program · 데이터셋 장"],
             ],
             [58 * mm, 116 * mm],
         ),

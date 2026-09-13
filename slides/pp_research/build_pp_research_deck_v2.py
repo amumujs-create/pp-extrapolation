@@ -202,7 +202,7 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 41
+    TOTAL = 42
 
     def p():
         nonlocal n
@@ -289,7 +289,7 @@ def build():
          "PP-X는 universal neural predictor가 아니라, prior의 선언·승인·실행·거절을 검증 가능한 절차로 만든 구조다.")
     contributions = [
         (48, "C1  Contract-conditioned model",
-         "경계 · history · support · causal\n정보로 허용 prior를 선언하고\nfrozen prior 주변의 bounded\ncausal residual만 학습",
+         "믿을 기본 추세를 먼저 두고\nNN은 그 주변을 조금만 수정\n(다음 장에서 숫자로 설명)",
          C["soft_blue"], C["blue"]),
         (448, "C2  Validation-approved execution",
          "bound · dual-scale · transport · history를\n전역으로 켜지 않고\nvalidation이 지지한 executor만 실행\n반례에서는 거절 / fallback",
@@ -475,34 +475,64 @@ def build():
     s = blank(prs)
     head(s, "약한 prior란 무엇인가",
          "완전 물리식이 없어도, 밖을 지탱할 최소한의 구조 가정을 contract로 선언한다.")
-    rect(s, 48, 96, 1184, 78, C["soft_blue"], C["blue"], True)
-    add_text(s, 70, 112, 1140, 48,
-             "정의  약한 prior = 닫힌 형태의 열화식·PDE를 쓰지 않고, 경계·방향·저복잡도 tail·support·인과 이력처럼 관측·선언 가능한 구조만 외삽 경로로 쓰는 가정.",
+    rect(s, 48, 92, 1184, 70, C["soft_blue"], C["blue"], True)
+    add_text(s, 70, 106, 1140, 44,
+             "정의  닫힌 3차식·PDE를 쓰지 않고, 정당화할 수 있는 경계·방향·저복잡도 tail·support·인과만 기본 추세로 둔다.",
              14, C["ink"], True, "center")
 
     assumptions = [
-        (48, "경계", "고장·임계 상태가\n어디인지 안다", "RUL·균열이 0에\n닿는 지점을 고정"),
-        (350, "방향·단조성", "나빠질수록 남은\n수명은 줄어든다", "뒤집힌 예측을\n구조적으로 막음"),
-        (652, "저복잡도 tail", "affine / quotient로\n밖의 기본 경로를 둠", "NN이 밖을\n마음대로 그리지 않음"),
-        (954, "support·인과", "학습에서 멀수록\n보정을 제한한다", "현재까지의 관측만\n입력으로 사용"),
+        (48, "경계", "EOL = 880 mAh\n(고장 지점)", "용량→880이면\nRUL→0으로 고정"),
+        (350, "방향", "용량↓ → RUL↓", "뒤집힌 수명\n예측을 막음"),
+        (652, "저복잡도 tail", "affine / quotient\n기본 경로", "밖을 NN이\n마음대로 안 그림"),
+        (954, "support·인과", "train health\n1.0~0.8만 봄", "현재까지 관측만\n입력으로 사용"),
     ]
     for x, title, assumption, intent in assumptions:
-        rect(s, x, 196, 278, 246, C["soft"], C["ink"], True)
-        add_text(s, x + 16, 212, 246, 28, title, 15, C["blue"], True, "center")
-        hline(s, x + 24, x + 254, 254, C["rule"])
-        add_text(s, x + 16, 272, 246, 56, assumption, 13, C["ink"], False, "center")
-        add_text(s, x + 16, 348, 246, 66, intent, 12, C["muted"], False, "center")
+        rect(s, x, 182, 278, 220, C["soft"], C["ink"], True)
+        add_text(s, x + 16, 196, 246, 26, title, 15, C["blue"], True, "center")
+        hline(s, x + 24, x + 254, 234, C["rule"])
+        add_text(s, x + 16, 250, 246, 56, assumption, 13, C["ink"], False, "center")
+        add_text(s, x + 16, 322, 246, 58, intent, 12, C["muted"], False, "center")
 
-    rect(s, 48, 466, 570, 130, C["soft_orange"], C["orange"], True)
-    add_text(s, 68, 484, 530, 28, "설계 의도", 15, C["orange"], True)
-    add_text(s, 68, 524, 530, 52,
-             "식이 틀려도 되는 게 아니라, 식이 없을 때도 외삽 방향을 고정하고 residual이 prior를 덮어쓰지 못하게 한다.",
+    rect(s, 48, 424, 570, 150, C["soft_orange"], C["orange"], True)
+    add_text(s, 68, 440, 530, 26, "약한 prior 예시", 15, C["orange"], True)
+    add_text(s, 68, 480, 530, 72,
+             "용량이 줄면 남은 수명도 줄고, 880 mAh에서 끝난다.\n‘정확히 이 3차함수로 열화한다’까지는 가정하지 않는다.",
              13, C["ink"])
-    rect(s, 662, 466, 570, 130, C["soft"], C["ink"], True)
-    add_text(s, 682, 484, 530, 28, "강한 prior와 다른 점", 15, C["ink"], True)
-    add_text(s, 682, 524, 530, 52,
-             "PAE의 강한 prior는 검증된 식 자체다. PP-X의 약한 prior는 ‘식 없이 쓸 수 있는 최소 구조’이며, 근거가 없으면 거절한다.",
+    rect(s, 662, 424, 570, 150, C["soft"], C["ink"], True)
+    add_text(s, 682, 440, 530, 26, "강한 prior와 다른 점", 15, C["ink"], True)
+    add_text(s, 682, 480, 530, 72,
+             "PAE의 강한 prior는 검증된 식 자체다.\nPP-X는 식 없이 쓸 최소 구조만 두고, 근거가 없으면 거절한다.",
              13, C["ink"])
+    foot(s, p(), TOTAL)
+
+    # C1 worked example — prior + bounded residual in plain numbers
+    s = blank(prs)
+    head(s, "C1을 숫자로 보면",
+         "외삽에서 NN이 전부 결정하게 두지 않고, 기본 추세 + 제한된 수정으로 예측한다.")
+
+    rect(s, 48, 96, 384, 250, C["soft"], C["ink"], True)
+    add_text(s, 68, 114, 344, 28, "일반 NN", 16, C["ink"], True, "center")
+    add_text(s, 68, 160, 344, 150,
+             "X → NN이 전부 결정 → RUL\n\n밖에서도 학습 패턴을\n마음대로 이어 그릴 수 있다.",
+             14, C["ink"], False, "center")
+
+    rect(s, 456, 96, 776, 250, C["soft_blue"], C["blue"], True)
+    add_text(s, 480, 114, 728, 28, "PP-X", 16, C["blue"], True, "center")
+    add_text(s, 480, 156, 728, 160,
+             "경계·history·support·causal 정보\n→ 약한 Prior  (예: ŷ_prior = 100)\n→ NN 수정은 −20 ~ +20만 허용\n→ ŷ = 100 + (+8) = 108",
+             14, C["ink"], False, "center")
+
+    rect(s, 48, 370, 600, 196, C["soft_orange"], C["orange"], True)
+    add_text(s, 68, 388, 560, 28, "왜 bound가 필요한가", 15, C["orange"], True)
+    add_text(s, 68, 434, 560, 110,
+             "Prior=100인데 residual=−300이면 prior를 둔 의미가 없다.\n그래서 수정량을 가둔다.\n\nŷ = D[ y_prior + b tanh(r/b) ]\n→ 대략 −b ≤ 수정 ≤ +b",
+             13, C["ink"])
+
+    rect(s, 672, 370, 560, 196, C["soft"], C["ink"], True)
+    add_text(s, 692, 388, 520, 28, "발표용 한 줄", 15, C["ink"], True)
+    add_text(s, 692, 438, 520, 100,
+             "외삽 구간에서 신경망이 마음대로 예측하게 하지 않고, 현재 데이터에서 정당화할 수 있는 기본 추세를 먼저 정한 뒤, 신경망은 그 추세에서 제한된 범위만 수정한다.",
+             14, C["ink"])
     foot(s, p(), TOTAL)
 
     # 6 Method — frozen paper PP-X
@@ -1551,9 +1581,9 @@ def build():
     # survey -> gap/research map -> current PP-X contribution -> structure ->
     # protocol -> evidence. Failure analysis follows the main evidence.
     order = [
-        1, 2, 3, 8, 9, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23, 24, 25, 6, 41, 26, 7, 27, 28, 29, 30, 31, 32,
-        33, 34, 35, 36, 37, 38, 39, 40,
+        1, 2, 3, 8, 9, 4, 10, 5, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23, 24, 25, 26, 6, 42, 27, 7, 28, 29, 30, 31, 32,
+        33, 34, 35, 36, 37, 38, 39, 40, 41,
     ]
     slide_ids = list(prs.slides._sldIdLst)
     for slide_id in slide_ids:
