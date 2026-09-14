@@ -270,7 +270,7 @@ def build():
     box(s, .8, 1.55, 5.25, 4.35, PALE_BLUE, BLUE)
     pill(s, 1.12, 1.85, 1.45, "현재", BLUE)
     text(s, 1.12, 2.35, 4.5, .55, "PP-X", 28, BLUE, True)
-    text(s, 1.12, 3.05, 4.45, 1.35, "약한 prior\n+ bounded residual\n+ validation 승인", 18, INK, True)
+    text(s, 1.12, 3.05, 4.45, 1.35, "약한 prior\n+ residual 후보군\n+ validation 승인", 18, INK, True)
     text(s, 1.12, 4.8, 4.4, .62, "식이 약하거나 경계·방향만 아는 경우", 12, MUTED)
     line(s, 6.1, 3.7, 7.15, 3.7, ORANGE, 4, True)
     text(s, 6.15, 3.12, .95, .4, "확장", 11, ORANGE, True, PP_ALIGN.CENTER)
@@ -529,7 +529,7 @@ def build():
     text(s, .82, 1.45, 11.6, 1.25, "경계가 있으면 BQ,\n없으면 affine.", 31, WHITE, True)
     text(s, .84, 3.13, 11.2, .55, "그 위의 residual과 executor만 validation에서 승인한다.", 21, RGBColor(214, 224, 234), True)
     line(s, .84, 4.15, 12.2, 4.15, BLUE, 4)
-    steps = [("1", "Prior", "BQ / affine"), ("2", "Fit", "bounded residual"), ("3", "Approve", "2% · 60% · 1.10"), ("4", "Freeze", "test forward")]
+    steps = [("1", "Prior", "BQ / affine"), ("2", "Fit", "residual candidates"), ("3", "Approve", "2% · 60% · 1.10"), ("4", "Freeze", "test forward")]
     for i, (num, name, body) in enumerate(steps):
         x = .85 + i * 3.02
         dot(s, x, 4.72, .52, BLUE if i < 3 else GREEN)
