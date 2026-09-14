@@ -193,6 +193,28 @@ def save_chart(path: Path, kind: str):
         ax.spines[["top", "right", "left"]].set_visible(False)
         ax.bar_label(bars, fmt="%+.3f", padding=4, fontsize=10, fontweight="bold")
         fig.tight_layout()
+    elif kind == "stability":
+        names = ["PP-X", "Engression", "FT-Transformer", "plain MLP", "GroupDRO",
+                 "V-REx", "monotone NN", "linear-tail RBF", "SVGP"]
+        sd = np.array([.174, .949, 1.005, 1.007, .998, 1.008, 1.057, 1.473, 4.257])
+        worst = np.array([.466, -1.580, -2.010, -2.140, -2.057, -2.188, -2.351, -2.649, -12.584])
+        positive = np.array([9, 7, 7, 6, 5, 6, 6, 7, 5])
+        fig, ax = plt.subplots(figsize=(10.0, 4.7))
+        colors = [rgb(BLUE)] + [rgb(MUTED)] * 8
+        sizes = 35 + positive * 18
+        ax.scatter(sd, worst, s=sizes, c=colors, alpha=.9, edgecolors="white", linewidth=1.2)
+        for i, name in enumerate(names):
+            offset = (7, 7) if name == "PP-X" else (6, -12)
+            ax.annotate(name, (sd[i], worst[i]), xytext=offset, textcoords="offset points",
+                        fontsize=9.5, fontweight="bold" if name == "PP-X" else "normal")
+        ax.axhline(0, color="#c6cdd4", linewidth=1)
+        ax.set_xlabel("setting 간 R² SD  ← 작을수록 안정")
+        ax.set_ylabel("최악 setting R²  ↑ 높을수록 붕괴 적음")
+        ax.grid(color="#e7eaed", linewidth=.8)
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.set_xlim(-.08, 4.65)
+        ax.set_ylim(-13.5, 1.2)
+        fig.tight_layout()
     else:
         raise ValueError(kind)
     fig.savefig(path, dpi=190, transparent=True, bbox_inches="tight")
@@ -206,7 +228,7 @@ def add_picture(s, path, x=.7, y=1.3, w=11.9, h=5.55):
 def build():
     FIG.mkdir(parents=True, exist_ok=True)
     charts = {}
-    for kind in ("scores", "equal", "core", "executor"):
+    for kind in ("scores", "equal", "core", "executor", "stability"):
         charts[kind] = FIG / f"{kind}.png"
         save_chart(charts[kind], kind)
 
@@ -222,7 +244,7 @@ def build():
     line(s, .78, 4.65, 4.0, 4.65, BLUE, 5)
     text(s, .78, 5.3, 6.0, .5, "박사과정 박진서", 16, WHITE, True)
     text(s, .78, 5.82, 7.5, .35, "Validation-Approved Prior-Residual Extrapolation", 11, RGBColor(180, 195, 210))
-    text(s, 11.4, 6.75, 1.2, .3, "01 / 16", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
+    text(s, 11.4, 6.75, 1.2, .3, "01 / 17", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
 
     # 2 Why extrapolation
     slide_no = 2
@@ -416,7 +438,19 @@ def build():
     text(s, 10.15, 4.24, 2.25, .48, "RWTH dual-scale\nMICH fixed bound", 11.5, INK, True, PP_ALIGN.CENTER)
     text(s, 9.92, 5.67, 2.7, .58, "그래서 contract + Val\n승인이 필요하다.", 12.5, INK, True, PP_ALIGN.CENTER)
 
-    # 14 statistics
+    # 14 cross-setting collapse visualization
+    slide_no += 1
+    s = blank(prs)
+    title(s, "외삽 붕괴 비교 — 낮은 편차와 높은 최악 성능", "점 크기 = R²>0 setting 수 (9개 중)", slide_no)
+    add_picture(s, charts["stability"], .65, 1.3, 9.35, 5.45)
+    box(s, 10.05, 1.55, 2.55, 3.8, PALE_BLUE, BLUE)
+    text(s, 10.3, 1.85, 2.05, .45, "PP-X", 21, BLUE, True, PP_ALIGN.CENTER)
+    text(s, 10.3, 2.62, 2.05, 1.65,
+         "domain SD\n0.174\n\nworst R²\n0.466", 15, INK, True, PP_ALIGN.CENTER)
+    pill(s, 10.42, 4.58, 1.82, "R²>0  9/9", BLUE)
+    text(s, 9.95, 5.75, 2.7, .75, "관찰 범위에서\n심한 음의 tail이 없음", 12.5, INK, True, PP_ALIGN.CENTER)
+
+    # 15 statistics
     slide_no += 1
     s = blank(prs)
     title(s, "통계검정 — 행이 아니라 물리 unit이 표본", "요약 효과와 개별 component evidence를 분리한다.", slide_no)
@@ -439,7 +473,7 @@ def build():
     box(s, .9, 6.25, 11.7, .55, RGBColor(251, 235, 235), RED)
     text(s, 1.15, 6.31, 11.2, .42, "FEMTO v1_declared abstention은 Final BH family에서 제외", 12, RED, True, PP_ALIGN.CENTER)
 
-    # 15 claim boundary
+    # 16 claim boundary
     slide_no += 1
     s = blank(prs)
     title(s, "무엇을 주장하고, 무엇을 주장하지 않는가", "성과보다 실행 계약의 범위를 먼저 고정한다.", slide_no)
@@ -452,7 +486,7 @@ def build():
     text(s, 7.19, 2.52, 5.05, 2.8,
          "× 모든 데이터에서 SOTA\n\n× OOF mode-stability가 Final에서 실행됨\n\n× 모든 executor가 항상 유효\n\n× 미래 cohort 성능 보장", 16, INK, True)
 
-    # 16 takeaway
+    # 17 takeaway
     slide_no += 1
     s = blank(prs, True)
     pill(s, .72, .62, 1.7, "TAKEAWAY", BLUE)
@@ -467,7 +501,7 @@ def build():
         text(s, x + .68, 4.62, 2.15, .38, name, 14, WHITE, True)
         text(s, x + .68, 5.03, 2.15, .35, body, 10.5, RGBColor(180, 195, 210))
     text(s, .82, 6.35, 4.5, .45, "박진서 · Q&A", 15, WHITE, True)
-    text(s, 11.4, 6.75, 1.2, .3, "16 / 16", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
+    text(s, 11.4, 6.75, 1.2, .3, "17 / 17", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     prs.save(OUT)
