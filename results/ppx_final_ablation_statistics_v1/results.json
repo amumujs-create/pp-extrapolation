@@ -9,11 +9,13 @@
     "multiplicity": "Benjamini-Hochberg across all component-dataset comparisons"
   },
   "limitations": [
+    "Executor ablations are matched within each admissible prior family; forcing every executor onto every dataset would violate the frozen typed contract.",
     "Seed p-values quantify optimizer sensitivity and have minimum attainable two-sided p=0.0625 for five seeds.",
-    "Unit bootstrap is unreliable for very small unit counts; FEMTO has one test row per unit.",
     "These are retrospective development splits, not untouched confirmation.",
-    "N-CMAPSS has only three hard-test engines and one has a single row, limiting unit inference."
+    "N-CMAPSS has only three hard-test engines and one has a single row, limiting unit inference.",
+    "FEMTO prior abstention is archived under v1_declared and is excluded from Final BH correction."
   ],
+  "prior_gate_version": "final",
   "comparisons": [
     {
       "dataset": "Sunwoda",
@@ -48,8 +50,8 @@
         0.40185878591686647
       ],
       "unit_signflip_p_two_sided": 0.00390625,
-      "unit_signflip_q_bh": 0.01953125,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.01875,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "Sunwoda",
@@ -84,8 +86,8 @@
         0.09080915492572579
       ],
       "unit_signflip_p_two_sided": 0.2421875,
-      "unit_signflip_q_bh": 0.29411764705882354,
-      "seed_signflip_q_bh": 0.4605263157894737
+      "unit_signflip_q_bh": 0.2857142857142857,
+      "seed_signflip_q_bh": 0.4772727272727273
     },
     {
       "dataset": "Sunwoda",
@@ -121,7 +123,7 @@
       ],
       "unit_signflip_p_two_sided": 0.015625,
       "unit_signflip_q_bh": 0.03125,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "Sunwoda",
@@ -157,7 +159,7 @@
       ],
       "unit_signflip_p_two_sided": 0.7578125,
       "unit_signflip_q_bh": 0.7578125,
-      "seed_signflip_q_bh": 0.29411764705882354
+      "seed_signflip_q_bh": 0.3
     },
     {
       "dataset": "Sunwoda",
@@ -192,8 +194,8 @@
         0.7718610670907785
       ],
       "unit_signflip_p_two_sided": 0.00390625,
-      "unit_signflip_q_bh": 0.01953125,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.01875,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "RWTH",
@@ -228,8 +230,8 @@
         0.39376949290595176
       ],
       "unit_signflip_p_two_sided": 0.0078125,
-      "unit_signflip_q_bh": 0.022321428571428572,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.020833333333333332,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "RWTH",
@@ -264,7 +266,7 @@
         0.18388442375495107
       ],
       "unit_signflip_p_two_sided": 0.3046875,
-      "unit_signflip_q_bh": 0.3385416666666667,
+      "unit_signflip_q_bh": 0.33238636363636365,
       "seed_signflip_q_bh": 0.16666666666666666
     },
     {
@@ -300,8 +302,8 @@
         0.33229777116381687
       ],
       "unit_signflip_p_two_sided": 0.09375,
-      "unit_signflip_q_bh": 0.15625,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.15,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "RWTH",
@@ -336,8 +338,8 @@
         -0.0422116869572419
       ],
       "unit_signflip_p_two_sided": 0.0078125,
-      "unit_signflip_q_bh": 0.022321428571428572,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.020833333333333332,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "RWTH",
@@ -372,8 +374,8 @@
         0.55762675840877
       ],
       "unit_signflip_p_two_sided": 0.0234375,
-      "unit_signflip_q_bh": 0.04261363636363636,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.04017857142857143,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "MICH",
@@ -408,8 +410,8 @@
         0.3439381920904847
       ],
       "unit_signflip_p_two_sided": 0.0078125,
-      "unit_signflip_q_bh": 0.022321428571428572,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.020833333333333332,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "MICH",
@@ -444,8 +446,8 @@
         0.054232353789104466
       ],
       "unit_signflip_p_two_sided": 0.2109375,
-      "unit_signflip_q_bh": 0.29411764705882354,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.26644736842105265,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "MICH",
@@ -517,7 +519,7 @@
       ],
       "unit_signflip_p_two_sided": 0.015625,
       "unit_signflip_q_bh": 0.03125,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "MICH",
@@ -552,8 +554,116 @@
         0.040320848113319555
       ],
       "unit_signflip_p_two_sided": 0.1171875,
-      "unit_signflip_q_bh": 0.18028846153846154,
+      "unit_signflip_q_bh": 0.17578125,
       "seed_signflip_q_bh": 0.16666666666666666
+    },
+    {
+      "dataset": "Sunwoda",
+      "component": "full causal rate history vs current margin",
+      "status": "matched",
+      "n_rows": 1468,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.5895972479983316,
+      "on_ensemble_r2": 0.939450638528607,
+      "ensemble_delta_r2": 0.3498533905302754,
+      "off_seed_r2_mean_sd": [
+        0.5878188630196973,
+        0.0209949884199143
+      ],
+      "on_seed_r2_mean_sd": [
+        0.9085374632967037,
+        0.020000158801029698
+      ],
+      "seed_delta_r2": [
+        0.3554058697215463,
+        0.2817132704909757,
+        0.35479264039727765,
+        0.33156985981308484,
+        0.2801113609621473
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 0.21605849278910527,
+      "unit_rmse_wins": 9,
+      "unit_bootstrap_ci95": [
+        0.15383732344465625,
+        0.26281470530318757
+      ],
+      "unit_signflip_p_two_sided": 0.00390625,
+      "unit_signflip_q_bh": 0.01875,
+      "seed_signflip_q_bh": 0.09375
+    },
+    {
+      "dataset": "RWTH",
+      "component": "full causal rate history vs current margin",
+      "status": "matched",
+      "n_rows": 1859,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": -0.3775409622130037,
+      "on_ensemble_r2": 0.8783817955400992,
+      "ensemble_delta_r2": 1.255922757753103,
+      "off_seed_r2_mean_sd": [
+        -0.3780447436008928,
+        0.04458957233877629
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8708834323361174,
+        0.015865420322153198
+      ],
+      "seed_delta_r2": [
+        1.2863143759978386,
+        1.2635998379723872,
+        1.2446815924362022,
+        1.2662915739599199,
+        1.183753499318703
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": 1.1431642434278637,
+      "unit_rmse_wins": 8,
+      "unit_bootstrap_ci95": [
+        1.0363293756817462,
+        1.24269416330512
+      ],
+      "unit_signflip_p_two_sided": 0.0078125,
+      "unit_signflip_q_bh": 0.020833333333333332,
+      "seed_signflip_q_bh": 0.09375
+    },
+    {
+      "dataset": "MICH",
+      "component": "full causal rate history vs current margin",
+      "status": "matched",
+      "n_rows": 202,
+      "n_units": 8,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.671863356679268,
+      "on_ensemble_r2": 0.46795859830839204,
+      "ensemble_delta_r2": -0.20390475837087596,
+      "off_seed_r2_mean_sd": [
+        0.6710546478135722,
+        0.013463978303267758
+      ],
+      "on_seed_r2_mean_sd": [
+        0.46795105853802943,
+        0.00039746969576237465
+      ],
+      "seed_delta_r2": [
+        -0.2168069673505989,
+        -0.19148145297551178,
+        -0.20878631024259386,
+        -0.21203104551898033,
+        -0.186412170290029
+      ],
+      "seed_signflip_p_two_sided": 0.0625,
+      "mean_unit_rmse_reduction": -0.03243308755471378,
+      "unit_rmse_wins": 1,
+      "unit_bootstrap_ci95": [
+        -0.0506898794149093,
+        -0.014933419135672586
+      ],
+      "unit_signflip_p_two_sided": 0.0234375,
+      "unit_signflip_q_bh": 0.04017857142857143,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "HUST",
@@ -588,8 +698,80 @@
         40.573717627739775
       ],
       "unit_signflip_p_two_sided": 0.0001220703125,
-      "unit_signflip_q_bh": 0.00244140625,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "unit_signflip_q_bh": 0.0029296875,
+      "seed_signflip_q_bh": 0.09375
+    },
+    {
+      "dataset": "MATR batch 2",
+      "component": "support-distance decay (transport off)",
+      "status": "matched",
+      "n_rows": 733,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.6735268131924527,
+      "on_ensemble_r2": 0.6752271354358794,
+      "ensemble_delta_r2": 0.001700322243426755,
+      "off_seed_r2_mean_sd": [
+        0.5265839157843969,
+        0.21674130565383648
+      ],
+      "on_seed_r2_mean_sd": [
+        0.5556788821225254,
+        0.14778124533563908
+      ],
+      "seed_delta_r2": [
+        -0.002653904351041181,
+        0.11842998487984302,
+        0.1208455810122252,
+        -0.08741401005820282,
+        -0.003732819792181985
+      ],
+      "seed_signflip_p_two_sided": 0.5,
+      "mean_unit_rmse_reduction": -1.0227488843379149,
+      "unit_rmse_wins": 2,
+      "unit_bootstrap_ci95": [
+        -2.3605473067753397,
+        0.22155355483227643
+      ],
+      "unit_signflip_p_two_sided": 0.19921875,
+      "unit_signflip_q_bh": 0.265625,
+      "seed_signflip_q_bh": 0.5217391304347826
+    },
+    {
+      "dataset": "MATR batch 2",
+      "component": "decay x transport interaction",
+      "status": "matched",
+      "n_rows": 733,
+      "n_units": 9,
+      "n_seeds": 5,
+      "off_ensemble_r2": 0.8199771375892003,
+      "on_ensemble_r2": 0.8623913670039096,
+      "ensemble_delta_r2": 0.04241422941470929,
+      "off_seed_r2_mean_sd": [
+        0.8145850349308595,
+        0.04124642820531352
+      ],
+      "on_seed_r2_mean_sd": [
+        0.8523810298394119,
+        0.06141362735255405
+      ],
+      "seed_delta_r2": [
+        0.09523235694728627,
+        0.002982018870396841,
+        -0.028934741526857932,
+        0.013600328279731011,
+        0.10610001197220542
+      ],
+      "seed_signflip_p_two_sided": 0.3125,
+      "mean_unit_rmse_reduction": 0.5681702250137975,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        -0.05524145011143274,
+        1.479299937226272
+      ],
+      "unit_signflip_p_two_sided": 0.19921875,
+      "unit_signflip_q_bh": 0.265625,
+      "seed_signflip_q_bh": 0.35714285714285715
     },
     {
       "dataset": "MATR batch 2",
@@ -624,44 +806,8 @@
         9.338317240052325
       ],
       "unit_signflip_p_two_sided": 0.00390625,
-      "unit_signflip_q_bh": 0.01953125,
-      "seed_signflip_q_bh": 0.09615384615384616
-    },
-    {
-      "dataset": "FEMTO",
-      "component": "transferability gate / prior abstention",
-      "status": "retrospective route ablation; test has only one row per unit",
-      "n_rows": 11,
-      "n_units": 11,
-      "n_seeds": 5,
-      "off_ensemble_r2": -1.3470391448373733,
-      "on_ensemble_r2": 0.07488205797483394,
-      "ensemble_delta_r2": 1.4219212028122072,
-      "off_seed_r2_mean_sd": [
-        -1.7366347065046313,
-        0.7817941488002238
-      ],
-      "on_seed_r2_mean_sd": [
-        -1.153817472949163,
-        0.3357035057034181
-      ],
-      "seed_delta_r2": [
-        1.9714790588582367,
-        0.21305877228736514,
-        -0.2092711536243692,
-        1.001113057331796,
-        -0.06229356707568634
-      ],
-      "seed_signflip_p_two_sided": 0.3125,
-      "mean_unit_rmse_reduction": 1361.247213745117,
-      "unit_rmse_wins": 7,
-      "unit_bootstrap_ci95": [
-        -689.7222641823511,
-        3282.538569693133
-      ],
-      "unit_signflip_p_two_sided": 0.232421875,
-      "unit_signflip_q_bh": 0.29411764705882354,
-      "seed_signflip_q_bh": 0.3472222222222222
+      "unit_signflip_q_bh": 0.01875,
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "NASA battery",
@@ -697,7 +843,7 @@
       ],
       "unit_signflip_p_two_sided": 0.75,
       "unit_signflip_q_bh": 0.7578125,
-      "seed_signflip_q_bh": 0.09615384615384616
+      "seed_signflip_q_bh": 0.09375
     },
     {
       "dataset": "N-CMAPSS",
@@ -732,8 +878,44 @@
         1.8139022827148423
       ],
       "unit_signflip_p_two_sided": 0.25,
-      "unit_signflip_q_bh": 0.29411764705882354,
-      "seed_signflip_q_bh": 0.29411764705882354
+      "unit_signflip_q_bh": 0.2857142857142857,
+      "seed_signflip_q_bh": 0.3
+    }
+  ],
+  "archived_v1_declared": [
+    {
+      "dataset": "FEMTO",
+      "component": "v1_declared prior abstention",
+      "status": "archived v1_declared; not PP-X Final",
+      "n_rows": 11,
+      "n_units": 11,
+      "n_seeds": 5,
+      "off_ensemble_r2": -1.3470391448373733,
+      "on_ensemble_r2": 0.07488205797483394,
+      "ensemble_delta_r2": 1.4219212028122072,
+      "off_seed_r2_mean_sd": [
+        -1.7366347065046313,
+        0.7817941488002238
+      ],
+      "on_seed_r2_mean_sd": [
+        -1.153817472949163,
+        0.3357035057034181
+      ],
+      "seed_delta_r2": [
+        1.9714790588582367,
+        0.21305877228736514,
+        -0.2092711536243692,
+        1.001113057331796,
+        -0.06229356707568634
+      ],
+      "seed_signflip_p_two_sided": 0.3125,
+      "mean_unit_rmse_reduction": 1361.247213745117,
+      "unit_rmse_wins": 7,
+      "unit_bootstrap_ci95": [
+        -676.6302421708542,
+        3276.0546608560735
+      ],
+      "unit_signflip_p_two_sided": 0.232421875
     }
   ]
 }

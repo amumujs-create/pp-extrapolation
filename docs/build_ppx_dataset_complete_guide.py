@@ -537,9 +537,9 @@ def append_ppx_defense(story):
 
         P("부록 E. Frozen 선택 순서와 임계값", "h1"),
         table(["순서", "검사", "동결 기준"], [
-            ["1 Prior admissibility", "경계 prior를 쓸 수 있는가", "독립 선언 boundary가 있거나 complete source group≥5, regime당≥2"],
-            ["", "source에서 prior가 direct보다 해롭지 않은가", "source-group OOF prior regret ≤0"],
-            ["", "latent mode가 재학습에도 유지되는가", "필요할 때 mode stability≥0.60"],
+            ["1 Prior (Final)", "어떤 prior를 쓰는가", "known_boundary=True → BQ, False → affine. 둘 다 ON"],
+            ["", "OOF / group / mode", "Final에서 계산하지 않음. 사다리는 v1_declared 보관"],
+            ["", "DS03 · FEMTO", "역사 감사만 version=v1_declared"],
             ["2 Executor approval", "optional 기능이 실제 개선하는가", "동일 group-disjoint validation loss를 단순 reference보다 ≥2% 감소"],
             ["", "dual-scale을 쓸 만큼 support가 이질적인가", "train-only support heterogeneity≥0.50"],
             ["", "거의 동률이면 무엇을 고르나", "수치 tolerance 안에서는 더 단순한 executor"],
@@ -854,7 +854,7 @@ def append_architecture_evidence(story):
             ["Transport", "complete source groups와 group-LOO scale/offset 반복", "OOF regret>0, regime coverage 부족", "근거 없으면 identity"],
             ["Support decay", "거리가 멀수록 residual/transport 불안정", "거리와 오차 관계가 validation에 없음", "MATRb2 단독 +.002"],
             ["Multiscale", "시간척도별 validation ranking이 안정", "unit 수가 작아 선택 불안정", "NASA/N-CMAPSS 효과 작음"],
-            ["Prior route", "boundary 또는 source OOF prior regret≤0", "complete groups 부족·prior regret 양수", "FEMTO prior 거절"],
+            ["Prior route", "known_boundary → BQ, 아니면 affine (Final)", "Final은 prior를 끄지 않음", "FEMTO 거절은 v1_declared 보관"],
         ], [31 * mm, 57 * mm, 57 * mm, 29 * mm], size=7),
         P("활성화 표를 인과 증명으로 읽으면 안 되는 이유", "h2"),
         P("Ablation은 해당 split에서 모듈 제거와 성능 변화의 연관을 matched하게 보여준다. 그러나 ‘이 물리 메커니즘 때문에 "

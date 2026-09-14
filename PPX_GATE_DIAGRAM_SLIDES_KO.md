@@ -15,9 +15,10 @@ C1 Contract → Prior gate → C2 Fit → Executor gate → C4 Freeze
                      Direct fallback
 ```
 
-- **Prior gate 거절**: executor 비교 없음 → fallback  
+- **Prior gate (Final)**: 경계 → BQ, 없음 → affine. 둘 다 Prior ON. 거절 없음.  
 - **Executor gate 거절**: 비교는 했으나 Val 미달 → fallback  
-- **승인**: Val PASS 후보 중 최소 loss (동점이면 단순) → freeze
+- **승인**: Val PASS 후보 중 최소 loss (동점이면 단순) → freeze  
+- **Prior OFF / neural_safety**: `v1_declared`만. Final 9-setting에 없음.
 
 ## 8장 — Prior gate (`select_ppx_route`)
 
@@ -52,7 +53,7 @@ FAIL → Direct/persistence fallback
 |---|---|---|
 | boundary_pp | ON | executor gate |
 | transferable_prior | ON | executor gate |
-| neural_safety | OFF | 바로 fallback |
+| neural_safety | OFF (`v1_declared`만) | 바로 fallback |
 | 승인 executor | ON | C4 freeze |
 | Direct fallback | — | 예측만 |
 

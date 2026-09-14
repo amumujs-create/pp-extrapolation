@@ -26,7 +26,7 @@ def main():
   split,audit=prepare_dataset(name);scales[name]=BatteryRepresentationScale.fit(split['train'],audit['boundary'])
   parts['train'].append(build_rows(split['train'],scales[name],i));parts['validation'].append(build_rows(split['val'],scales[name],i));parts['full'].append(build_rows(full_part(split),scales[name],i));parts['source'].append(build_rows(split['source'],scales[name],i))
  rows={k:concatenate_rows(v) for k,v in parts.items()};result={'status':'retrospective fixed-config mechanism ablation','config':CONFIG,'features':{}}
- source_ensembles={}
+ source_ensembles={};source_predictions={}
  for label,columns in FEATURES.items():
   predictions=[];validation_predictions=[];runs=[]
   for seed in SEEDS:
@@ -35,6 +35,7 @@ def main():
    epochs=max(selected.selection['selected_epoch'],1)
    fit=fit_boundary_quotient_pp(subset(rows['full'],columns),subset(rows['full'],columns),seed=seed,max_epochs=epochs,patience=10000,restore_best=False,**CONFIG)
    p=predict_boundary_quotient(fit,subset(rows['source'],columns));predictions.append(p);runs.append({'seed':seed,'selected_epoch':selected.selection['selected_epoch']})
+  source_predictions[label]=np.asarray(predictions)
   source_ensembles[label]=np.mean(predictions,0);validation_ensemble=np.mean(validation_predictions,0)
   validation_mse={name:float(np.mean((validation_ensemble[rows['validation']['dataset']==i]-rows['validation']['y'][rows['validation']['dataset']==i])**2)) for i,name in enumerate(DATASETS)}
   metrics=score_by_dataset(source_ensembles[label],rows['source'],scales);result['features'][label]={'columns':columns,'runs':runs,'validation_normalized_mse':validation_mse,'ensemble':metrics}
@@ -47,5 +48,10 @@ def main():
  result['routed_ensemble']=score_by_dataset(routed,rows['source'],scales)
  print('routed',choices,{d:round(result['routed_ensemble'][d]['pooled_r2'],3) for d in DATASETS})
  (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n')
+ np.savez_compressed(
+  OUT/'predictions.npz',
+  y=rows['source']['y'],groups=rows['source']['units'],dataset=rows['source']['dataset'],
+  **source_predictions,
+ )
 
 if __name__=='__main__':main()

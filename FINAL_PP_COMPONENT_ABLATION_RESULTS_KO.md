@@ -38,7 +38,7 @@ prediction-ensemble pooled R²에서 matched 제거 arm의 값을 뺀 것이다.
 | Decay×transport interaction | MATRb2 | transport-only 0.820 → decay+transport 0.862 | +0.042 | 먼 support에서 transport 과보정 완화 |
 | Validation-selected causal route | NASA battery | short-only 0.572 → selected 0.584 | +0.012 | fold별 유효 history scale 선택 |
 | Validation-selected multiscale route | N-CMAPSS | basic 0.928 → selected 0.937 | +0.009 | 운전조건과 열화의 시간척도 선택 |
-| Evidence approval gate | 13 settings | always-on gain → gated gain | 3 개선 / 10 유지 / 0 악화 | 맞지 않는 optional executor 거절 |
+| Evidence approval gate | executor Val 승인 | always-on gain → gated gain | 3 개선 / 10 유지 / 0 악화 | optional executor 거절. Final prior 사다리 아님 |
 
 ### 이 표에서 분리해서 읽어야 하는 것
 

@@ -14,9 +14,12 @@ PP-X의 공식 범위는 처음 보는 unit/domain에 대한 **inductive extrapo
 
     domain contract -> candidate prior -> transferability gate
                                       -> bounded neural correction
-                                      -> neural safety executor when rejected
 
-prior 후보는 known-boundary quotient, affine tail, causal multiscale latent state, regime-conditioned lifetime이다. gate의 출력은 확률로 해석하지 않는다. boundary가 알려졌거나 source OOF에서 prior가 matched direct model보다 안정적으로 좋을 때 prior 경로를 승인한다. complete group 수, regime당 group 수, OOF regret 또는 mode stability가 부족하면 neural safety 경로로 간다.
+**PP-X Final (`PRIOR_GATE_VERSION=final`):** 경계 있음 → BQ, 없음 → affine. Prior는 항상 ON이다. group 수 / OOF regret / mode stability는 계산하지 않는다.
+
+아래 OOF 사다리와 neural safety는 **`v1_declared` 보관**이다. DS03·FEMTO 역사 감사에만 쓴다. Final 9-setting 게이트가 아니다.
+
+`v1_declared`에서만: boundary가 알려졌거나 source OOF에서 prior가 matched direct보다 나을 때 prior를 승인한다. complete group 수, regime당 group 수, OOF regret 또는 mode stability가 부족하면 neural safety로 간다.
 
 예측식의 일반형은 다음과 같다.
 
@@ -24,7 +27,7 @@ prior 후보는 known-boundary quotient, affine tail, causal multiscale latent s
     y_PP = D(y_prior + B(H, support) tanh(r_NN(H)/B))
     y_PPX = g_transfer y_PP + (1-g_transfer) y_NN
 
-현재 gate는 hard decision이다. FEMTO에서 `g_transfer=0`, 기존 승인 PP 경로에서는 1이다. 향후 soft gate를 사용하려면 source OOF에서 calibration해야 하며 test 성능으로 weight를 고르면 안 된다.
+Final에서 `g_transfer=1`이다. FEMTO의 `g_transfer=0`은 `v1_declared` 재생이다. 향후 soft gate를 쓰려면 source에서 calibration해야 하며 test 성능으로 weight를 고르면 안 된다.
 
 ## 현재 통합 개발 결과
 

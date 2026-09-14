@@ -102,17 +102,28 @@ def main() -> None:
         rows.append(compare(component="complete selected PP-X vs direct NN",
                             off=matched["direct_nn"][:, take], on=selected, **common))
 
+    bq_history = load("results/boundary_quotient_feature_ablation_v1/predictions.npz")
+    for code, dataset in dataset_names.items():
+        take = bq_history["dataset"] == code
+        rows.append(compare(dataset, "full causal rate history vs current margin",
+                            bq_history["y"][take], bq_history["groups"][take],
+                            bq_history["margin_current"][:, take],
+                            bq_history["full_rate_history"][:, take]))
+
     hust = load("results/hust_regime_transport_pp_v1/predictions.npz")
     rows.append(compare("HUST", "regime transport", hust["y"], hust["groups"],
                         hust["raw"], hust["transported"]))
+    matr_factorial = load("results/matr_batch2_support_transport_ablation_v1/predictions.npz")
+    rows.append(compare("MATR batch 2", "support-distance decay (transport off)",
+                        matr_factorial["truth"], matr_factorial["groups"],
+                        matr_factorial["decay_0.00_raw"], matr_factorial["decay_0.05_raw"]))
+    rows.append(compare("MATR batch 2", "decay x transport interaction",
+                        matr_factorial["truth"], matr_factorial["groups"],
+                        matr_factorial["decay_0.00_transported"],
+                        matr_factorial["decay_0.05_transported"]))
     matr = load("results/matr_batch2_pp_five_seed_replay/predictions.npz")
     rows.append(compare("MATR batch 2", "regime transport after support decay", matr["truth"],
                         matr["groups"], matr["raw"], matr["transported"]))
-    femto_off = load("results/femto_waveform_pp_v8/pp.npz")
-    femto_on = load("results/femto_waveform_pp_v8/direct.npz")
-    rows.append(compare("FEMTO", "transferability gate / prior abstention", femto_on["y"],
-                        femto_on["groups"], femto_off["predictions"], femto_on["predictions"],
-                        status="retrospective route ablation; test has only one row per unit"))
 
     nasa_on = load("results/nasa_causal_multiscale_pp_v1/predictions.npz")
     nasa_off = load("results/nasa_causal_short_fixed_ablation_v1/predictions.npz")
@@ -136,6 +147,13 @@ def main() -> None:
                         nc_matrix("ncmapss_basic_fixed_ablation_v1"),
                         nc_matrix("ncmapss_pp_multiscale_v1")))
 
+    # FEMTO prior abstention is v1_declared, not Final. Keep out of Final BH.
+    femto_off = load("results/femto_waveform_pp_v8/pp.npz")
+    femto_on = load("results/femto_waveform_pp_v8/direct.npz")
+    archived = [compare("FEMTO", "v1_declared prior abstention", femto_on["y"],
+                        femto_on["groups"], femto_off["predictions"], femto_on["predictions"],
+                        status="archived v1_declared; not PP-X Final")]
+
     # Benjamini-Hochberg correction is reported separately for unit and seed tests.
     for field, corrected in (("unit_signflip_p_two_sided", "unit_signflip_q_bh"),
                              ("seed_signflip_p_two_sided", "seed_signflip_q_bh")):
@@ -152,17 +170,21 @@ def main() -> None:
                       "unit_effect": "off RMSE minus on RMSE; positive favors component",
                       "multiplicity": "Benjamini-Hochberg across all component-dataset comparisons"},
         "limitations": [
+            "Executor ablations are matched within each admissible prior family; forcing every executor onto every dataset would violate the frozen typed contract.",
             "Seed p-values quantify optimizer sensitivity and have minimum attainable two-sided p=0.0625 for five seeds.",
-            "Unit bootstrap is unreliable for very small unit counts; FEMTO has one test row per unit.",
             "These are retrospective development splits, not untouched confirmation.",
-            "N-CMAPSS has only three hard-test engines and one has a single row, limiting unit inference."
+            "N-CMAPSS has only three hard-test engines and one has a single row, limiting unit inference.",
+            "FEMTO prior abstention is archived under v1_declared and is excluded from Final BH correction.",
         ],
+        "prior_gate_version": "final",
         "comparisons": rows,
+        "archived_v1_declared": archived,
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "results.json").write_text(json.dumps(payload, indent=2) + "\n")
 
     lines = ["# 최종 PP-X 구성요소 ablation 및 통계검정", "",
+             "PP-X Final prior는 `known_boundary`만 본다. 경계 있으면 BQ, 없으면 affine. 아래 표는 그 prior family 안의 executor/core on/off다.",
              "동일 test row와 seeds 42–46의 저장 예측을 재집계했다. 주 지표는 prediction-ensemble pooled R²이며, 통계 표본은 독립 물리 unit이다. 양의 RMSE 감소는 구성요소가 유리하다는 뜻이다.", "",
              "| 데이터셋 | 구성요소(on) | off R² | on R² | ΔR² | unit 승 | 평균 unit RMSE 감소 [95% CI] | sign-flip p / BH q | seed p |",
              "|---|---|---:|---:|---:|---:|---:|---:|---:|"]
@@ -173,8 +195,17 @@ def main() -> None:
              "- ΔR²와 unit 평균 효과가 모두 양수이고 unit-bootstrap CI의 하한이 0보다 크면 강한 표본 내 근거로 본다.",
               "- CI가 0을 포함하면 개선 방향은 보여도 모집단 수준의 유의성은 확정하지 않는다.",
               "- 5-seed exact sign-flip 검정은 완전한 5/5 동일 방향이어도 양측 p의 최솟값이 0.0625이므로 seed p<0.05를 요구하지 않는다.",
-              "- FEMTO gate 비교는 unit당 한 점뿐이므로 unit 통계가 수명곡선 일반화를 검정하지 못한다.", "",
-              "## 해석상 제한", "",
+              "",
+              "## 보관 `v1_declared` (Final 아님)", "",
+              "FEMTO prior abstention은 OOF/group 사다리 재생이다. Final 9-setting과 Final BH 표에 넣지 않는다.", "",
+              "| 데이터셋 | 구성요소(on) | off R² | on R² | ΔR² | unit 승 | 평균 unit RMSE 감소 [95% CI] | sign-flip p / BH q | seed p |",
+              "|---|---|---:|---:|---:|---:|---:|---:|---:|"]
+    for r in archived:
+        ci = r["unit_bootstrap_ci95"]
+        lines.append(
+            f'| {r["dataset"]} | {r["component"]} | {r["off_ensemble_r2"]:.3f} | **{r["on_ensemble_r2"]:.3f}** | {r["ensemble_delta_r2"]:+.3f} | {r["unit_rmse_wins"]}/{r["n_units"]} | {r["mean_unit_rmse_reduction"]:+.3f} [{ci[0]:+.3f}, {ci[1]:+.3f}] | {r["unit_signflip_p_two_sided"]:.4g} / — | {r["seed_signflip_p_two_sided"]:.4g} |'
+        )
+    lines += ["", "## 해석상 제한", "",
               "NASA와 N-CMAPSS의 제거 arm도 같은 seeds로 재학습해 포함했다. 두 효과는 각각 약 +0.012, +0.009로 작고 unit 수도 4개와 3개뿐이므로, 방향성 ablation으로 보고 모집단 유의성을 주장하지 않는다.", ""]
     (OUT / "REPORT_KO.md").write_text("\n".join(lines))
     print(json.dumps({"output": str(OUT), "comparisons": len(rows)}, indent=2))

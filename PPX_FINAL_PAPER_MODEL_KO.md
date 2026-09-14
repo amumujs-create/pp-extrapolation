@@ -12,7 +12,7 @@ PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 �
 
 ## 공통 core: 모든 승인 prior 경로에 유지
 
-각 시점의 causal adapter가 현재 상태, 짧은 history, 열화율, context, support feature를 만든다. 알려진 boundary 또는 source OOF에서 승인된 tail prior를 먼저 계산하고, frozen affine/quotient path 주위의 nonlinear residual을 학습한다.
+각 시점의 causal adapter가 현재 상태, 짧은 history, 열화율, context, support feature를 만든다. **PP-X Final prior는 `known_boundary`만으로 고른다.** 경계가 있으면 BQ, 없으면 affine이다. group 수 / OOF regret / mode stability는 계산하지 않는다. 그 사다리는 `v1_declared` 보관이다. 고른 prior 주위의 nonlinear residual을 학습한다.
 
 \[
   \hat y = D\{y_{prior}+b(z)\tanh[r(z)/b(z)]\}.
@@ -30,17 +30,17 @@ PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 �
 | support-adaptive dual scale | fixed bound보다 validation 개선이 있고 support heterogeneity가 높음 | MICH 강한 개선; RWTH 유의한 악화 | MICH형 relationship-shift executor |
 | regime transport | group-LOO validation에서 raw prediction보다 일관된 개선 | HUST·MATR-b2 강한 개선 | cohort shift executor |
 | multiscale history | validation loss가 basic/short history보다 개선 | NASA·N-CMAPSS 소폭 개선, 통계력 부족 | adapter hyperparameter |
-| neural safety | prior evidence가 부족하거나 source OOF prior regret가 양수 | FEMTO는 통계적으로 미확증 | abstention/fallback, 성능 주장의 핵심 아님 |
+| neural safety | `v1_declared`에서만. Final은 prior를 끄지 않음 | FEMTO 역사 감사, 9-setting 아님 | 보관 fallback. Final 성능 표에 넣지 않음 |
 
 따라서 dual-scale, transport, full multiscale history를 “PP의 항상 켜진 구성요소”라고 쓰지 않는다. 특히 RWTH에서 dual-scale을 일괄 적용하면 유의하게 악화됐으므로, 전역 default로 둘 수 없다.
 
 ## 실행 규칙
 
 1. **Domain contract 선언:** boundary의 존재, unit/group 정의, causal adapter, 허용 prior를 train 전에 선언한다.
-2. **Common core fitting:** train만으로 prior와 nonlinear residual을 학습한다.
-3. **Executor selection:** validation 또는 group-LOO validation에서 후보 executor를 고른다. 선택 기준과 동률 규칙은 test 전에 고정한다.
-4. **Source evidence gate:** complete source group 수, regime coverage, OOF prior regret로 prior 자체를 승인하거나 neural safety로 보낸다.
-5. **Frozen final evaluation:** 선택된 구조와 hyperparameter를 고정한 뒤 test를 한 번 예측한다.
+2. **Prior gate (Final):** `known_boundary=True`면 BQ, 아니면 affine. 둘 다 Prior ON. OOF/group/mode는 실행하지 않는다.
+3. **Common core fitting:** train만으로 고른 prior와 nonlinear residual을 학습한다.
+4. **Executor selection:** validation 또는 group-LOO validation에서 후보 executor를 고른다. 선택 기준과 동률 규칙은 test 전에 고정한다.
+5. **Frozen final evaluation:** 선택된 구조와 hyperparameter를 고정한 뒤 test를 한 번 예측한다. Prior OFF는 Final 경로에 없다. Val FAIL만 사전 fallback이다.
 
 이것은 mixture-of-experts나 test-time routing이 아니다. route와 executor는 source/validation evidence로 한 번 정해지고 test에는 frozen forward만 실행한다.
 
@@ -78,7 +78,7 @@ depth-shell gate를 추가로 평가했으나 논문 구조로 승격하지 않�
 validation-only 연속 mass gate는 direct fallback보다 소폭 개선됐지만
 Engression보다 낮았고, MultiStage에서는 안전성을 확보한 gate도 CCMR 단독보다
 낮았다. 따라서 현재 Algorithm 1은 이 확장을 포함하지 않으며 prior evidence가
-부족할 때 기존 fallback/abstention을 유지한다. 상세한 음성 결과와 재현 경로는
+부족할 때 `v1_declared` fallback/abstention을 유지한다. Final 9-setting은 prior를 끄지 않는다. 상세한 음성 결과와 재현 경로는
 `PPX_CRT_REJECTED_EXPERIMENT_KO.md`에 기록한다.
 
 CRT 이후 support-grade 조건부 implicit generator, group-CVaR energy loss,
@@ -90,7 +90,8 @@ Algorithm 1에서 제외하며 상세 결과는
 
 ## 근거와 산출물
 
-- 최종 on/off 및 BH 보정: `results/ppx_final_ablation_statistics_v1/REPORT_KO.md`
+- Prior 버전: `PPX_PRIOR_GATE_VERSION_KO.md` (`final` vs `v1_declared`)
+- 최종 on/off 및 BH 보정: `results/ppx_final_ablation_statistics_v1/REPORT_KO.md` (FEMTO는 보관 절)
 - 구성요소별 그림: `figures/paper/ppx_final_ablation/`
 - 경쟁모델 그림: `figures/paper/ppx_final_ablation/fig_competitor_score_matrix.png`
 - 원래 framework 정의: `PPX_FINAL_MODEL_KO.md`

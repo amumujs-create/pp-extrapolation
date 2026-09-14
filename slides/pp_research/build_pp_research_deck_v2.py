@@ -105,6 +105,57 @@ def right_arrow(slide, left, top, width, height, fill):
     return sh
 
 
+def research_route_diagram(slide):
+    """Render the shared PP-X/PAE research-route decision diagram."""
+    rect(slide, 238, 86, 804, 54, C["ink"], None, True)
+    add_text(slide, 254, 96, 772, 32,
+             "목표  ·  근거 수준에 맞는 강건한 외삽 프레임워크 구축",
+             16, C["white"], True, "center")
+
+    rect(slide, 48, 178, 250, 86, C["soft"], C["muted"], True)
+    add_text(slide, 62, 188, 222, 24, "사용 가능한 근거", 12, C["muted"], True, "center")
+    add_text(slide, 62, 218, 222, 32, "관측 · 경계 · 도메인 지식", 13, C["ink"], True, "center")
+    right_arrow(slide, 306, 205, 54, 30, C["muted"])
+
+    decision = slide.shapes.add_shape(
+        MSO_AUTO_SHAPE_TYPE.DIAMOND, px(382), px(164), px(300), px(116)
+    )
+    decision.fill.solid()
+    decision.fill.fore_color.rgb = C["soft_orange"]
+    decision.line.color.rgb = C["orange"]
+    decision.line.width = Pt(1.25)
+    fill_shape_text(decision, "적용 가능한 후보식이\n정당화되는가?", 13, C["ink"], True)
+
+    vline(slide, 532, 280, 292, C["muted"])
+    hline(slide, 194, 870, 292, C["muted"])
+    down_arrow(slide, 176, 286, 36, 34, C["blue"])
+    down_arrow(slide, 852, 286, 36, 34, C["orange"])
+    add_text(slide, 220, 278, 60, 24, "NO", 12, C["blue"], True)
+    add_text(slide, 784, 278, 60, 24, "YES", 12, C["orange"], True, "right")
+
+    rect(slide, 48, 326, 520, 146, C["soft_blue"], C["blue"], True)
+    add_text(slide, 66, 338, 484, 28, "PP-X  |  식이 없거나 약할 때", 16, C["blue"], True, "center")
+    add_text(slide, 72, 378, 472, 66,
+             "weak prior + bounded residual\nValidation evidence로 executor 승인 · 실패 시 fallback",
+             12, C["ink"], False, "center")
+
+    rect(slide, 712, 326, 520, 146, C["soft_orange"], C["orange"], True)
+    add_text(slide, 730, 338, 484, 28, "PAE  |  검증된 식이 있을 때", 16, C["orange"], True, "center")
+    add_text(slide, 736, 378, 472, 66,
+             "validated equation + 제한 NN\nsource gate · 이득 없으면 PP-X로 복귀",
+             12, C["ink"], False, "center")
+
+    down_arrow(slide, 290, 478, 36, 32, C["muted"])
+    down_arrow(slide, 954, 478, 36, 32, C["muted"])
+    rect(slide, 238, 516, 804, 62, C["white"], C["ink"], True)
+    add_text(slide, 252, 526, 776, 38,
+             "공통 Assurance  ·  믿기 / 보류 / 거절  →  두 경로를 하나의 외삽 프레임워크로 통합",
+             13, C["ink"], True, "center")
+    add_text(slide, 48, 592, 1184, 24,
+             "현재 발표 범위: PP-X  ·  후속 확장: PAE + 통합 Assurance",
+             12, C["muted"], True, "center")
+
+
 def vline(slide, x, y1, y2, color):
     line = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, px(x), px(y1), px(x), px(y2))
     line.line.color.rgb = color
@@ -202,7 +253,9 @@ def build():
     prs.slide_width = W
     prs.slide_height = H
     n = 0
-    TOTAL = 45
+    # 47 generated source slides; 5 repetitive method slides are omitted in
+    # the final narrative order below.
+    TOTAL = 42
 
     def p():
         nonlocal n
@@ -305,7 +358,7 @@ def build():
              15, C["ink"], True)
     hline(s, 48, 1232, 452, C["rule"])
     add_text(s, 48, 470, 1184, 48,
-             "C4 Frozen execution  C3까지 통과한 route 1개를 test 전에 고정한다. 실패하면 미리 정한 fallback으로 간다.\n"
+             "Frozen execution (운영 규칙)  C3를 통과한 route 1개를 test 전에 고정한다. 실패하면 미리 정한 fallback으로 간다.\n"
              "다음 장부터 C1 → C2 → C3를 예시로 하나씩 설명한다.",
              13, C["muted"])
     foot(s, p(), TOTAL)
@@ -402,147 +455,253 @@ def build():
              12, C["red"], True, "center")
     foot(s, p(), TOTAL)
 
-    # 7 Research route — simple two-path table (less diagram chrome)
+    # 7 Research route — evidence-driven two-path diagram
     s = blank(prs)
     head(s, "연구 루트 — 식의 근거에 따라 두 경로로 간다",
          "식이 없거나 약한 prior만 있으면 PP-X, 적용 가능한 식이 정당화되면 PAE로 확장한다.")
-    add_text(s, 48, 92, 1184, 28,
-             "입력  관측 · 경계 · 도메인 지식    →    질문  후보식이 정당화되는가?",
-             14, C["ink"], True)
-    add_table(
-        s, 48, 140, 1184, 280,
-        ["답", "경로", "내용", "상태"],
-        [
-            ["NO", "PP-X", "equation-unavailable · weak-prior · prior-residual core + evidence-selected executor", "이번 발표"],
-            ["YES", "PAE", "validated equation + 제한 NN · 이득 없으면 PP-X로 되돌림 · LLM·온톨로지·source gate", "다음 논문"],
-        ],
-        font_size=13,
-    )
-    add_text(s, 48, 460, 1184, 48,
-             "공통  Assurance: 믿기 / 보류 / 거절. 박사논문에서 두 경로를 통합한다.\n오늘은 왼쪽(PP-X)만 간다. PAE와 Assurance는 지도에만 둔다.",
-             13, C["muted"])
+    research_route_diagram(s)
     foot(s, p(), TOTAL)
 
     # Weak prior definition — sits after research route in the narrative order
     s = blank(prs)
     head(s, "약한 prior란 무엇인가 — C1에서 허용하는 믿음의 수준",
-         "완전 물리식이 없어도, 밖을 지탱할 최소한의 구조 가정을 contract로 선언한다.")
-    add_text(s, 48, 92, 1184, 36,
-             "정의  닫힌 3차식·PDE를 쓰지 않고, 정당화할 수 있는 경계·방향·저복잡도 tail·support·인과만 기본 추세로 둔다.",
-             14, C["ink"], True)
+         "Prior와 executor를 분리해서 읽는다. contract가 prior 후보를 열고 validation이 executor를 승인한다.")
+    add_text(s, 48, 88, 1184, 32,
+             "약한 prior = 경계·방향·저복잡도 기본 추세.  ‘Affine’은 함수형, ‘latent/quotient’는 예측 대상이다.",
+             13, C["ink"], True)
     add_table(
-        s, 48, 146, 1184, 260,
-        ["요소", "가정 예", "의도"],
+        s, 48, 128, 1184, 210,
+        ["층", "후보", "허용 조건", "역할"],
         [
-            ["경계", "EOL = 880 mAh", "용량→880이면 RUL→0으로 고정"],
-            ["방향", "용량↓ → RUL↓", "뒤집힌 수명 예측을 막음"],
-            ["저복잡도 tail", "affine / quotient 기본 경로", "밖을 NN이 마음대로 그리지 않음"],
-            ["support · 인과", "train health 1.0~0.8만 봄", "현재까지 관측만 입력으로 사용"],
+            ["Prior A · 경계형", "BQ: 경계거리 × 단위거리당 잔여수명", "EOL 경계를 미리 앎", "경계에서 RUL=0 보장. quotient 추세를 Ridge로 학습"],
+            ["Prior B · 비경계형", "Direct affine: causal X→RUL", "known_boundary=False (Final)", "RUL 기본 추세를 Ridge로 직접 학습. Final은 끄지 않음"],
+            ["Executor", "bounded · dual-scale · history · transport", "해당 contract flag + Val PASS", "prior를 제한적으로 수정·보정"],
+            ["Fallback", "direct / persistence", "Executor Val FAIL (Final)", "prior-residual 경로를 사용하지 않음"],
         ],
-        font_size=13,
+        font_size=11,
     )
+    add_text(s, 48, 342, 1184, 24,
+             "차이  BQ는 margin=(현재 health−EOL 경계)을 먼저 곱해 끝점 0을 고정한다. Direct affine은 경계를 강제하지 않고 RUL을 바로 회귀한다.",
+             11, C["blue"], True, "center")
     add_table(
-        s, 48, 440, 1184, 150,
-        ["구분", "내용"],
+        s, 48, 374, 1184, 206,
+        ["실제 route", "Prior", "선택 executor"],
         [
-            ["약한 prior 예시", "용량이 줄면 남은 수명도 줄고, 880 mAh에서 끝난다. ‘정확히 이 3차함수로 열화한다’까지는 가정하지 않는다."],
-            ["강한 prior와 다른 점", "PAE의 강한 prior는 검증된 식 자체다. PP-X는 식 없이 쓸 최소 구조만 두고, 근거가 없으면 거절한다."],
+            ["Sunwoda · RWTH", "BQ latent-affine Ridge", "bounded latent residual"],
+            ["MICH", "BQ latent-affine Ridge", "support-adaptive dual-scale residual"],
+            ["NASA · N-CMAPSS", "Direct-RUL affine Ridge", "latent-regime + multiscale history"],
+            ["HUST · MATR-b2", "Direct-RUL affine+residual PP", "validation-LOO output transport"],
+            ["FEMTO", "v1_declared OFF (9-setting 아님)", "neural safety 보관"],
+        ],
+        font_size=11,
+    )
+    foot(s, p(), TOTAL)
+
+    # --- Presentation slides 7–10: gate / approve / reject (diagram block) ---
+    # Creation indices 10–13 in narrative order.
+
+    # 7) Full gate map
+    s = blank(prs)
+    head(s, "PP-X 게이트 전체도 — 어디서 승인·거절되나",
+         "한 장으로 보는 분기. 왼쪽은 Prior 켤지, 오른쪽은 executor를 Val로 쓸지.")
+    # Row of stages
+    stages = [
+        (48, "Step 1 · C1 Contract", "경계·후보·fallback\n미리 선언", C["soft"], C["ink"]),
+        (280, "Step 2 · C1 Prior gate", "select_ppx_route\nBQ 또는 affine", C["soft_blue"], C["blue"]),
+        (512, "Step 3 · C2 Fit", "prior + bounded\nresidual 학습", C["soft"], C["ink"]),
+        (744, "Step 4 · C3 Approve", "Executor gate\nVal 2%·60%·1.10", C["soft_orange"], C["orange"]),
+        (976, "Step 5 · Freeze", "C3 이후 실행 규칙\nroute or fallback", C["soft"], C["ink"]),
+    ]
+    for left, title, body, fill, edge in stages:
+        rect(s, left, 96, 216, 120, fill, edge, False)
+        add_text(s, left + 8, 104, 200, 24, title, 12, edge, True, "center")
+        add_text(s, left + 8, 136, 200, 68, body, 12, C["ink"], False, "center")
+    for x in (264, 496, 728, 960):
+        right_arrow(s, x, 140, 16, 28, C["muted"])
+
+    # Two reject sinks
+    rect(s, 48, 250, 580, 200, C["white"], C["blue"], False)
+    add_text(s, 64, 262, 548, 24, "Step 2 · Final은 Prior를 끄지 않음", 14, C["blue"], True)
+    add_text(s, 64, 296, 548, 140,
+             "경계 있음 → BQ (ON)\n"
+             "경계 없음 → affine (ON)\n\n"
+             "OOF / group / mode는 계산하지 않음.\n"
+             "neural_safety는 v1_declared 보관\n"
+             "(DS03 · FEMTO만).",
+             13, C["ink"])
+    rect(s, 652, 250, 580, 200, C["white"], C["orange"], False)
+    add_text(s, 668, 262, 548, 24, "Step 4 · C3 Executor gate에서 거절", 14, C["orange"], True)
+    add_text(s, 668, 296, 548, 140,
+             "Prior는 ON이었지만 Val 미달\n"
+             "→ Direct fallback\n\n"
+             "미달 조건 (하나라도):\n"
+             "Gain < 2%  ·  Unit wins < 60%\n"
+             "Worst ratio > 1.10",
+             13, C["ink"])
+    add_text(s, 48, 480, 1184, 70,
+             "승인되는 유일한 길\n"
+             "Contract 선언 → Prior ON → residual fit → Val 세 조건 PASS → route 1개 고정.\n"
+             "test label로는 route를 바꾸지 않는다.",
+             13, C["ink"])
+    add_text(s, 48, 575, 1184, 36,
+             "암기  Prior gate = BQ vs affine  ·  Executor gate = 어떤 PP  ·  Val FAIL → fallback",
+             12, C["muted"], True)
+    foot(s, p(), TOTAL)
+
+    # 8) Prior gate branches
+    s = blank(prs)
+    head(s, "Prior gate — known_boundary가 가르는 분기",
+         "select_ppx_route.  고장 시점≠고장 조건.  여기서 Prior ON/OFF만 결정한다.")
+    rect(s, 440, 88, 400, 40, C["ink"], None, True)
+    add_text(s, 450, 94, 380, 28, "known_boundary ?", 15, C["white"], True, "center")
+
+    rect(s, 48, 150, 560, 320, C["soft_blue"], C["blue"], False)
+    add_text(s, 64, 162, 528, 26, "TRUE → boundary_pp  ·  BQ ON", 14, C["blue"], True)
+    add_text(s, 64, 200, 528, 250,
+             "의미  고장 조건(경계)을 안다\n"
+             "예) capacity≤80%, crack 33 mm\n"
+             "≠ “몇 사이클 뒤 고장”을 아는 것\n\n"
+             "검사  OOF / group / mode 없음\n\n"
+             "결과  prior_weight=1\n"
+             "다음  Step 3 · C2 fit → Step 4 · C3 executor gate",
+             13, C["ink"])
+
+    rect(s, 672, 150, 560, 320, C["soft_orange"], C["orange"], False)
+    add_text(s, 688, 162, 528, 26, "FALSE → affine  ·  Prior ON", 14, C["orange"], True)
+    add_text(s, 688, 200, 528, 250,
+             "Final은 사다리를 돌리지 않음.\n"
+             "경계가 없으면 affine prior를 켠다.\n\n"
+             "OOF regret / group 수 / mode\n"
+             "stability는 계산하지 않음.\n\n"
+             "그 검사는 v1_declared 보관\n"
+             "(DS03 · FEMTO 역사 감사만).",
+             13, C["ink"])
+    add_text(s, 48, 500, 1184, 80,
+             "차이 한 줄\n"
+             "경계 있음 = BQ.  경계 없음 = affine.  둘 다 Prior ON.\n"
+             "Final에서 Prior OFF는 없다. 거절은 Executor Val FAIL만.",
+             13, C["ink"])
+    foot(s, p(), TOTAL)
+
+    # 9) Executor gate approve/reject
+    s = blank(prs)
+    head(s, "C3 Executor gate — Val에서 승인·거절",
+         "select_paper_ppx.  Prior ON일 때만 진입.  Contract flag가 연 후보만 비교.")
+    # Candidates strip
+    rect(s, 48, 92, 1184, 88, C["soft"], C["ink"], False)
+    add_text(s, 64, 100, 1152, 22, "후보 (contract가 연 것만)", 12, C["ink"], True)
+    add_text(s, 64, 128, 1152, 40,
+             "prior-only  ·  unbounded  ·  bounded  ·  dual*  ·  transport*  ·  history*  ·  direct fallback\n"
+             "* dual/transport/history = 해당 flag True일 때만",
+             13, C["ink"])
+
+    # Three criteria boxes
+    crits = [
+        (48, "Gain ≥ 2%", "Val MSE가 fallback보다\n상대 2% 이상 작음", C["soft_blue"], C["blue"]),
+        (440, "Unit wins ≥ 60%", "물리 unit RMSE에서\nfallback 대비 승률", C["soft_blue"], C["blue"]),
+        (832, "Worst ≤ 1.10", "최악 unit RMSE 비\nfallback 대비 ≤1.10", C["soft_blue"], C["blue"]),
+    ]
+    add_text(s, 48, 198, 400, 22, "세 조건 AND (전부 PASS여야 승인)", 13, C["ink"], True)
+    for left, title, body, fill, edge in crits:
+        rect(s, left, 230, 368, 100, fill, edge, False)
+        add_text(s, left + 10, 240, 348, 24, title, 14, edge, True, "center")
+        add_text(s, left + 10, 272, 348, 48, body, 12, C["ink"], False, "center")
+
+    rect(s, 48, 360, 560, 140, C["soft_blue"], C["blue"], False)
+    add_text(s, 64, 372, 528, 24, "PASS → 승인", 14, C["blue"], True)
+    add_text(s, 64, 408, 528, 80,
+             "통과 후보 중 Val loss 최소\n(동점이면 더 단순한 executor)\n→ 그 route 1개를 test 전에 동결",
+             13, C["ink"])
+    rect(s, 672, 360, 560, 140, C["soft_orange"], C["orange"], False)
+    add_text(s, 688, 372, 528, 24, "FAIL → 거절", 14, C["orange"], True)
+    add_text(s, 688, 408, 528, 80,
+             "어떤 prior-residual도 세 조건 미달\n→ Direct / persistence fallback\n(사전 contract에 적은 것)",
+             13, C["ink"])
+    add_text(s, 48, 522, 1184, 76,
+             "분기명  boundary_pp = BQ ON  ·  transferable_prior = affine ON  ·  "
+             "neural_safety = v1_declared만\n"
+             "Final은 Prior를 끄지 않음  ·  Executor FAIL은 비교했지만 Val 위험 때문에 사전 fallback",
+             12, C["ink"])
+    foot(s, p(), TOTAL)
+
+    # 10) Branch dictionary + C2 reminder
+    s = blank(prs)
+    head(s, "분기 사전 — 이름 · 언제 · 결과",
+         "발표에서 나오는 route 이름을 이 표로만 맞춰 읽으면 된다.")
+    add_table(
+        s, 48, 92, 1184, 280,
+        ["이름", "언제", "Prior", "다음"],
+        [
+            ["boundary_pp", "known_boundary=True", "ON · BQ", "executor gate"],
+            ["transferable_prior", "known_boundary=False", "ON · affine", "executor gate"],
+            ["neural_safety", "v1_declared만 (Final 아님)", "OFF", "바로 fallback"],
+            ["승인 executor", "Prior ON + Val 2/60/1.10 PASS", "ON", "route freeze"],
+            ["Direct fallback", "Executor Val FAIL (Final)", "—", "예측만, PP 경로 없음"],
         ],
         font_size=12,
     )
+    rect(s, 48, 400, 580, 150, C["soft"], C["ink"], False)
+    add_text(s, 64, 412, 548, 24, "C2가 하는 일 (게이트 사이)", 13, C["ink"], True)
+    add_text(s, 64, 448, 548, 90,
+             "Prior ON일 때만\nŷ ≈ prior + bounded residual\nNN이 prior를 뒤집지 못하게 수정폭 제한",
+             13, C["ink"])
+    rect(s, 652, 400, 580, 150, C["soft_blue"], C["blue"], False)
+    add_text(s, 668, 412, 548, 24, "두 함수 분리", 13, C["blue"], True)
+    add_text(s, 668, 448, 548, 90,
+             "select_ppx_route  = Prior 쓸지\nselect_paper_ppx = 어떤 executor인지\n혼동하면 분기 설명이 꼬인다",
+             13, C["ink"])
     foot(s, p(), TOTAL)
 
-    # C1 Declare — typed contract
+    # Keep former detailed route slides as a short backup? Merged into 7–10.
+    # Slim remnant: one-line pointer so creation index 14 still exists for order map.
     s = blank(prs)
-    head(s, "C1  Typed Contract — 무엇을 믿어도 되는지 먼저 정한다",
-         "Declare. 학습 전에 허용 prior의 범위를 선언하고, 결과를 본 뒤 유리한 가정을 추가하지 않는다.")
-    add_text(s, 48, 96, 1184, 28,
-             "선언  Boundary / Unit / Causal X / Support / 허용 Prior / Fallback",
-             15, C["ink"], True)
-    add_table(
-        s, 48, 140, 1184, 300,
-        ["구분", "배터리 예시"],
-        [
-            ["허용", "고장 경계 880 mAh · 현재까지 capacity·degradation rate 사용 · 미래 데이터 불가 · 경계에 가까울수록 RUL→0 정도의 약한 prior"],
-            ["불허", "정확한 열화 방정식을 모르면 “RUL이 반드시 특정 지수함수를 따른다” 같은 강한 prior는 허용하지 않음"],
-        ],
-        font_size=14,
-    )
-    add_text(s, 48, 480, 1184, 80,
-             "설명 멘트\nC1은 외삽하기 전에 우리가 실제로 믿을 수 있는 정보의 범위를 정하는 단계입니다.\n고장경계·현재까지 이력처럼 정당화할 수 있는 정보만 prior로 허용합니다.",
-             14, C["ink"])
-    foot(s, p(), TOTAL)
-
-    # C2 Learn — prior-residual numbers
-    s = blank(prs)
-    head(s, "C2  Prior-residual core — 그 prior에서 NN이 조금만 수정하게 한다",
-         "Learn. 허용된 prior를 기본 경로로 두고, residual 크기를 제한해 prior를 뒤집지 못하게 한다.")
-    add_table(
-        s, 48, 100, 1184, 220,
-        ["비교", "동작"],
-        [
-            ["일반 NN", "X → NN이 전부 결정 → RUL. 밖에서도 학습 패턴을 마음대로 이어 그릴 수 있다."],
-            ["PP-X (C2)", "prior = 기본 철길 (예: 100). NN 수정은 −20~+20만 허용 → ŷ=100+(+8)=108. residual=−300으로 뒤집기 불가."],
-        ],
-        font_size=14,
-    )
-    add_table(
-        s, 48, 350, 1184, 140,
-        ["항목", "내용"],
-        [
-            ["수식", "ŷ = D[ y_prior + b(z) tanh(r(z)/b(z)) ]. r=NN residual, b=허용 수정 범위 → 대략 −b ≤ 수정 ≤ +b"],
-            ["멘트", "C1 prior를 기본 예측으로 놓고, 신경망은 놓친 비선형성만 residual로 배운다. 외삽에서 prior를 마음대로 뒤집지 못한다."],
-        ],
-        font_size=13,
-    )
-    foot(s, p(), TOTAL)
-
-    # C3 Approve — unit evidence
-    s = blank(prs)
-    head(s, "C3  Unit-evidence approval — 그 기능이 진짜 도움이 되는지 검증한다",
-         "Approve. 만들 수 있다고 바로 쓰지 않는다. validation에서 평균과 physical-unit 위험을 함께 본다.")
-    add_table(
-        s, 48, 100, 1184, 240,
-        ["항목", "내용"],
-        [
-            ["후보 예", "기본 PP-X  vs  PP-X + dual-scale. 둘 다 만들 수 있어도 둘 다 켜지 않는다."],
-            ["승인 기준", "Validation RMSE ≥2% 개선 · Unit wins ≥60% · Worst RMSE ratio ≤1.10. 통과한 executor만 실행, 아니면 fallback."],
-            ["왜 unit인가", "10개 중 2개만 좋아지고 8개가 나빠도 평균 RMSE는 좋아 보일 수 있다. physical unit에서 골고루 도움이 됐는지 확인한다."],
-        ],
-        font_size=13,
-    )
+    head(s, "게이트 복습 — 20초",
+         "7–10장을 한 문장으로. 상세 분기는 위 네 장.")
+    add_text(s, 48, 120, 1184, 200,
+             "1) Contract로 후보·fallback을 선언한다.\n"
+             "2) known_boundary면 BQ, 아니면 affine. Final은 둘 다 Prior ON.\n"
+             "3) prior+residual을 학습한다. OOF 사다리는 돌리지 않는다.\n"
+             "4) Val에서 Gain·Unit wins·Worst를 통과한 executor만 freeze.\n"
+             "5) Val 실패면 사전 fallback. test로 route를 고치지 않는다.",
+             16, C["ink"])
     add_text(s, 48, 380, 1184, 80,
-             "설명 멘트\n사용할 수 있다는 것과 실제로 도움이 된다는 것을 구분합니다.\nOptional executor는 평균뿐 아니라 unit 승률·worst-case risk까지 통과해야 승인됩니다.",
-             14, C["ink"])
+             "known_boundary = 고장 조건(경계)을 안다 ≠ 고장 시점을 안다.",
+             15, C["blue"], True)
     foot(s, p(), TOTAL)
 
     # 30-second script + memory box
     s = blank(prs)
-    head(s, "발표용 30초 — C1·C2·C3만 말하면 된다",
-         "앞부분을 막히지 않게 읽는 장표. 숫자는 뒤 결과 장에서 붙인다.")
+    head(s, "발표용 30초 — 게이트만 말하면 된다",
+         "20분이면 7–10 + 주결과 + DS03. C1/C2/C3 서사는 게이트 안에 이미 들어 있다.")
     add_text(s, 48, 96, 1184, 28, "30초 스크립트", 15, C["ink"], True)
-    add_text(s, 48, 136, 1184, 220,
-             "PP-X의 앞 세 기여는 순서대로 연결됩니다.\n"
-             "C1에서는 고장경계, causal history, support로 어떤 prior를 쓸 수 있는지 test 전에 제한합니다.\n"
-             "C2에서는 그 prior를 기본 경로로 고정하고, 신경망은 제한된 residual만 학습해 support 밖 과도 수정을 막습니다.\n"
-             "C3에서는 추가 executor가 평균만 좋아지는지 보는 것이 아니라, physical unit 승률과 worst-case risk까지 확인해 실행 여부를 결정합니다.\n"
-             "즉, 무엇을 믿을지 정하고 → 얼마나 수정할지 제한하고 → 실행 자격이 있는지를 검증합니다.",
+    add_text(s, 48, 136, 1184, 200,
+             "PP-X Final은 Prior를 경계로만 고릅니다.\n"
+             "경계를 알면 BQ, 모르면 affine입니다. 둘 다 켭니다.\n"
+             "OOF regret이나 mode stability는 Final에서 계산하지 않습니다.\n"
+             "residual을 붙인 뒤, Val에서 2%·60%·1.10을 통과한 executor만 남깁니다.\n"
+             "여기서 실패하면 사전 fallback입니다.",
              14, C["ink"])
-    hline(s, 48, 1232, 380, C["rule"])
+    hline(s, 48, 1232, 360, C["rule"])
     add_table(
-        s, 48, 410, 1184, 160,
+        s, 48, 380, 1184, 200,
         ["구분", "내용"],
         [
-            ["짧게 외울 한 줄", "C1=무엇을 믿나 → C2=얼마나 수정하나 → C3=써도 되는지 검증"],
-            ["이어서 C4", "승인 route 1개 고정. 실패 시 사전 fallback."],
+            ["짧게 외울 한 줄", "Prior gate → (ON이면) Executor gate → Freeze / Fallback"],
+            ["20분 경로", "기여 · 게이트 7–10 · 주결과 · 비교 1장 · DS03 · 한계"],
+            ["질문 대비", "분기 이름은 10장 표. known_boundary=고장 조건."],
         ],
-        font_size=14,
+        font_size=13,
     )
     foot(s, p(), TOTAL)
 
+    # SKIP old standalone C1/C2/C3 teach tables — content folded into slides 7–10.
+    # (Intentionally not recreating the long C1/C2/C3 example tables here.)
+
+    # PLACEHOLDER removed: previous C1/C2/C3/route/paper_ppx blocks replaced above.
+
     # 6 Method — frozen paper PP-X
     s = blank(prs)
-    head(s, "방법 — 최종 PP-X", "C1 contract → C2 prior-residual core → C3 unit approval → C4 frozen route / fallback")
+    head(s, "방법 — 최종 PP-X", "C1 contract → C2 prior-residual core → C3 unit approval → frozen execution / fallback")
     pic(s, "ppx_core.png", 20, 78, 760, 400)
     add_table(
         s,
@@ -566,10 +725,10 @@ def build():
         200,
         ["승인 규칙 (val/source만)", "조건"],
         [
-            ["Prior admissibility", "source OOF regret·complete groups·regime coverage"],
+            ["Prior admissibility", "known_boundary → BQ, 아니면 affine (Final)"],
             ["Executor gain", "validation RMSE 상대 2% 이상 개선"],
             ["Unit risk", "unit wins ≥60% · worst ratio ≤1.10"],
-            ["C4 / 거절", "승인 route 1개 고정, 아니면 사전 fallback"],
+            ["실행 규칙 / 거절", "승인 route 1개 고정, 아니면 사전 fallback"],
         ],
         font_size=11,
     )
@@ -589,7 +748,7 @@ def build():
 
     # 7 Frozen paper algorithm
     s = blank(prs)
-    head(s, "PP-X Algorithm 1 — C1~C4로 읽기", "Declare → Learn → Approve → Freeze")
+    head(s, "PP-X Algorithm 1 — C1~C3 + 실행 규칙", "Declare → Learn → Approve → Freeze")
     add_table(
         s, 48, 110, 1184, 320,
         ["단계", "이름", "내용"],
@@ -597,7 +756,7 @@ def build():
             ["① C1", "Typed contract", "boundary · progression · history · regime · support · 허용 prior · fallback 선언"],
             ["② C2", "Prior-residual", "prior 기본 경로 고정 + bounded residual 학습 (과도한 수정 차단)"],
             ["③ C3", "Unit approval", "validation gain ≥2% · unit wins ≥60% · worst ratio ≤1.10"],
-            ["④ C4", "Frozen output", "승인 executor 1개 고정, 또는 사전 fallback. test에서 route 불변"],
+            ["④ 실행 규칙", "Frozen output", "승인 executor 1개 고정, 또는 사전 fallback. test에서 route 불변"],
         ],
         font_size=13,
     )
@@ -748,7 +907,7 @@ def build():
             ["MIT 배치2", "decay+transport", "0.862"],
             ["미시간 배터리", "dual-scale", "0.751"],
             ["NASA 실험셀", "multiscale", "0.584"],
-            ["MIT 2019", "cal. latent", "0.466"],
+            ["MIT 2019", "affine latent-regime + Val calibration", "0.466"],
         ],
         font_size=10,
     )
@@ -872,64 +1031,60 @@ def build():
 
     # Ablation synthesis
     s = blank(prs)
-    head(s, "Ablation 종합", "모듈을 쌓지 않는다.  검증에서 이득이 있는 executor만 켠다.")
-    add_text(s, 48, 86, 1184, 28, "앞 네 장의 숫자를 한 규칙으로 읽는다. 최종 PP-X는 공통 core + 데이터마다 고른 executor다.", 14, C["ink"])
-
-    rect(s, 48, 124, 380, 360, C["soft_blue"], C["blue"], True)
-    rect(s, 48, 124, 8, 360, C["blue"])
-    add_text(s, 68, 136, 340, 28, "항상 켠다", 18, C["blue"], True)
-    add_text(s, 68, 172, 340, 22, "core", 12, C["muted"])
-    add_text(
-        s,
-        68,
-        202,
-        340,
-        260,
-        "동결 affine prior\n+ 제한 residual\n\nAffine만, 또는 NN만으로는\n세 배터리에서 무너진다.\n\nResidual ΔR²\nSun +0.66  ·  MICH +3.81",
-        14,
-        C["ink"],
-    )
-
-    rect(s, 450, 124, 380, 360, C["soft_orange"], C["orange"], True)
-    rect(s, 450, 124, 8, 360, C["orange"])
-    add_text(s, 470, 136, 340, 28, "근거 있을 때만", 18, C["orange"], True)
-    add_text(s, 470, 172, 340, 22, "executor  ·  val-only", 12, C["muted"])
-    add_text(
-        s,
-        470,
-        202,
-        340,
-        260,
-        "고정 bound  Sun · RWTH\ndual-scale  MICH만 (+0.28)\n속도 이력  Sun · RWTH\ntransport  HUST · MATRb2\n\ngate  13곳 중 3곳만 승인\n악화 0",
-        14,
-        C["ink"],
-    )
-
-    rect(s, 852, 124, 380, 360, C["soft"], C["ink"], True)
-    rect(s, 852, 124, 8, 360, C["ink"])
-    add_text(s, 872, 136, 340, 28, "켜면 나빠진다", 18, C["ink"], True)
-    add_text(s, 872, 172, 340, 22, "전역 기본값으로 두지 않음", 12, C["muted"])
-    add_text(
-        s,
-        872,
-        202,
-        340,
-        260,
-        "고정 bound → MICH −0.29\nfull rate history → MICH −0.25\ndual-scale → Sun −0.005,\nRWTH −0.036\n\n평균을 조금 깎고\n최저점을 살리는 선택은\n데이터별 최고점 모음이 아니다.",
-        14,
-        C["ink"],
-    )
-
-    end = rect(s, 48, 504, 1184, 72, C["ink"], None, True)
-    fill_shape_text(end, "읽는 법    core는 고정한다.   executor는 검증 증거가 있을 때만 켠다.   실패하면 safety로 되돌린다.", 15, C["white"], True)
-    add_text(s, 48, 586, 1184, 24, "그래서 주표의 executor가 데이터마다 다르다.  한꺼번에 켠 공동 모델이 아니다.", 13, C["muted"])
+    head(s, "데이터셋별 executor 유의성 — 왜 gate가 필요한가",
+         "칸 = ΔR² / BH q  ·  파랑=유의 개선  ·  주황=유의 악화  ·  회색=미확증  ·  —=contract 비적용")
+    columns = ["데이터셋", "Bounded", "Dual-scale", "History", "Dist. decay", "Transport"]
+    matrix = [
+        ("Sunwoda", ("+.221\nq=.033", "pos"), ("−.005\nq=.758", "ns"),
+         ("+.350\nq=.020", "pos"), ("—", "na"), ("—", "na")),
+        ("RWTH", ("+.090\nq=.156", "ns"), ("−.037\nq=.022", "neg"),
+         ("+1.256\nq=.022", "pos"), ("—", "na"), ("—", "na")),
+        ("MICH", ("−.291\nq=.033", "neg"), ("+.283\nq=.033", "pos"),
+         ("−.204\nq=.042", "neg"), ("—", "na"), ("—", "na")),
+        ("NASA", ("—", "na"), ("—", "na"), ("+.012\nq=.758", "ns"),
+         ("—", "na"), ("—", "na")),
+        ("N-CMAPSS", ("—", "na"), ("—", "na"), ("+.009\nq=.284", "ns"),
+         ("—", "na"), ("—", "na")),
+        ("MATR b2", ("—", "na"), ("—", "na"), ("—", "na"),
+         ("+.002\nq=.277", "ns"), ("+.187\nq=.020", "pos")),
+        ("HUST", ("—", "na"), ("—", "na"), ("—", "na"),
+         ("—", "na"), ("+.128\nq=.003", "pos")),
+    ]
+    x0, y0, label_w, cell_w, row_h = 32, 100, 176, 208, 54
+    rect(s, x0, y0, label_w, 42, C["ink"])
+    add_text(s, x0 + 6, y0 + 9, label_w - 12, 24, columns[0], 11, C["white"], True, "center")
+    for j, title in enumerate(columns[1:]):
+        left = x0 + label_w + j * cell_w
+        rect(s, left, y0, cell_w, 42, C["ink"])
+        add_text(s, left + 5, y0 + 9, cell_w - 10, 24, title, 11, C["white"], True, "center")
+    fills = {"pos": C["soft_blue"], "neg": C["soft_orange"], "ns": C["soft"], "na": C["white"]}
+    edges = {"pos": C["blue"], "neg": C["red"], "ns": C["rule"], "na": C["rule"]}
+    colors = {"pos": C["blue"], "neg": C["red"], "ns": C["muted"], "na": C["muted"]}
+    for i, row in enumerate(matrix):
+        top = y0 + 42 + i * row_h
+        rect(s, x0, top, label_w, row_h, C["soft"] if i % 2 else C["white"], C["rule"])
+        add_text(s, x0 + 8, top + 15, label_w - 16, 24, row[0], 11, C["ink"], True)
+        for j, (value, status) in enumerate(row[1:]):
+            left = x0 + label_w + j * cell_w
+            rect(s, left, top, cell_w, row_h, fills[status], edges[status])
+            add_text(s, left + 5, top + 8, cell_w - 10, 38, value, 10, colors[status],
+                     status in {"pos", "neg"}, "center")
+    rect(s, 32, 536, 1216, 74, C["soft_blue"], C["blue"], True)
+    add_text(s, 48, 545, 1184, 54,
+             "Gate 해석  같은 executor가 데이터셋에 따라 유의한 개선·악화를 모두 만든다 → 조건부 ON/OFF는 필요하다. "
+             "13-setting gate audit는 3개 개선·10개 유지·0개 악화였지만 통합 p-value가 없어, "
+             "‘현재 gate가 최적’이 아니라 ‘항상 ON은 부적절’까지 주장한다.",
+             11, C["ink"], True, "center")
+    add_text(s, 48, 616, 1184, 22,
+             "물리 unit · seeds 42–46 · bootstrap 50,000회 · exact sign-flip · 25비교 BH · retrospective",
+             10, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
     # Competitors — after internal ablation, before formal tests
     s = blank(prs)
     head(s, "비교", "(a) heatmap  ·  (b) PP-X vs TabPFN vs others")
     pic(s, "competitor_bars.png", 16, 72, 1248, 528)
-    add_text(s, 40, 608, 1200, 40, "1 PP-X 0.81 · 2 GroupDRO 0.36 · 3 V-REx 0.35.  순위=9곳 평균 R².  강건=9곳에서 양수(9/9, 7/9, 7/9).  MICH TabPFN=동일 202행, v3 CPU, ensemble −1.86.", 13, C["ink"])
+    add_text(s, 40, 608, 1200, 40, "1 PP-X Final 0.81 · 2 GroupDRO 0.36 · 3 V-REx 0.35.  순위=9곳 평균 R².  강건=9곳에서 양수(9/9, 7/9, 7/9).  FT-Transformer도 동일예산으로 표시.", 13, C["ink"])
     foot(s, p(), TOTAL)
 
     # Stats then robustness — one evidence block
@@ -995,35 +1150,46 @@ def build():
 
     # Policy attack audit
     s = blank(prs)
-    head(s, "정책 검증 — validation만으로는 부족하다", "12-domain common-backbone retrospective audit  ·  oracle은 비배포 상한")
-    pic(s, "ppx_policy_audit.png", 24, 82, 760, 400)
+    head(s, "Gate 정책 검증 — Always-on / Always-off와 직접 비교",
+         "12 datasets · 98 physical units · frozen 2% / 60% / 1.10 · dataset→unit 계층 bootstrap 100,000회")
     add_table(
-        s,
-        808,
-        90,
-        420,
-        330,
-        ["정책", "정확", "FA / FR"],
+        s, 36, 96, 560, 300,
+        ["정책", "평균 log-RMSE 효과", "손실 domain", "선택 정확"],
         [
-            ["Always direct", "6/12", "0 / 6"],
-            ["Always PP", "6/12", "6 / 0"],
-            ["Val RMSE only", "7/12", "4 / 1"],
-            ["Frozen PP-X", "8/12", "2 / 2"],
-            ["Test oracle*", "12/12", "0 / 0"],
+            ["Always-off", "0.000", "0", "6/12"],
+            ["Always-on", "+0.082", "6", "6/12"],
+            ["Frozen gate", "+0.041", "2", "8/12"],
+            ["Test oracle*", "+0.269", "0", "12/12"],
         ],
-        font_size=12,
+        font_size=11,
     )
-    add_text(s, 808, 438, 420, 48, "* test oracle는 선택에 쓸 수 없는 성능 상한", 11, C["red"], True)
-    add_text(
-        s,
-        48,
-        510,
-        1184,
-        90,
-        "결론  validation RMSE gate만으로는 오탐 4개다. unit-risk를 넣어도 prior contract를 고정 승인하면 오탐 2개가 남는다.\n따라서 contract가 admissible prior를 먼저 제한해야 한다. 이후 DS03 prospective에서 unsupported prior 거절이 실제 test-best PP-X route였다.",
-        13,
-        C["ink"],
-    )
+    rect(s, 624, 96, 608, 132, C["soft_orange"], C["orange"], True)
+    add_text(s, 642, 108, 572, 24, "Frozen gate − Always-on", 14, C["orange"], True)
+    add_text(s, 642, 144, 572, 64,
+             "효과 차이 −0.041  ·  domain 4승 / 2패 / 6동률\n"
+             "exact sign-flip p=.969  ·  계층 CI [−.307, +.140]",
+             12, C["ink"])
+    rect(s, 624, 252, 608, 132, C["soft_blue"], C["blue"], True)
+    add_text(s, 642, 264, 572, 24, "Frozen gate − Always-off", 14, C["blue"], True)
+    add_text(s, 642, 300, 572, 64,
+             "효과 차이 +0.041  ·  domain 4승 / 2패 / 6동률\n"
+             "exact sign-flip p=.719  ·  계층 CI [−.294, +.404]",
+             12, C["ink"])
+    add_text(s, 36, 416, 1196, 28,
+             "선택 오류  False accept 2 · False reject 2  |  * oracle은 test를 본 비배포 상한",
+             12, C["red"], True, "center")
+    rect(s, 36, 462, 1196, 112, C["soft"], C["ink"], True)
+    add_text(s, 54, 476, 1160, 80,
+             "거절 조건부 감사  benchmark 교집합 5곳 중 4곳에서 거절이 맞았다. "
+             "고정 8-model panel의 22/40은 R²<0, 3/5 설정은 과반 모델이 붕괴했다. "
+             "Fallback 중앙 순위는 4/9.\n"
+             "판정  Gate는 손실 노출을 줄이는 안전장치이나 완벽하지 않다. "
+             "Sunwoda false reject와 HUST fallback 8/9를 함께 공개하며, "
+             "‘항상 안전·항상 최선·다른 모델 모두 붕괴’는 주장하지 않는다.",
+             11, C["ink"], True, "center")
+    add_text(s, 48, 592, 1184, 24,
+             "Stage-1 prior admissibility는 true로 고정한 Stage-2 단독 감사 · retrospective common-backbone",
+             11, C["muted"], False, "center")
     foot(s, p(), TOTAL)
 
     # Fully equal candidate-budget comparison
@@ -1035,7 +1201,7 @@ def build():
         86,
         1208,
         380,
-        ["Setting", "PP-X", "최강 30-candidate baseline", "Baseline", "ΔR²"],
+        ["Setting", "PP-X Final", "최강 30-candidate baseline", "Baseline", "ΔR²"],
         [
             ["HUST", "0.958", "GroupDRO", "0.955", "+.003"],
             ["Virkler", "0.888", "FT-Transformer", "0.890", "−.002"],
@@ -1050,7 +1216,7 @@ def build():
         font_size=10,
     )
     rect(s, 36, 496, 1208, 92, C["soft_blue"], C["blue"], True)
-    add_text(s, 52, 512, 1176, 54, "결론  PP-X 8/9 우세  ·  exact dataset sign test p=.0391  ·  3,360 training jobs\n예외  Virkler FT가 +.002  ·  NASA 사실상 동률  ·  PP-X는 typed executor라 하나의 공통 hyperparameter grid로 재개발하지 않음", 13, C["ink"], True, "center")
+    add_text(s, 52, 512, 1176, 54, "결론  PP-X Final 8/9 우세  ·  exact dataset sign test p=.0391  ·  3,360 training jobs\n예외  Virkler FT가 +.002  ·  NASA 사실상 동률  ·  PP-X는 typed executor라 하나의 공통 hyperparameter grid로 재개발하지 않음", 13, C["ink"], True, "center")
     foot(s, p(), TOTAL)
 
     # First prospective evidence
@@ -1156,7 +1322,7 @@ def build():
         360,
         ["고호트", "PP-X 경로", "PP-X R²", "판정"],
         [
-            ["MATR 2019-01-24", "validation-calibrated latent", "0.466", "양수. 봉인 latent 0.257에서 개선. 주표와 동일"],
+            ["MATR 2019-01-24", "affine latent-regime + Val output calibration", "0.466", "양수. calibration 전 0.257에서 개선. 주표와 동일"],
             ["MATR batch2", "regime transport", "0.862", "양수. 봉인 0.471/0.523에서 개선. 주표와 동일"],
             ["Misata", "core · val이 unbounded 선택", "0.829", "양수. MLP 0.854. 우월 확증은 여전히 실패"],
         ],
@@ -1585,12 +1751,13 @@ def build():
     foot(s, p(), TOTAL)
 
     # Narrative order:
-    # survey -> research route -> weak prior -> C1–C3 teach block ->
-    # method/algorithm -> evidence. Failure analysis follows main evidence.
+    # survey -> research route -> weak prior -> three gate/method slides ->
+    # evidence. Repetitive contribution/dictionary/recap/script/algorithm
+    # slides (source 4, 13, 14, 15, 17) are intentionally omitted.
     order = [
-        1, 2, 3, 8, 9, 4, 10, 11, 12, 13, 14, 15, 5, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25, 26, 27, 28, 29, 6, 45, 30, 7, 31, 32, 33, 34,
-        35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+        1, 2, 3, 8, 9, 10, 11, 12, 16, 5, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 6, 47, 32, 7, 33, 34,
+        35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
     ]
     slide_ids = list(prs.slides._sldIdLst)
     for slide_id in slide_ids:
@@ -1609,7 +1776,7 @@ def build():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     try:
         prs.save(str(OUT))
-        print(f"Saved {OUT} ({n} slides)")
+        print(f"Saved {OUT} ({len(prs.slides)} slides)")
     except PermissionError:
         alt = OUT.with_name("PP_Research_Detailed_v2_ccmr.pptx")
         prs.save(str(alt))

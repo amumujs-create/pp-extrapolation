@@ -173,18 +173,18 @@ def append_ppt_deck_detail(story, P, table, callout):
         table(
             ["승인 규칙 (val/source만)", "조건"],
             [
-                ["Prior admissibility", "source OOF regret · complete groups · regime coverage"],
+                ["Prior admissibility", "known_boundary → BQ, 아니면 affine (Final)"],
                 ["Executor gain", "validation RMSE 상대 2% 이상 개선"],
                 ["Unit risk", "unit wins ≥60% · worst ratio ≤1.10"],
-                ["거절", "사전 지정 direct/persistence fallback 또는 abstention"],
+                ["거절", "Executor Val FAIL → 사전 fallback. Prior OFF는 v1_declared만"],
             ],
             [55 * mm, 119 * mm],
         ),
         P(
-            "Algorithm 1 순서: ① Typed contract → ② Prior admissibility "
-            "(complete groups, OOF regret≤0, mode stability≥.60) → "
+            "Algorithm 1 순서 (Final): ① Typed contract → ② Prior "
+            "(known_boundary면 BQ, 아니면 affine; OOF/group/mode 미실행) → "
             "③ Executor approval (gain≥2%, unit wins≥60%, worst≤1.10) → "
-            "④ Frozen output (승인 executor 1개 또는 fallback; test에서 route 불변)."
+            "④ Frozen output (승인 executor 1개 또는 Val FAIL fallback; test에서 route 불변)."
         ),
         callout(
             "논문 메인 = PP-X 선택 알고리즘. CCMR은 trajectory risk-aware executor 사례. "
