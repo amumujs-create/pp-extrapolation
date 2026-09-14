@@ -244,7 +244,7 @@ def build():
     line(s, .78, 4.65, 4.0, 4.65, BLUE, 5)
     text(s, .78, 5.3, 6.0, .5, "박사과정 박진서", 16, WHITE, True)
     text(s, .78, 5.82, 7.5, .35, "Validation-Approved Prior-Residual Extrapolation", 11, RGBColor(180, 195, 210))
-    text(s, 11.4, 6.75, 1.2, .3, "01 / 17", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
+    text(s, 11.4, 6.75, 1.2, .3, "01 / 18", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
 
     # 2 Why extrapolation
     slide_no = 2
@@ -450,30 +450,62 @@ def build():
     pill(s, 10.42, 4.58, 1.82, "R²>0  9/9", BLUE)
     text(s, 9.95, 5.75, 2.7, .75, "관찰 범위에서\n심한 음의 tail이 없음", 12.5, INK, True, PP_ALIGN.CENTER)
 
-    # 15 statistics
+    # 15 structure-effect inference
     slide_no += 1
     s = blank(prs)
-    title(s, "통계검정 — 행이 아니라 물리 unit이 표본", "요약 효과와 개별 component evidence를 분리한다.", slide_no)
-    metrics = [
-        (.75, "9 / 9", "vs matched direct\n방향 일치", BLUE, PALE_BLUE),
-        (3.9, "p = .0039", "domain exact\nsign test", CYAN, RGBColor(230, 247, 249)),
-        (7.05, "33.8%", "geometric-mean\nRMSE 감소", GREEN, PALE_GREEN),
-        (10.2, "[0.17, 0.67]", "hierarchical CI\nlog-RMSE gain", ORANGE, PALE_ORANGE),
-    ]
-    for x, value, label, accent, fill in metrics:
-        box(s, x, 1.55, 2.4, 2.0, fill, accent)
-        text(s, x, 1.82, 2.4, .6, value, 22, accent, True, PP_ALIGN.CENTER)
-        text(s, x, 2.58, 2.4, .65, label, 11.5, INK, True, PP_ALIGN.CENTER)
-    line(s, 1.0, 4.1, 12.3, 4.1, RGBColor(220, 225, 230), 1.2)
-    text(s, .9, 4.45, 2.5, .4, "개별 BH 근거", 15, INK, True)
-    pill(s, 3.0, 4.47, 1.55, "Sunwoda", BLUE)
-    pill(s, 4.75, 4.47, 1.55, "MATR-b2", GREEN)
-    text(s, .9, 5.25, 2.5, .4, "해석 제한", 15, INK, True)
-    text(s, 3.0, 5.13, 8.8, .8, "5 seeds는 독립 cohort가 아님 · NASA/N-CMAPSS unit 수가 작음\nretrospective split은 prospective 확증을 대체하지 않음", 12.5, MUTED, True)
-    box(s, .9, 6.25, 11.7, .55, RGBColor(251, 235, 235), RED)
-    text(s, 1.15, 6.31, 11.2, .42, "FEMTO v1_declared abstention은 Final BH family에서 제외", 12, RED, True, PP_ALIGN.CENTER)
+    title(s, "검정 1 — prior–residual 구조가 실제로 필요한가", "경쟁모델 순위가 아니라, PP-X 내부 구조의 효과를 묻는 검정", slide_no)
+    box(s, .7, 1.38, 3.85, 4.95, PALE_BLUE, BLUE)
+    text(s, 1.0, 1.67, 3.25, .42, "무엇과 비교했나", 18, BLUE, True)
+    text(s, 1.0, 2.32, 3.25, 1.45,
+         "PP-X Final\nvs\nmatched direct", 21, INK, True, PP_ALIGN.CENTER)
+    text(s, 1.0, 4.05, 3.25, 1.5,
+         "matched direct = 같은 데이터·split에서\nBQ/affine prior 구조를 제거하고\nRUL을 직접 예측한 내부 대조군", 12.5, MUTED, True, PP_ALIGN.CENTER)
+    pill(s, 1.45, 5.7, 2.35, "FT-Transformer 아님", RED)
 
-    # 16 claim boundary
+    box(s, 4.8, 1.38, 3.75, 4.95, RGBColor(230, 247, 249), CYAN)
+    text(s, 5.1, 1.67, 3.15, .42, "어떻게 검정했나", 18, CYAN, True)
+    steps = [
+        ("①", "각 물리 unit의 RMSE 비교"),
+        ("②", "데이터셋 → unit 순서로 재표집"),
+        ("③", "9개 데이터셋을 동일 비중 처리"),
+        ("④", "반복마다 RMSE 감소율 계산"),
+    ]
+    for i, (num, body) in enumerate(steps):
+        y = 2.28 + i * .78
+        dot(s, 5.08, y, .42, CYAN)
+        text(s, 5.08, y, .42, .42, num, 10.5, WHITE, True, PP_ALIGN.CENTER)
+        text(s, 5.64, y - .02, 2.55, .46, body, 11.5, INK, True)
+    text(s, 5.08, 5.54, 3.2, .48, "표본 단위: 9 settings · 77 physical units", 11.5, MUTED, True, PP_ALIGN.CENTER)
+
+    box(s, 8.8, 1.38, 3.85, 4.95, PALE_GREEN, GREEN)
+    text(s, 9.1, 1.67, 3.25, .42, "무슨 결론인가", 18, GREEN, True)
+    text(s, 9.1, 2.33, 3.25, .55, "9 / 9 우세", 24, GREEN, True, PP_ALIGN.CENTER)
+    text(s, 9.1, 2.95, 3.25, .35, "exact sign p = .0039", 12.5, INK, True, PP_ALIGN.CENTER)
+    line(s, 9.15, 3.55, 12.3, 3.55, GREEN, 1.5)
+    text(s, 9.1, 3.83, 3.25, .55, "평균 RMSE 33.8% 감소", 17, GREEN, True, PP_ALIGN.CENTER)
+    text(s, 9.1, 4.48, 3.25, .55, "95% CI: 15.8%–48.6%", 14, INK, True, PP_ALIGN.CENTER)
+    text(s, 9.1, 5.3, 3.25, .65, "해석: prior–residual 구조의\n평균 오차 감소가 0보다 큼", 12, MUTED, True, PP_ALIGN.CENTER)
+    box(s, .95, 6.55, 11.4, .48, PALE_ORANGE, ORANGE)
+    text(s, 1.15, 6.58, 11.0, .4, "log-RMSE CI [0.17, 0.67]은 발표에서 위의 ‘RMSE 15.8%–48.6% 감소’로 풀어 쓴다.", 11.5, INK, True, PP_ALIGN.CENTER)
+
+    # 16 external comparison and component inference
+    slide_no += 1
+    s = blank(prs)
+    title(s, "검정 2·3 — 경쟁력과 구성요소 효과는 따로 검정", "내부 구조 검정, 외부 baseline 비교, component ablation을 섞지 않는다.", slide_no)
+    panels = [
+        (.65, "검정 2 · 외부 경쟁력", ORANGE, PALE_ORANGE,
+         "질문\n강한 ML baseline보다 좋은가?\n\n비교\n각 setting의 동일예산\n30-candidate 최강 baseline\n\n결과\n8/9 우세 · p=.0391\nVirkler: FT가 +.002 우세\n\n주장\n동일예산 범위에서 경쟁력 확보"),
+        (4.72, "검정 3 · component", BLUE, PALE_BLUE,
+         "질문\n각 optional module을 왜 켜거나 끄나?\n\n방법\n같은 prior family 안에서 on vs off\nphysical-unit 효과 · 24개 BH 보정\n\n도움\nMICH dual: .468→.751 (q=.031)\nHUST·MATR-b2 transport 유의\n\n해로움\nRWTH dual: .878→.842 (q=.021)\nMICH fixed bound도 유의하게 악화\n\n결론\n모든 module을 항상 켜면 안 됨"),
+        (8.79, "아직 확증 안 된 것", RED, RGBColor(251, 235, 235),
+         "5-seed 안정성\n표본 5개라 양측 exact\n최소 p=.0625\n\n모든 모델 대비 분산 우위\n개별 비교는 신호가 있으나\n8모델 Holm 보정 후 비유의\n\n미래 cohort 일반화\nretrospective 9-setting으로는 불가"),
+    ]
+    for x, heading, accent, fill, body in panels:
+        box(s, x, 1.42, 3.75, 5.35, fill, accent)
+        text(s, x + .25, 1.66, 3.25, .42, heading, 16.5, accent, True, PP_ALIGN.CENTER)
+        text(s, x + .3, 2.18, 3.15, 4.25, body, 11.7, INK, False, PP_ALIGN.LEFT, MSO_ANCHOR.TOP)
+
+    # 17 claim boundary
     slide_no += 1
     s = blank(prs)
     title(s, "무엇을 주장하고, 무엇을 주장하지 않는가", "성과보다 실행 계약의 범위를 먼저 고정한다.", slide_no)
@@ -486,7 +518,7 @@ def build():
     text(s, 7.19, 2.52, 5.05, 2.8,
          "× 모든 데이터에서 SOTA\n\n× OOF mode-stability가 Final에서 실행됨\n\n× 모든 executor가 항상 유효\n\n× 미래 cohort 성능 보장", 16, INK, True)
 
-    # 17 takeaway
+    # 18 takeaway
     slide_no += 1
     s = blank(prs, True)
     pill(s, .72, .62, 1.7, "TAKEAWAY", BLUE)
@@ -501,7 +533,7 @@ def build():
         text(s, x + .68, 4.62, 2.15, .38, name, 14, WHITE, True)
         text(s, x + .68, 5.03, 2.15, .35, body, 10.5, RGBColor(180, 195, 210))
     text(s, .82, 6.35, 4.5, .45, "박진서 · Q&A", 15, WHITE, True)
-    text(s, 11.4, 6.75, 1.2, .3, "17 / 17", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
+    text(s, 11.4, 6.75, 1.2, .3, "18 / 18", 10, RGBColor(180, 195, 210), True, PP_ALIGN.RIGHT)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     prs.save(OUT)
