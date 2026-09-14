@@ -136,6 +136,32 @@ def build() -> None:
     if total != 19:
         raise RuntimeError(f"expected 19 slides, got {total}")
 
+    # The executor-gate slide must define every candidate at first mention.
+    executor_slide = prs.slides[6]
+    add_text(executor_slide, 48, 455, 1184, 22,
+             "후보 뜻 — 무엇을 바꾸는가", 11.5, C["ink"], True)
+    row1 = [
+        ("prior-only", "prior만 사용\nresidual 없음"),
+        ("unbounded", "prior + r(z)\n수정폭 제한 없음"),
+        ("bounded", "고정 B로\nresidual 포화"),
+        ("dual-scale", "support에 따라\n좁은/넓은 B 선택"),
+    ]
+    for index, (name, description) in enumerate(row1):
+        left = 48 + index * 298
+        rect(executor_slide, left, 482, 276, 68, C["soft_blue"], C["blue"], True)
+        add_text(executor_slide, left + 8, 488, 260, 18, name, 10.5, C["blue"], True, "center")
+        add_text(executor_slide, left + 8, 508, 260, 34, description, 9.5, C["ink"], False, "center")
+    row2 = [
+        ("transport", "regime별 출력\nscale·offset 보정"),
+        ("history", "현재값 대신 causal\n다중시간척도 입력"),
+        ("direct fallback", "prior 없이 direct NN\nVal FAIL 시 사용"),
+    ]
+    for index, (name, description) in enumerate(row2):
+        left = 48 + index * 397
+        rect(executor_slide, left, 566, 375, 68, C["soft_orange"], C["orange"], True)
+        add_text(executor_slide, left + 8, 572, 359, 18, name, 10.5, C["orange"], True, "center")
+        add_text(executor_slide, left + 8, 592, 359, 34, description, 9.5, C["ink"], False, "center")
+
     # Make the copied cover and method wording specific to this talk.
     replace_text(prs.slides[0], "전체 연구 지도", "20분 요약 발표")
     for slide in prs.slides:
