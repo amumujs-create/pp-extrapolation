@@ -14,7 +14,7 @@ def main():
     # The rejected mode model is not needed to make this structural decision.
     evidence=PriorEvidence(known_boundary=False,complete_groups=6,
       minimum_complete_groups_per_regime=2,oof_prior_regret=None,oof_mode_stability=None)
-    decision=select_ppx_route(evidence,min_groups=5,min_per_regime=3)
+    decision=select_ppx_route(evidence,min_groups=5,min_per_regime=3,version="v1_declared")
     manifest={'status':'retrospective final development route; not untouched confirmation',
       'model':'PP-X: transferability-gated prior portfolio with neural safety executor',
       'evaluation_scope':'inductive extrapolation; frozen source-trained model',

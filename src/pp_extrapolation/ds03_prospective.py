@@ -318,6 +318,7 @@ def prepare_select(h5_path: Path, protocol: Path, selection_path: Path) -> dict:
         PPXContract(False, True, True, False, True, "direct_fallback"),
         prior_evidence,
         tuple(evidence),
+        prior_gate_version="v1_declared",
     )
     selected_route = {"direct_fallback": "direct_fallback", "unbounded": "basic", "dual_scale": "multiscale"}[decision.executor]
     selection_path.parent.mkdir(parents=True, exist_ok=True)

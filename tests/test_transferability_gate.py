@@ -1,8 +1,10 @@
 import pytest
 
 from pp_extrapolation.transferability_gate import (
+    PRIOR_GATE_VERSION,
     PriorEvidence,
     select_ppx_route,
+    select_ppx_route_v1_declared,
 )
 
 
@@ -18,6 +20,10 @@ def evidence(**changes):
     return PriorEvidence(**values)
 
 
+def test_default_version_is_final():
+    assert PRIOR_GATE_VERSION == "final"
+
+
 def test_declared_boundary_approves_boundary_route():
     decision = select_ppx_route(evidence(
         known_boundary=True,
@@ -28,6 +34,18 @@ def test_declared_boundary_approves_boundary_route():
     ))
     assert decision.route == "boundary_pp"
     assert decision.prior_weight == 1.0
+
+
+def test_final_unknown_boundary_uses_affine_without_oof_fields():
+    decision = select_ppx_route(evidence(
+        oof_prior_regret=None,
+        oof_mode_stability=None,
+        complete_groups=0,
+        minimum_complete_groups_per_regime=0,
+    ))
+    assert decision.route == "transferable_prior_pp"
+    assert decision.prior_weight == 1.0
+    assert decision.reason.startswith("final:")
 
 
 @pytest.mark.parametrize(
@@ -41,14 +59,14 @@ def test_declared_boundary_approves_boundary_route():
         {"oof_mode_stability": 0.59},
     ],
 )
-def test_missing_or_failed_source_evidence_uses_neural_safety(changes):
-    decision = select_ppx_route(evidence(**changes))
+def test_v1_declared_missing_or_failed_source_evidence_uses_neural_safety(changes):
+    decision = select_ppx_route_v1_declared(evidence(**changes))
     assert decision.route == "neural_safety"
     assert decision.prior_weight == 0.0
 
 
-def test_complete_stable_source_evidence_approves_transferable_prior():
-    decision = select_ppx_route(evidence())
+def test_v1_declared_complete_stable_source_evidence_approves_transferable_prior():
+    decision = select_ppx_route_v1_declared(evidence())
     assert decision.route == "transferable_prior_pp"
     assert decision.prior_weight == 1.0
 

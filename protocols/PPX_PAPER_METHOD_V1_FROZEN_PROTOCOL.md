@@ -48,12 +48,16 @@ Candidates that are not admissible under the typed contract are never scored.
 
 ## Frozen decision order
 
-1. **Prior admissibility**
-   - a declared boundary admits a boundary prior;
-   - otherwise at least five complete source groups and at least two complete
-     groups per regime are required;
-   - source-group OOF prior regret must be nonpositive;
-   - latent mode stability, when required, must be at least 0.60.
+1. **Prior admissibility (PP-X Final, `PRIOR_GATE_VERSION=final`)**
+   - a declared boundary admits a BQ / boundary prior;
+   - otherwise the affine prior is used.
+   - Group count, OOF prior regret, and mode stability are **not** computed
+     or executed on this path.
+
+   Archived `v1_declared` still contains the unused OOF/group/mode ladder for
+   historical audits (DS03, FEMTO). Call
+   `select_ppx_route(..., version="v1_declared")` to replay it. Do not describe
+   that ladder as the Final 9-setting gate.
 2. **Executor approval** (uses **frozen** thresholds; not retuned per dataset)
    - compare admissible candidates on identical group-disjoint validation
      folds;

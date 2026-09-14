@@ -293,7 +293,13 @@ __all__ += [
 ]
 from .lifetime_scale import fit_lifetime_scale_pp, predict_lifetime_scale, LifetimeScaleFit
 from .latent_pp import fit_latent_pp, predict_latent, LatentFit
-from .transferability_gate import PriorEvidence, GateDecision, select_ppx_route
+from .transferability_gate import (
+    PRIOR_GATE_VERSION,
+    PriorEvidence,
+    GateDecision,
+    select_ppx_route,
+    select_ppx_route_v1_declared,
+)
 from .executor_policy import ExecutorEvidence, ExecutorDecision, select_residual_executor
 from .trajectory_survival import (
     TrajectorySurvivalFit,
@@ -309,7 +315,13 @@ from .trajectory_operator import (
     semigroup_error,
 )
 
-__all__ += ["PriorEvidence", "GateDecision", "select_ppx_route"]
+__all__ += [
+    "PRIOR_GATE_VERSION",
+    "PriorEvidence",
+    "GateDecision",
+    "select_ppx_route",
+    "select_ppx_route_v1_declared",
+]
 __all__ += [
     "TrajectorySurvivalFit", "TrajectorySurvivalNet", "fit_trajectory_survival",
     "predict_mean_rul", "predict_survival",

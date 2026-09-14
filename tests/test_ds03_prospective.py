@@ -104,6 +104,7 @@ def test_ds03_unknown_boundary_insufficient_prior_evidence_forces_fallback():
             PPXCandidateEvidence("direct_fallback", 10.0, 0.0, 1.0),
             PPXCandidateEvidence("unbounded", 1.0, 1.0, 0.1),
         ),
+        prior_gate_version="v1_declared",
     )
     assert decision.executor == "direct_fallback"
     assert decision.approved is False

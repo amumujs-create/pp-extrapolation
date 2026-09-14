@@ -91,6 +91,7 @@ def select_paper_ppx(
     min_unit_win_fraction: float = 0.60,
     max_worst_unit_rmse_ratio: float = 1.10,
     min_unit_gain_ci_low: float = float("-inf"),
+    prior_gate_version: str | None = None,
 ) -> PaperPPXDecision:
     """Select one PP-X executor without accepting any test outcome.
 
@@ -121,7 +122,9 @@ def select_paper_ppx(
             raise ValueError("worst-unit ratios must be nonnegative")
 
     fallback = by_name[contract.fallback]
-    gate: GateDecision = select_ppx_route(prior_evidence)
+    gate: GateDecision = select_ppx_route(
+        prior_evidence, version=prior_gate_version
+    )
     if gate.prior_weight == 0:
         return PaperPPXDecision(
             contract.fallback,

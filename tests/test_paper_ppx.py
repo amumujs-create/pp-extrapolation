@@ -66,7 +66,7 @@ def test_rejects_contract_inadmissible_candidate():
         )
 
 
-def test_prior_rejection_exactly_selects_fallback():
+def test_final_unknown_boundary_uses_affine_prior():
     decision = select_paper_ppx(
         contract(known_boundary=False),
         prior(
@@ -78,6 +78,25 @@ def test_prior_rejection_exactly_selects_fallback():
             candidate("direct_fallback", 10, wins=0, worst=1),
             candidate("unbounded", 4),
         ),
+    )
+    assert decision.executor == "unbounded"
+    assert decision.approved
+    assert decision.prior_route == "transferable_prior_pp"
+
+
+def test_v1_declared_prior_rejection_selects_fallback():
+    decision = select_paper_ppx(
+        contract(known_boundary=False),
+        prior(
+            known_boundary=False,
+            complete_groups=3,
+            minimum_complete_groups_per_regime=1,
+        ),
+        (
+            candidate("direct_fallback", 10, wins=0, worst=1),
+            candidate("unbounded", 4),
+        ),
+        prior_gate_version="v1_declared",
     )
     assert decision.executor == "direct_fallback"
     assert not decision.approved
