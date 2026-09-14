@@ -431,12 +431,16 @@ def build():
     title(s, "Executor ablation — 효과 부호가 바뀐다", "optional module을 전역 default로 켜면 안 되는 직접 근거", slide_no)
     add_picture(s, charts["executor"], .72, 1.3, 9.2, 5.4)
     box(s, 9.95, 1.65, 2.65, 1.55, PALE_GREEN, GREEN)
-    text(s, 10.15, 1.84, 2.25, .36, "켜야 하는 경우", 14, GREEN, True, PP_ALIGN.CENTER)
-    text(s, 10.15, 2.34, 2.25, .48, "HUST transport\nMICH dual-scale", 11.5, INK, True, PP_ALIGN.CENTER)
+    text(s, 10.15, 1.84, 2.25, .36, "Ablation → Final ON", 14, GREEN, True, PP_ALIGN.CENTER)
+    text(s, 10.15, 2.34, 2.25, .48, "MICH dual-scale\n.468 → .751", 11.5, INK, True, PP_ALIGN.CENTER)
     box(s, 9.95, 3.55, 2.65, 1.55, RGBColor(251, 235, 235), RED)
-    text(s, 10.15, 3.74, 2.25, .36, "끄는 반례", 14, RED, True, PP_ALIGN.CENTER)
-    text(s, 10.15, 4.24, 2.25, .48, "RWTH dual-scale\nMICH fixed bound", 11.5, INK, True, PP_ALIGN.CENTER)
+    text(s, 10.15, 3.74, 2.25, .36, "Ablation → Final OFF", 14, RED, True, PP_ALIGN.CENTER)
+    text(s, 10.15, 4.24, 2.25, .48, "RWTH dual-scale\n.878 → .842", 11.5, INK, True, PP_ALIGN.CENTER)
     text(s, 9.92, 5.67, 2.7, .58, "그래서 contract + Val\n승인이 필요하다.", 12.5, INK, True, PP_ALIGN.CENTER)
+    box(s, .95, 6.35, 11.65, .48, PALE_BLUE, BLUE)
+    text(s, 1.15, 6.39, 11.25, .38,
+         "강제 ON/OFF ablation의 방향과 실제 Final route가 일치: MICH는 dual ON, RWTH는 dual OFF(fixed bound).",
+         11.5, BLUE, True, PP_ALIGN.CENTER)
 
     # 14 cross-setting collapse visualization
     slide_no += 1
@@ -496,7 +500,7 @@ def build():
         (.65, "검정 2 · 외부 경쟁력", ORANGE, PALE_ORANGE,
          "질문\n강한 ML baseline보다 좋은가?\n\n비교\n각 setting의 동일예산\n30-candidate 최강 baseline\n\n결과\n8/9 우세 · p=.0391\nVirkler: FT가 +.002 우세\n\n주장\n동일예산 범위에서 경쟁력 확보"),
         (4.72, "검정 3 · component", BLUE, PALE_BLUE,
-         "질문\n각 optional module을 왜 켜거나 끄나?\n\n방법\n같은 prior family 안에서 on vs off\nphysical-unit 효과 · 24개 BH 보정\n\n도움\nMICH dual: .468→.751 (q=.031)\nHUST·MATR-b2 transport 유의\n\n해로움\nRWTH dual: .878→.842 (q=.021)\nMICH fixed bound도 유의하게 악화\n\n결론\n모든 module을 항상 켜면 안 됨"),
+         "질문\n각 optional module을 왜 켜거나 끄나?\n\n방법\nFinal 선택 전 강제 on/off ablation\nphysical-unit 효과 · 24개 BH 보정\n\n도움 → 실제 Final ON\nMICH dual: .468→.751 (q=.031)\nHUST·MATR-b2 transport 유의\n\n해로움 → 실제 Final OFF\nRWTH dual: .878→.842 (q=.021)\nRWTH Final은 fixed bound .878\n\n결론\nablation 방향과 Final route가 일치"),
         (8.79, "아직 확증 안 된 것", RED, RGBColor(251, 235, 235),
          "5-seed 안정성\n표본 5개라 양측 exact\n최소 p=.0625\n\n모든 모델 대비 분산 우위\n개별 비교는 신호가 있으나\n8모델 Holm 보정 후 비유의\n\n미래 cohort 일반화\nretrospective 9-setting으로는 불가"),
     ]
