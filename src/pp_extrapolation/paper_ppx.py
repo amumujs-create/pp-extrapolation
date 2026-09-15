@@ -172,3 +172,176 @@ def select_paper_ppx(
         selected.validation_loss,
         tuple(value.executor for value in feasible),
     )
+
+
+@dataclass(frozen=True)
+class AutoPaperPPXDecision:
+    """Paper decision plus the train-inferred contract that produced it."""
+
+    decision: PaperPPXDecision
+    contract: PPXContract
+    reasons: dict[str, str]
+    support_heterogeneity: float
+    dropped: tuple[ExecutorName, ...]
+
+
+def final_priority_executor(
+    contract: PPXContract,
+    *,
+    history: bool,
+    dual_scale: bool,
+    transport: bool,
+) -> ExecutorName:
+    """Pick one Final-like executor from detected structure flags.
+
+    Order matches the frozen 9-setting portfolio: transport, dual-scale,
+    bounded BQ, history, then unbounded. Validation losses are not used.
+    """
+    if transport:
+        return "regime_transport"
+    if dual_scale:
+        return "dual_scale"
+    if contract.known_boundary:
+        return "bounded"
+    if history:
+        return "history"
+    if contract.known_boundary or contract.ordered_progression:
+        return "unbounded"
+    return contract.fallback
+
+
+def select_ppx_from_structure(
+    train: object,
+    *,
+    boundary_value: float | None = None,
+    time_key: str | None = None,
+    regime_key: str | None = None,
+    group_key: str | None = None,
+    min_history_points: int = 2,
+    min_units_for_support: int = 2,
+    dual_scale_min_heterogeneity: float = 0.5,
+    fallback: Literal["direct_fallback", "persistence_fallback"] = "direct_fallback",
+) -> AutoPaperPPXDecision:
+    """Detect optional routes from train structure and apply Final priority."""
+    from .ppx_contract_inference import (
+        detect_optional_executors,
+        infer_ppx_contract_from_train_rows,
+    )
+    from .transferability_gate import select_ppx_route, PriorEvidence
+
+    inferred = infer_ppx_contract_from_train_rows(
+        train,  # type: ignore[arg-type]
+        boundary_value=boundary_value,
+        time_key=time_key,
+        regime_key=regime_key,
+        group_key=group_key,
+        min_history_points=min_history_points,
+        min_units_for_support=min_units_for_support,
+        dual_scale_min_heterogeneity=dual_scale_min_heterogeneity,
+        fallback=fallback,
+    )
+    detected = detect_optional_executors(
+        train,  # type: ignore[arg-type]
+        time_key=time_key,
+        regime_key=regime_key,
+        group_key=group_key,
+        min_history_points=min_history_points,
+        min_units_for_support=min_units_for_support,
+        dual_scale_min_heterogeneity=dual_scale_min_heterogeneity,
+    )
+    executor = final_priority_executor(
+        inferred.contract,
+        history=detected.history,
+        dual_scale=detected.dual_scale,
+        transport=detected.transport,
+    )
+    gate = select_ppx_route(
+        PriorEvidence(inferred.contract.known_boundary, 2, 1)
+    )
+    allowed = admissible_executors(inferred.contract)
+    dropped = tuple(
+        name for name in (
+            "dual_scale", "regime_transport", "history"
+        )
+        if name not in allowed
+    )
+    return AutoPaperPPXDecision(
+        decision=PaperPPXDecision(
+            executor,
+            gate.route,
+            executor != inferred.contract.fallback,
+            "structure-detected Final priority",
+            0.0,
+            (executor,),
+        ),
+        contract=inferred.contract,
+        reasons=detected.reasons,
+        support_heterogeneity=detected.support_heterogeneity,
+        dropped=dropped,
+    )
+
+
+def select_paper_ppx_from_train(
+    train: object,
+    prior_evidence: PriorEvidence,
+    candidates: tuple[PPXCandidateEvidence, ...],
+    *,
+    boundary_value: float | None = None,
+    time_key: str | None = None,
+    regime_key: str | None = None,
+    group_key: str | None = None,
+    min_history_points: int = 2,
+    min_units_for_support: int = 2,
+    dual_scale_min_heterogeneity: float = 0.5,
+    fallback: Literal["direct_fallback", "persistence_fallback"] = "direct_fallback",
+    min_relative_improvement: float = 0.02,
+    min_unit_win_fraction: float = 0.60,
+    max_worst_unit_rmse_ratio: float = 1.10,
+    min_unit_gain_ci_low: float = float("-inf"),
+    prior_gate_version: str | None = None,
+) -> AutoPaperPPXDecision:
+    """Infer the contract from train rows, drop illegal candidates, then select.
+
+    Callers do not set ``causal_history`` or the other flags. The train
+    structure turns them on or off. Extra fitted executors that the inferred
+    contract does not allow are ignored, not scored.
+    """
+    from .ppx_contract_inference import infer_ppx_contract_from_train_rows
+
+    inferred = infer_ppx_contract_from_train_rows(
+        train,  # type: ignore[arg-type]
+        boundary_value=boundary_value,
+        time_key=time_key,
+        regime_key=regime_key,
+        group_key=group_key,
+        min_history_points=min_history_points,
+        min_units_for_support=min_units_for_support,
+        dual_scale_min_heterogeneity=dual_scale_min_heterogeneity,
+        fallback=fallback,
+    )
+    allowed = set(admissible_executors(inferred.contract))
+    dropped = tuple(
+        candidate.executor
+        for candidate in candidates
+        if candidate.executor not in allowed
+    )
+    kept = tuple(
+        candidate for candidate in candidates if candidate.executor in allowed
+    )
+    decision = select_paper_ppx(
+        inferred.contract,
+        prior_evidence,
+        kept,
+        min_relative_improvement=min_relative_improvement,
+        min_unit_win_fraction=min_unit_win_fraction,
+        max_worst_unit_rmse_ratio=max_worst_unit_rmse_ratio,
+        min_unit_gain_ci_low=min_unit_gain_ci_low,
+        prior_gate_version=prior_gate_version,
+    )
+    return AutoPaperPPXDecision(
+        decision=decision,
+        contract=inferred.contract,
+        reasons=inferred.reasons,
+        support_heterogeneity=inferred.support_heterogeneity,
+        dropped=dropped,
+    )

@@ -16,7 +16,7 @@ import torch
 from torch import nn
 
 from .model import equal_group_weights, fit_feature_scale
-from .paper_ppx import PPXCandidateEvidence, PPXContract, select_paper_ppx
+from .paper_ppx import PPXCandidateEvidence, select_paper_ppx_from_train
 from .regime_mixture import fit_latent_regime_pp, predict_latent_regime
 from .transferability_gate import PriorEvidence
 
@@ -314,12 +314,19 @@ def prepare_select(h5_path: Path, protocol: Path, selection_path: Path) -> dict:
             unit_gain_ci_low=ci_low,
         ))
     prior_evidence, prior_audit = prior_admissibility_from_train(prepared["direct"]["train"])
-    decision = select_paper_ppx(
-        PPXContract(False, True, True, False, True, "direct_fallback"),
+    auto = select_paper_ppx_from_train(
+        prepared["direct"]["train"],
         prior_evidence,
         tuple(evidence),
         prior_gate_version="v1_declared",
     )
+    decision = auto.decision
+    prior_audit = {
+        **prior_audit,
+        "inferred_contract": asdict(auto.contract),
+        "inferred_reasons": auto.reasons,
+        "dropped_executors": list(auto.dropped),
+    }
     selected_route = {"direct_fallback": "direct_fallback", "unbounded": "basic", "dual_scale": "multiscale"}[decision.executor]
     selection_path.parent.mkdir(parents=True, exist_ok=True)
     model_path = selection_path.with_suffix(".models.pt")
