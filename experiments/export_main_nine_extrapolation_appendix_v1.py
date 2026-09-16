@@ -72,6 +72,15 @@ def _test_block(hull_key: str, datasets: dict) -> dict:
     }
 
 
+def _coord_label(row: dict) -> str:
+    coordinate = row.get("coordinate")
+    if isinstance(coordinate, dict):
+        axis = coordinate.get("hull_axis", "")
+        unit = coordinate.get("unit", "")
+        return f"{axis} ({unit})" if unit else axis
+    return str(row.get("coord", ""))
+
+
 def _split_cell(part: dict) -> str:
     units = part.get("units", "?")
     rows = part.get("rows", "?")
@@ -88,7 +97,7 @@ def build_rows(hull: dict, splits: dict[str, dict]) -> list[dict]:
             {
                 "domain": domain,
                 "dataset": split_name,
-                "axis": split["coord"],
+                "axis": _coord_label(split),
                 "train": _split_cell(split["train"]),
                 "val": _split_cell(split["val"]),
                 "test": _split_cell(split["test"]),
