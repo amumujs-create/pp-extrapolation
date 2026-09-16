@@ -1,4 +1,6 @@
-from pp_extrapolation.paper_ppx import admissible_executors
+import numpy as np
+
+from pp_extrapolation.paper_ppx import admissible_executors, select_ppx_from_structure
 from pp_extrapolation.ppx_final_nine import (
     FINAL_NINE_CARDS,
     detect_final_nine,
@@ -20,6 +22,39 @@ def test_time_varying_tra_does_not_open_transport():
 def test_dual_on_for_mich_only():
     on = {card.name for card in FINAL_NINE_CARDS if detect_final_nine(card.name).dual_scale}
     assert on == {"MICH"}
+
+
+def test_final_paper_does_not_treat_first_feature_as_time():
+    groups = np.array(["u1"] * 3 + ["u2"] * 6)
+    health = np.concatenate(
+        (np.linspace(1.0, 0.8, 3), np.linspace(1.0, 0.8, 6))
+    )
+    auto = select_ppx_from_structure(
+        {"groups": groups, "x": health[:, None], "y": np.ones(9)}
+    )
+    assert not auto.contract.ordered_progression
+    assert not auto.contract.causal_history
+    assert "history" in auto.dropped
+
+
+def test_final_paper_opens_history_with_explicit_time_key():
+    groups = np.array(["u1"] * 3 + ["u2"] * 6)
+    health = np.concatenate(
+        (np.linspace(1.0, 0.8, 3), np.linspace(1.0, 0.8, 6))
+    )
+    timestamp = np.concatenate((np.arange(3), np.arange(6))).astype(float)
+    auto = select_ppx_from_structure(
+        {
+            "groups": groups,
+            "x": health[:, None],
+            "timestamp": timestamp,
+            "y": np.ones(9),
+        },
+        time_key="timestamp",
+    )
+    assert auto.contract.ordered_progression
+    assert auto.contract.causal_history
+    assert auto.decision.executor == "history"
 
 
 def test_final_nine_executor_selection_matches():

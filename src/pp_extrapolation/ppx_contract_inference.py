@@ -274,6 +274,155 @@ def _column_is_progression(unit_ids: np.ndarray, values: np.ndarray) -> bool:
     return ordered
 
 
+def _optional_requested_key(
+    train: Mapping[str, object],
+    requested: str | None,
+    *,
+    kind: str,
+) -> str | None:
+    """Normalize an optional user column name; blank means auto-detect."""
+    if requested is None or not requested.strip():
+        return None
+    key = requested.strip()
+    if key not in train:
+        raise ValueError(f"requested {kind} column {key!r} is not present in train")
+    return key
+
+
+def _infer_row_count(train: Mapping[str, object]) -> int | None:
+    """Infer row count from target or feature containers, not candidate IDs."""
+    for key in ("y", "target"):
+        if key in train:
+            array = np.asarray(train[key])
+            if array.ndim >= 1 and array.shape[0] > 0:
+                return int(array.shape[0])
+    if "x" in train:
+        array = np.asarray(train["x"])
+        if array.ndim >= 1 and array.shape[0] > 0:
+            return int(array.shape[0])
+    lengths = [
+        int(np.asarray(value).shape[0])
+        for value in train.values()
+        if np.asarray(value).ndim == 1 and np.asarray(value).size > 0
+    ]
+    if lengths and len(set(lengths)) == 1:
+        return lengths[0]
+    return None
+
+
+def _contiguous_run_count(values: np.ndarray) -> int:
+    if values.size == 0:
+        return 0
+    return int(1 + np.sum(values[1:] != values[:-1]))
+
+
+def infer_group_ids(
+    train: Mapping[str, object],
+    *,
+    group_key: str | None = None,
+) -> tuple[np.ndarray, str, str]:
+    """Resolve physical-unit IDs from user input, standard names, or data.
+
+    Automatic inference only considers top-level 1D repeated-label columns.
+    Each label must form one contiguous row block; this avoids mistaking a
+    repeated cycle/time column for a unit ID. If the best candidate is not
+    unique, callers must provide ``group_key`` instead of accepting a guess.
+    """
+    explicit = _optional_requested_key(train, group_key, kind="group")
+    if explicit is not None:
+        return np.asarray(train[explicit]), explicit, f"사용자 지정 unit 열 {explicit}"
+
+    named = _pick_first_key(train, _GROUP_KEYS)
+    if named is not None:
+        return np.asarray(train[named]), named, f"표준 이름 unit 열 {named}"
+
+    row_count = _infer_row_count(train)
+    if row_count is None:
+        raise ValueError("cannot infer row count; provide group_key and train rows")
+
+    skip = set(_TIME_KEYS) | set(_REGIME_KEYS) | {"x", "y", "target"}
+    candidates: list[tuple[str, np.ndarray, int]] = []
+    for key, value in train.items():
+        if key in skip:
+            continue
+        array = np.asarray(value)
+        if array.ndim != 1 or array.shape[0] != row_count:
+            continue
+        unique, counts = np.unique(array, return_counts=True)
+        if unique.size < 2 or unique.size >= row_count or counts.min() < 2:
+            continue
+        if np.issubdtype(array.dtype, np.floating):
+            if not np.allclose(array, np.round(array), atol=1e-6):
+                continue
+        if _contiguous_run_count(array) != unique.size:
+            continue
+        candidates.append((key, array, int(unique.size)))
+
+    if not candidates:
+        raise ValueError(
+            "unit/group column could not be inferred; provide group_key explicitly"
+        )
+    candidates.sort(key=lambda value: (-value[2], value[0]))
+    if len(candidates) > 1 and candidates[0][2] == candidates[1][2]:
+        names = ", ".join(key for key, _, _ in candidates)
+        raise ValueError(
+            f"unit/group column is ambiguous ({names}); provide group_key explicitly"
+        )
+    key, array, _ = candidates[0]
+    return array, key, f"반복 ID·연속 블록 검사로 unit 열 {key} 자동 선택"
+
+
+def infer_time_coordinate(
+    train: Mapping[str, object],
+    unit_ids: np.ndarray,
+    *,
+    time_key: str | None = None,
+    group_key: str | None = None,
+    regime_key: str | None = None,
+) -> tuple[np.ndarray | None, str | None, str]:
+    """Resolve time from user input, semantic names, or one unambiguous column.
+
+    ``x`` feature positions are deliberately excluded.  When unnamed train
+    columns contain zero or multiple monotonic candidates, time remains
+    unresolved and temporal executors stay closed.
+    """
+    explicit = _optional_requested_key(train, time_key, kind="time")
+    if explicit is not None:
+        return np.asarray(train[explicit]), explicit, f"사용자 지정 시간 열 {explicit}"
+
+    named = _pick_first_key(train, _TIME_KEYS)
+    if named is not None:
+        return np.asarray(train[named]), named, f"표준 이름 시간 열 {named}"
+
+    skip = {
+        key
+        for key in (group_key, regime_key, "x", "y", "target")
+        if key is not None
+    }
+    candidates: list[tuple[str, np.ndarray]] = []
+    for key, value in train.items():
+        if key in skip:
+            continue
+        array = np.asarray(value)
+        if array.ndim != 1 or array.shape[0] != unit_ids.shape[0]:
+            continue
+        if not np.issubdtype(array.dtype, np.number):
+            continue
+        numeric = array.astype(np.float64, copy=False)
+        if not np.all(np.isfinite(numeric)):
+            continue
+        if _column_is_progression(unit_ids, numeric):
+            candidates.append((key, array))
+
+    if len(candidates) == 1:
+        key, array = candidates[0]
+        return array, key, f"train 단조성 검사로 시간 열 {key} 자동 선택"
+    if len(candidates) > 1:
+        names = ", ".join(key for key, _ in candidates)
+        return None, None, f"단조 시간 후보가 여러 개라 미확정: {names}"
+    return None, None, "사용자/표준 시간 열이 없고 단일 단조 후보도 없음"
+
+
 def infer_regime_ids(
     train: Mapping[str, object],
     unit_ids: np.ndarray,
@@ -289,6 +438,7 @@ def infer_regime_ids(
     inside the unit (TRA-like) is returned only as a time-varying signal.
     Cycle/health progressions are ignored.
     """
+    regime_key = _optional_requested_key(train, regime_key, kind="regime")
     if regime_key is not None:
         return np.asarray(train[regime_key]), f"이름 있는 열 {regime_key}"
 
@@ -300,7 +450,12 @@ def infer_regime_ids(
         array = np.asarray(value)
         if array.ndim == 1 and array.shape[0] == unit_ids.shape[0] and _is_discrete_label(array):
             if time_key is None or not np.array_equal(array, np.asarray(train[time_key])):
-                if not _column_is_progression(unit_ids, array.astype(np.float64, copy=False)):
+                is_progression = False
+                if np.issubdtype(array.dtype, np.number):
+                    is_progression = _column_is_progression(
+                        unit_ids, array.astype(np.float64, copy=False)
+                    )
+                if not is_progression:
                     candidates.append((key, array))
     if "x" in train:
         features = np.asarray(train["x"])
@@ -338,27 +493,39 @@ def detect_optional_executors(
     min_units_for_support: int = 2,
     dual_scale_min_heterogeneity: float = 0.5,
 ) -> OptionalExecutorDetection:
-    """Detect history, dual-scale, and transport from train rows only."""
-    group_key = group_key or _pick_first_key(train, _GROUP_KEYS)
-    if group_key is None:
-        raise ValueError(f"train dict must include one of: {', '.join(_GROUP_KEYS)}")
-    time_key = time_key or _pick_first_key(train, _TIME_KEYS)
+    """Detect history, dual-scale, and transport from train rows only.
+
+    User-supplied time/regime keys win. Blank values trigger train-only
+    detection; time is accepted only from a semantic name or one unambiguous
+    monotonic top-level column. Feature position is never interpreted as time.
+    The first feature remains only the default support coordinate used by the
+    dual-scale audit.
+    """
+    unit_ids, group_key, group_source = infer_group_ids(
+        train, group_key=group_key
+    )
+    regime_key = _optional_requested_key(train, regime_key, kind="regime")
     regime_key = regime_key or _pick_first_key(train, _REGIME_KEYS)
-    unit_ids = np.asarray(train[group_key])
+    progression, resolved_time_key, time_source = infer_time_coordinate(
+        train,
+        unit_ids,
+        time_key=time_key,
+        group_key=group_key,
+        regime_key=regime_key,
+    )
     features = None
     if "x" in train:
         features = np.asarray(train["x"], dtype=np.float64)
         if features.ndim != 2 or features.shape[0] != unit_ids.shape[0]:
             features = None
     support = None if features is None else features[:, 0]
-    progression = np.asarray(train[time_key]) if time_key is not None else support
     if support is None:
         support = progression
     regime_ids, regime_source = infer_regime_ids(
         train,
         unit_ids,
         regime_key=regime_key,
-        time_key=time_key,
+        time_key=resolved_time_key,
         group_key=group_key,
     )
     history, history_reason = detect_history_executor(
@@ -383,6 +550,8 @@ def detect_optional_executors(
         transport=transport,
         support_heterogeneity=score,
         reasons={
+            "group": group_source,
+            "time": time_source,
             "history": history_reason,
             "dual_scale": dual_reason,
             "transport": f"{transport_reason} ({regime_source})",
@@ -483,35 +652,37 @@ def infer_ppx_contract_from_train_rows(
 ) -> ContractInference:
     """Infer a contract from a standard train row dictionary.
 
-    Expected keys include ``groups`` (or ``units``) and optionally one of
-    ``cycles``, ``times``, ``progress`` for the ordered coordinate, plus an
-    optional regime column.
+    User-supplied keys take precedence; blank keys request train-only
+    detection. Unit IDs use standard names first, then repeated contiguous
+    top-level ID columns. If unit inference is absent or ambiguous, the caller
+    must provide ``group_key``. If time cannot be resolved uniquely, ordered
+    progression and causal history are disabled; ``x[:, 0]`` is not a temporal
+    fallback.
     """
-    group_key = group_key or _pick_first_key(train, _GROUP_KEYS)
-    if group_key is None:
-        raise ValueError(
-            f"train dict must include one of: {', '.join(_GROUP_KEYS)}"
-        )
-    time_key = time_key or _pick_first_key(train, _TIME_KEYS)
+    unit_ids, group_key, group_source = infer_group_ids(
+        train, group_key=group_key
+    )
+    regime_key = _optional_requested_key(train, regime_key, kind="regime")
     regime_key = regime_key or _pick_first_key(train, _REGIME_KEYS)
 
-    unit_ids = np.asarray(train[group_key])
+    progression, resolved_time_key, time_source = infer_time_coordinate(
+        train,
+        unit_ids,
+        time_key=time_key,
+        group_key=group_key,
+        regime_key=regime_key,
+    )
     features = None
     if "x" in train:
         features = np.asarray(train["x"], dtype=np.float64)
         if features.ndim != 2 or features.shape[0] != unit_ids.shape[0]:
             features = None
     support_coordinate = None if features is None else features[:, 0]
-    progression = None
-    if time_key is not None:
-        progression = np.asarray(train[time_key])
-    elif features is not None:
-        progression = features[:, 0]
-    regime_ids, _ = infer_regime_ids(
+    regime_ids, regime_source = infer_regime_ids(
         train,
         unit_ids,
         regime_key=regime_key,
-        time_key=time_key,
+        time_key=resolved_time_key,
         group_key=group_key,
     )
 
@@ -526,4 +697,13 @@ def infer_ppx_contract_from_train_rows(
         dual_scale_min_heterogeneity=dual_scale_min_heterogeneity,
         fallback=fallback,
     )
-    return infer_ppx_contract(structure)
+    inferred = infer_ppx_contract(structure)
+    reasons = dict(inferred.reasons)
+    reasons["group_source"] = group_source
+    reasons["time_source"] = time_source
+    reasons["regime_source"] = regime_source
+    return ContractInference(
+        contract=inferred.contract,
+        support_heterogeneity=inferred.support_heterogeneity,
+        reasons=reasons,
+    )

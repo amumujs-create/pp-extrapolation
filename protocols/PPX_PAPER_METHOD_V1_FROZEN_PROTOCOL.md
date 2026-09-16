@@ -1,140 +1,115 @@
-# PP-X Paper Method v1 — Frozen Protocol
+# PP-X Paper Method v4 — Hierarchical Validation Router
 
 Owner: 박진서  
-Status: frozen before any new prospective endpoint is opened
+Status: retrospective operational freeze; prospective confirmation pending
 
-## Paper identity
-
-The paper method is **PP-X**, described as:
-
-> A validation-approved prior-residual framework for contract-conditioned
-> extrapolation.
-
-CCMR is not the paper-level model. It is a trajectory-domain risk-aware
-executor used as supporting mechanism evidence.
+Canonical selector:
+`ppx_forward_selector.select_min_validation_loss` and
+`ppx_forward_selector.select_replicate_validation_min`.
 
 ## Scope
 
-PP-X addresses inductive extrapolation to unseen physical units or regimes.
-Test labels, test-batch statistics, test-time adaptation, and test-informed
-route changes are forbidden.
+PP-X predicts unseen physical units or regimes without test-time adaptation.
+Test labels, test-batch statistics, registry outcomes, and dataset identity are
+forbidden selector inputs.
 
-## Inputs available before test prediction
+## Inputs available before test
 
-1. A typed source contract:
-   - whether a failure boundary is declared independently of test outcomes;
-   - whether ordered progression and causal history are available;
-   - whether a regime identifier is observed;
-   - whether support heterogeneity can be computed from train data.
-2. Group-disjoint source/validation predictions for:
-   - matched direct fallback;
-   - prior-only path;
-   - unbounded prior-residual core;
-   - any contract-admissible optional executor.
-3. Physical-unit identifiers for all validation rows.
+1. Typed source contract and train-derived structure.
+2. Group-disjoint validation targets and physical-unit identifiers.
+3. Validation predictions from every contract-computable PP-X candidate.
+4. Seed/fold-local validation losses for candidate internal configurations.
 
-## Candidate executors
+## Candidate opening
 
-- `unbounded`: common prior-residual core;
-- `bounded`: fixed residual bound;
-- `dual_scale`: support-adaptive local/broad residual bound;
-- `regime_transport`: source-regime output-error transport;
-- `history`: validation-selected causal history representation;
-- `direct_fallback`: matched direct model;
-- `persistence_fallback`: trajectory persistence when required by a declared
-  safety contract.
+The contract determines computability, not the winner.
 
-Candidates that are not admissible under the typed contract are never scored.
+- BQ may be opened when boundary and progression quantities are computable.
+- Affine prior may be opened when state/rate representation is computable.
+- User-supplied ``group_key``, ``time_key``, and ``regime_key`` take
+  precedence. Blank group keys use standard names, then an unambiguous
+  repeated-ID/contiguous-block top-level column audit; ambiguity requires user
+  input. Blank time/regime keys
+  trigger train-only detection. Time is accepted from a semantic name
+  (``cycles/time/progress/coordinate``), or from exactly one monotonic numeric
+  top-level column; zero or multiple candidates disable history. Regime is
+  inferred from discrete, unit-stable or within-unit-varying train signals.
+  Feature position, including ``x[:, 0]``, is never interpreted as time.
+- Transport candidates require the corresponding regime/context variables.
+- Dual-scale candidates require train-computable support information.
+
+BQ is optional. If both BQ and affine are computable, both may enter the same
+validation tournament.
 
 ## Frozen decision order
 
-1. **Prior admissibility (PP-X Final, `PRIOR_GATE_VERSION=final`)**
-   - a declared boundary admits a BQ / boundary prior;
-   - otherwise the affine prior is used.
-   - Group count, OOF prior regret, and mode stability are **not** computed
-     or executed on this path.
+1. Fit all contract-computable prior–executor candidates without test access.
+   A known boundary opens BQ but does not close affine or force BQ.
+2. Within every admissible prior family, identify its minimum-validation-loss
+   executor. The resulting loss is that prior family's score.
+3. Select the prior family with minimum family score:
 
-   Archived `v1_declared` still contains the unused OOF/group/mode ladder for
-   historical audits (DS03, FEMTO). Call
-   `select_ppx_route(..., version="v1_declared")` to replay it. Do not describe
-   that ladder as the Final 9-setting gate.
-2. **Executor approval** (uses **frozen** thresholds; not retuned per dataset)
-   - compare admissible candidates on identical group-disjoint validation
-     folds;
-   - an optional executor must reduce validation loss by at least **2%** relative
-     to the simpler admissible reference;
-   - unit-win fraction at least **60%** and worst-unit RMSE ratio at most
-     **1.10** (physical-unit risk);
-   - `dual_scale` additionally requires train-only support heterogeneity
-     at least 0.50;
-   - ties within numerical tolerance select the simpler executor.
-3. **Safety**
-   - if prior admissibility fails, use the prespecified fallback;
-   - no test input except the individual sample's causal features may alter
-     the selected route.
+   \[
+   \hat p=\arg\min_p\min_{e\in\mathcal E_p}\mathrm{ValMSE}(p,e).
+   \]
 
-### Threshold origin (tuning once, then freeze)
+4. Within the chosen prior/executor family, select each seed/fold's internal configuration:
 
-The triple `(2%, 60%, 1.10)` is **not** re-tuned on each new dataset and is
-**not** chosen by maximizing test accuracy.
+   \[
+   \hat h_r=\arg\min_h \mathrm{ValMSE}_{r,h}.
+   \]
 
-It is an operational freeze point selected under
-`protocols/PPX_THRESHOLD_TUNING_OOF_PROTOCOL.md`:
+5. Freeze all choices.
+6. Produce one test prediction per selected replicate and ensemble them.
+7. Attach dataset names and test metrics for reporting only after selection.
 
-1. declare the candidate grid
-   `{1,2,5%} × {50,60,70%} × {1.05,1.10,1.20}`;
-2. score each cell by validation-unit OOF route stability and worst-case
-   policy regret (development units only);
-3. freeze `τ=(2%, 60%, 1.10)` inside the stable region;
-4. on every subsequent dataset, keep `τ` fixed and use that dataset's
-   validation only to approve/reject executors.
+Finite-loss ties use candidate-label lexical order. Candidate labels identify
+model arms, not datasets.
 
-Evidence: `PPX_OOF_THRESHOLD_ROBUSTNESS_RESULTS_KO.md`,
-`PPX_THRESHOLD_SENSITIVITY_RESULTS_KO.md`.
+## Direct comparison
 
+Matched direct is a required control but is not a PP-X route candidate for the
+paper figure. Consequently, this protocol does not abstain to direct. Any
+direct-safe router result must be reported as a distinct policy and must not
+replace the PP-X Final figure values.
 
-## Primary evaluation
+## Reproduction acceptance
 
-- pooled R² and RMSE;
-- physical-unit RMSE;
-- equal-dataset log RMSE ratio;
-- hierarchical dataset–unit bootstrap;
-- paired physical-unit sign-flip tests with Benjamini–Hochberg correction;
-- route coverage, false accept, false reject, and fallback rate.
+The reproduction passes only if:
 
-Rows are never treated as independent inferential samples.
+1. every recorded selection equals validation argmin;
+2. no selector API receives dataset identity or test arrays;
+3. all nine test scores round to the frozen figure values;
+4. the output explicitly remains retrospective.
 
-## Required comparisons
+Expected rounded pooled R²:
 
-1. prior-only;
-2. matched direct model;
-3. common prior-residual core;
-4. always-on optional executor;
-5. validation-approved PP-X;
-6. test oracle, clearly labelled as a nondeployable upper bound;
-7. strong same-split competitors under the same information and tuning budget.
+```text
+HUST       0.958
+Sunwoda    0.939
+N-CMAPSS   0.937
+Virkler    0.888
+RWTH       0.878
+MATR-b2    0.862
+MICH       0.751
+NASA       0.584
+MATR2019   0.466
+```
 
-## Evidence tiers
+Reproduce:
 
-- **Retrospective mechanism:** existing development datasets and module
-  ablations.
-- **Retrospective policy audit:** frozen replay on already-opened datasets;
-  cannot establish prospective validity.
-- **Prospective confirmation:** a protocol commit precedes endpoint opening,
-  with method, candidate set, thresholds, budget, and success criteria frozen.
+```bash
+PYTHONPATH=src:experiments:../ca-css-ncmapss \
+  python experiments/ppx_final_result_reproduction_v1.py
+```
 
-No retrospective result may be relabelled as prospective.
+Artifacts:
 
-## Prospective success criteria
+- `results/ppx_final_result_reproduction_v1/results.json`
+- `PPX_FINAL_RESULT_REPRODUCTION_KO.md`
 
-Report regardless of outcome:
+## Evidence boundary
 
-- no test-informed route change;
-- route selected exactly by this protocol;
-- nonnegative pooled R²;
-- PP-X RMSE no worse than the prespecified fallback;
-- no physical-unit raw regret above the prespecified domain safety cap;
-- route coverage and all abstentions.
-
-Failure of any performance criterion is a failed confirmation, not a reason to
-retune the frozen method.
+This protocol reconstructs an already-developed nine-setting result. It is not
+prospective evidence. A new confirmation must freeze candidate menus, split,
+budget, selection scope, and endpoint before opening the untouched test labels.

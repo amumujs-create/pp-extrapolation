@@ -1,0 +1,51 @@
+{
+  "id": "paper-final-v4-hierarchical-router",
+  "name": "PP-X Final Paper",
+  "status": "retrospective_frozen_prospective_confirmation_pending",
+  "registered_date": "2026-09-16",
+  "canonical_method": "PPX_FINAL_PAPER_VERSION_KO.md",
+  "canonical_model": "PPX_FINAL_PAPER_MODEL_KO.md",
+  "one_page": "PPX_PAPER_FORWARD_ONE_PAGE_KO.md",
+  "protocol": "protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md",
+  "implementation": {
+    "contract_inference": "pp_extrapolation.ppx_contract_inference.infer_ppx_contract_from_train_rows",
+    "family_selector": "pp_extrapolation.ppx_forward_selector.select_prior_executor_family",
+    "replicate_selector": "pp_extrapolation.ppx_forward_selector.select_replicate_validation_min",
+    "reproduction": "experiments/ppx_final_result_reproduction_v1.py"
+  },
+  "prior_policy": {
+    "boundary_role": "admissibility_only",
+    "bq_forced_when_boundary_known": false,
+    "selection": "minimum validation MSE over contract-computable prior families and their executors",
+    "direct_in_ppx_menu": false
+  },
+  "input_resolution": {
+    "priority": "user_key_then_train_only_detection",
+    "group_key": "standard name, else unique repeated-ID contiguous-block top-level column; ambiguity requires user input",
+    "time_key": "standard name, else exactly one within-unit monotonic numeric top-level column; x feature positions forbidden",
+    "regime_key": "standard name, else discrete unit-stable or within-unit-varying train signal",
+    "blank_value": "auto_detect",
+    "test_information_allowed": false
+  },
+  "frozen_reproduction": {
+    "report": "PPX_FINAL_RESULT_REPRODUCTION_KO.md",
+    "results": "results/ppx_final_result_reproduction_v1/results.json",
+    "settings": 9,
+    "rounded_figure_matches": 9,
+    "positive_r2": 9,
+    "macro_mean_r2": 0.8071227750044208,
+    "equal_budget_wins": 8,
+    "equal_budget_datasets": 9
+  },
+  "architecture_ablation": {
+    "report": "PPX_MAIN_MODEL_ABLATION_A0_A3_KO.md",
+    "figure": "figures/paper/fig_ppx_main_model_ablation_a0_a3.png",
+    "arms": [
+      "A0_matched_direct_nn",
+      "A1_prior_only",
+      "A2_prior_plus_matched_residual",
+      "A3_full_ppx"
+    ],
+    "selection_policy_ablations_excluded": true
+  }
+}

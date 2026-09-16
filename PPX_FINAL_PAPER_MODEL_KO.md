@@ -1,18 +1,31 @@
 # 논문용 최종 PP-X 모델 정리
 
+**Final paper v4 (Method·logic·재현 정본):** [`PPX_FINAL_PAPER_VERSION_KO.md`](PPX_FINAL_PAPER_VERSION_KO.md)
+한 장: [`PPX_PAPER_FORWARD_ONE_PAGE_KO.md`](PPX_PAPER_FORWARD_ONE_PAGE_KO.md)
+동결 manifest: [`protocols/PPX_FINAL_PAPER_V4_MANIFEST.json`](protocols/PPX_FINAL_PAPER_V4_MANIFEST.json)
+
+> **상태:** 이 문서의 기존 contract-prior/family-ladder 설명은 v1 배경이다.
+> 논문 정본은 v4 hierarchical validation router다. BQ는 affine와 함께 평가 가능한
+> 옵션이고, direct는 PP-X 후보가 아닌 외부 대조군이다. 아래의 fixed-prior·τ gate
+> 설명은 역사적 ablation 배경이며 Final 9 selector 정의가 아니다.
+
 ## 결정
 
 PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 않는다. 최종 논문 모델은 **작은 공통 core와 validation-approved executor**로 정의한다. 이 정리는 최종 ablation의 유의성 결과를 반영한다.
 
-논문 Algorithm 1의 동결 구현은
-`src/pp_extrapolation/paper_ppx.py::select_paper_ppx`이며, 입력·후보·임계값·
-동률 규칙·fallback은 `protocols/PPX_PAPER_METHOD_V1_FROZEN_PROTOCOL.md`에
-고정한다. 이 함수는 선택정책을 하나의 실행 가능한 인터페이스로 만든 것이며,
-12개 과거 route가 하나의 동일 신경망이었다는 뜻은 아니다.
+논문 Final 9-setting 동결 구현은
+`select_min_validation_loss` / `select_replicate_validation_min`이며,
+재현 entrypoint는 `experiments/ppx_final_result_reproduction_v1.py`다.
+그림의 9개 pooled R²는 `PPX_FINAL_RESULT_REPRODUCTION_KO.md`에 고정한다.
+
+`paper_ppx.select_paper_ppx`는 contract feasible set vs `contract.fallback`만 비교하는
+**strict audit API**이며, main 9 R² 재현 경로와 동일하지 않을 수 있다.
+`paper_ppx.paper_decision_from_forward`로 forward 선택 결과를 `PaperPPXDecision`에
+매핑한다.
 
 ## 공통 core: 모든 승인 prior 경로에 유지
 
-각 시점의 causal adapter가 현재 상태, 짧은 history, 열화율, context, support feature를 만든다. **PP-X Final prior는 `known_boundary`만으로 고른다.** 경계가 있으면 BQ, 없으면 affine이다. group 수 / OOF regret / mode stability는 계산하지 않는다. 그 사다리는 `v1_declared` 보관이다. 고른 prior 주위의 nonlinear residual을 학습한다.
+각 시점의 causal adapter가 현재 상태, 짧은 history, 열화율, context, support feature를 만든다. 사용자가 `group_key`/`time_key`/`regime_key`를 입력하면 이를 우선하고, 빈칸이면 train-only 검사로 찾는다. Unit ID는 표준 이름 또는 반복 ID·연속 블록이 유일한 top-level 컬럼만 자동 채택한다. 시간은 표준 이름 또는 top-level 단조 후보가 정확히 하나일 때만 자동 선택하며, 후보가 없거나 여러 개면 history를 끈다. `x[:, 0]`은 시간으로 대체하지 않는다. Regime은 빈칸일 때 이산성과 unit 안정성을 검사한다. 모호한 unit ID는 추측하지 않고 입력을 요구한다. **`known_boundary`는 BQ를 후보로 열 수 있게 할 뿐 BQ를 강제하지 않는다.** affine도 계산 가능하면 같은 validation tournament에 들어간다. Contract는 admissibility만 정하고 prior–executor 승자는 validation MSE가 정한다. 고른 prior 주위의 nonlinear residual을 학습한다.
 
 \[
   \hat y = D\{y_{prior}+b(z)\tanh[r(z)/b(z)]\}.
@@ -29,17 +42,17 @@ PP-X를 “모든 optional module을 한 번에 켠 거대 모델”로 쓰지 �
 | fixed residual bound | group-disjoint validation에서 unbounded residual보다 낮은 loss | Sunwoda 강한 개선, RWTH 방향성, MICH 악화 | boundary cohort용 선택 모듈 |
 | support-adaptive dual scale | fixed bound보다 validation 개선이 있고 support heterogeneity가 높음 | MICH 강한 개선; RWTH 유의한 악화 | MICH형 relationship-shift executor |
 | regime transport | group-LOO validation에서 raw prediction보다 일관된 개선 | HUST·MATR-b2 강한 개선 | cohort shift executor |
-| multiscale history | validation loss가 basic/short history보다 개선 | NASA·N-CMAPSS 소폭 개선, 통계력 부족 | adapter hyperparameter |
+| multiscale history | 명시적/이름 있는 시간 좌표가 unit 내부 단조이고, validation loss가 basic/short history보다 개선 | NASA·N-CMAPSS 소폭 개선, 통계력 부족 | adapter hyperparameter |
 | neural safety | `v1_declared`에서만. Final은 prior를 끄지 않음 | FEMTO 역사 감사, 9-setting 아님 | 보관 fallback. Final 성능 표에 넣지 않음 |
 
 따라서 dual-scale, transport, full multiscale history를 “PP의 항상 켜진 구성요소”라고 쓰지 않는다. 특히 RWTH에서 dual-scale을 일괄 적용하면 유의하게 악화됐으므로, 전역 default로 둘 수 없다.
 
 ## 실행 규칙
 
-1. **Domain contract 선언:** boundary의 존재, unit/group 정의, causal adapter, 허용 prior를 train 전에 선언한다.
-2. **Prior gate (Final):** `known_boundary=True`면 BQ, 아니면 affine. 둘 다 Prior ON. OOF/group/mode는 실행하지 않는다.
+1. **Domain contract 선언:** boundary의 존재, unit/group 정의, 명시적 time key, causal adapter, 허용 prior를 train 전에 선언한다. time key가 없으면 history 후보를 열지 않는다.
+2. **Prior family selection (Final):** contract가 계산 가능한 BQ/affine family를 연다. Boundary는 BQ admissibility 조건이지 승리 조건이 아니다. 각 family의 최저 executor validation MSE를 family score로 사용한다.
 3. **Common core fitting:** train만으로 고른 prior와 nonlinear residual을 학습한다.
-4. **Executor selection:** validation 또는 group-LOO validation에서 후보 executor를 고른다. 선택 기준과 동률 규칙은 test 전에 고정한다.
+4. **Executor selection:** 선택된 prior family 안에서 validation(또는 group-LOO) 최소 loss executor를 고른다 (`select_prior_executor_family`). **데이터셋 이름은 selector 입력이 아님.** 동률 규칙은 test 전 고정.
 5. **Frozen final evaluation:** 선택된 구조와 hyperparameter를 고정한 뒤 test를 한 번 예측한다. Prior OFF는 Final 경로에 없다. Val FAIL만 사전 fallback이다.
 
 이것은 mixture-of-experts나 test-time routing이 아니다. route와 executor는 source/validation evidence로 한 번 정해지고 test에는 frozen forward만 실행한다.

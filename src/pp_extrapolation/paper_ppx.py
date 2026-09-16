@@ -1,15 +1,25 @@
 """Frozen paper-level PP-X route selection.
 
-This module turns the paper description into one deterministic, test-outcome
-blind decision rule. It selects a *fitted prediction path*; model fitting and
-contract-specific feature construction remain separate concerns.
+**Paper main (Final 9):** ``ppx_forward_selector`` first selects the
+contract-computable prior/executor family by minimum validation MSE, then
+selects seed/fold-local internal configurations by the same validation-only
+rule.  The legacy τ eligibility gate is retained for appendix audits only.
+
+**Audit / feasible-set API:** ``select_paper_ppx`` compares candidates vs
+``contract.fallback`` only (strict feasible set); use for appendix replay, not
+as the sole paper forward rule.
+
+Model fitting and contract-specific feature construction stay outside this module.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from .transferability_gate import GateDecision, PriorEvidence, select_ppx_route
+
+if TYPE_CHECKING:
+    from .ppx_forward_selector import ForwardSelection
 
 ExecutorName = Literal[
     "direct_fallback",
@@ -171,6 +181,37 @@ def select_paper_ppx(
         reason,
         selected.validation_loss,
         tuple(value.executor for value in feasible),
+    )
+
+
+def paper_decision_from_forward(
+    forward: "ForwardSelection",
+    prior_route: str,
+    label_to_executor: dict[str, ExecutorName],
+    *,
+    fallback_executor: ExecutorName = "direct_fallback",
+) -> PaperPPXDecision:
+    """Map ``ppx_forward_selector.ForwardSelection`` to ``PaperPPXDecision``."""
+    from .ppx_forward_selector import ForwardSelection
+
+    if not isinstance(forward, ForwardSelection):
+        raise TypeError("forward must be ForwardSelection")
+    executor = label_to_executor.get(forward.selected_label, fallback_executor)
+    considered: tuple[ExecutorName, ...] = (
+        tuple(
+            label_to_executor.get(label, fallback_executor)
+            for label in forward.gate_passing
+        )
+        if forward.gate_passing
+        else (fallback_executor,)
+    )
+    return PaperPPXDecision(
+        executor,
+        prior_route,
+        forward.gate_approved,
+        forward.selector_rule,
+        forward.validation_mse,
+        considered,
     )
 
 
