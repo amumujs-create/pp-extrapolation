@@ -1,5 +1,7 @@
 # PP-X Main Model Ablation — A0 / A1 / A2 / A3
 
+> **Matching audit:** A1→A2 correction 비교와 A2→A3 executor 비교는 동일 setting·seed·저장 예측 내의 nested comparison이다. A0→A2의 A0는 Battery 3개에서만 architecture/예산을 맞춘 direct NN이며, HUST·MATR-b2·N-CMAPSS는 저장된 GroupDRO direct control이다. 따라서 6-setting A0→A2를 전체적으로 `matched-capacity prior effect`라고 주장하지 않는다.
+
 Selector-policy, hard-gate, tail-risk, mixture experiments are excluded. All comparisons use the same six stored row-aligned five-seed settings.
 
 | Setting | A0 Direct NN | A1 Prior-only | A2 Prior+Residual | A3 Full PP-X |

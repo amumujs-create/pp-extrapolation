@@ -41,11 +41,12 @@
     "report": "PPX_MAIN_MODEL_ABLATION_A0_A3_KO.md",
     "figure": "figures/paper/fig_ppx_main_model_ablation_a0_a3.png",
     "arms": [
-      "A0_matched_direct_nn",
+      "A0_direct_nn_control_mixed_matching_status",
       "A1_prior_only",
-      "A2_prior_plus_matched_residual",
+      "A2_prior_plus_residual",
       "A3_full_ppx"
     ],
-    "selection_policy_ablations_excluded": true
+    "selection_policy_ablations_excluded": true,
+    "matching_note": "Battery-3 direct controls are architecture/budget matched; HUST, MATR-b2, and N-CMAPSS use stored GroupDRO controls and must not be described as fully capacity matched."
   }
 }
