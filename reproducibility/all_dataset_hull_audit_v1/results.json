@@ -1,0 +1,628 @@
+{
+  "coordinate": "predeclared first PP extrapolation coordinate, standardized by train SD",
+  "datasets": {
+    "hust": {
+      "n": {
+        "train": 11250,
+        "validation": 2560,
+        "test": 7775
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 2560,
+        "total_count": 2560,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.6551312449288644,
+        "distance_max": 3.696352782852061,
+        "full_feature_nn": {
+          "median": 2.0090075770858418,
+          "p95": 3.977683371256026,
+          "max": 4.512402202297594,
+          "relative_to_train_nn": 34.64591693645729
+        },
+        "target_outside_train_fraction": 0.63984375
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 7775,
+        "total_count": 7775,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.6081556576586848,
+        "distance_max": 3.620736919412798,
+        "full_feature_nn": {
+          "median": 1.9533409714222745,
+          "p95": 3.8901781713601338,
+          "max": 4.3748249460748685,
+          "relative_to_train_nn": 33.685930215674475
+        },
+        "target_outside_train_fraction": 0.569903536977492
+      },
+      "test_to_validation_distance_ratio": 0.9716182100881078,
+      "same_coordinate_ray": true
+    },
+    "virkler": {
+      "n": {
+        "train": 240,
+        "validation": 20,
+        "test": 20
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 20,
+        "total_count": 20,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.622621631285697,
+        "distance_max": 2.3912318491070357,
+        "full_feature_nn": {
+          "median": 4.1116493279348525,
+          "p95": 7.865522921059051,
+          "max": 8.953752125184062,
+          "relative_to_train_nn": 149.87883033143981
+        },
+        "target_outside_train_fraction": 1.0
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 20,
+        "total_count": 20,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.622621631285697,
+        "distance_max": 2.3912318491070357,
+        "full_feature_nn": {
+          "median": 3.1897735783221384,
+          "p95": 7.937248460863521,
+          "max": 8.31055492323455,
+          "relative_to_train_nn": 116.27439375555338
+        },
+        "target_outside_train_fraction": 1.0
+      },
+      "test_to_validation_distance_ratio": 1.0,
+      "same_coordinate_ray": true
+    },
+    "matr": {
+      "n": {
+        "train": 17003,
+        "validation": 1306,
+        "test": 2235
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 1306,
+        "total_count": 1306,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 5.415156127784305,
+        "distance_max": 24.85778093781899,
+        "full_feature_nn": {
+          "median": 10.677553288499285,
+          "p95": 35.51008061043351,
+          "max": 42.60903641403398,
+          "relative_to_train_nn": 70.57419186991257
+        },
+        "target_outside_train_fraction": 0.49693721286370596
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 2235,
+        "total_count": 2235,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 5.553539644516448,
+        "distance_max": 30.12713783109236,
+        "full_feature_nn": {
+          "median": 9.11429623876427,
+          "p95": 41.705476085871986,
+          "max": 1325.3725808967893,
+          "relative_to_train_nn": 60.24171213517565
+        },
+        "target_outside_train_fraction": 0.3668903803131991
+      },
+      "test_to_validation_distance_ratio": 1.0255548526148892,
+      "same_coordinate_ray": true
+    },
+    "sunwoda": {
+      "n": {
+        "train": 1312,
+        "validation": 141,
+        "test": 1468
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 141,
+        "total_count": 141,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 0.8103875545262806,
+        "distance_max": 1.600127048249288,
+        "full_feature_nn": {
+          "median": 1.3377787821941096,
+          "p95": 2.4016399753116726,
+          "max": 2.6106584677632334,
+          "relative_to_train_nn": 18.794064471189802
+        },
+        "target_outside_train_fraction": 0.3191489361702128
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 1468,
+        "total_count": 1468,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 4.420997443488815,
+        "distance_max": 6.787635704670367,
+        "full_feature_nn": {
+          "median": 6.827363232832424,
+          "p95": 10.077511529881628,
+          "max": 10.433307410118106,
+          "relative_to_train_nn": 95.91563752837668
+        },
+        "target_outside_train_fraction": 1.0
+      },
+      "test_to_validation_distance_ratio": 5.455411326094648,
+      "same_coordinate_ray": true
+    },
+    "rwth": {
+      "n": {
+        "train": 2295,
+        "validation": 231,
+        "test": 1859
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 231,
+        "total_count": 231,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 0.37087545356844087,
+        "distance_max": 0.661962089432306,
+        "full_feature_nn": {
+          "median": 0.6575907413640792,
+          "p95": 1.2732553038791674,
+          "max": 3.022019695308786,
+          "relative_to_train_nn": 3.8977417607381093
+        },
+        "target_outside_train_fraction": 0.08225108225108226
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 1859,
+        "total_count": 1859,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 2.8701740912144587,
+        "distance_max": 5.625826612347431,
+        "full_feature_nn": {
+          "median": 5.238354364189269,
+          "p95": 9.590811693466264,
+          "max": 11.50183414695656,
+          "relative_to_train_nn": 31.049330956958872
+        },
+        "target_outside_train_fraction": 0.9133942980096826
+      },
+      "test_to_validation_distance_ratio": 7.738916295480311,
+      "same_coordinate_ray": true
+    },
+    "mich": {
+      "n": {
+        "train": 1439,
+        "validation": 259,
+        "test": 202
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 259,
+        "total_count": 259,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 0.7303579240408038,
+        "distance_max": 2.1736818516194605,
+        "full_feature_nn": {
+          "median": 1.7791873729338372,
+          "p95": 3.7402960864830934,
+          "max": 6.506722051063967,
+          "relative_to_train_nn": 16.696817960195098
+        },
+        "target_outside_train_fraction": 0.10424710424710425
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 202,
+        "total_count": 202,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 3.4257215609969536,
+        "distance_max": 5.060329706776773,
+        "full_feature_nn": {
+          "median": 5.928619434695436,
+          "p95": 9.295190023918922,
+          "max": 13.125080471673462,
+          "relative_to_train_nn": 55.637242576173335
+        },
+        "target_outside_train_fraction": 0.8613861386138614
+      },
+      "test_to_validation_distance_ratio": 4.690469492059026,
+      "same_coordinate_ray": true
+    },
+    "matr_batch2": {
+      "n": {
+        "train": 11552,
+        "validation": 673,
+        "test": 733
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 673,
+        "total_count": 673,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 2.047785573633509,
+        "distance_max": 4.3969948691416665,
+        "full_feature_nn": {
+          "median": 2.9557195001684775,
+          "p95": 5.962655161688782,
+          "max": 31.75159631385385,
+          "relative_to_train_nn": 71.74448679209397
+        },
+        "target_outside_train_fraction": 0.9286775631500743
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 733,
+        "total_count": 733,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.8981548884935524,
+        "distance_max": 4.405471434491767,
+        "full_feature_nn": {
+          "median": 2.7567238397390956,
+          "p95": 5.935539422796462,
+          "max": 6.323428934739832,
+          "relative_to_train_nn": 66.91424443298445
+        },
+        "target_outside_train_fraction": 0.8240109140518418
+      },
+      "test_to_validation_distance_ratio": 0.9269304916166307,
+      "same_coordinate_ray": true
+    },
+    "xjtu": {
+      "n": {
+        "train": 1531,
+        "validation": 581,
+        "test": 6999
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 16,
+        "total_count": 581,
+        "outside_fraction": 0.027538726333907058,
+        "affine_rank": 1,
+        "distance_median": 0.0,
+        "distance_max": 2.7212122281850832,
+        "full_feature_nn": {
+          "median": 15000333329.629711,
+          "p95": 15000333329.629711,
+          "max": 15000333329.629717,
+          "relative_to_train_nn": 7715980618.1232815
+        },
+        "target_outside_train_fraction": 0.0
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 24,
+        "total_count": 6999,
+        "outside_fraction": 0.0034290612944706386,
+        "affine_rank": 1,
+        "distance_median": 0.0,
+        "distance_max": 4.331657684280868,
+        "full_feature_nn": {
+          "median": 15000333329.629711,
+          "p95": 15000333329.629711,
+          "max": 15000333329.629711,
+          "relative_to_train_nn": 7715980618.1232815
+        },
+        "target_outside_train_fraction": 0.7072438919845693
+      },
+      "test_to_validation_distance_ratio": null,
+      "same_coordinate_ray": true
+    },
+    "femto": {
+      "n": {
+        "train": 1182,
+        "validation": 328,
+        "test": 11
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 0,
+        "total_count": 328,
+        "outside_fraction": 0.0,
+        "affine_rank": 1,
+        "distance_median": 0.0,
+        "distance_max": 0.0,
+        "full_feature_nn": {
+          "median": 0.38014276561121746,
+          "p95": 1.1404282968336523,
+          "max": 1.1404282968336523,
+          "relative_to_train_nn": 38014276.56112175
+        },
+        "target_outside_train_fraction": 0.0
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 0,
+        "total_count": 11,
+        "outside_fraction": 0.0,
+        "affine_rank": 1,
+        "distance_median": 0.0,
+        "distance_max": 0.0,
+        "full_feature_nn": {
+          "median": 0.0,
+          "p95": 1.1404282968336523,
+          "max": 1.5205710624448698,
+          "relative_to_train_nn": 0.0
+        },
+        "target_outside_train_fraction": 0.0
+      },
+      "test_to_validation_distance_ratio": null,
+      "same_coordinate_ray": true
+    },
+    "milling": {
+      "n": {
+        "train": 33,
+        "validation": 4,
+        "test": 10
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 4,
+        "total_count": 4,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 2.301971004779558,
+        "distance_max": 3.333889269813242,
+        "full_feature_nn": {
+          "median": 2.634750738994354,
+          "p95": 3.432928210600136,
+          "max": 3.521874778173771,
+          "relative_to_train_nn": 4.8487359223973545
+        },
+        "target_outside_train_fraction": 0.5
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 10,
+        "total_count": 10,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 1.5081879241554834,
+        "distance_max": 3.333889269813242,
+        "full_feature_nn": {
+          "median": 6.68865933085039,
+          "p95": 10.269439952577944,
+          "max": 10.276756490736943,
+          "relative_to_train_nn": 12.30915026996109
+        },
+        "target_outside_train_fraction": 1.0
+      },
+      "test_to_validation_distance_ratio": 0.6551724244241343,
+      "same_coordinate_ray": true
+    },
+    "nasa": {
+      "folds": [
+        {
+          "test_cell": "B0005",
+          "n": {
+            "train": 125,
+            "validation": 59,
+            "test": 56
+          },
+          "validation": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 59,
+            "total_count": 59,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 2.1751600012207657,
+            "distance_max": 3.2820148883441886,
+            "full_feature_nn": {
+              "median": 2.1751600012207657,
+              "p95": 3.085496155565227,
+              "max": 3.2820148883441886,
+              "relative_to_train_nn": 341.27562088343007
+            },
+            "target_outside_train_fraction": 0.6779661016949152
+          },
+          "test": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 56,
+            "total_count": 56,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 1.7599571837369865,
+            "distance_max": 3.279534163773275,
+            "full_feature_nn": {
+              "median": 1.7599571837369865,
+              "p95": 3.1274633380687655,
+              "max": 3.279534163773275,
+              "relative_to_train_nn": 276.1316318206482
+            },
+            "target_outside_train_fraction": 0.7142857142857143
+          },
+          "test_to_validation_distance_ratio": 0.809116195015192,
+          "same_coordinate_ray": true
+        },
+        {
+          "test_cell": "B0006",
+          "n": {
+            "train": 118,
+            "validation": 90,
+            "test": 59
+          },
+          "validation": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 90,
+            "total_count": 90,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 1.8429696778376987,
+            "distance_max": 3.4223676243571406,
+            "full_feature_nn": {
+              "median": 1.8429696778376985,
+              "p95": 3.2417897610958253,
+              "max": 3.4223676243571406,
+              "relative_to_train_nn": 230.38488689746723
+            },
+            "target_outside_train_fraction": 0.4444444444444444
+          },
+          "test": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 59,
+            "total_count": 59,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 2.306958725929176,
+            "distance_max": 3.4808808920013954,
+            "full_feature_nn": {
+              "median": 2.306958725929176,
+              "p95": 3.272454566977705,
+              "max": 3.4808808920013954,
+              "relative_to_train_nn": 288.38696129493457
+            },
+            "target_outside_train_fraction": 0.6779661016949152
+          },
+          "test_to_validation_distance_ratio": 1.251761628892268,
+          "same_coordinate_ray": true
+        },
+        {
+          "test_cell": "B0007",
+          "n": {
+            "train": 119,
+            "validation": 49,
+            "test": 91
+          },
+          "validation": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 49,
+            "total_count": 49,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 2.1366376446670756,
+            "distance_max": 3.704133391147839,
+            "full_feature_nn": {
+              "median": 2.136637644667076,
+              "p95": 3.477358548056789,
+              "max": 3.7041333911478396,
+              "relative_to_train_nn": 385.12689641894485
+            },
+            "target_outside_train_fraction": 0.9387755102040817
+          },
+          "test": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 91,
+            "total_count": 91,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 1.9956086017217114,
+            "distance_max": 3.6479384029824677,
+            "full_feature_nn": {
+              "median": 1.9956086017217118,
+              "p95": 3.4551661431836362,
+              "max": 3.647938402982468,
+              "relative_to_train_nn": 359.7065460146323
+            },
+            "target_outside_train_fraction": 0.6153846153846154
+          },
+          "test_to_validation_distance_ratio": 0.9339948711952331,
+          "same_coordinate_ray": true
+        },
+        {
+          "test_cell": "B0018",
+          "n": {
+            "train": 126,
+            "validation": 56,
+            "test": 49
+          },
+          "validation": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 56,
+            "total_count": 56,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 1.8491526391580853,
+            "distance_max": 3.427647002703936,
+            "full_feature_nn": {
+              "median": 1.849152639158085,
+              "p95": 3.2696800524355796,
+              "max": 3.427647002703936,
+              "relative_to_train_nn": 405.62425405879844
+            },
+            "target_outside_train_fraction": 1.0
+          },
+          "test": {
+            "criterion": "outside_convex_hull_of_train",
+            "outside_count": 49,
+            "total_count": 49,
+            "outside_fraction": 1.0,
+            "affine_rank": 1,
+            "distance_median": 1.957771426647985,
+            "distance_max": 3.425534021395407,
+            "full_feature_nn": {
+              "median": 1.9577714266479849,
+              "p95": 3.21318790634785,
+              "max": 3.425534021395407,
+              "relative_to_train_nn": 429.4505265467319
+            },
+            "target_outside_train_fraction": 0.9387755102040817
+          },
+          "test_to_validation_distance_ratio": 1.0587397628458373,
+          "same_coordinate_ray": true
+        }
+      ]
+    },
+    "ncmapss": {
+      "n": {
+        "train": 5239,
+        "validation": 1810,
+        "test": 159
+      },
+      "validation": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 1810,
+        "total_count": 1810,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 0.0861337546781944,
+        "distance_max": 0.18457240774852668,
+        "full_feature_nn": {
+          "median": 0.8307302550635834,
+          "p95": 1.6256831754273355,
+          "max": 12.762309422691724,
+          "relative_to_train_nn": 1.1361586436784614
+        },
+        "target_outside_train_fraction": 0.0
+      },
+      "test": {
+        "criterion": "outside_convex_hull_of_train",
+        "outside_count": 159,
+        "total_count": 159,
+        "outside_fraction": 1.0,
+        "affine_rank": 1,
+        "distance_median": 0.22763901805423847,
+        "distance_max": 0.4060589766066962,
+        "full_feature_nn": {
+          "median": 1.4177782302859891,
+          "p95": 1.9717911422139864,
+          "max": 3.3895519384862767,
+          "relative_to_train_nn": 1.9390421636145752
+        },
+        "target_outside_train_fraction": 0.0
+      },
+      "test_to_validation_distance_ratio": 2.6428549284159737,
+      "same_coordinate_ray": true
+    }
+  }
+}

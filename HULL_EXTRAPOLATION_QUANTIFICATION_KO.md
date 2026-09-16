@@ -44,4 +44,4 @@ XJTU와 FEMTO는 선언한 열화좌표의 convex-hull 외삽 데이터셋으로
 4. **Density-Regression/DUQ**: point R² 경쟁보다 hull distance에 따른 불확실성·거부 성능 비교용이다.
 5. **XGBoost/CatBoost, monotonic boosting**: 심사자가 예상하는 표준 기준선으로는 필요하지만, tree는 범위 밖 함수 외삽이 약하므로 논문의 핵심 외삽 모델로 보지 않는다.
 
-생성 코드와 raw JSON은 `experiments/all_dataset_hull_audit.py`, `results/all_dataset_hull_audit_v1/results.json`에 있다.
+생성 코드: `experiments/all_dataset_hull_audit.py`. Git 추적 JSON: `reproducibility/all_dataset_hull_audit_v1/results.json` (재생성 후 `experiments/export_main_nine_extrapolation_appendix_v1.py`). Appendix 표: `MAIN_NINE_EXTRAPOLATION_APPENDIX_KO.md`.
