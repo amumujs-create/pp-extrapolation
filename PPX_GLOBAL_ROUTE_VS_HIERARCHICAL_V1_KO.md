@@ -3,13 +3,13 @@
 동일한 6개 setting과 저장된 5-seed 예측을 사용했다. 고정 executor가 contract상
 계산 불가능한 setting에서는 matched prior+residual core를 사용했다.
 
-| Global policy | Mean R² | Worst R² | Router W/T/L | Router normalized unit-RMSE gain |
-|---|---:|---:|---:|---:|
-| core | 0.785 | 0.468 | 4/2/0 | +0.215 |
-| bounded | 0.785 | 0.468 | 4/2/0 | +0.215 |
-| dual_scale | 0.826 | 0.675 | 5/1/0 | +0.181 |
-| transport | 0.838 | 0.468 | 2/4/0 | +0.065 |
-| history | 0.786 | 0.468 | 3/3/0 | +0.209 |
+| Fixed typed policy | Coverage | Core fallback | Overall W/T/L | Admissible W/T/L | Mean R² | Worst R² |
+|---|---:|---:|---:|---:|---:|---:|
+| core | 6/6 | 0 | 4/2/0 | 4/2/0 | 0.785 | 0.468 |
+| bounded | 3/6 | 3 | 4/2/0 | 1/2/0 | 0.785 | 0.468 |
+| dual_scale | 3/6 | 3 | 5/1/0 | 2/1/0 | 0.826 | 0.675 |
+| transport | 2/6 | 4 | 2/4/0 | 0/2/0 | 0.838 | 0.468 |
+| history | 1/6 | 5 | 3/3/0 | 0/1/0 | 0.786 | 0.468 |
 
 Hierarchical router mean R²: **0.886**
 

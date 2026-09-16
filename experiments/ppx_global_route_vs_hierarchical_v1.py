@@ -138,6 +138,10 @@ def summarize_policy(settings, policy: str) -> dict:
             }
         )
     delta = np.asarray([row["delta_r2_router_minus_fixed"] for row in rows])
+    admissible_rows = [row for row in rows if row["executor_admissible"]]
+    admissible_delta = np.asarray(
+        [row["delta_r2_router_minus_fixed"] for row in admissible_rows]
+    )
     return {
         "policy": policy,
         "mean_r2": float(np.mean([row["fixed_r2"] for row in rows])),
@@ -149,6 +153,14 @@ def summarize_policy(settings, policy: str) -> dict:
             int(np.sum(np.abs(delta) <= 1e-10)),
             int(np.sum(delta < -1e-10)),
         ],
+        "admissible_coverage": len(admissible_rows),
+        "core_fallback_count": len(rows) - len(admissible_rows),
+        "admissible_subset_router_wins_ties_losses": [
+            int(np.sum(admissible_delta > 1e-10)),
+            int(np.sum(np.abs(admissible_delta) <= 1e-10)),
+            int(np.sum(admissible_delta < -1e-10)),
+        ],
+        "admissible_subset_mean_delta_r2": float(np.mean(admissible_delta)),
         "mean_normalized_unit_rmse_reduction": float(np.mean(normalized)),
         "rows": rows,
     }
@@ -159,14 +171,15 @@ def write_report(payload: dict) -> None:
         "# Global Fixed Route vs PP-X v4 Hierarchical Router", "",
         "동일한 6개 setting과 저장된 5-seed 예측을 사용했다. 고정 executor가 contract상",
         "계산 불가능한 setting에서는 matched prior+residual core를 사용했다.", "",
-        "| Global policy | Mean R² | Worst R² | Router W/T/L | Router normalized unit-RMSE gain |",
-        "|---|---:|---:|---:|---:|",
+        "| Fixed typed policy | Coverage | Core fallback | Overall W/T/L | Admissible W/T/L | Mean R² | Worst R² |",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for item in payload["policies"]:
         w, t, l = item["router_wins_ties_losses"]
         lines.append(
-            f"| {item['policy']} | {item['mean_r2']:.3f} | {item['worst_setting_r2']:.3f} | "
-            f"{w}/{t}/{l} | {item['mean_normalized_unit_rmse_reduction']:+.3f} |"
+            f"| {item['policy']} | {item['admissible_coverage']}/6 | {item['core_fallback_count']} | "
+            f"{w}/{t}/{l} | {'/'.join(map(str, item['admissible_subset_router_wins_ties_losses']))} | "
+            f"{item['mean_r2']:.3f} | {item['worst_setting_r2']:.3f} |"
         )
     lines += ["", f"Hierarchical router mean R²: **{payload['router_mean_r2']:.3f}**", "",
               f"Hierarchical router worst-setting R²: **{payload['router_worst_setting_r2']:.3f}**", "",

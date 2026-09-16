@@ -63,19 +63,22 @@ routing**, while the hierarchy supplies organization and auditability.
 
 ## A5 — Prior-conditioning control
 
-The six-setting Direct-control vs Prior+Residual result is heterogeneous, but
-only the Battery-3 subset is strictly architecture/budget matched.
+The fully matched six-setting comparison now uses the same nonlinear capacity,
+split, seed, optimizer, budget, initialization replay, and checkpoint rule.
+The pure Battery contrast uses `frozen_unbounded_pp`; bounded/dual executors are
+excluded because they would change correction capacity.
 
-Battery-3 matched evidence (`bq_pp` vs `direct_nn`):
+- positive/negative settings: 4/2
+- normalized mean effect: +0.129
+- setting-bootstrap 95% CI: [-0.139, +0.395]
+- significant prior benefit/harm after BH: 2/2
+- benefit: Sunwoda, RWTH; harm: HUST, MATR-b2
+- MICH positive but not BH-significant; N-CMAPSS pooled R² positive but unit CI crosses zero
 
-- 25 physical units
-- mean relative RMSE delta: -0.333
-- unit-bootstrap 95% CI: [-0.539, -0.118]
-- paired Wilcoxon two-sided p: 0.00278
-
-HUST, MATR-b2, and N-CMAPSS use stored GroupDRO controls, so the six-setting
-comparison must be described as a direct-control diagnostic rather than a
-fully capacity-matched prior-effect experiment.
+**Claim:** prior conditioning is heterogeneous and is not a universal
+performance improvement. It should be described as a setting-dependent
+extrapolation reference, while the correction ablation supplies the consistent
+architectural contribution.
 
 ## Main-paper allocation
 
@@ -85,8 +88,7 @@ fully capacity-matched prior-effect experiment.
 | A3 Typed executor | Main |
 | A4 Fixed policy vs routing | Main |
 | A2 Prior family | Appendix/diagnostic |
-| A5 Battery matched prior-conditioning | Main or compact supplement |
-| A5 six-setting heterogeneous diagnostic | Appendix |
+| A5 fully matched six-setting prior-conditioning | Main or compact supplement |
 
 All reported comparisons are retrospective. They do not replace a frozen
 prospective cohort confirmation.

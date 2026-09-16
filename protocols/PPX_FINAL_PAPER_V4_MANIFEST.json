@@ -48,5 +48,16 @@
     ],
     "selection_policy_ablations_excluded": true,
     "matching_note": "Battery-3 direct controls are architecture/budget matched; HUST, MATR-b2, and N-CMAPSS use stored GroupDRO controls and must not be described as fully capacity matched."
+  },
+  "fully_matched_prior_conditioning": {
+    "report": "PPX_A5_FULLY_MATCHED_SIX_V1_KO.md",
+    "implementation": "experiments/ppx_a5_fully_matched_six_v1.py",
+    "nonbattery_training": "experiments/ppx_a5_fully_matched_nonbattery_v1.py",
+    "settings": 6,
+    "positive": 4,
+    "negative": 2,
+    "normalized_mean_effect": 0.1294797674079052,
+    "setting_bootstrap_ci95": [-0.13925358564855922, 0.3952945826339727],
+    "interpretation": "heterogeneous; not a universal prior benefit"
   }
 }

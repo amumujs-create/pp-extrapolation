@@ -23,12 +23,16 @@ features=11, width=64, learning_rate=1e-3, weight_decay=0.01,
 seeds=[42,43,44,45,46]
 ```
 
-Matched Battery-3 result (`bq_pp` vs `direct_nn`):
+Matched Battery-3 executor-inclusive result (`bq_pp` vs `direct_nn`):
 
 - 25 physical units
 - mean relative RMSE delta: **-0.333** (BQ PP lower)
 - unit bootstrap 95% CI: **[-0.539, -0.118]**
 - paired Wilcoxon two-sided p: **0.00278**
+
+For the pure A5 prior contrast, use `frozen_unbounded_pp` rather than `bq_pp`;
+otherwise the bounded executor changes correction capacity together with the
+prior.
 
 ## Paper wording guardrail
 

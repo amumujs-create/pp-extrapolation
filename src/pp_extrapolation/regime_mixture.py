@@ -9,8 +9,8 @@ from .model import _arrays,equal_group_weights,select_affine_initialization,tran
 
 class LatentRegimePPNet(nn.Module):
     """Frozen affine path with a monotone transition gate and two neural tails."""
-    def __init__(self,d,direction,knot,width=24):
-        super().__init__();self.direction=float(direction);self.knot=float(knot)
+    def __init__(self,d,direction,knot,width=24,affine_scale=1.):
+        super().__init__();self.direction=float(direction);self.knot=float(knot);self.affine_scale=float(affine_scale)
         self.affine=nn.Linear(d,1)
         self.gate_q=nn.Parameter(torch.tensor(-2.));self.gate_bias=nn.Parameter(torch.tensor(-2.))
         self.gate_context=nn.Sequential(nn.Linear(max(d-1,1),width),nn.Tanh(),nn.Linear(width,1))
@@ -23,18 +23,19 @@ class LatentRegimePPNet(nn.Module):
         for expert in self.experts:
             raw=expert(x);tails.append(.25*torch.tanh(raw[:,0:1])+.25*torch.tanh(raw[:,1:2])*hinge)
         correction=(1-gate)*tails[0]+gate*tails[1]
-        return self.affine(x)+correction,gate,tails
+        return self.affine_scale*self.affine(x)+correction,gate,tails
     def forward(self,x):return self.components(x)[0].squeeze(1)
 
 @dataclass
 class LatentRegimeFit:
     model:LatentRegimePPNet;center:np.ndarray;scale:np.ndarray;target_scale:float;selection:dict
 
-def fit_latent_regime_pp(train,validation,*,seed,affine_selection=None,max_epochs=300,patience=70,separation_weight=.01,gate_weight=0.,trainable_affine=False,width=24,learning_rate=5e-4,weight_decay=2.,group_dro_eta=0.,affine_anchor_weight=0.):
+def fit_latent_regime_pp(train,validation,*,seed,affine_selection=None,max_epochs=300,patience=70,separation_weight=.01,gate_weight=0.,trainable_affine=False,width=24,learning_rate=5e-4,weight_decay=2.,group_dro_eta=0.,affine_anchor_weight=0.,affine_scale=1.):
     tx,ty,groups=_arrays(train);vx,vy,_=_arrays(validation);sel=affine_selection or select_affine_initialization(train,validation)
     center,scale,cap,init=sel['center'],sel['scale'],float(sel['target_scale']),sel['initialization'];z=transform_features(tx,center,scale);vz=transform_features(vx,center,scale)
     direction=1. if np.mean(vz[:,0])>np.mean(z[:,0]) else -1.;knot=float(np.quantile(direction*z[:,0],.8));torch.manual_seed(seed)
-    model=LatentRegimePPNet(z.shape[1],direction,knot,width=width)
+    if not np.isfinite(affine_scale):raise ValueError("affine_scale must be finite")
+    model=LatentRegimePPNet(z.shape[1],direction,knot,width=width,affine_scale=affine_scale)
     with torch.no_grad():model.affine.weight.copy_(torch.tensor(init.weight)[None,:]);model.affine.bias.copy_(torch.tensor([init.bias]))
     model.affine.requires_grad_(trainable_affine);opt=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=learning_rate,weight_decay=weight_decay)
     x=torch.tensor(z);y=torch.tensor(ty/cap,dtype=torch.float32);w=torch.tensor(equal_group_weights(groups),dtype=torch.float32);val=torch.tensor(vz);rng=np.random.default_rng(seed)
@@ -66,7 +67,7 @@ def fit_latent_regime_pp(train,validation,*,seed,affine_selection=None,max_epoch
         if cur<best-1e-10:best=cur;be=epoch;state=copy.deepcopy(model.state_dict())
         if epoch-be>patience:break
     model.load_state_dict(state)
-    return LatentRegimeFit(model,center,scale,cap,{'seed':seed,'selected_epoch':be,'validation_mse':best,'direction':direction,'knot':knot,'separation_weight':float(separation_weight),'gate_weight':float(gate_weight),'group_dro_eta':float(group_dro_eta),'trainable_affine':bool(trainable_affine),'affine_anchor_weight':float(affine_anchor_weight)})
+    return LatentRegimeFit(model,center,scale,cap,{'seed':seed,'selected_epoch':be,'validation_mse':best,'direction':direction,'knot':knot,'separation_weight':float(separation_weight),'gate_weight':float(gate_weight),'group_dro_eta':float(group_dro_eta),'trainable_affine':bool(trainable_affine),'affine_anchor_weight':float(affine_anchor_weight),'affine_scale':float(affine_scale)})
 
 def predict_latent_regime(fit,x,return_gate=False):
     fit.model.eval();z=torch.tensor(transform_features(x,fit.center,fit.scale))
@@ -78,6 +79,6 @@ def latent_regime_components(fit,x):
     fit.model.eval();z=torch.tensor(transform_features(x,fit.center,fit.scale))
     with torch.no_grad():
         _,gate,tails=fit.model.components(z)
-        affine=fit.model.affine(z).squeeze(1).numpy()*fit.target_scale
+        affine=fit.model.affine_scale*fit.model.affine(z).squeeze(1).numpy()*fit.target_scale
         correction=((1-gate)*tails[0]+gate*tails[1]).squeeze(1).numpy()*fit.target_scale
     return affine.astype(np.float64),correction.astype(np.float64)
